@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace JurDocs2
+namespace JurDocs
 {
     /// <summary>
     /// Interaction logic for App.xaml
