@@ -4,19 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JurDocs"
+        xmlns:vm="clr-namespace:JurDocs.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" DataContext="vm:MainViewModel">
     <StackPanel>
         <StackPanel></StackPanel>
         <StackPanel Orientation="Horizontal">
             
-        <Button DockPanel.Dock="Top" Margin="5" Padding="10" >Договоры</Button>
-        <Button Margin="5" Padding="10" >Справки</Button>
-        <Button Margin="5" Padding="10" >Выписки</Button>
+        <Button DockPanel.Dock="Top" Margin="5" Padding="10" Click="Button_Click_1" >Договоры</Button>
+        <Button Margin="5" Padding="10" Click="Button_Click" >Справки</Button>
+        <Button Margin="5" Padding="10" Click="Button_Click_2" >Выписки</Button>
         </StackPanel>
         <DataGrid>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="aaa1"></DataGridTextColumn>
+                <DataGridTextColumn Header="aaa1" ></DataGridTextColumn>
                 <DataGridTextColumn Header="aaa2"></DataGridTextColumn>
                 <DataGridTextColumn Header="aaa3"></DataGridTextColumn>
             </DataGrid.Columns>
