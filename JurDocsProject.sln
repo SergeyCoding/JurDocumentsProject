@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs", "JurDocs\JurDocs.csproj", "{EDF1089A-F5CB-4B82-9563-8B6240BB7D98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurDocsServer", "JurDocsServer\JurDocsServer.csproj", "{D12B39BC-0704-4314-B9BD-E088E7078097}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EDF1089A-F5CB-4B82-9563-8B6240BB7D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDF1089A-F5CB-4B82-9563-8B6240BB7D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDF1089A-F5CB-4B82-9563-8B6240BB7D98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D12B39BC-0704-4314-B9BD-E088E7078097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D12B39BC-0704-4314-B9BD-E088E7078097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D12B39BC-0704-4314-B9BD-E088E7078097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D12B39BC-0704-4314-B9BD-E088E7078097}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <DataGrid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="aaa1"></DataGridTextColumn>
+                <DataGridTextColumn Header="aaa2"></DataGridTextColumn>
+                <DataGridTextColumn Header="aaa3"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </Window>
