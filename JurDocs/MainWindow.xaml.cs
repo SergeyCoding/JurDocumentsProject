@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace JurDocs2
+namespace JurDocs
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -19,6 +19,36 @@ namespace JurDocs2
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Справки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Договоры
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Выписки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
