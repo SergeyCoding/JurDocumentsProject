@@ -17,8 +17,8 @@ namespace JurDocsServer.Controllers
         }
 
 
-        [HttpGet]
-        public ActionResult<int> Get([FromBody] UserRequest userRequest)
+        [HttpPost]
+        public ActionResult<UserResponse> Get([FromBody] UserRequest userRequest)
         {
             var securityInfo = _reader.GetSecurityInfo();
 
@@ -27,10 +27,11 @@ namespace JurDocsServer.Controllers
             if (users.Length != 1)
                 return BadRequest();
 
-            return Ok(new UserResponse(users.First().Id));
+            var user = users.First();
+            return base.Ok(new UserResponse(user.Id, user.Path));
         }
 
         public record UserRequest(string UserName);
-        public record UserResponse(int UserId);
+        public record UserResponse(int UserId, string Path);
     }
 }
