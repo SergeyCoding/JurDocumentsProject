@@ -1,1 +1,1 @@
-# JurDocsProject
+# Jur Documents Project
