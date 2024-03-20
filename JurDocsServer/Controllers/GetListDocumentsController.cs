@@ -1,6 +1,7 @@
 ﻿using JurDocsServer.Model;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,9 +16,7 @@ namespace JurDocsServer.Controllers
 
         public ActionResult<string[]> Get(string docName)
         {
-            var myJsonResponse = System.IO.File.ReadAllText(@"Data\data.json");
-
-            var securityInfo = JsonConvert.DeserializeObject<SecurityInfo>(myJsonResponse);
+            var securityInfo = GetSecurityInfo();
 
             var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName).ToArray();
 
@@ -35,12 +34,11 @@ namespace JurDocsServer.Controllers
             return BadRequest();
         }
 
-        [HttpGet("aaa")]
-        public ActionResult<bool> GetFileName([FromQuery]string docName,[FromQuery] string fileName,[FromQuery]int userId)
+        [HttpGet("getFile")]
+        [SwaggerOperation("Получение файла", "Получение файла")]
+        public ActionResult<bool> GetFile([SwaggerParameter("Документ", Required = true)][FromQuery] string docName, [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName, [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
         {
-            var myJsonResponse = System.IO.File.ReadAllText(@"Data\data.json");
-
-            var securityInfo = JsonConvert.DeserializeObject<SecurityInfo>(myJsonResponse);
+            var securityInfo = GetSecurityInfo();
 
             var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName).ToArray();
 
@@ -61,26 +59,48 @@ namespace JurDocsServer.Controllers
             if (!System.IO.File.Exists(fileSource))
                 return BadRequest();
 
+
             System.IO.File.Copy(fileSource, fileDest);
-            return Ok();
+            return Ok(true);
         }
 
-        // POST api/<ValuesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("clearTemp")]
+        [SwaggerOperation("Очистить каталог пользователя")]
+        public ActionResult<bool> Post([FromBody] ClearTempRequiest clearTemp)
         {
+            var securityInfo = GetSecurityInfo();
+
+            var users = securityInfo!.Users!.Where(x => x.Id == clearTemp.UserId).ToArray();
+
+            if (users.Length != 1)
+                return BadRequest();
+
+            var files = Directory.GetFiles(users.First().Path);
+
+            foreach (var item in files)
+                System.IO.File.Delete(item);
+
+            return Ok(true);
         }
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public record struct ClearTempRequiest([SwaggerParameter("ID пользователя", Required = true)][FromBody] int UserId);
+
+        private static SecurityInfo GetSecurityInfo()
         {
+            var dataJson = System.IO.File.ReadAllText(@"Data\data.json");
+            return JsonConvert.DeserializeObject<SecurityInfo>(dataJson) ?? new SecurityInfo();
         }
 
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// PUT api/<ValuesController>/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
+
+        //// DELETE api/<ValuesController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }
