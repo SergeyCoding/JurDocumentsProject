@@ -1,5 +1,6 @@
 using JurDocsClient;
 using LexExchangeApi.Clients;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace JurDocsWinForms
@@ -23,15 +24,52 @@ namespace JurDocsWinForms
             toolStripStatusLabel1.Text = _noLoginStripStatus;
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
 
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
                 e.RowIndex >= 0)
             {
-                MessageBox.Show("Click by " + e.RowIndex);
-                //TODO - Button Clicked - Execute Code Here
+                var ftl = (List<FileTableList>)dataGridView1.DataSource;
+
+                var fileTableList = ftl[e.RowIndex];
+
+                //MessageBox.Show($"{_currentUser!.UserId} {fileTableList.DocType} {fileTableList.FileName}");
+
+                var client = JurClientService.JurDocsClientFactory();
+
+                var fileName = Path.Combine(_currentUser.Path, fileTableList.FileName!);
+
+                var isError = false;
+                try
+                {
+                    if (File.Exists(fileName))
+                        File.Delete(fileName);
+                }
+                catch (Exception)
+                {
+                    isError = true;
+                }
+
+                if (isError)
+                {
+                    MessageBox.Show("Произошла ошибка при очищении запрашиваемого файла. Возможно он открыт.");
+                    return;
+                }
+
+                var swaggerResponse = await client.GetFileAsync(fileTableList.DocType, fileTableList.FileName, _currentUser.UserId);
+
+                if (swaggerResponse != null && swaggerResponse.Result)
+                {
+
+                    Process.Start("explorer.exe", fileName);
+                }
+                else
+                {
+                    MessageBox.Show("ошибка");
+                }
+
             }
         }
 
@@ -55,6 +93,7 @@ namespace JurDocsWinForms
                 _isLogin = true;
                 _currentUser = user.Result;
                 //LoginText.Items.Clear();
+                dataGridView1.DataSource = null;
             }
         }
 
