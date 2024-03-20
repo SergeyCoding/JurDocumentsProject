@@ -1,126 +1,172 @@
 ﻿{
-    "openapi": "3.0.1",
-    "info": {
-        "title": "JurDocsServer",
-        "version": "1.0"
-    },
-    "paths": {
-        "/api/GetListDocuments": {
-            "get": {
-                "tags": [ "GetListDocuments" ],
-                "parameters": [
-                    {
-                        "name": "docName",
-                        "in": "query",
-                        "schema": { "type": "string" }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                }
-                            },
-                            "text/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                }
-                            }
-                        }
-                    }
+  "openapi": "3.0.1",
+  "info": {
+    "title": "JurDocsServer",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/GetListDocuments": {
+      "get": {
+        "tags": [ "GetListDocuments" ],
+        "parameters": [
+          {
+            "name": "docName",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" }
                 }
-            }
-        },
-        "/api/GetListDocuments/getFile": {
-            "get": {
-                "tags": [ "GetListDocuments" ],
-                "summary": "Получение файла",
-                "description": "Получение файла",
-                "parameters": [
-                    {
-                        "name": "docName",
-                        "in": "query",
-                        "description": "Документ",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "fileName",
-                        "in": "query",
-                        "description": "Имя файла",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "description": "ID пользователя",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "text/plain": { "schema": { "type": "boolean" } },
-                            "application/json": { "schema": { "type": "boolean" } },
-                            "text/json": { "schema": { "type": "boolean" } }
-                        }
-                    }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" }
                 }
-            }
-        },
-        "/api/GetListDocuments/clearTemp": {
-            "post": {
-                "tags": [ "GetListDocuments" ],
-                "summary": "Очистить каталог пользователя",
-                "requestBody": {
-                    "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/ClearTempRequiest" } },
-                        "text/json": { "schema": { "$ref": "#/components/schemas/ClearTempRequiest" } },
-                        "application/*+json": { "schema": { "$ref": "#/components/schemas/ClearTempRequiest" } }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "text/plain": { "schema": { "type": "boolean" } },
-                            "application/json": { "schema": { "type": "boolean" } },
-                            "text/json": { "schema": { "type": "boolean" } }
-                        }
-                    }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" }
                 }
+              }
             }
+          }
         }
+      }
     },
-    "components": {
-        "schemas": {
-            "ClearTempRequiest": {
-                "type": "object",
-                "properties": {
-                    "userId": {
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                },
-                "additionalProperties": false
+    "/api/GetListDocuments/getFile": {
+      "get": {
+        "tags": [ "GetListDocuments" ],
+        "summary": "Получение файла",
+        "description": "Получение файла",
+        "parameters": [
+          {
+            "name": "docName",
+            "in": "query",
+            "description": "Документ",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "Имя файла",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID пользователя",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": { "schema": { "type": "boolean" } },
+              "application/json": { "schema": { "type": "boolean" } },
+              "text/json": { "schema": { "type": "boolean" } }
+            }
+          }
         }
+      }
+    },
+    "/api/GetListDocuments/clearTemp": {
+      "post": {
+        "tags": [ "GetListDocuments" ],
+        "summary": "Очистить каталог пользователя",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ClearTempRequiest" } },
+            "text/json": { "schema": { "$ref": "#/components/schemas/ClearTempRequiest" } },
+            "application/*+json": { "schema": { "$ref": "#/components/schemas/ClearTempRequiest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": { "schema": { "type": "boolean" } },
+              "application/json": { "schema": { "type": "boolean" } },
+              "text/json": { "schema": { "type": "boolean" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users": {
+      "post": {
+        "tags": [ "Users" ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UserRequest" } },
+            "text/json": { "schema": { "$ref": "#/components/schemas/UserRequest" } },
+            "application/*+json": { "schema": { "$ref": "#/components/schemas/UserRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": { "schema": { "$ref": "#/components/schemas/UserResponse" } },
+              "application/json": { "schema": { "$ref": "#/components/schemas/UserResponse" } },
+              "text/json": { "schema": { "$ref": "#/components/schemas/UserResponse" } }
+            }
+          }
+        }
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "ClearTempRequiest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserRequest": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "path": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
 }

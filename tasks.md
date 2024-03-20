@@ -1,5 +1,5 @@
 # Current Tasks
-- WinForms
+- WinForms. Login обращается к серверу - запоминает текущего пользователя
 
 
 # fix

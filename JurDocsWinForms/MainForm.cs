@@ -7,6 +7,8 @@ namespace JurDocsWinForms
     {
         private const string _noLoginStripStatus = "Выберите пользователя, и нажмите логин...";
         private bool _isLogin = false;
+        private UserResponse? _currentUser = null;
+
 
         public MainForm()
         {
@@ -30,7 +32,7 @@ namespace JurDocsWinForms
             }
         }
 
-        private void Login_Click(object sender, EventArgs e)
+        private async void Login_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(LoginText.Text))
             {
@@ -39,8 +41,18 @@ namespace JurDocsWinForms
                 return;
             }
 
-            toolStripStatusLabel1.Text = "OK";
-            _isLogin = true;
+            var client = JurClientService.JurDocsClientFactory();
+
+            var user = await client.UsersAsync(new UserRequest { UserName = LoginText.Text });
+
+            if (user.StatusCode == 200 && user.Result != null)
+            {
+
+                toolStripStatusLabel1.Text = "OK";
+                _isLogin = true;
+                _currentUser = user.Result;
+                //LoginText.Items.Clear();
+            }
         }
 
 
@@ -86,9 +98,82 @@ namespace JurDocsWinForms
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            if (_currentUser == null)
+            {
+                MessageBox.Show("Нужно залогинится", "Сообщение");
+                return;
+            }
+
             var client = JurClientService.JurDocsClientFactory();
             var response = await client.GetListDocumentsAsync("Выписки");
-            MessageBox.Show(this, string.Join(", ", response.Result));
+
+            var fileTableLists = new List<FileTableList>();
+
+            var k = 1;
+            foreach (var item in response.Result)
+            {
+                fileTableLists.Add(new FileTableList { Id = k, DocType = "Выписки", BtnText = "открыть", FileName = item });
+                k++;
+            }
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = fileTableLists;
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            if (_currentUser == null)
+            {
+                MessageBox.Show("Нужно залогинится", "Сообщение");
+                return;
+            }
+
+            var client = JurClientService.JurDocsClientFactory();
+            var response = await client.GetListDocumentsAsync("Договоры");
+
+            var fileTableLists = new List<FileTableList>();
+
+            var k = 1;
+            foreach (var item in response.Result)
+            {
+                fileTableLists.Add(new FileTableList { Id = k, DocType = "Договоры", BtnText = "открыть", FileName = item });
+                k++;
+            }
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = fileTableLists;
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            const string DocName = "Справки";
+
+            if (_currentUser == null)
+            {
+                MessageBox.Show("Нужно залогинится", "Сообщение");
+                return;
+            }
+
+            var client = JurClientService.JurDocsClientFactory();
+            var response = await client.GetListDocumentsAsync(DocName);
+
+            var fileTableLists = new List<FileTableList>();
+
+            var k = 1;
+            foreach (var item in response.Result)
+            {
+                fileTableLists.Add(new FileTableList
+                {
+                    Id = k,
+                    DocType = DocName,
+                    BtnText = "открыть",
+                    FileName = item
+                });
+                k++;
+            }
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = fileTableLists;
         }
     }
 }
