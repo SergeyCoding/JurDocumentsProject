@@ -200,6 +200,7 @@
             // 
             // LoginText
             // 
+            LoginText.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             LoginText.FormattingEnabled = true;
             LoginText.Items.AddRange(new object[] { "Иванов", "Петров", "Сидоров" });
             LoginText.Location = new Point(454, 11);
