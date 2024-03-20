@@ -1,6 +1,6 @@
 ﻿namespace JurDocsWinForms
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -35,17 +35,17 @@
             button4 = new Button();
             button5 = new Button();
             dataGridView1 = new DataGridView();
-            button6 = new Button();
-            bindingSource1 = new BindingSource(components);
-            statusStrip1 = new StatusStrip();
-            toolStripStatusLabel1 = new ToolStripStatusLabel();
-            LoginText = new ComboBox();
             id = new DataGridViewTextBoxColumn();
             DocType = new DataGridViewTextBoxColumn();
             DocDate = new DataGridViewTextBoxColumn();
             FileName = new DataGridViewTextBoxColumn();
             Remark = new DataGridViewTextBoxColumn();
             Column1 = new DataGridViewButtonColumn();
+            button6 = new Button();
+            bindingSource1 = new BindingSource(components);
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
+            LoginText = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -115,6 +115,58 @@
             dataGridView1.TabIndex = 5;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
+            // id
+            // 
+            id.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            id.DataPropertyName = "Id";
+            id.HeaderText = "#";
+            id.Name = "id";
+            id.ReadOnly = true;
+            id.Resizable = DataGridViewTriState.False;
+            id.Width = 39;
+            // 
+            // DocType
+            // 
+            DocType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DocType.DataPropertyName = "DocType";
+            DocType.HeaderText = "Вид документа";
+            DocType.Name = "DocType";
+            DocType.ReadOnly = true;
+            DocType.Width = 104;
+            // 
+            // DocDate
+            // 
+            DocDate.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DocDate.HeaderText = "Дата документа";
+            DocDate.Name = "DocDate";
+            DocDate.ReadOnly = true;
+            DocDate.Width = 108;
+            // 
+            // FileName
+            // 
+            FileName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            FileName.HeaderText = "Имя файла";
+            FileName.Name = "FileName";
+            FileName.ReadOnly = true;
+            FileName.Width = 87;
+            // 
+            // Remark
+            // 
+            Remark.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Remark.HeaderText = "Описание";
+            Remark.Name = "Remark";
+            Remark.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            Column1.DataPropertyName = "btnText";
+            Column1.HeaderText = "Файл";
+            Column1.Name = "Column1";
+            Column1.ReadOnly = true;
+            Column1.Text = "";
+            Column1.Width = 42;
+            // 
             // button6
             // 
             button6.Location = new Point(255, 12);
@@ -155,59 +207,7 @@
             LoginText.Size = new Size(172, 23);
             LoginText.TabIndex = 8;
             // 
-            // id
-            // 
-            id.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            id.DataPropertyName = "Id";
-            id.HeaderText = "#";
-            id.Name = "id";
-            id.ReadOnly = true;
-            id.Resizable = DataGridViewTriState.False;
-            id.Width = 39;
-            // 
-            // DocType
-            // 
-            DocType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            DocType.DataPropertyName = "DocType";
-            DocType.HeaderText = "Вид документа";
-            DocType.Name = "DocType";
-            DocType.ReadOnly = true;
-            DocType.Width = 113;
-            // 
-            // DocDate
-            // 
-            DocDate.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            DocDate.HeaderText = "Дата документа";
-            DocDate.Name = "DocDate";
-            DocDate.ReadOnly = true;
-            DocDate.Width = 108;
-            // 
-            // FileName
-            // 
-            FileName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            FileName.HeaderText = "Имя файла";
-            FileName.Name = "FileName";
-            FileName.ReadOnly = true;
-            FileName.Width = 87;
-            // 
-            // Remark
-            // 
-            Remark.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Remark.HeaderText = "Описание";
-            Remark.Name = "Remark";
-            Remark.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            Column1.DataPropertyName = "btnText";
-            Column1.HeaderText = "Файл";
-            Column1.Name = "Column1";
-            Column1.ReadOnly = true;
-            Column1.Text = "";
-            Column1.Width = 42;
-            // 
-            // Form1
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -221,9 +221,9 @@
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
-            Name = "Form1";
+            Name = "MainForm";
             Text = "Архив документов";
-            Load += Form1_Load;
+            Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             statusStrip1.ResumeLayout(false);

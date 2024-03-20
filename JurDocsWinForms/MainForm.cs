@@ -1,18 +1,16 @@
-using System.Diagnostics;
-
 namespace JurDocsWinForms
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private const string _noLoginStripStatus = "Выберите пользователя, и нажмите логин...";
         private bool _isLogin = false;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load (object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = _noLoginStripStatus;
         }
