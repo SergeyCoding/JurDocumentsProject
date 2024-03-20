@@ -1,6 +1,5 @@
-﻿using JurDocsServer.Model;
+﻿using JurDocsServer.Service;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,12 +10,19 @@ namespace JurDocsServer.Controllers
     [ApiController]
     public class GetListDocumentsController : ControllerBase
     {
+        private readonly SecurityInfoReader _reader;
+
+        public GetListDocumentsController(SecurityInfoReader reader)
+        {
+            _reader = reader;
+        }
+
         // GET: api/<ValuesController>
         [HttpGet]
 
         public ActionResult<string[]> Get(string docName)
         {
-            var securityInfo = GetSecurityInfo();
+            var securityInfo = _reader.GetSecurityInfo();
 
             var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName).ToArray();
 
@@ -38,7 +44,7 @@ namespace JurDocsServer.Controllers
         [SwaggerOperation("Получение файла", "Получение файла")]
         public ActionResult<bool> GetFile([SwaggerParameter("Документ", Required = true)][FromQuery] string docName, [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName, [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
         {
-            var securityInfo = GetSecurityInfo();
+            var securityInfo = _reader.GetSecurityInfo();
 
             var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName).ToArray();
 
@@ -68,7 +74,7 @@ namespace JurDocsServer.Controllers
         [SwaggerOperation("Очистить каталог пользователя")]
         public ActionResult<bool> Post([FromBody] ClearTempRequiest clearTemp)
         {
-            var securityInfo = GetSecurityInfo();
+            var securityInfo = _reader.GetSecurityInfo();
 
             var users = securityInfo!.Users!.Where(x => x.Id == clearTemp.UserId).ToArray();
 
@@ -84,23 +90,5 @@ namespace JurDocsServer.Controllers
         }
 
         public record struct ClearTempRequiest([SwaggerParameter("ID пользователя", Required = true)][FromBody] int UserId);
-
-        private static SecurityInfo GetSecurityInfo()
-        {
-            var dataJson = System.IO.File.ReadAllText(@"Data\data.json");
-            return JsonConvert.DeserializeObject<SecurityInfo>(dataJson) ?? new SecurityInfo();
-        }
-
-        //// PUT api/<ValuesController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<ValuesController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

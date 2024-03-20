@@ -1,3 +1,6 @@
+using JurDocsClient;
+using LexExchangeApi.Clients;
+
 namespace JurDocsWinForms
 {
     public partial class MainForm : Form
@@ -10,7 +13,7 @@ namespace JurDocsWinForms
             InitializeComponent();
         }
 
-        private void MainForm_Load (object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = _noLoginStripStatus;
         }
@@ -79,6 +82,13 @@ namespace JurDocsWinForms
             testDataGrid();
 
             //Process.Start("explorer.exe", @"C:\Work\TFS\JurDocumentsProject\Temp1");
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            var client = JurClientService.JurDocsClientFactory();
+            var response = await client.GetListDocumentsAsync("Выписки");
+            MessageBox.Show(this, string.Join(", ", response.Result));
         }
     }
 }
