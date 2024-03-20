@@ -1,8 +1,11 @@
 using JurDocsClient;
 using LexExchangeApi.Clients;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JurDocsWinForms
 {
+    [SuppressMessage("Style", "IDE1006:Naming Styles")]
+
     public partial class MainForm : Form
     {
         private const string _noLoginStripStatus = "Выберите пользователя, и нажмите логин...";
@@ -86,14 +89,34 @@ namespace JurDocsWinForms
 
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private async void button6_Click(object sender, EventArgs e)
         {
-            if (!_isLogin)
+            if (_currentUser == null)
+            {
+                MessageBox.Show("Нужно залогинится", "Сообщение");
                 return;
+            }
 
-            testDataGrid();
+            var client = JurClientService.JurDocsClientFactory();
+            var response = await client.DocumentListGETAsync(_currentUser.UserId);
 
-            //Process.Start("explorer.exe", @"C:\Work\TFS\JurDocumentsProject\Temp1");
+            var fileTableLists = new List<FileTableList>();
+
+            var k = 1;
+            foreach (var item in response.Result)
+            {
+                fileTableLists.Add(new FileTableList
+                {
+                    Id = k,
+                    DocType = item.DocName,
+                    BtnText = "открыть",
+                    FileName = item.FileName
+                });
+                k++;
+            }
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = fileTableLists;
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -105,14 +128,14 @@ namespace JurDocsWinForms
             }
 
             var client = JurClientService.JurDocsClientFactory();
-            var response = await client.GetListDocumentsAsync("Выписки");
+            var response = await client.DocumentListPOSTAsync(new DocumentListRequest { DocName = "Выписки", UserId = _currentUser.UserId });
 
             var fileTableLists = new List<FileTableList>();
 
             var k = 1;
             foreach (var item in response.Result)
             {
-                fileTableLists.Add(new FileTableList { Id = k, DocType = "Выписки", BtnText = "открыть", FileName = item });
+                fileTableLists.Add(new FileTableList { Id = k, DocType = item.DocName, BtnText = "открыть", FileName = item.FileName });
                 k++;
             }
             dataGridView1.AutoGenerateColumns = false;
@@ -129,14 +152,14 @@ namespace JurDocsWinForms
             }
 
             var client = JurClientService.JurDocsClientFactory();
-            var response = await client.GetListDocumentsAsync("Договоры");
+            var response = await client.DocumentListPOSTAsync(new DocumentListRequest { DocName = "Договоры", UserId = _currentUser.UserId });
 
             var fileTableLists = new List<FileTableList>();
 
             var k = 1;
             foreach (var item in response.Result)
             {
-                fileTableLists.Add(new FileTableList { Id = k, DocType = "Договоры", BtnText = "открыть", FileName = item });
+                fileTableLists.Add(new FileTableList { Id = k, DocType = "Договоры", BtnText = "открыть", FileName = item.FileName });
                 k++;
             }
             dataGridView1.AutoGenerateColumns = false;
@@ -155,7 +178,7 @@ namespace JurDocsWinForms
             }
 
             var client = JurClientService.JurDocsClientFactory();
-            var response = await client.GetListDocumentsAsync(DocName);
+            var response = await client.DocumentListPOSTAsync(new DocumentListRequest { DocName = DocName, UserId = _currentUser.UserId });
 
             var fileTableLists = new List<FileTableList>();
 
@@ -165,9 +188,9 @@ namespace JurDocsWinForms
                 fileTableLists.Add(new FileTableList
                 {
                     Id = k,
-                    DocType = DocName,
+                    DocType = item.DocName,
                     BtnText = "открыть",
-                    FileName = item
+                    FileName = item.FileName
                 });
                 k++;
             }

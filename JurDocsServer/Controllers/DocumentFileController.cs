@@ -2,42 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace JurDocsServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GetListDocumentsController : ControllerBase
+    public class DocumentFileController : ControllerBase
     {
         private readonly SecurityInfoReader _reader;
 
-        public GetListDocumentsController(SecurityInfoReader reader)
+        public DocumentFileController(SecurityInfoReader reader)
         {
             _reader = reader;
-        }
-
-        // GET: api/<ValuesController>
-        [HttpGet]
-
-        public ActionResult<string[]> Get(string docName)
-        {
-            var securityInfo = _reader.GetSecurityInfo();
-
-            var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName).ToArray();
-
-            if (docNameInfo.Length == 1)
-            {
-                List<string> list = [];
-
-                var files = Directory.GetFiles(docNameInfo.First().Path);
-                foreach (var file in files)
-                    list.Add(Path.GetFileName(file));
-
-                return Ok(list);
-            }
-
-            return BadRequest();
         }
 
         [HttpGet("getFile")]
@@ -46,7 +21,7 @@ namespace JurDocsServer.Controllers
         {
             var securityInfo = _reader.GetSecurityInfo();
 
-            var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName).ToArray();
+            var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName && x.Read.Contains(userId)).ToArray();
 
             if (docNameInfo.Length != 1)
                 return BadRequest();
@@ -72,7 +47,7 @@ namespace JurDocsServer.Controllers
 
         [HttpPost("clearTemp")]
         [SwaggerOperation("Очистить каталог пользователя")]
-        public ActionResult<bool> Post([FromBody] ClearTempRequiest clearTemp)
+        public ActionResult<ClearTempResponse> Post([FromBody] ClearTempRequiest clearTemp)
         {
             var securityInfo = _reader.GetSecurityInfo();
 
@@ -86,9 +61,10 @@ namespace JurDocsServer.Controllers
             foreach (var item in files)
                 System.IO.File.Delete(item);
 
-            return Ok(true);
+            return Ok(new ClearTempResponse(true));
         }
 
         public record struct ClearTempRequiest([SwaggerParameter("ID пользователя", Required = true)][FromBody] int UserId);
+        public record struct ClearTempResponse([SwaggerParameter("Результат работы операции", Required = true)] bool Result);
     }
 }

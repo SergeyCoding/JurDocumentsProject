@@ -5,46 +5,9 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/GetListDocuments": {
+    "/api/DocumentFile/getFile": {
       "get": {
-        "tags": [ "GetListDocuments" ],
-        "parameters": [
-          {
-            "name": "docName",
-            "in": "query",
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": { "type": "string" }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": { "type": "string" }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": { "type": "string" }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/GetListDocuments/getFile": {
-      "get": {
-        "tags": [ "GetListDocuments" ],
+        "tags": [ "DocumentFile" ],
         "summary": "Получение файла",
         "description": "Получение файла",
         "parameters": [
@@ -85,9 +48,9 @@
         }
       }
     },
-    "/api/GetListDocuments/clearTemp": {
+    "/api/DocumentFile/clearTemp": {
       "post": {
-        "tags": [ "GetListDocuments" ],
+        "tags": [ "DocumentFile" ],
         "summary": "Очистить каталог пользователя",
         "requestBody": {
           "content": {
@@ -100,9 +63,88 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": { "schema": { "type": "boolean" } },
-              "application/json": { "schema": { "type": "boolean" } },
-              "text/json": { "schema": { "type": "boolean" } }
+              "text/plain": { "schema": { "$ref": "#/components/schemas/ClearTempResponse" } },
+              "application/json": { "schema": { "$ref": "#/components/schemas/ClearTempResponse" } },
+              "text/json": { "schema": { "$ref": "#/components/schemas/ClearTempResponse" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/DocumentList": {
+      "get": {
+        "tags": [ "DocumentList" ],
+        "summary": "Получение всех файлов, доступных пользователю",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID пользователя",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [ "DocumentList" ],
+        "summary": "Получение всех файлов вида docName, доступных пользователю",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/DocumentListRequest" } },
+            "text/json": { "schema": { "$ref": "#/components/schemas/DocumentListRequest" } },
+            "application/*+json": { "schema": { "$ref": "#/components/schemas/DocumentListRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
+                }
+              }
             }
           }
         }
@@ -139,6 +181,39 @@
           "userId": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClearTempResponse": {
+        "type": "object",
+        "properties": { "result": { "type": "boolean" } },
+        "additionalProperties": false
+      },
+      "DocumentListRequest": {
+        "type": "object",
+        "properties": {
+          "docName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DocumentListResponse": {
+        "type": "object",
+        "properties": {
+          "docName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
