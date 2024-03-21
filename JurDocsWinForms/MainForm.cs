@@ -10,7 +10,6 @@ namespace JurDocsWinForms
     public partial class MainForm : Form
     {
         private const string _noLoginStripStatus = "Выберите пользователя, и нажмите логин...";
-        private bool _isLogin = false;
         private UserResponse? _currentUser = null;
 
 
@@ -78,7 +77,6 @@ namespace JurDocsWinForms
             if (string.IsNullOrEmpty(LoginText.Text))
             {
                 toolStripStatusLabel1.Text = _noLoginStripStatus;
-                _isLogin = false;
                 return;
             }
 
@@ -90,27 +88,9 @@ namespace JurDocsWinForms
             {
 
                 toolStripStatusLabel1.Text = "OK";
-                _isLogin = true;
                 _currentUser = user.Result;
-                //LoginText.Items.Clear();
                 dataGridView1.DataSource = null;
             }
-        }
-
-
-        private void testDataGrid()
-        {
-            var z = new List<FileTableList>();
-
-            for (int i = 0; i < 10; i++)
-                z.Add(new FileTableList { Id = i, DocType = "d1" + i, BtnText = "btn" + i });
-
-            this.dataGridView1.DataSource = z;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
         }
 
         private void fileTableListBindingSource_CurrentChanged(object sender, EventArgs e)
@@ -236,6 +216,11 @@ namespace JurDocsWinForms
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = fileTableLists;
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
