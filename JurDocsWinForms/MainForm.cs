@@ -21,6 +21,7 @@ namespace JurDocsWinForms
         private void MainForm_Load(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = _noLoginStripStatus;
+            MinimumSize = new Size(Width, Height);
         }
 
         private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -221,6 +222,13 @@ namespace JurDocsWinForms
         private void ‚˚ıÓ‰ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            Form f = new AddNewDoc();
+            ProgramHelpers.MoveWindowToCanterScreen(f);
+            f.ShowDialog(this);
         }
     }
 }

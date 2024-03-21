@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
@@ -46,19 +47,21 @@
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             LoginText = new ComboBox();
-            btnAdd = new Button();
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
             выходToolStripMenuItem = new ToolStripMenuItem();
+            toolStrip2 = new ToolStrip();
+            newDocButton = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
+            toolStrip2.SuspendLayout();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(12, 57);
+            button1.Location = new Point(12, 53);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 0;
@@ -68,7 +71,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(93, 57);
+            button2.Location = new Point(93, 53);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 1;
@@ -78,7 +81,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(174, 57);
+            button3.Location = new Point(174, 53);
             button3.Name = "button3";
             button3.Size = new Size(75, 23);
             button3.TabIndex = 2;
@@ -96,7 +99,7 @@
             // button5
             // 
             button5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button5.Location = new Point(713, 56);
+            button5.Location = new Point(713, 52);
             button5.Name = "button5";
             button5.Size = new Size(75, 23);
             button5.TabIndex = 4;
@@ -112,10 +115,10 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { id, DocType, DocDate, FileName, Remark, Column1 });
-            dataGridView1.Location = new Point(12, 88);
+            dataGridView1.Location = new Point(12, 82);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(776, 329);
+            dataGridView1.Size = new Size(776, 335);
             dataGridView1.TabIndex = 5;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -174,7 +177,7 @@
             // 
             // button6
             // 
-            button6.Location = new Point(255, 57);
+            button6.Location = new Point(255, 53);
             button6.Name = "button6";
             button6.Size = new Size(112, 23);
             button6.TabIndex = 6;
@@ -208,19 +211,10 @@
             LoginText.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             LoginText.FormattingEnabled = true;
             LoginText.Items.AddRange(new object[] { "Иванов", "Петров", "Сидоров" });
-            LoginText.Location = new Point(535, 56);
+            LoginText.Location = new Point(535, 52);
             LoginText.Name = "LoginText";
             LoginText.Size = new Size(172, 23);
             LoginText.TabIndex = 8;
-            // 
-            // btnAdd
-            // 
-            btnAdd.Location = new Point(12, 28);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(75, 23);
-            btnAdd.TabIndex = 9;
-            btnAdd.Text = "Добавить";
-            btnAdd.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
             // 
@@ -245,12 +239,31 @@
             выходToolStripMenuItem.Text = "Выход";
             выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
+            // toolStrip2
+            // 
+            toolStrip2.Items.AddRange(new ToolStripItem[] { newDocButton });
+            toolStrip2.Location = new Point(0, 24);
+            toolStrip2.Name = "toolStrip2";
+            toolStrip2.Size = new Size(800, 25);
+            toolStrip2.TabIndex = 12;
+            toolStrip2.Text = "toolStrip2";
+            // 
+            // newDocButton
+            // 
+            newDocButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            newDocButton.Image = (Image)resources.GetObject("newDocButton.Image");
+            newDocButton.ImageTransparentColor = Color.Magenta;
+            newDocButton.Name = "newDocButton";
+            newDocButton.Size = new Size(23, 22);
+            newDocButton.Text = "Добавить документ";
+            newDocButton.Click += toolStripButton3_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(btnAdd);
+            Controls.Add(toolStrip2);
             Controls.Add(LoginText);
             Controls.Add(statusStrip1);
             Controls.Add(menuStrip1);
@@ -271,6 +284,8 @@
             statusStrip1.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            toolStrip2.ResumeLayout(false);
+            toolStrip2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -301,9 +316,11 @@
         private ToolStripProgressBar toolStripProgressBar1;
         private ToolStripButton toolStripButton1;
         private ToolStripButton toolStripButton2;
-        private Button btnAdd;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem файлToolStripMenuItem;
         private ToolStripMenuItem выходToolStripMenuItem;
+        private ToolStrip toolStrip2;
+        private ToolStripButton toolStripButton3;
+        private ToolStripButton newDocButton;
     }
 }
