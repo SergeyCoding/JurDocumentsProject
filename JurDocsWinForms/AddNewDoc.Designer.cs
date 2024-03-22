@@ -88,6 +88,7 @@
             button1 = new Button();
             pictureBox1 = new PictureBox();
             textBox1 = new TextBox();
+            domainUpDown1 = new DomainUpDown();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -108,6 +109,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(domainUpDown1);
             splitContainer1.Panel1.Controls.Add(label27);
             splitContainer1.Panel1.Controls.Add(label28);
             splitContainer1.Panel1.Controls.Add(comboBox20);
@@ -695,6 +697,14 @@
             textBox1.Size = new Size(384, 54);
             textBox1.TabIndex = 0;
             // 
+            // domainUpDown1
+            // 
+            domainUpDown1.Location = new Point(200, 670);
+            domainUpDown1.Name = "domainUpDown1";
+            domainUpDown1.Size = new Size(8, 23);
+            domainUpDown1.TabIndex = 66;
+            domainUpDown1.Text = "domainUpDown1";
+            // 
             // AddNewDoc
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -776,5 +786,6 @@
         private Label label26;
         private ComboBox comboBox18;
         private ComboBox comboBox19;
+        private DomainUpDown domainUpDown1;
     }
 }
