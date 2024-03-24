@@ -3,14 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs", "JurDocs\JurDocs.csproj", "{EDF1089A-F5CB-4B82-9563-8B6240BB7D98}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsServer", "JurDocsServer\JurDocsServer.csproj", "{D12B39BC-0704-4314-B9BD-E088E7078097}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsWinForms", "JurDocsWinForms\JurDocsWinForms.csproj", "{F2A40DFB-057C-4F2A-9754-31F36BF36E50}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{74A6F318-30FC-4ED6-BC3B-2A5A39830693}"
 	ProjectSection(SolutionItems) = preProject
+		current-tasks.md = current-tasks.md
 		README.md = README.md
 		tasks.md = tasks.md
 	EndProjectSection
@@ -25,10 +24,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EDF1089A-F5CB-4B82-9563-8B6240BB7D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDF1089A-F5CB-4B82-9563-8B6240BB7D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDF1089A-F5CB-4B82-9563-8B6240BB7D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDF1089A-F5CB-4B82-9563-8B6240BB7D98}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D12B39BC-0704-4314-B9BD-E088E7078097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D12B39BC-0704-4314-B9BD-E088E7078097}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D12B39BC-0704-4314-B9BD-E088E7078097}.Release|Any CPU.ActiveCfg = Release|Any CPU

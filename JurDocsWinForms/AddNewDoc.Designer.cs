@@ -30,6 +30,7 @@
         {
             openFileDialog1 = new OpenFileDialog();
             splitContainer1 = new SplitContainer();
+            domainUpDown1 = new DomainUpDown();
             label27 = new Label();
             label28 = new Label();
             comboBox20 = new ComboBox();
@@ -88,7 +89,6 @@
             button1 = new Button();
             pictureBox1 = new PictureBox();
             textBox1 = new TextBox();
-            domainUpDown1 = new DomainUpDown();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -174,6 +174,14 @@
             splitContainer1.Size = new Size(1192, 769);
             splitContainer1.SplitterDistance = 788;
             splitContainer1.TabIndex = 13;
+            // 
+            // domainUpDown1
+            // 
+            domainUpDown1.Location = new Point(200, 670);
+            domainUpDown1.Name = "domainUpDown1";
+            domainUpDown1.Size = new Size(8, 23);
+            domainUpDown1.TabIndex = 66;
+            domainUpDown1.Text = "domainUpDown1";
             // 
             // label27
             // 
@@ -696,14 +704,6 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(384, 54);
             textBox1.TabIndex = 0;
-            // 
-            // domainUpDown1
-            // 
-            domainUpDown1.Location = new Point(200, 670);
-            domainUpDown1.Name = "domainUpDown1";
-            domainUpDown1.Size = new Size(8, 23);
-            domainUpDown1.TabIndex = 66;
-            domainUpDown1.Text = "domainUpDown1";
             // 
             // AddNewDoc
             // 
