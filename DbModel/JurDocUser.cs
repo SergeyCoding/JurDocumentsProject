@@ -18,7 +18,6 @@ namespace DbModel
         {
             public void Configure(EntityTypeBuilder<JurDocUser> builder)
             {
-                throw new NotImplementedException();
             }
         }
     }

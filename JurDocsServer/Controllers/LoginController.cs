@@ -1,9 +1,6 @@
 ﻿using DbModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore.Annotations;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace JurDocsServer.Controllers
 {
@@ -21,21 +18,21 @@ namespace JurDocsServer.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: api/<UserController>
         [HttpGet]
-        [SwaggerOperation()]
+        //[SwaggerOperation()]
         public async Task<IActionResult> Get(string Login)
         {
             try
             {
-                var token = Request.Headers[Request.Headers.Authorization!];
+                var token = Request.Headers.Authorization.ToString();
 
-                var userToken = await _dbContext.Set<Token>().Where(x => x.Login == Login && x.Value == new Guid(token.ToString())).ToArrayAsync();
+                var guidToken = new Guid(token);
+
+                var userToken = await _dbContext.Set<Token>().Where(x => x.Login == Login && x.Value == guidToken).ToArrayAsync();
 
                 if (userToken.Length == 1)
                 {
                     return Ok(userToken.First().Id);
-
                 }
             }
             catch (Exception)
@@ -47,29 +44,60 @@ namespace JurDocsServer.Controllers
 
         public record struct LoginGetResponse(int Id, string Name);
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(200, Type = typeof(Guid))]
+        [ProducesResponseType(400, Type = typeof(LoginErrorResponse))]
+        public async Task<IActionResult> Post([FromBody] LoginPostRequest loginRequest)
         {
-        }
+            try
+            {
+                var jurDocUser = await _dbContext.Set<JurDocUser>().Where(x => x.Login == loginRequest.Login && x.Password == loginRequest.Password).ToArrayAsync();
 
-        // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+                if (jurDocUser.Length == 1)
+                {
+                    var guid = Guid.NewGuid();
 
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+                    _dbContext.Set<Token>().Add(new Token { Login = loginRequest.Login, Value = guid });
+
+                    return Ok(guid);
+                }
+                else
+                {
+                    return BadRequest(new LoginErrorResponse { Status = 400, Descr = "Неверный логин или пароль" });
+
+                }
+            }
+            catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync(e.ToString());
+            }
+
+            return BadRequest(new LoginErrorResponse { Status = 400, Descr = "ошибка" });
+        }
+        public record struct LoginPostRequest(string Login, string Password);
+        public record struct LoginPostResponse(Guid Token);
+        public record struct LoginErrorResponse(int Status, string Descr);
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete()
         {
+            try
+            {
+                var token = Request.Headers.Authorization.ToString();
+
+                var guidToken = new Guid(token);
+
+                var userToken = await _dbContext.Set<Token>().Where(x => x.Value == guidToken).ToArrayAsync();
+
+                if (userToken.Any())
+                    _dbContext.Set<Token>().RemoveRange(userToken);
+            }
+            catch (Exception)
+            {
+            }
+
+            return Ok();
         }
     }
 }

@@ -21,7 +21,28 @@ namespace JurDocsServer
 
             var app = builder.Build();
 
+            CheckDb(app);
 
+            app.UseCors(c =>
+            {
+                c.AllowAnyOrigin();
+                c.AllowAnyHeader();
+                c.AllowAnyMethod();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+            app.UseAuthorization();
+
+
+            app.MapControllers();
+
+            app.Run();
+        }
+
+        private static void CheckDb(WebApplication app)
+        {
             using (var scope = app.Services.CreateScope())
             {
                 try
@@ -30,6 +51,7 @@ namespace JurDocsServer
                     db.Database.EnsureCreated();
 
                     db.Set<JurDocUser>().Add(new JurDocUser { Id = 1, Login = "root", Name = "root", Password = "root", Path = "" });
+                    db.SaveChanges();
 
                 }
                 catch (Exception e)
@@ -39,20 +61,6 @@ namespace JurDocsServer
                     return;
                 }
             }
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
         }
     }
 }
