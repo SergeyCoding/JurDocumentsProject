@@ -1,4 +1,3 @@
-
 using DbModel;
 using JurDocsServer.Service;
 
@@ -30,7 +29,7 @@ namespace JurDocsServer
                     var db = scope.ServiceProvider.GetRequiredService<JurDocsDbContext>();
                     db.Database.EnsureCreated();
 
-                    db.Users.Add(new User { Id = 1, Age = 1, Name = "root" });
+                    db.Set<JurDocUser>().Add(new JurDocUser { Id = 1, Login = "root", Name = "root", Password = "root", Path = "" });
 
                 }
                 catch (Exception e)

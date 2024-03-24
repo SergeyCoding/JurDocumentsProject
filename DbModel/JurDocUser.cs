@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DbModel
 {
-    public class User
+    /// <summary>
+    /// 
+    /// </summary>
+    public class JurDocUser
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -11,10 +14,11 @@ namespace DbModel
         public string? Password { get; set; }
         public string? Path { get; set; }
 
-        class Configuration : IEntityTypeConfiguration<Token>
+        class Configuration : IEntityTypeConfiguration<JurDocUser>
         {
-            public void Configure(EntityTypeBuilder<Token> builder)
+            public void Configure(EntityTypeBuilder<JurDocUser> builder)
             {
+                throw new NotImplementedException();
             }
         }
     }

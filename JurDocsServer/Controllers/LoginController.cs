@@ -30,7 +30,7 @@ namespace JurDocsServer.Controllers
             {
                 var token = Request.Headers[Request.Headers.Authorization!];
 
-                var userToken = await _dbContext.Set<Token>().Where(x =>x.Name==Login && x.Value == new Guid(token.ToString())).ToArrayAsync();
+                var userToken = await _dbContext.Set<Token>().Where(x => x.Login == Login && x.Value == new Guid(token.ToString())).ToArrayAsync();
 
                 if (userToken.Length == 1)
                 {
