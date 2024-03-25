@@ -1,4 +1,5 @@
 
+using DbModel;
 using JurDocsServer.Service;
 
 namespace JurDocsServer
@@ -16,8 +17,29 @@ namespace JurDocsServer
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c => { c.EnableAnnotations(); });
             builder.Services.AddTransient<SecurityInfoReader>();
+            builder.Services.AddDbContext<JurDocsDbContext>();
+
 
             var app = builder.Build();
+
+
+            using (var scope = app.Services.CreateScope())
+            {
+                try
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<JurDocsDbContext>();
+                    db.Database.EnsureCreated();
+
+                    db.Users.Add(new User { Id = 1, Age = 1, Name = "root" });
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    Console.WriteLine("Не удалось создать БД");
+                    return;
+                }
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

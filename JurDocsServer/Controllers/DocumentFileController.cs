@@ -15,7 +15,7 @@ namespace JurDocsServer.Controllers
             _reader = reader;
         }
 
-        [HttpGet("getFile")]
+        [HttpGet()]
         [SwaggerOperation("Получение файла", "Получение файла")]
         public ActionResult<bool> GetFile([SwaggerParameter("Документ", Required = true)][FromQuery] string docName, [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName, [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
         {
@@ -45,26 +45,34 @@ namespace JurDocsServer.Controllers
             return Ok(true);
         }
 
-        [HttpPost("clearTemp")]
-        [SwaggerOperation("Очистить каталог пользователя")]
-        public ActionResult<ClearTempResponse> Post([FromBody] ClearTempRequiest clearTemp)
+        [HttpPost()]
+        [SwaggerOperation("Получение файла", "Получение файла")]
+        public ActionResult<bool> Post([SwaggerParameter("Документ", Required = true)][FromQuery] string docName, [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName, [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
         {
             var securityInfo = _reader.GetSecurityInfo();
 
-            var users = securityInfo!.Users!.Where(x => x.Id == clearTemp.UserId).ToArray();
+            var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName && x.Read.Contains(userId)).ToArray();
+
+            if (docNameInfo.Length != 1)
+                return BadRequest();
+
+            List<string> list = [];
+
+            var fileSource = Path.Combine(docNameInfo.First().Path, fileName);
+
+            var users = securityInfo!.Users!.Where(x => x.Id == userId).ToArray();
 
             if (users.Length != 1)
                 return BadRequest();
 
-            var files = Directory.GetFiles(users.First().Path);
+            var fileDest = Path.Combine(users.First().Path, fileName);
 
-            foreach (var item in files)
-                System.IO.File.Delete(item);
+            if (!System.IO.File.Exists(fileSource))
+                return BadRequest();
 
-            return Ok(new ClearTempResponse(true));
+
+            System.IO.File.Copy(fileSource, fileDest);
+            return Ok(true);
         }
-
-        public record struct ClearTempRequiest([SwaggerParameter("ID пользователя", Required = true)][FromBody] int UserId);
-        public record struct ClearTempResponse([SwaggerParameter("Результат работы операции", Required = true)] bool Result);
     }
 }
