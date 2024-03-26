@@ -58,7 +58,7 @@ namespace JurDocsWinForms
                     return;
                 }
 
-                var swaggerResponse = await client.GetFileAsync(fileTableList.DocType, fileTableList.FileName, _currentUser.UserId);
+                var swaggerResponse = await client.DocumentFileGETAsync(fileTableList.DocType, fileTableList.FileName, _currentUser.UserId);
 
                 if (swaggerResponse != null && swaggerResponse.Result)
                 {
@@ -227,7 +227,7 @@ namespace JurDocsWinForms
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             Form f = new AddNewDoc();
-            ProgramHelpers.MoveWindowToCanterScreen(f);
+            ProgramHelpers.MoveWindowToCenterScreen(f);
             f.ShowDialog(this);
         }
     }

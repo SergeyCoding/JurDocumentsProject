@@ -1,3 +1,5 @@
+using JurDocsWinForms.Model;
+
 namespace JurDocsWinForms
 {
     internal static class Program
@@ -13,8 +15,19 @@ namespace JurDocsWinForms
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             ApplicationConfiguration.Initialize();
+
+            var loginForm = new LoginForm();
+            ProgramHelpers.MoveWindowToCenterScreen(loginForm);
+            loginForm.ShowDialog();
+
+            if (Auth.Token == Guid.Empty)
+            {
+                MessageBox.Show("Неверное имя пользователя или пароль");
+                return;
+            }
+
             var mainForm = new MainForm();
-            ProgramHelpers.MoveWindowToCanterScreen(mainForm);
+            ProgramHelpers.MoveWindowToCenterScreen(mainForm);
             Application.Run(mainForm);
         }
 
