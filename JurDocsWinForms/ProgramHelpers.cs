@@ -1,7 +1,7 @@
 ﻿public static class ProgramHelpers
 {
 
-    public static void MoveWindowToCanterScreen(Form form)
+    public static void MoveWindowToCenterScreen(Form form)
     {
         var screen = Screen.FromControl(form);
         form.Top = screen.Bounds.Height / 2 - form.Height / 2;
