@@ -26,7 +26,7 @@ namespace JurDocsWinForms.Model
 
             if (client != null )
             {
-                client.s
+                //client.s
             }
         }
     }

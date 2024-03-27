@@ -99,7 +99,7 @@
             // button5
             // 
             button5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button5.Location = new Point(713, 52);
+            button5.Location = new Point(705, 52);
             button5.Name = "button5";
             button5.Size = new Size(75, 23);
             button5.TabIndex = 4;
@@ -118,7 +118,7 @@
             dataGridView1.Location = new Point(12, 82);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(776, 335);
+            dataGridView1.Size = new Size(768, 454);
             dataGridView1.TabIndex = 5;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -193,9 +193,9 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
-            statusStrip1.Location = new Point(0, 428);
+            statusStrip1.Location = new Point(0, 547);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(800, 22);
+            statusStrip1.Size = new Size(792, 22);
             statusStrip1.TabIndex = 7;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -211,7 +211,7 @@
             LoginText.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             LoginText.FormattingEnabled = true;
             LoginText.Items.AddRange(new object[] { "Иванов", "Петров", "Сидоров" });
-            LoginText.Location = new Point(535, 52);
+            LoginText.Location = new Point(527, 52);
             LoginText.Name = "LoginText";
             LoginText.Size = new Size(172, 23);
             LoginText.TabIndex = 8;
@@ -221,7 +221,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.Size = new Size(792, 24);
             menuStrip1.TabIndex = 10;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -244,7 +244,7 @@
             toolStrip2.Items.AddRange(new ToolStripItem[] { newDocButton });
             toolStrip2.Location = new Point(0, 24);
             toolStrip2.Name = "toolStrip2";
-            toolStrip2.Size = new Size(800, 25);
+            toolStrip2.Size = new Size(792, 25);
             toolStrip2.TabIndex = 12;
             toolStrip2.Text = "toolStrip2";
             // 
@@ -262,7 +262,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(792, 569);
             Controls.Add(toolStrip2);
             Controls.Add(LoginText);
             Controls.Add(statusStrip1);

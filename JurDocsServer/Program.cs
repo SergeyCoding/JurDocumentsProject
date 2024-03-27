@@ -1,4 +1,4 @@
-
+using DbModel;
 using JurDocsServer.Service;
 
 namespace JurDocsServer
@@ -16,15 +16,22 @@ namespace JurDocsServer
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c => { c.EnableAnnotations(); });
             builder.Services.AddTransient<SecurityInfoReader>();
+            builder.Services.AddDbContext<JurDocsDbContext>();
+
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            CheckDb(app);
+
+            app.UseCors(c =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                c.AllowAnyOrigin();
+                c.AllowAnyHeader();
+                c.AllowAnyMethod();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseAuthorization();
 
@@ -32,6 +39,28 @@ namespace JurDocsServer
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void CheckDb(WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                try
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<JurDocsDbContext>();
+                    db.Database.EnsureCreated();
+
+                    db.Set<JurDocUser>().Add(new JurDocUser { Id = 1, Login = "root", Name = "root", Password = "root", Path = "" });
+                    db.SaveChanges();
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    Console.WriteLine("Не удалось создать БД");
+                    return;
+                }
+            }
         }
     }
 }
