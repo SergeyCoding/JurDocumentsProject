@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Справки",
-      "path": "D:\\TFS\\JurDocumentsProject\\Docs\\Справки",
+      "path": "C:\\Work\\TFS\\JurDocumentsProject\\Docs\\Справки",
       "update": [],
       "read": [
         1,
@@ -14,10 +14,9 @@
     {
       "id": 2,
       "name": "Выписки",
-      "path": "D:\\TFS\\JurDocumentsProject\\Docs\\Выписки",
+      "path": "C:\\Work\\TFS\\JurDocumentsProject\\Docs\\Выписки",
       "update": [],
       "read": [
-        1,
         2,
         3
       ],
@@ -26,7 +25,7 @@
     {
       "id": 3,
       "name": "Договоры",
-      "path": "D:\\TFS\\JurDocumentsProject\\Docs\\Договоры",
+      "path": "C:\\Work\\TFS\\JurDocumentsProject\\Docs\\Договоры",
       "update": [],
       "read": [
         1,
@@ -39,17 +38,17 @@
     {
       "id": 1,
       "name": "Иванов",
-      "path": "D:\\TFS\\JurDocumentsProject\\Temp1"
+      "path": "C:\\Work\\TFS\\JurDocumentsProject\\Temp1"
     },
     {
       "id": 2,
       "name": "Петров",
-      "path": "D:\\TFS\\JurDocumentsProject\\Temp2"
+      "path": "C:\\Work\\TFS\\JurDocumentsProject\\Temp2"
     },
     {
       "id": 3,
       "name": "Сидоров",
-      "path": "D:\\TFS\\JurDocumentsProject\\Temp3"
+      "path": "C:\\Work\\TFS\\JurDocumentsProject\\Temp3"
     }
   ]
 }
