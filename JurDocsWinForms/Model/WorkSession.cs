@@ -15,6 +15,7 @@
         public void AddNewDoc(string fileName)
         {
 
+
         }
 
         public void AddNewDocSource(string fileName)

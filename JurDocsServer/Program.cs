@@ -18,6 +18,9 @@ namespace JurDocsServer
             builder.Services.AddTransient<SecurityInfoReader>();
             builder.Services.AddDbContext<JurDocsDbContext>();
 
+            builder.Services.AddAuthentication(JurDocsAuthOptions.DefaultScheme)
+                .AddScheme<JurDocsAuthOptions, JurDocsAuthHandler>(JurDocsAuthOptions.DefaultScheme,
+                                                                   options => { });
 
             var app = builder.Build();
 
@@ -33,6 +36,7 @@ namespace JurDocsServer
             app.UseSwagger();
             app.UseSwaggerUI();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

@@ -13,7 +13,7 @@ namespace JurDocsWinForms
         private const string _noLoginStripStatus = "Выберите пользователя, и нажмите логин...";
         private UserResponse? _currentUser = null;
 
-        internal WorkSession? WorkSession { get; set; }
+        internal WorkSession WorkSession { get; set; }
 
         public MainForm()
         {
@@ -57,8 +57,14 @@ namespace JurDocsWinForms
             {
                 var files = e.Data!.GetData(DataFormats.FileDrop);
 
+                if (files != null && files is string[] fileList)
+                {
+                    foreach (var item in fileList)
+                    {
+                        WorkSession.AddNewDoc(item);
+                    }
 
-
+                }
             }
             catch (Exception)
             {

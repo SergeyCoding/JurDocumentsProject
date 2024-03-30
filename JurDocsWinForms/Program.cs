@@ -48,8 +48,10 @@ namespace JurDocsWinForms
                 workSession = new WorkSession(new CurrentUser { Token = result.Result });
             }
 
-            var mainForm = new MainForm();
-            mainForm.WorkSession = workSession;
+            if (workSession == null)
+                return;
+
+            var mainForm = new MainForm { WorkSession = workSession };
             ProgramHelpers.MoveWindowToCenterScreen(mainForm);
             Application.Run(mainForm);
         }
