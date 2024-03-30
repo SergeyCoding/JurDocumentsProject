@@ -16,14 +16,17 @@ namespace JurDocsWinForms
 
             ApplicationConfiguration.Initialize();
 
-            var loginForm = new LoginForm();
-            ProgramHelpers.MoveWindowToCenterScreen(loginForm);
-            loginForm.ShowDialog();
-
-            if (Auth.Token == Guid.Empty)
+            if (true)
             {
-                MessageBox.Show("Неверное имя пользователя или пароль");
-                return;
+                var loginForm = new LoginForm();
+                ProgramHelpers.MoveWindowToCenterScreen(loginForm);
+                loginForm.ShowDialog();
+
+                if (Auth.Token == Guid.Empty)
+                {
+                    MessageBox.Show("Неверное имя пользователя или пароль");
+                    return;
+                }
             }
 
             var mainForm = new MainForm();
