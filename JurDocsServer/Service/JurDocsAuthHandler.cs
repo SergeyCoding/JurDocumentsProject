@@ -29,7 +29,8 @@ namespace JurDocsServer.Service
 
             string token = Request.Headers[Options.AuthHeader]!;
 
-            var guidToken = new Guid(token);
+            if (!Guid.TryParse(token, out var guidToken))
+                return AuthenticateResult.Fail($"Invalid token.");
 
             var userToken = await _dbContext.Set<Token>().Where(x => x.Value == guidToken).ToArrayAsync();
 

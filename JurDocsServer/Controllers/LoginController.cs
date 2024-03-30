@@ -1,4 +1,6 @@
 ﻿using DbModel;
+using JurDocsServer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,20 +21,29 @@ namespace JurDocsServer.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         //[SwaggerOperation()]
         public async Task<IActionResult> Get(string Login)
         {
             try
             {
-                var token = Request.Headers.Authorization.ToString();
-
-                var guidToken = new Guid(token);
-
-                var userToken = await _dbContext.Set<Token>().Where(x => x.Login == Login && x.Value == guidToken).ToArrayAsync();
-
-                if (userToken.Length == 1)
+                if (User.Identity!.IsAuthenticated)
                 {
-                    return Ok(userToken.First().Id);
+                    var claims = User.Claims.ToArray();
+
+                    var loginClaim = claims.FirstOrDefault(x => x.Type == "Login");
+                    var idClaim = claims.FirstOrDefault(x => x.Type == "Id");
+
+                    var id = int.Parse(idClaim!.Value);
+                    var login = loginClaim!.Value;
+
+                    if (Login != login)
+                        return BadRequest();
+
+                    var user = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Id == id && x.Login == login);
+
+                    if (user != null)
+                        return base.Ok(new LoginGetResponse(user.Id, user.Name!, user.Path!));
                 }
             }
             catch (Exception)
@@ -42,7 +53,7 @@ namespace JurDocsServer.Controllers
             return BadRequest();
         }
 
-        public record struct LoginGetResponse(int Id, string Name);
+        public record struct LoginGetResponse(int Id, string Name, string Path);
 
 
         [HttpPost]
@@ -58,7 +69,12 @@ namespace JurDocsServer.Controllers
                 {
                     var guid = Guid.NewGuid();
 
+                    var tokens = await _dbContext.Set<Token>().Where(x => x.Login == loginRequest.Login).ToArrayAsync();
+                    _dbContext.RemoveRange(tokens);
+                    _dbContext.SaveChanges();
+
                     _dbContext.Set<Token>().Add(new Token { Login = loginRequest.Login, Value = guid });
+                    _dbContext.SaveChanges(true);
 
                     return Ok(guid);
                 }
@@ -80,6 +96,7 @@ namespace JurDocsServer.Controllers
         public record struct LoginErrorResponse(int Status, string Descr);
 
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> Delete()
         {
             try
