@@ -1,4 +1,4 @@
-﻿using JurDocsServer.Service;
+﻿using DbModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -13,18 +13,17 @@ namespace JurDocsServer.Controllers
     [Authorize]
     public class UserDirController : ControllerBase
     {
-        private readonly SecurityInfoReader _reader;
+        private readonly JurDocsDbContext _dbContext;
 
-        public UserDirController(SecurityInfoReader reader)
+        public UserDirController(JurDocsDbContext dbContext)
         {
-            _reader = reader;
+            _dbContext = dbContext;
         }
 
         [HttpPost()]
         [SwaggerOperation("Очистить каталог пользователя", Tags = ["Директория пользователей"])]
         public ActionResult<ClearTempResponse> Post([FromBody] ClearTempRequiest clearTemp)
         {
-            var securityInfo = _reader.GetSecurityInfo();
 
             var users = securityInfo!.Users!.Where(x => x.Id == clearTemp.UserId).ToArray();
 
