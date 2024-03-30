@@ -1,28 +1,37 @@
-﻿using JurDocsServer.Service;
+﻿using DbModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace JurDocsServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class UsersController : ControllerBase
     {
-        private readonly SecurityInfoReader _reader;
+        private readonly JurDocsDbContext _dbContext;
 
-        public UsersController(SecurityInfoReader reader)
+        public UsersController(JurDocsDbContext dbContext)
         {
-            _reader = reader;
+            _dbContext = dbContext;
         }
 
+        [HttpGet]
+        [SwaggerOperation("Вывести пользователей", "Вывести пользователей", Tags = ["Пользователи"])]
+        public async Task<IActionResult> Get()
+        {
+            var users = await _dbContext.Set<JurDocUser>().ToArrayAsync();
+
+            return Ok(users);
+        }
 
         [HttpPost]
-        public ActionResult<UserResponse> Get([FromBody] UserRequest userRequest)
+        [SwaggerOperation("Добавить пользователей", "Добавить пользователей", Tags = ["Пользователи"])]
+        public async Task<IActionResult> Post([FromBody] UserRequest userRequest)
         {
-            var securityInfo = _reader.GetSecurityInfo();
-
-            var users = securityInfo.Users!.Where(x => x.Name == userRequest.UserName).ToArray();
+            var users = await _dbContext.Set<JurDocUser>().ToArrayAsync();
 
             if (users.Length != 1)
                 return BadRequest();

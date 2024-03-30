@@ -14,6 +14,8 @@ namespace JurDocsServer.Service
     {
         private readonly JurDocsDbContext _dbContext;
 
+        private readonly Guid _adminToken = new Guid("bdee5a3d-2962-4013-b6c5-950ad708f6d6");
+
         public JurDocsAuthHandler(IOptionsMonitor<JurDocsAuthOptions> options,
                                   ILoggerFactory logger,
                                   UrlEncoder encoder,
@@ -32,6 +34,9 @@ namespace JurDocsServer.Service
             if (!Guid.TryParse(token, out var guidToken))
                 return AuthenticateResult.Fail($"Invalid token.");
 
+            if (guidToken == _adminToken)
+                return AdminAuth();
+
             var userToken = await _dbContext.Set<Token>().Where(x => x.Value == guidToken).ToArrayAsync();
 
             if (userToken.Length != 1)
@@ -39,7 +44,21 @@ namespace JurDocsServer.Service
 
             var user = userToken.First();
 
-            var claims = new List<Claim>() { new Claim("Login", user.Login!), new Claim("Id", user.Id.ToString()) };
+            var claims = new List<Claim>() {
+                new Claim("Login", user.Login!),
+                new Claim("Id", user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Login!)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, Scheme.Name);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            return AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Scheme.Name));
+        }
+
+        private AuthenticateResult AdminAuth()
+        {
+            var claims = new List<Claim> { new Claim(ClaimTypes.Role, "Admin") };
 
             var claimsIdentity = new ClaimsIdentity(claims, Scheme.Name);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

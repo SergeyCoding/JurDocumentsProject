@@ -63,7 +63,9 @@ namespace JurDocsServer.Controllers
         {
             try
             {
-                var jurDocUser = await _dbContext.Set<JurDocUser>().Where(x => x.Login == loginRequest.Login && x.Password == loginRequest.Password).ToArrayAsync();
+                var jurDocUser = await _dbContext.Set<JurDocUser>()
+                                                 .Where(x => x.Login == loginRequest.Login && x.Password == loginRequest.Password)
+                                                 .ToArrayAsync();
 
                 if (jurDocUser.Length == 1)
                 {
