@@ -24,23 +24,72 @@ namespace JurDocsServer.Controllers
         {
             var users = await _dbContext.Set<JurDocUser>().ToArrayAsync();
 
+            foreach (var item in users)
+                item.Password = string.Empty;
+
             return Ok(users);
         }
 
         [HttpPost]
         [SwaggerOperation("Добавить пользователей", "Добавить пользователей", Tags = ["Пользователи"])]
-        public async Task<IActionResult> Post([FromBody] UserRequest userRequest)
+        public async Task<IActionResult> Post([FromBody] JurDocUser[] users)
         {
-            var users = await _dbContext.Set<JurDocUser>().ToArrayAsync();
+            try
+            {
+                foreach (var item in users)
+                {
+                    var jurDocUser = _dbContext.Set<JurDocUser>().FirstOrDefault(x => x.Login == item.Login);
 
-            if (users.Length != 1)
-                return BadRequest();
+                    if (jurDocUser == null)
+                    {
+                        item.Id = 0;
+                        await _dbContext.Set<JurDocUser>().AddAsync(item);
+                        await _dbContext.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        jurDocUser.Path = item.Path;
+                        jurDocUser.Name = item.Name;
 
-            var user = users.First();
-            return base.Ok(new UserResponse(user.Id, user.Path));
+                        if (item.Password != string.Empty)
+                            jurDocUser.Password = item.Password;
+
+                        await _dbContext.SaveChangesAsync();
+                    }
+
+                }
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+            }
+
+            return BadRequest();
         }
 
-        public record UserRequest(string UserName);
-        public record UserResponse(int UserId, string Path);
+        [HttpDelete]
+        [SwaggerOperation("Удалить пользователя", "Удалить пользователя", Tags = ["Пользователи"])]
+        public async Task<IActionResult> Delete([FromBody] JurDocUser user)
+        {
+            try
+            {
+                var jurDocUser = _dbContext.Set<JurDocUser>().FirstOrDefault(x => x.Login == user.Login);
+
+                if (jurDocUser == null)
+                    return BadRequest("Такого пользователя нет");
+
+                _dbContext.Remove(jurDocUser);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok("Пользователь удален");
+            }
+            catch (Exception)
+            {
+            }
+
+            return BadRequest("Произошла ошибка");
+        }
+
     }
 }

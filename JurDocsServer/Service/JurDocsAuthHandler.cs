@@ -26,10 +26,10 @@ namespace JurDocsServer.Service
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            if (!Request.Headers.ContainsKey(Options.AuthHeader))
+            if (!Request.Headers.TryGetValue(Options.AuthHeader, out var value))
                 return AuthenticateResult.Fail($"Missing header: {Options.AuthHeader}");
 
-            string token = Request.Headers[Options.AuthHeader]!;
+            string token = value!;
 
             if (!Guid.TryParse(token, out var guidToken))
                 return AuthenticateResult.Fail($"Invalid token.");

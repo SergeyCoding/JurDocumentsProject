@@ -13,7 +13,7 @@ namespace JurDocsWinForms
         private const string _noLoginStripStatus = "Выберите пользователя, и нажмите логин...";
         private UserResponse? _currentUser = null;
 
-        internal WorkSession WorkSession { get; set; }
+        internal WorkSession? WorkSession { get; set; }
 
         public MainForm()
         {
