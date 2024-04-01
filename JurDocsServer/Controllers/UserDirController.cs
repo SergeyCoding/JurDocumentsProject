@@ -22,23 +22,34 @@ namespace JurDocsServer.Controllers
 
         [HttpPost()]
         [SwaggerOperation("Очистить каталог пользователя", Tags = ["Директория пользователей"])]
-        public ActionResult<ClearTempResponse> Post([FromBody] ClearTempRequiest clearTemp)
+        [ProducesResponseType(typeof(ClearTempResponse), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 401)]
+        public async Task<IActionResult> Post()
         {
+            try
+            {
 
-            var users = securityInfo!.Users!.Where(x => x.Id == clearTemp.UserId).ToArray();
 
-            if (users.Length != 1)
+                var idClaim = User.Claims.FirstOrDefault(x => x.Type == "Id");
+
+                var users = _dbContext.Set<JurDocUser>().First(x => x.Id.ToString() == idClaim!.Value);
+
+                var files = Directory.GetFiles(users.Path!);
+
+                foreach (var item in files)
+                    System.IO.File.Delete(item);
+
+                return Ok(new ClearTempResponse(true));
+            }
+            catch (Exception)
+            {
                 return BadRequest();
+            }
 
-            var files = Directory.GetFiles(users.First().Path);
 
-            foreach (var item in files)
-                System.IO.File.Delete(item);
-
-            return Ok(new ClearTempResponse(true));
         }
 
-        public record struct ClearTempRequiest([SwaggerParameter("ID пользователя", Required = true)][FromBody] int UserId);
         public record struct ClearTempResponse([SwaggerParameter("Результат работы операции", Required = true)] bool Result);
     }
 }
