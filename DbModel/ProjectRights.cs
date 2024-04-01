@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DbModel
 {
-    internal class ProjectRights
+    public class ProjectRights
     {
         public int Id { get; set; }
         public int ProjectId { get; set; }
