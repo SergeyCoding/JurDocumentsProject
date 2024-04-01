@@ -1,7 +1,6 @@
 using DbModel;
 using JurDocsServer.Service;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 
 namespace JurDocsServer
 {
@@ -50,7 +49,6 @@ namespace JurDocsServer
                 });
             });
 
-            builder.Services.AddTransient<SecurityInfoReader>();
             builder.Services.AddDbContext<JurDocsDbContext>();
 
             builder.Services.AddAuthentication(JurDocsAuthOptions.DefaultScheme)

@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsClient", "JurDocsCli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurClientGenerator", "JurDocsClientGenerator\JurClientGenerator.csproj", "{A51B8EF9-BAB0-46FB-8091-1BA5F3A968B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbModel", "DbModel\DbModel.csproj", "{81432F34-D5B5-4D47-A71E-68D37974E705}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbModel", "DbModel\DbModel.csproj", "{81432F34-D5B5-4D47-A71E-68D37974E705}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurDocsCommon", "JurDocsCommon\JurDocsCommon.csproj", "{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{81432F34-D5B5-4D47-A71E-68D37974E705}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81432F34-D5B5-4D47-A71E-68D37974E705}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81432F34-D5B5-4D47-A71E-68D37974E705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
