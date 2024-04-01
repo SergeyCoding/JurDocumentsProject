@@ -1,4 +1,5 @@
 ﻿using DbModel;
+using JurDocsServer.Configurations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -11,18 +12,24 @@ namespace JurDocsServer.Controllers
     public class DocumentFileController : ControllerBase
     {
         private readonly JurDocsDbContext _dbContext;
+        private readonly IConfiguration _configuration;
+        private JurDocsApp _settings;
 
-        public DocumentFileController(JurDocsDbContext dbContext)
+        public DocumentFileController(JurDocsDbContext dbContext, IConfiguration configuration)
         {
             _dbContext = dbContext;
+            _configuration = configuration;
         }
 
         [HttpGet()]
         [SwaggerOperation("Получение файла", "Получение файла")]
-        public ActionResult<bool> GetFile([SwaggerParameter("Документ", Required = true)][FromQuery] string docName,
-                                          [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName,
-                                          [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
+        public ActionResult<bool> GetFile([SwaggerParameter("Проект", Required = true)][FromQuery] string projectName,
+                                          [SwaggerParameter("Документ", Required = true)][FromQuery] string docType,
+                                          [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName)
         {
+
+            _configuration.GetSection(JurDocsApp.sectionName).Bind(_settings);
+            _settings.Validate();
 
             var loginClaim = User.Claims.FirstOrDefault(x => x.Type == "Login");
 
@@ -34,7 +41,10 @@ namespace JurDocsServer.Controllers
             if (jurDocUser == null)
                 return BadRequest();
 
-            var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName && x.Read.Contains(userId)).ToArray();
+
+
+
+            var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docType && x.Read.Contains(userId)).ToArray();
 
             if (docNameInfo.Length != 1)
                 return BadRequest();
@@ -60,9 +70,9 @@ namespace JurDocsServer.Controllers
 
         [HttpPost()]
         [SwaggerOperation("Получение файла", "Получение файла")]
-        public ActionResult<bool> Post([SwaggerParameter("Документ", Required = true)][FromQuery] string docName,
-                                       [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName,
-                                       [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
+        public ActionResult<bool> Post([SwaggerParameter("Проект", Required = true)][FromQuery] string projectName,
+                                       [SwaggerParameter("Документ", Required = true)][FromQuery] string docName,
+                                       [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName)
         {
 
             var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName && x.Read.Contains(userId)).ToArray();
