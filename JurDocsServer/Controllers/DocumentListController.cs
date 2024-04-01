@@ -1,28 +1,30 @@
-﻿using JurDocsServer.Service;
+﻿using DbModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace JurDocsServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DocumentListController : ControllerBase
     {
-        private readonly SecurityInfoReader _reader;
+        private readonly JurDocsDbContext _dbContext;
 
-        public DocumentListController(SecurityInfoReader reader)
+        public DocumentListController(JurDocsDbContext dbContext)
         {
-            _reader = reader;
+            _dbContext = dbContext;
         }
+
+
 
         [HttpGet]
         [SwaggerOperation("Получение всех файлов, доступных пользователю")]
-        public ActionResult<DocumentListResponse[]> GetAllFiles([SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
+        public ActionResult<DocumentListResponse[]> GetAllFiles(
+            [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
         {
-            var securityInfo = _reader.GetSecurityInfo();
-
             var catalogs = securityInfo!.Catalogs!.Where(x => x.Read.Contains(userId)).ToArray();
 
             List<DocumentListResponse> list = [];
@@ -43,7 +45,6 @@ namespace JurDocsServer.Controllers
         [SwaggerOperation("Получение всех файлов вида docName, доступных пользователю")]
         public ActionResult<DocumentListResponse[]> Get([SwaggerParameter("Вид документа", Required = true)][FromBody] DocumentListRequest documentListRequest)
         {
-            var securityInfo = _reader.GetSecurityInfo();
 
             var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == documentListRequest.DocName && x.Read.Contains(documentListRequest.UserId)).ToArray();
 

@@ -1,4 +1,5 @@
-﻿using JurDocsServer.Service;
+﻿using DbModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -6,20 +7,32 @@ namespace JurDocsServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DocumentFileController : ControllerBase
     {
-        private readonly SecurityInfoReader _reader;
+        private readonly JurDocsDbContext _dbContext;
 
-        public DocumentFileController(SecurityInfoReader reader)
+        public DocumentFileController(JurDocsDbContext dbContext)
         {
-            _reader = reader;
+            _dbContext = dbContext;
         }
 
         [HttpGet()]
         [SwaggerOperation("Получение файла", "Получение файла")]
-        public ActionResult<bool> GetFile([SwaggerParameter("Документ", Required = true)][FromQuery] string docName, [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName, [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
+        public ActionResult<bool> GetFile([SwaggerParameter("Документ", Required = true)][FromQuery] string docName,
+                                          [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName,
+                                          [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
         {
-            var securityInfo = _reader.GetSecurityInfo();
+
+            var loginClaim = User.Claims.FirstOrDefault(x => x.Type == "Login");
+
+            if (loginClaim == null)
+                return BadRequest();
+
+            var jurDocUser = _dbContext.Set<JurDocUser>().FirstOrDefault(x => x.Login == loginClaim.Value);
+
+            if (jurDocUser == null)
+                return BadRequest();
 
             var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName && x.Read.Contains(userId)).ToArray();
 
@@ -47,9 +60,10 @@ namespace JurDocsServer.Controllers
 
         [HttpPost()]
         [SwaggerOperation("Получение файла", "Получение файла")]
-        public ActionResult<bool> Post([SwaggerParameter("Документ", Required = true)][FromQuery] string docName, [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName, [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
+        public ActionResult<bool> Post([SwaggerParameter("Документ", Required = true)][FromQuery] string docName,
+                                       [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName,
+                                       [SwaggerParameter("ID пользователя", Required = true)][FromQuery] int userId)
         {
-            var securityInfo = _reader.GetSecurityInfo();
 
             var docNameInfo = securityInfo!.Catalogs!.Where(x => x.Name == docName && x.Read.Contains(userId)).ToArray();
 

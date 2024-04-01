@@ -14,18 +14,26 @@ namespace JurDocsClient
         /// <summary>
         /// 
         /// </summary>
-        public static Client JurDocsClientFactory() => JurDocsClientFactory("api", "334455", _baseUrl);
+        public static Client JurDocsClientFactory() => JurDocsClientFactory(Guid.Empty);
+        public static Client JurDocsClientFactory(Guid token) => JurDocsClientFactory("root", "root", _baseUrl, token);
 
         /// <summary>
         /// 
         /// </summary>
-        public static Client JurDocsClientFactory(string name, string password, string url)
+        public static Client JurDocsClientFactory(string name, string password, string url, Guid token)
         {
             var encodedAuth = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{name}:{password}"));
             var auth = new AuthenticationHeaderValue("Basic", encodedAuth);
 
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = auth;
+            if (token == Guid.Empty)
+            {
+                httpClient.DefaultRequestHeaders.Authorization = auth;
+            }
+            else
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("", token.ToString());
+            }
 
             return new Client(url, httpClient);
         }

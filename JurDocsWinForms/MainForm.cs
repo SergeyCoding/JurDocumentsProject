@@ -1,4 +1,5 @@
 using JurDocsClient;
+using JurDocsWinForms.Model;
 using LexExchangeApi.Clients;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -12,6 +13,7 @@ namespace JurDocsWinForms
         private const string _noLoginStripStatus = "Выберите пользователя, и нажмите логин...";
         private UserResponse? _currentUser = null;
 
+        internal WorkSession? WorkSession { get; set; }
 
         public MainForm()
         {
@@ -22,6 +24,52 @@ namespace JurDocsWinForms
         {
             toolStripStatusLabel1.Text = _noLoginStripStatus;
             MinimumSize = new Size(Width, Height);
+
+            panel1.AllowDrop = true;
+            panel1.AllowDrop = true;
+
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+
+            panel1.DragEnter += panel_DragEnter;
+            panel2.DragEnter += panel_DragEnter;
+
+            panel1.DragDrop += panel_DragDrop;
+            panel2.DragDrop += panel_DragDrop;
+
+            button1.MouseUp += button1_MouseDown;
+
+        }
+
+        void button1_MouseDown(object sender, MouseEventArgs e)
+        {
+            button1.DoDragDrop(button1, DragDropEffects.Move);
+        }
+
+        void panel_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        void panel_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                var files = e.Data!.GetData(DataFormats.FileDrop);
+
+                if (files != null && files is string[] fileList)
+                {
+                    foreach (var item in fileList)
+                    {
+                        WorkSession.AddNewDoc(item);
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+            }
+
         }
 
         private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -229,6 +277,11 @@ namespace JurDocsWinForms
             Form f = new AddNewDoc();
             ProgramHelpers.MoveWindowToCenterScreen(f);
             f.ShowDialog(this);
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

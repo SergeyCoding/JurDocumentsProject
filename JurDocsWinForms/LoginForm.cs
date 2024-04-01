@@ -1,30 +1,18 @@
 ﻿using JurDocsWinForms.Model;
 using LexExchangeApi.Clients;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace JurDocsWinForms
 {
     public partial class LoginForm : Form
     {
+        private WorkSession? _workSession = null;
+
         public LoginForm()
         {
             InitializeComponent();
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
+        private async void BtnExitClick(object sender, EventArgs e)
         {
             try
             {
@@ -35,14 +23,22 @@ namespace JurDocsWinForms
                     Password = tbLogin.Text
                 });
 
-                Auth.Token = token.Result;
+                if (token.Result != Guid.Empty)
+                    _workSession = new WorkSession(new CurrentUser { Token = token.Result });
             }
             catch (Exception)
             {
-                Auth.Token = Guid.Empty;
+
             }
 
             Close();
         }
+
+        internal WorkSession? GetWorkSession()
+        {
+            return _workSession;
+        }
+
+
     }
 }

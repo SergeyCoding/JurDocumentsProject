@@ -1,4 +1,6 @@
+using JurDocsClient;
 using JurDocsWinForms.Model;
+using LexExchangeApi.Clients;
 
 namespace JurDocsWinForms
 {
@@ -14,19 +16,42 @@ namespace JurDocsWinForms
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
+
+
+
             ApplicationConfiguration.Initialize();
 
-            var loginForm = new LoginForm();
-            ProgramHelpers.MoveWindowToCenterScreen(loginForm);
-            loginForm.ShowDialog();
+            WorkSession? workSession = null;
 
-            if (Auth.Token == Guid.Empty)
+            if (AppConst.IsLogin)
             {
-                MessageBox.Show("Ќеверное им€ пользовател€ или пароль");
-                return;
+                var loginForm = new LoginForm();
+                ProgramHelpers.MoveWindowToCenterScreen(loginForm);
+                loginForm.ShowDialog();
+
+                workSession = loginForm.GetWorkSession();
+
+                if (workSession == null)
+                {
+                    MessageBox.Show("Ќеверное им€ пользовател€ или пароль");
+                    return;
+                }
+            }
+            else
+            {
+                // блок дл€ тестировани€, что бы не вводить логин, пароль
+                var client = JurClientService.JurDocsClientFactory();
+                var result = client.LoginPOSTAsync(new LoginPostRequest { Login = "root", Password = "root" })
+                    .GetAwaiter()
+                    .GetResult();
+
+                workSession = new WorkSession(new CurrentUser { Token = result.Result });
             }
 
-            var mainForm = new MainForm();
+            if (workSession == null)
+                return;
+
+            var mainForm = new MainForm { WorkSession = workSession };
             ProgramHelpers.MoveWindowToCenterScreen(mainForm);
             Application.Run(mainForm);
         }

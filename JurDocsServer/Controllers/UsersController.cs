@@ -1,37 +1,95 @@
-﻿using JurDocsServer.Service;
+﻿using DbModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace JurDocsServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class UsersController : ControllerBase
     {
-        private readonly SecurityInfoReader _reader;
+        private readonly JurDocsDbContext _dbContext;
 
-        public UsersController(SecurityInfoReader reader)
+        public UsersController(JurDocsDbContext dbContext)
         {
-            _reader = reader;
+            _dbContext = dbContext;
         }
 
+        [HttpGet]
+        [SwaggerOperation("Вывести пользователей", "Вывести пользователей", Tags = ["Пользователи"])]
+        public async Task<IActionResult> Get()
+        {
+            var users = await _dbContext.Set<JurDocUser>().ToArrayAsync();
+
+            foreach (var item in users)
+                item.Password = string.Empty;
+
+            return Ok(users);
+        }
 
         [HttpPost]
-        public ActionResult<UserResponse> Get([FromBody] UserRequest userRequest)
+        [SwaggerOperation("Добавить пользователей", "Добавить пользователей", Tags = ["Пользователи"])]
+        public async Task<IActionResult> Post([FromBody] JurDocUser[] users)
         {
-            var securityInfo = _reader.GetSecurityInfo();
+            try
+            {
+                foreach (var item in users)
+                {
+                    var jurDocUser = _dbContext.Set<JurDocUser>().FirstOrDefault(x => x.Login == item.Login);
 
-            var users = securityInfo.Users!.Where(x => x.Name == userRequest.UserName).ToArray();
+                    if (jurDocUser == null)
+                    {
+                        item.Id = 0;
+                        await _dbContext.Set<JurDocUser>().AddAsync(item);
+                        await _dbContext.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        jurDocUser.Path = item.Path;
+                        jurDocUser.Name = item.Name;
 
-            if (users.Length != 1)
-                return BadRequest();
+                        if (item.Password != string.Empty)
+                            jurDocUser.Password = item.Password;
 
-            var user = users.First();
-            return base.Ok(new UserResponse(user.Id, user.Path));
+                        await _dbContext.SaveChangesAsync();
+                    }
+
+                }
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+            }
+
+            return BadRequest();
         }
 
-        public record UserRequest(string UserName);
-        public record UserResponse(int UserId, string Path);
+        [HttpDelete]
+        [SwaggerOperation("Удалить пользователя", "Удалить пользователя", Tags = ["Пользователи"])]
+        public async Task<IActionResult> Delete([FromBody] JurDocUser user)
+        {
+            try
+            {
+                var jurDocUser = _dbContext.Set<JurDocUser>().FirstOrDefault(x => x.Login == user.Login);
+
+                if (jurDocUser == null)
+                    return BadRequest("Такого пользователя нет");
+
+                _dbContext.Remove(jurDocUser);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok("Пользователь удален");
+            }
+            catch (Exception)
+            {
+            }
+
+            return BadRequest("Произошла ошибка");
+        }
+
     }
 }

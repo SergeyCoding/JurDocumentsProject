@@ -44,7 +44,7 @@
             btnExit.TabIndex = 0;
             btnExit.Text = "Вход";
             btnExit.UseVisualStyleBackColor = true;
-            btnExit.Click += button1_Click;
+            btnExit.Click += BtnExitClick;
             // 
             // label1
             // 
@@ -94,7 +94,6 @@
             MinimizeBox = false;
             Name = "LoginForm";
             Text = "Аутентификация";
-            Load += LoginForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
