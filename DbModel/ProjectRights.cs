@@ -14,7 +14,6 @@ namespace DbModel
         {
             public void Configure(EntityTypeBuilder<ProjectRights> builder)
             {
-                throw new NotImplementedException();
             }
         }
     }

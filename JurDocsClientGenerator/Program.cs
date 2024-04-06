@@ -40,7 +40,7 @@ namespace LexClientGenerator
                 WrapResponses = true,
                 ParameterDateFormat = "yyyyMMdd",
                 ParameterDateTimeFormat = "yyyyMMddHHmmss",
-                GenerateDtoTypes = true,
+                GenerateDtoTypes = true, 
             };
 
             var generator = new CSharpClientGenerator(document, settings);

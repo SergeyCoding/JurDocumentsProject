@@ -1,4 +1,5 @@
 ﻿using DbModel;
+using JurDocsCommon;
 using JurDocsServer.Configurations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,14 @@ namespace JurDocsServer.Controllers
     {
         private readonly JurDocsDbContext _dbContext;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<LogFile> _logger;
         private JurDocsApp? _settings;
 
-        public DocumentFileController(JurDocsDbContext dbContext, IConfiguration configuration)
+        public DocumentFileController(JurDocsDbContext dbContext, IConfiguration configuration, ILogger<LogFile> logger)
         {
             _dbContext = dbContext;
             _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpGet()]

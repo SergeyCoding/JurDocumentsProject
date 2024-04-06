@@ -1,6 +1,9 @@
 using DbModel;
 using JurDocsServer.Service;
 using Microsoft.OpenApi.Models;
+using NLog;
+using NLog.Web;
+using System;
 
 namespace JurDocsServer
 {
@@ -8,30 +11,40 @@ namespace JurDocsServer
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            // Early init of NLog to allow startup and exception logging, before host is built
+            var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            logger.Debug("init main");
 
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c =>
+            try
             {
-                c.EnableAnnotations();
+                var builder = WebApplication.CreateBuilder(args);
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                // Add services to the container.
+                builder.Services.AddControllers();
+
+                // NLog: Setup NLog for Dependency injection
+                builder.Logging.ClearProviders();
+                builder.Host.UseNLog();
+
+                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen(c =>
                 {
-                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                    c.EnableAnnotations();
+
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
                       Enter 'Bearer' [space] and then your token in the text input below.
                       \r\n\r\nExample: 'Bearer 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
+                    });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    {
                     {
                         new OpenApiSecurityScheme
                         {
@@ -46,36 +59,48 @@ namespace JurDocsServer
                         },
                         new List<string>()
                     }
+                    });
                 });
-            });
 
-            builder.Services.AddDbContext<JurDocsDbContext>();
+                builder.Services.AddDbContext<JurDocsDbContext>();
 
-            builder.Services.AddAuthentication(JurDocsAuthOptions.DefaultScheme)
-                .AddScheme<JurDocsAuthOptions, JurDocsAuthHandler>(JurDocsAuthOptions.DefaultScheme,
-                                                                   options => { });
+                builder.Services.AddAuthentication(JurDocsAuthOptions.DefaultScheme)
+                    .AddScheme<JurDocsAuthOptions, JurDocsAuthHandler>(JurDocsAuthOptions.DefaultScheme,
+                                                                       options => { });
 
-            var app = builder.Build();
+                var app = builder.Build();
 
-            CheckDb(app);
+                CheckDb(app);
 
-            app.UseCors(c =>
+                app.UseCors(c =>
+                {
+                    c.AllowAnyOrigin();
+                    c.AllowAnyHeader();
+                    c.AllowAnyMethod();
+                });
+
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+
+                app.MapControllers();
+
+                app.Run();
+            }
+            catch (Exception e)
             {
-                c.AllowAnyOrigin();
-                c.AllowAnyHeader();
-                c.AllowAnyMethod();
-            });
-
-            app.UseSwagger();
-            app.UseSwaggerUI();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
+                // NLog: catch setup errors
+                logger.Error(e, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                LogManager.Shutdown();
+            }
         }
 
         private static void CheckDb(WebApplication app)
