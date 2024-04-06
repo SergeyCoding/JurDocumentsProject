@@ -6,9 +6,10 @@ namespace JurDocsServer.Configurations
     /// </summary>
     public class JurDocsApp
     {
-        public const string sectionName = "Lex";
+        public const string sectionName = "JurDocsApp";
 
         public string? Catalog { get; set; }
+        public string? LogDir { get; set; }
 
         internal void Validate()
         {

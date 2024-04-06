@@ -1,17 +1,24 @@
 using DbModel;
+using JurDocsServer.Configurations;
 using JurDocsServer.Service;
 using Microsoft.OpenApi.Models;
 using NLog;
 using NLog.Web;
-using System;
 
 namespace JurDocsServer
 {
     public class Program
     {
+        private const string appsettingFile = "appsettings.json";
+
         public static void Main(string[] args)
         {
-            // Early init of NLog to allow startup and exception logging, before host is built
+            var configStart = new ConfigurationBuilder().AddJsonFile(appsettingFile).Build();
+            var jdSettings = configStart.GetSection(JurDocsApp.sectionName).Get<JurDocsApp>();
+
+            if (!string.IsNullOrWhiteSpace(jdSettings?.LogDir))
+                LogManager.Configuration.Variables["logDirectory"] = jdSettings.LogDir;
+
             var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
             logger.Debug("init main");
 
