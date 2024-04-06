@@ -1,4 +1,5 @@
 using DbModel;
+using JurDocs.Common.Loggers;
 using JurDocs.Server.Configurations;
 using JurDocs.Server.Service;
 using Microsoft.OpenApi.Models;
@@ -114,20 +115,22 @@ namespace JurDocs.Server
         {
             using (var scope = app.Services.CreateScope())
             {
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<LogConsole>>();
+
                 try
                 {
                     var db = scope.ServiceProvider.GetRequiredService<JurDocsDbContext>();
                     db.Database.EnsureCreated();
 
-                    db.Set<JurDocUser>().Add(new JurDocUser { Id = 1, Login = "root", Name = "root", Password = "root", Path = "" });
-                    db.SaveChanges();
-
+                    if (!db.Set<JurDocUser>().Any(x => x.Login == "root"))
+                    {
+                        db.Set<JurDocUser>().Add(new JurDocUser { Id = 1, Login = "root", Name = "root", Password = "root", Path = "" });
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
-                    Console.WriteLine("Не удалось создать БД");
-                    return;
+                    logger.LogError(e, "{msg}", "Не удалось создать БД");
                 }
             }
         }

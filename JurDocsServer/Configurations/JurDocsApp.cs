@@ -12,10 +12,8 @@
 
         internal void Validate()
         {
-            if (Catalog != null)
-            {
-                throw new Exception();
-            }
+            if (string.IsNullOrWhiteSpace(Catalog))
+                throw new Exception("Не заполнен Catalog в конфигурационном файле");
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using DbModel;
 using JurDocs.Common.Loggers;
 using JurDocs.Server.Configurations;
+using JurDocs.Server.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,18 +12,14 @@ namespace JurDocs.Server.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class DocumentFileController : ControllerBase
+    public class DocumentFileController : JurDocsControllerBase
     {
         private readonly JurDocsDbContext _dbContext;
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<LogFile> _logger;
-        private JurDocsApp? _settings;
 
         public DocumentFileController(JurDocsDbContext dbContext, IConfiguration configuration, ILogger<LogFile> logger)
+            : base(configuration, logger)
         {
             _dbContext = dbContext;
-            _configuration = configuration;
-            _logger = logger;
         }
 
         [HttpGet()]
@@ -36,24 +33,17 @@ namespace JurDocs.Server.Controllers
                                           [SwaggerParameter("Документ", Required = true)][FromQuery] string docType,
                                           [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName)
         {
-            _settings = null;
-            _configuration.GetSection(JurDocsApp.sectionName).Bind(_settings);
+            var userLogin = GetUserLogin();
 
-            if (_settings == null)
-                return BadRequest();
-
-            _settings.Validate();
-
-            var userLogin = User.Claims.FirstOrDefault(x => x.Type == "Login");
-
-            if (!await AllowDocumentAsync(projectName, docType, userLogin!.Value))
+            if (!await AllowDocumentAsync(projectName, docType, userLogin))
             {
+                _logger.LogInformation("{msg}", "Нет доступа к документу");
                 return Forbid("Нет доступа к документу");
             }
 
-            var fileSource = Path.Combine(_settings.Catalog!, projectName, docType, fileName);
+            var fileSource = Path.Combine(_settings!.Catalog!, projectName, docType, fileName);
 
-            var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin!.Value);
+            var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
 
             if (jurDocUser == null)
                 return BadRequest();
@@ -101,26 +91,17 @@ namespace JurDocs.Server.Controllers
                                         [SwaggerParameter("Документ", Required = true)][FromQuery] string docType,
                                         [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName)
         {
+            var userLogin = GetUserLogin();
 
-            _settings = null;
-            _configuration.GetSection(JurDocsApp.sectionName).Bind(_settings);
-
-            if (_settings == null)
-                return BadRequest();
-
-            _settings.Validate();
-
-            var userLogin = User.Claims.FirstOrDefault(x => x.Type == "Login");
-
-            if (!await AllowDocumentAsync(projectName, docType, userLogin!.Value))
+            if (!await AllowDocumentAsync(projectName, docType, userLogin))
             {
                 return Forbid("Нет доступа к документу");
             }
 
 
-            var fileSource = Path.Combine(_settings.Catalog!, projectName, docType, fileName);
+            var fileSource = Path.Combine(_settings!.Catalog!, projectName, docType, fileName);
 
-            var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin!.Value);
+            var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
 
             if (jurDocUser == null)
                 return BadRequest();
@@ -133,6 +114,41 @@ namespace JurDocs.Server.Controllers
 
             System.IO.File.Copy(fileDest, fileSource);
             return Ok(true);
+        }
+
+        [HttpDelete()]
+        [SwaggerOperation("Удаление файл во временном каталоге", "Удаление файл во временном каталоге")]
+        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 401)]
+        [ProducesResponseType(typeof(string), 403)]
+        public async Task<IActionResult> Delete([SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName)
+        {
+            try
+            {
+                _logger.LogInformation("Удаление файла");
+
+                var userLogin = GetUserLogin();
+
+                var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
+
+                if (jurDocUser == null)
+                {
+                    _logger?.LogInformation("Пользователь {user} не найден", userLogin);
+                    return BadRequest();
+                }
+
+                var curFile = Path.Combine(_settings.Catalog!, jurDocUser.Path!, fileName);
+
+                if (System.IO.File.Exists(curFile))
+                    System.IO.File.Delete(curFile);
+
+                return Ok(true);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

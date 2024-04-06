@@ -33,6 +33,8 @@ namespace JurDocs.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<DateTime>> GetDelay(int delay = 1000)
         {
+            _logFile?.LogInformation("{msg}", delay);
+
             await Task.Delay(delay);
 
             return Ok(delay);
