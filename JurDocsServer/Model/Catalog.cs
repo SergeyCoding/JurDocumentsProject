@@ -1,4 +1,4 @@
-﻿namespace JurDocsServer.Model
+﻿namespace JurDocs.Server.Model
 {
     /// <summary>
     /// Каталоги, на которые раздаются права

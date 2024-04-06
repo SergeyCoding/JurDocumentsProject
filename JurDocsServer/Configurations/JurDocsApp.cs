@@ -1,5 +1,4 @@
-﻿
-namespace JurDocsServer.Configurations
+﻿namespace JurDocs.Server.Configurations
 {
     /// <summary>
     /// 

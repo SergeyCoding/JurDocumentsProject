@@ -1,5 +1,5 @@
-﻿using NSwag.CodeGeneration.CSharp;
-using NSwag;
+﻿using NSwag;
+using NSwag.CodeGeneration.CSharp;
 using System.Diagnostics.CodeAnalysis;
 
 namespace LexClientGenerator

@@ -331,9 +331,15 @@
         private Button button5;
         private DataGridView dataGridView1;
         private Button button6;
+#pragma warning disable CS0169 // The field 'MainForm.myPropertyDataGridViewTextBoxColumn' is never used
         private DataGridViewTextBoxColumn myPropertyDataGridViewTextBoxColumn;
+#pragma warning restore CS0169 // The field 'MainForm.myPropertyDataGridViewTextBoxColumn' is never used
+#pragma warning disable CS0169 // The field 'MainForm.myProperty1DataGridViewTextBoxColumn' is never used
         private DataGridViewTextBoxColumn myProperty1DataGridViewTextBoxColumn;
+#pragma warning restore CS0169 // The field 'MainForm.myProperty1DataGridViewTextBoxColumn' is never used
+#pragma warning disable CS0169 // The field 'MainForm.myProperty2DataGridViewTextBoxColumn' is never used
         private DataGridViewTextBoxColumn myProperty2DataGridViewTextBoxColumn;
+#pragma warning restore CS0169 // The field 'MainForm.myProperty2DataGridViewTextBoxColumn' is never used
         private BindingSource bindingSource1;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
@@ -344,15 +350,25 @@
         private DataGridViewTextBoxColumn FileName;
         private DataGridViewTextBoxColumn Remark;
         private DataGridViewButtonColumn Column1;
+#pragma warning disable CS0169 // The field 'MainForm.toolStrip1' is never used
         private ToolStrip toolStrip1;
+#pragma warning restore CS0169 // The field 'MainForm.toolStrip1' is never used
+#pragma warning disable CS0169 // The field 'MainForm.toolStripProgressBar1' is never used
         private ToolStripProgressBar toolStripProgressBar1;
+#pragma warning restore CS0169 // The field 'MainForm.toolStripProgressBar1' is never used
+#pragma warning disable CS0169 // The field 'MainForm.toolStripButton1' is never used
         private ToolStripButton toolStripButton1;
+#pragma warning restore CS0169 // The field 'MainForm.toolStripButton1' is never used
+#pragma warning disable CS0169 // The field 'MainForm.toolStripButton2' is never used
         private ToolStripButton toolStripButton2;
+#pragma warning restore CS0169 // The field 'MainForm.toolStripButton2' is never used
         private MenuStrip menuStrip1;
         private ToolStripMenuItem файлToolStripMenuItem;
         private ToolStripMenuItem выходToolStripMenuItem;
         private ToolStrip toolStrip2;
+#pragma warning disable CS0169 // The field 'MainForm.toolStripButton3' is never used
         private ToolStripButton toolStripButton3;
+#pragma warning restore CS0169 // The field 'MainForm.toolStripButton3' is never used
         private ToolStripButton newDocButton;
         private Panel panel1;
         private Panel panel3;

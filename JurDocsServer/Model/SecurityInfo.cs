@@ -1,4 +1,6 @@
-﻿namespace JurDocsServer.Model
+﻿using JurDocs.Server.Model;
+
+namespace JurDocsServer.Model
 {
     /// <summary>
     /// 

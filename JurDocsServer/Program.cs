@@ -1,19 +1,19 @@
 using DbModel;
-using JurDocsServer.Configurations;
-using JurDocsServer.Service;
+using JurDocs.Server.Configurations;
+using JurDocs.Server.Service;
 using Microsoft.OpenApi.Models;
 using NLog;
 using NLog.Web;
 
-namespace JurDocsServer
+namespace JurDocs.Server
 {
     public class Program
     {
-        private const string appsettingFile = "appsettings.json";
+        private const string _appsettingFile = "appsettings.json";
 
         public static void Main(string[] args)
         {
-            var configStart = new ConfigurationBuilder().AddJsonFile(appsettingFile).Build();
+            var configStart = new ConfigurationBuilder().AddJsonFile(_appsettingFile).Build();
             var jdSettings = configStart.GetSection(JurDocsApp.sectionName).Get<JurDocsApp>();
 
             if (!string.IsNullOrWhiteSpace(jdSettings?.LogDir))
