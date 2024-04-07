@@ -28,24 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
+            tbProjectId = new TextBox();
             label1 = new Label();
             label2 = new Label();
-            textBox2 = new TextBox();
+            tbProjectNote = new TextBox();
             label3 = new Label();
-            comboBox1 = new ComboBox();
+            cbProjectOwner = new ComboBox();
             label4 = new Label();
             tabControl1 = new TabControl();
             tabPage2 = new TabPage();
-            checkedListBox2 = new CheckedListBox();
+            clbProjectRight_Справки = new CheckedListBox();
             tabPage1 = new TabPage();
-            checkedListBox1 = new CheckedListBox();
-            button1 = new Button();
-            button2 = new Button();
+            clbProjectRight_Выписки = new CheckedListBox();
+            btnOk = new Button();
+            btnCancel = new Button();
             label5 = new Label();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
-            checkedListBox3 = new CheckedListBox();
+            clbProjectRights = new CheckedListBox();
             label6 = new Label();
             tabControl1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -53,12 +53,12 @@
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // textBox1
+            // tbProjectId
             // 
-            textBox1.Location = new Point(159, 12);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(186, 23);
-            textBox1.TabIndex = 0;
+            tbProjectId.Location = new Point(159, 12);
+            tbProjectId.Name = "tbProjectId";
+            tbProjectId.Size = new Size(186, 23);
+            tbProjectId.TabIndex = 0;
             // 
             // label1
             // 
@@ -79,14 +79,14 @@
             label2.TabIndex = 2;
             label2.Text = "(уникальный текст из цифр и букв, не более 10 символов без пробелов )";
             // 
-            // textBox2
+            // tbProjectNote
             // 
-            textBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox2.Location = new Point(159, 41);
-            textBox2.Multiline = true;
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(601, 48);
-            textBox2.TabIndex = 3;
+            tbProjectNote.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            tbProjectNote.Location = new Point(159, 41);
+            tbProjectNote.Multiline = true;
+            tbProjectNote.Name = "tbProjectNote";
+            tbProjectNote.Size = new Size(601, 48);
+            tbProjectNote.TabIndex = 3;
             // 
             // label3
             // 
@@ -97,13 +97,13 @@
             label3.TabIndex = 4;
             label3.Text = "Наименование проекта";
             // 
-            // comboBox1
+            // cbProjectOwner
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(159, 95);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(186, 23);
-            comboBox1.TabIndex = 5;
+            cbProjectOwner.FormattingEnabled = true;
+            cbProjectOwner.Location = new Point(159, 95);
+            cbProjectOwner.Name = "cbProjectOwner";
+            cbProjectOwner.Size = new Size(186, 23);
+            cbProjectOwner.TabIndex = 5;
             // 
             // label4
             // 
@@ -127,7 +127,7 @@
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(checkedListBox2);
+            tabPage2.Controls.Add(clbProjectRight_Справки);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -136,19 +136,19 @@
             tabPage2.Text = "Справки";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // checkedListBox2
+            // clbProjectRight_Справки
             // 
-            checkedListBox2.Dock = DockStyle.Fill;
-            checkedListBox2.FormattingEnabled = true;
-            checkedListBox2.Items.AddRange(new object[] { "111", "222", "333" });
-            checkedListBox2.Location = new Point(3, 3);
-            checkedListBox2.Name = "checkedListBox2";
-            checkedListBox2.Size = new Size(375, 331);
-            checkedListBox2.TabIndex = 0;
+            clbProjectRight_Справки.Dock = DockStyle.Fill;
+            clbProjectRight_Справки.FormattingEnabled = true;
+            clbProjectRight_Справки.Items.AddRange(new object[] { "111", "222", "333" });
+            clbProjectRight_Справки.Location = new Point(3, 3);
+            clbProjectRight_Справки.Name = "clbProjectRight_Справки";
+            clbProjectRight_Справки.Size = new Size(375, 331);
+            clbProjectRight_Справки.TabIndex = 0;
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(checkedListBox1);
+            tabPage1.Controls.Add(clbProjectRight_Выписки);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
@@ -157,35 +157,36 @@
             tabPage1.Text = "Выписки";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // checkedListBox1
+            // clbProjectRight_Выписки
             // 
-            checkedListBox1.Dock = DockStyle.Fill;
-            checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Items.AddRange(new object[] { "ффф", "иии", "ссс" });
-            checkedListBox1.Location = new Point(3, 3);
-            checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(375, 331);
-            checkedListBox1.TabIndex = 0;
+            clbProjectRight_Выписки.Dock = DockStyle.Fill;
+            clbProjectRight_Выписки.FormattingEnabled = true;
+            clbProjectRight_Выписки.Items.AddRange(new object[] { "ффф", "иии", "ссс" });
+            clbProjectRight_Выписки.Location = new Point(3, 3);
+            clbProjectRight_Выписки.Name = "clbProjectRight_Выписки";
+            clbProjectRight_Выписки.Size = new Size(375, 331);
+            clbProjectRight_Выписки.TabIndex = 0;
             // 
-            // button1
+            // btnOk
             // 
-            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button1.Location = new Point(600, 487);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 8;
-            button1.Text = "ОК";
-            button1.UseVisualStyleBackColor = true;
+            btnOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnOk.Location = new Point(600, 487);
+            btnOk.Name = "btnOk";
+            btnOk.Size = new Size(75, 23);
+            btnOk.TabIndex = 8;
+            btnOk.Text = "ОК";
+            btnOk.UseVisualStyleBackColor = true;
+            btnOk.Click += button1_Click;
             // 
-            // button2
+            // btnCancel
             // 
-            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button2.Location = new Point(681, 487);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 9;
-            button2.Text = "Отмена";
-            button2.UseVisualStyleBackColor = true;
+            btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCancel.Location = new Point(681, 487);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 9;
+            btnCancel.Text = "Отмена";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -211,15 +212,15 @@
             toolStripStatusLabel1.Size = new Size(23, 17);
             toolStripStatusLabel1.Text = "ОК";
             // 
-            // checkedListBox3
+            // clbProjectRights
             // 
-            checkedListBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            checkedListBox3.FormattingEnabled = true;
-            checkedListBox3.Items.AddRange(new object[] { "ййй", "ццц", "ууу" });
-            checkedListBox3.Location = new Point(12, 146);
-            checkedListBox3.Name = "checkedListBox3";
-            checkedListBox3.Size = new Size(333, 328);
-            checkedListBox3.TabIndex = 12;
+            clbProjectRights.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            clbProjectRights.FormattingEnabled = true;
+            clbProjectRights.Items.AddRange(new object[] { "ййй", "ццц", "ууу" });
+            clbProjectRights.Location = new Point(12, 146);
+            clbProjectRights.Name = "clbProjectRights";
+            clbProjectRights.Size = new Size(333, 328);
+            clbProjectRights.TabIndex = 12;
             // 
             // label6
             // 
@@ -236,19 +237,19 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(771, 544);
             Controls.Add(label6);
-            Controls.Add(checkedListBox3);
+            Controls.Add(clbProjectRights);
             Controls.Add(statusStrip1);
             Controls.Add(label5);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(btnCancel);
+            Controls.Add(btnOk);
             Controls.Add(tabControl1);
             Controls.Add(label4);
-            Controls.Add(comboBox1);
+            Controls.Add(cbProjectOwner);
             Controls.Add(label3);
-            Controls.Add(textBox2);
+            Controls.Add(tbProjectNote);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox1);
+            Controls.Add(tbProjectId);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "CreateProjectForm";
@@ -265,24 +266,24 @@
 
         #endregion
 
-        private TextBox textBox1;
+        private TextBox tbProjectId;
         private Label label1;
         private Label label2;
-        private TextBox textBox2;
+        private TextBox tbProjectNote;
         private Label label3;
-        private ComboBox comboBox1;
+        private ComboBox cbProjectOwner;
         private Label label4;
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private Button button1;
-        private Button button2;
+        private Button btnOk;
+        private Button btnCancel;
         private Label label5;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
-        private CheckedListBox checkedListBox1;
-        private CheckedListBox checkedListBox2;
-        private CheckedListBox checkedListBox3;
+        private CheckedListBox clbProjectRight_Выписки;
+        private CheckedListBox clbProjectRight_Справки;
+        private CheckedListBox clbProjectRights;
         private Label label6;
     }
 }

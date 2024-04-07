@@ -49,20 +49,24 @@
             LoginText = new ComboBox();
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
+            создатьПроектToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripSeparator();
             выходToolStripMenuItem = new ToolStripMenuItem();
             toolStrip2 = new ToolStrip();
             newDocButton = new ToolStripButton();
             panel1 = new Panel();
             panel3 = new Panel();
             panel2 = new Panel();
-            создатьПроектToolStripMenuItem = new ToolStripMenuItem();
-            toolStripMenuItem1 = new ToolStripSeparator();
+            label1 = new Label();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             toolStrip2.SuspendLayout();
             panel1.SuspendLayout();
+            panel3.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -238,10 +242,22 @@
             файлToolStripMenuItem.Size = new Size(48, 20);
             файлToolStripMenuItem.Text = "Файл";
             // 
+            // создатьПроектToolStripMenuItem
+            // 
+            создатьПроектToolStripMenuItem.Name = "создатьПроектToolStripMenuItem";
+            создатьПроектToolStripMenuItem.Size = new Size(158, 22);
+            создатьПроектToolStripMenuItem.Text = "Создать проект";
+            создатьПроектToolStripMenuItem.Click += создатьПроектToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(155, 6);
+            // 
             // выходToolStripMenuItem
             // 
             выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            выходToolStripMenuItem.Size = new Size(180, 22);
+            выходToolStripMenuItem.Size = new Size(158, 22);
             выходToolStripMenuItem.Text = "Выход";
             выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
@@ -276,6 +292,7 @@
             // panel3
             // 
             panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Controls.Add(label2);
             panel3.Location = new Point(20, 172);
             panel3.Name = "panel3";
             panel3.Size = new Size(237, 112);
@@ -284,23 +301,32 @@
             // panel2
             // 
             panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(label1);
             panel2.Location = new Point(20, 37);
             panel2.Name = "panel2";
             panel2.Size = new Size(237, 112);
             panel2.TabIndex = 0;
             panel2.Paint += panel2_Paint;
             // 
-            // создатьПроектToolStripMenuItem
+            // label1
             // 
-            создатьПроектToolStripMenuItem.Name = "создатьПроектToolStripMenuItem";
-            создатьПроектToolStripMenuItem.Size = new Size(180, 22);
-            создатьПроектToolStripMenuItem.Text = "Создать проект";
-            создатьПроектToolStripMenuItem.Click += создатьПроектToolStripMenuItem_Click;
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Location = new Point(69, 46);
+            label1.Name = "label1";
+            label1.Size = new Size(106, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Файлы документа";
             // 
-            // toolStripMenuItem1
+            // label2
             // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(177, 6);
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Location = new Point(80, 45);
+            label2.Name = "label2";
+            label2.Size = new Size(91, 15);
+            label2.TabIndex = 0;
+            label2.Text = "Файл исходник";
             // 
             // MainForm
             // 
@@ -332,6 +358,10 @@
             toolStrip2.ResumeLayout(false);
             toolStrip2.PerformLayout();
             panel1.ResumeLayout(false);
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -389,5 +419,7 @@
         private Panel panel2;
         private ToolStripMenuItem создатьПроектToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
+        private Label label2;
+        private Label label1;
     }
 }
