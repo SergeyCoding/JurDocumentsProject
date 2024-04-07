@@ -32,7 +32,8 @@ namespace JurDocsClient
             }
             else
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("", token.ToString());
+                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("", token.ToString());
+                httpClient.DefaultRequestHeaders.Add("Authorization", token.ToString());
             }
 
             return new Client(url, httpClient);

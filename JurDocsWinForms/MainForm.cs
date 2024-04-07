@@ -297,17 +297,20 @@ namespace JurDocsWinForms
 
         }
 
-        private void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var client = JurClientService.JurDocsClientFactory();
+            var client = JurClientService.JurDocsClientFactory(WorkSession!.User.Token);
 
-            //client.
+            var swaggerResponse = await client.ProjectPOSTAsync();
+
+            var result = swaggerResponse.Result;
 
             var createProjectViewModel = new CreateProjectViewModel
             {
-                ProjectName = "",
-                ProjectFullName = "",
-                ProjectOwner = ""
+                ProjectId = result.Id,
+                ProjectName = result.Name,
+                ProjectFullName = result.FullName,
+                ProjectOwner = result.OwnerId.ToString(),
             };
 
             createProjectViewModel.ProjectRights.AddRange(

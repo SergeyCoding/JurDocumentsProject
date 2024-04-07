@@ -14,6 +14,7 @@ namespace JurDocs.Server.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Consumes("application/json")]
     public class LoginController : JurDocsControllerBase
     {
         private readonly JurDocsDbContext _dbContext;
@@ -27,6 +28,9 @@ namespace JurDocs.Server.Controllers
         [HttpGet]
         [Authorize]
         [SwaggerOperation("Сведения о пользователе", "Сведения о пользователе")]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(LoginGetResponse), 200)]
+        [ProducesResponseType(typeof(string), 400)]
         public async Task<IActionResult> Get(string Login)
         {
             try

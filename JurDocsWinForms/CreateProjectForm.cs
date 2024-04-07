@@ -20,8 +20,6 @@ namespace JurDocsWinForms
             tbProjectId.Text = ViewModel.ProjectName;
             tbProjectNote.Text = ViewModel.ProjectFullName;
             cbProjectOwner.Items.Add(ViewModel.ProjectOwner);
-            cbProjectOwner.Items.Add(ViewModel.ProjectOwner + "1");
-            cbProjectOwner.Items.Add(ViewModel.ProjectOwner + "2");
             cbProjectOwner.Text = ViewModel.ProjectOwner;
 
             FillCheckListBox(clbProjectRights, ViewModel.ProjectRights);

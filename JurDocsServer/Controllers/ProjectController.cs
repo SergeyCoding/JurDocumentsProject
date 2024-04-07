@@ -48,6 +48,8 @@ namespace JurDocs.Server.Controllers
 
         [HttpPost]
         [SwaggerOperation("Создать пустой проект", "Создать пустой проект")]
+        [ProducesResponseType(typeof(JurDocProject), 200)]
+        [ProducesResponseType(typeof(void), 400)]
         public async Task<IActionResult> Post()
         {
             try
