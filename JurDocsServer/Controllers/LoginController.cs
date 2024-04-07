@@ -1,8 +1,11 @@
 ﻿using DbModel;
+using JurDocs.Common.Loggers;
 using JurDocs.DbModel;
+using JurDocs.Server.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace JurDocs.Server.Controllers
 {
@@ -11,43 +14,36 @@ namespace JurDocs.Server.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController : JurDocsControllerBase
     {
         private readonly JurDocsDbContext _dbContext;
 
-        public LoginController(JurDocsDbContext dbContext)
+        public LoginController(JurDocsDbContext dbContext, IConfiguration configuration, ILogger<LogFile> logger)
+            : base(configuration, logger)
         {
             _dbContext = dbContext;
         }
 
         [HttpGet]
         [Authorize]
-        //[SwaggerOperation()]
+        [SwaggerOperation("Сведения о пользователе", "Сведения о пользователе")]
         public async Task<IActionResult> Get(string Login)
         {
             try
             {
-                if (User.Identity!.IsAuthenticated)
-                {
-                    var claims = User.Claims.ToArray();
+                var login = GetUserLogin();
 
-                    var loginClaim = claims.FirstOrDefault(x => x.Type == "Login");
-                    var idClaim = claims.FirstOrDefault(x => x.Type == "Id");
+                if (login != Login)
+                    return BadRequest("Неверно указан логин");
 
-                    var id = int.Parse(idClaim!.Value);
-                    var login = loginClaim!.Value;
+                var user = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == login);
 
-                    if (Login != login)
-                        return BadRequest();
-
-                    var user = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Id == id && x.Login == login);
-
-                    if (user != null)
-                        return base.Ok(new LoginGetResponse(user.Id, user.Name!, user.Path!));
-                }
+                if (user != null)
+                    return base.Ok(new LoginGetResponse(user.Id, user.Name!, user.Path!));
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e, null);
             }
 
             return BadRequest();

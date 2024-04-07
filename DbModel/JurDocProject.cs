@@ -13,6 +13,8 @@ namespace DbModel
         public string? FullName { get; set; }
         public int OwnerId { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
 
         class Configuration : IEntityTypeConfiguration<JurDocProject>
         {

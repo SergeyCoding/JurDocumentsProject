@@ -31,7 +31,10 @@ namespace JurDocs.Server.Controllers
 
                 var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
 
-                var jurDocUserList = await _dbContext.Set<JurDocProject>().Where(x => x.OwnerId == user!.Id).ToArrayAsync();
+                var jurDocUserList = await _dbContext.Set<JurDocProject>()
+                    .AsTracking()
+                    .Where(x => x.OwnerId == user!.Id && !x.IsDeleted)
+                    .ToArrayAsync();
 
                 return Ok(jurDocUserList);
             }
@@ -85,6 +88,39 @@ namespace JurDocs.Server.Controllers
             {
                 _logger?.LogError(e, message: null);
 
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete]
+        [SwaggerOperation("Удалить проект", "Удалить проект")]
+        [ProducesResponseType(typeof(void), 200)]
+        public async Task<IActionResult> Delete([FromBody] int projectId)
+        {
+            try
+            {
+                var login = GetUserLogin();
+
+                var user = await _dbContext.Set<JurDocUser>()
+                    .AsNoTracking()
+                    .FirstAsync(x => x.Login == login);
+
+                var jdProject = await _dbContext.Set<JurDocProject>()
+                    .AsTracking()
+                    .FirstOrDefaultAsync(x => x.Id == projectId && x.OwnerId == user.Id);
+
+
+                if (jdProject == null)
+                    return Ok();
+
+                jdProject.IsDeleted = true;
+                await _dbContext.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, message: null);
                 return BadRequest();
             }
         }

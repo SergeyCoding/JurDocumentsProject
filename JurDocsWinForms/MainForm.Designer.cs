@@ -50,6 +50,7 @@
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
             создатьПроектToolStripMenuItem = new ToolStripMenuItem();
+            изменитьПроектToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
             выходToolStripMenuItem = new ToolStripMenuItem();
             toolStrip2 = new ToolStrip();
@@ -59,7 +60,16 @@
             label2 = new Label();
             panel2 = new Panel();
             label1 = new Label();
-            изменитьПроектToolStripMenuItem = new ToolStripMenuItem();
+            newToolStripButton = new ToolStripButton();
+            openToolStripButton = new ToolStripButton();
+            saveToolStripButton = new ToolStripButton();
+            printToolStripButton = new ToolStripButton();
+            toolStripSeparator = new ToolStripSeparator();
+            cutToolStripButton = new ToolStripButton();
+            copyToolStripButton = new ToolStripButton();
+            pasteToolStripButton = new ToolStripButton();
+            toolStripSeparator1 = new ToolStripSeparator();
+            helpToolStripButton = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -246,27 +256,35 @@
             // создатьПроектToolStripMenuItem
             // 
             создатьПроектToolStripMenuItem.Name = "создатьПроектToolStripMenuItem";
-            создатьПроектToolStripMenuItem.Size = new Size(180, 22);
+            создатьПроектToolStripMenuItem.Size = new Size(169, 22);
             создатьПроектToolStripMenuItem.Text = "Создать проект";
             создатьПроектToolStripMenuItem.Click += создатьПроектToolStripMenuItem_Click;
+            // 
+            // изменитьПроектToolStripMenuItem
+            // 
+            изменитьПроектToolStripMenuItem.Name = "изменитьПроектToolStripMenuItem";
+            изменитьПроектToolStripMenuItem.Size = new Size(169, 22);
+            изменитьПроектToolStripMenuItem.Text = "Изменить проект";
+            изменитьПроектToolStripMenuItem.Click += изменитьПроектToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(177, 6);
+            toolStripMenuItem1.Size = new Size(166, 6);
             // 
             // выходToolStripMenuItem
             // 
             выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            выходToolStripMenuItem.Size = new Size(180, 22);
+            выходToolStripMenuItem.Size = new Size(169, 22);
             выходToolStripMenuItem.Text = "Выход";
             выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
             // toolStrip2
             // 
-            toolStrip2.Items.AddRange(new ToolStripItem[] { newDocButton });
+            toolStrip2.Items.AddRange(new ToolStripItem[] { newDocButton, newToolStripButton, openToolStripButton, saveToolStripButton, printToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton, toolStripSeparator1, helpToolStripButton });
             toolStrip2.Location = new Point(0, 24);
             toolStrip2.Name = "toolStrip2";
+            toolStrip2.RenderMode = ToolStripRenderMode.System;
             toolStrip2.Size = new Size(998, 25);
             toolStrip2.TabIndex = 12;
             toolStrip2.Text = "toolStrip2";
@@ -329,12 +347,87 @@
             label1.TabIndex = 0;
             label1.Text = "Файлы документа";
             // 
-            // изменитьПроектToolStripMenuItem
+            // newToolStripButton
             // 
-            изменитьПроектToolStripMenuItem.Name = "изменитьПроектToolStripMenuItem";
-            изменитьПроектToolStripMenuItem.Size = new Size(180, 22);
-            изменитьПроектToolStripMenuItem.Text = "Изменить проект";
-            изменитьПроектToolStripMenuItem.Click += изменитьПроектToolStripMenuItem_Click;
+            newToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            newToolStripButton.Image = (Image)resources.GetObject("newToolStripButton.Image");
+            newToolStripButton.ImageTransparentColor = Color.Magenta;
+            newToolStripButton.Name = "newToolStripButton";
+            newToolStripButton.Size = new Size(23, 22);
+            newToolStripButton.Text = "&New";
+            // 
+            // openToolStripButton
+            // 
+            openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            openToolStripButton.Image = (Image)resources.GetObject("openToolStripButton.Image");
+            openToolStripButton.ImageTransparentColor = Color.Magenta;
+            openToolStripButton.Name = "openToolStripButton";
+            openToolStripButton.Size = new Size(23, 22);
+            openToolStripButton.Text = "&Open";
+            // 
+            // saveToolStripButton
+            // 
+            saveToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            saveToolStripButton.Image = (Image)resources.GetObject("saveToolStripButton.Image");
+            saveToolStripButton.ImageTransparentColor = Color.Magenta;
+            saveToolStripButton.Name = "saveToolStripButton";
+            saveToolStripButton.Size = new Size(23, 22);
+            saveToolStripButton.Text = "&Save";
+            // 
+            // printToolStripButton
+            // 
+            printToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            printToolStripButton.Image = (Image)resources.GetObject("printToolStripButton.Image");
+            printToolStripButton.ImageTransparentColor = Color.Magenta;
+            printToolStripButton.Name = "printToolStripButton";
+            printToolStripButton.Size = new Size(23, 22);
+            printToolStripButton.Text = "&Print";
+            // 
+            // toolStripSeparator
+            // 
+            toolStripSeparator.Name = "toolStripSeparator";
+            toolStripSeparator.Size = new Size(6, 25);
+            // 
+            // cutToolStripButton
+            // 
+            cutToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            cutToolStripButton.Image = (Image)resources.GetObject("cutToolStripButton.Image");
+            cutToolStripButton.ImageTransparentColor = Color.Magenta;
+            cutToolStripButton.Name = "cutToolStripButton";
+            cutToolStripButton.Size = new Size(23, 22);
+            cutToolStripButton.Text = "C&ut";
+            // 
+            // copyToolStripButton
+            // 
+            copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            copyToolStripButton.Image = (Image)resources.GetObject("copyToolStripButton.Image");
+            copyToolStripButton.ImageTransparentColor = Color.Magenta;
+            copyToolStripButton.Name = "copyToolStripButton";
+            copyToolStripButton.Size = new Size(23, 22);
+            copyToolStripButton.Text = "&Copy";
+            // 
+            // pasteToolStripButton
+            // 
+            pasteToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            pasteToolStripButton.Image = (Image)resources.GetObject("pasteToolStripButton.Image");
+            pasteToolStripButton.ImageTransparentColor = Color.Magenta;
+            pasteToolStripButton.Name = "pasteToolStripButton";
+            pasteToolStripButton.Size = new Size(23, 22);
+            pasteToolStripButton.Text = "&Paste";
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(6, 25);
+            // 
+            // helpToolStripButton
+            // 
+            helpToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            helpToolStripButton.Image = (Image)resources.GetObject("helpToolStripButton.Image");
+            helpToolStripButton.ImageTransparentColor = Color.Magenta;
+            helpToolStripButton.Name = "helpToolStripButton";
+            helpToolStripButton.Size = new Size(23, 22);
+            helpToolStripButton.Text = "He&lp";
             // 
             // MainForm
             // 
@@ -430,5 +523,15 @@
         private Label label2;
         private Label label1;
         private ToolStripMenuItem изменитьПроектToolStripMenuItem;
+        private ToolStripButton newToolStripButton;
+        private ToolStripButton openToolStripButton;
+        private ToolStripButton saveToolStripButton;
+        private ToolStripButton printToolStripButton;
+        private ToolStripSeparator toolStripSeparator;
+        private ToolStripButton cutToolStripButton;
+        private ToolStripButton copyToolStripButton;
+        private ToolStripButton pasteToolStripButton;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton helpToolStripButton;
     }
 }
