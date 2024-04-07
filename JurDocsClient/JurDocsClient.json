@@ -5,119 +5,29 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/DocumentFile": {
+    "/api/Date": {
       "get": {
-        "tags": [
-          "DocumentFile"
-        ],
-        "summary": "Получение файла",
-        "description": "Получение файла",
-        "parameters": [
-          {
-            "name": "docName",
-            "in": "query",
-            "description": "Документ",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fileName",
-            "in": "query",
-            "description": "Имя файла",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "description": "ID пользователя",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
+        "tags": [ "Date" ],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string",
+                  "format": "date-time"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string",
+                  "format": "date-time"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "DocumentFile"
-        ],
-        "summary": "Получение файла",
-        "description": "Получение файла",
-        "parameters": [
-          {
-            "name": "docName",
-            "in": "query",
-            "description": "Документ",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fileName",
-            "in": "query",
-            "description": "Имя файла",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "description": "ID пользователя",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "boolean"
+                  "type": "string",
+                  "format": "date-time"
                 }
               }
             }
@@ -125,21 +35,17 @@
         }
       }
     },
-    "/api/DocumentList": {
+    "/api/Date/Delay": {
       "get": {
-        "tags": [
-          "DocumentList"
-        ],
-        "summary": "Получение всех файлов, доступных пользователю",
+        "tags": [ "Date" ],
         "parameters": [
           {
-            "name": "userId",
+            "name": "delay",
             "in": "query",
-            "description": "ID пользователя",
-            "required": true,
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 1000
             }
           }
         ],
@@ -149,26 +55,183 @@
             "content": {
               "text/plain": {
                 "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DocumentFile": {
+      "get": {
+        "tags": [ "DocumentFile" ],
+        "summary": "Получение файла",
+        "description": "Получение файла",
+        "parameters": [
+          {
+            "name": "projectName",
+            "in": "query",
+            "description": "Проект",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "docType",
+            "in": "query",
+            "description": "Документ",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "Имя файла",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": { "schema": { "type": "boolean" } },
+              "application/json": { "schema": { "type": "boolean" } },
+              "text/json": { "schema": { "type": "boolean" } }
+            }
+          },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": { "schema": { "type": "string" } },
+              "application/json": { "schema": { "type": "string" } },
+              "text/json": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [ "DocumentFile" ],
+        "summary": "Получение файла",
+        "description": "Получение файла",
+        "parameters": [
+          {
+            "name": "projectName",
+            "in": "query",
+            "description": "Проект",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "docType",
+            "in": "query",
+            "description": "Документ",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "Имя файла",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": { "schema": { "type": "boolean" } },
+              "application/json": { "schema": { "type": "boolean" } },
+              "text/json": { "schema": { "type": "boolean" } }
+            }
+          },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": { "schema": { "type": "string" } },
+              "application/json": { "schema": { "type": "string" } },
+              "text/json": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [ "DocumentFile" ],
+        "summary": "Удаление файл во временном каталоге",
+        "description": "Удаление файл во временном каталоге",
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "Имя файла",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": { "schema": { "type": "boolean" } },
+              "application/json": { "schema": { "type": "boolean" } },
+              "text/json": { "schema": { "type": "boolean" } }
+            }
+          },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": { "schema": { "type": "string" } },
+              "application/json": { "schema": { "type": "string" } },
+              "text/json": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/DocumentList": {
+      "get": {
+        "tags": [ "DocumentList" ],
+        "summary": "Получение всех файлов, доступных пользователю",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DocumentListResponse"
-                  }
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DocumentListResponse"
-                  }
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DocumentListResponse"
-                  }
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
                 }
               }
             }
@@ -176,27 +239,13 @@
         }
       },
       "post": {
-        "tags": [
-          "DocumentList"
-        ],
+        "tags": [ "DocumentList" ],
         "summary": "Получение всех файлов вида docName, доступных пользователю",
         "requestBody": {
           "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DocumentListRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DocumentListRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/DocumentListRequest"
-              }
-            }
+            "application/json": { "schema": { "$ref": "#/components/schemas/DocumentListRequest" } },
+            "text/json": { "schema": { "$ref": "#/components/schemas/DocumentListRequest" } },
+            "application/*+json": { "schema": { "$ref": "#/components/schemas/DocumentListRequest" } }
           }
         },
         "responses": {
@@ -206,25 +255,19 @@
               "text/plain": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DocumentListResponse"
-                  }
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DocumentListResponse"
-                  }
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DocumentListResponse"
-                  }
+                  "items": { "$ref": "#/components/schemas/DocumentListResponse" }
                 }
               }
             }
@@ -234,45 +277,25 @@
     },
     "/api/Login": {
       "get": {
-        "tags": [
-          "Login"
-        ],
+        "tags": [ "Login" ],
+        "summary": "Сведения о пользователе",
+        "description": "Сведения о пользователе",
         "parameters": [
           {
             "name": "Login",
             "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
+        "responses": { "200": { "description": "Success" } }
       },
       "post": {
-        "tags": [
-          "Login"
-        ],
+        "tags": [ "Login" ],
         "requestBody": {
           "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginPostRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginPostRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginPostRequest"
-              }
-            }
+            "application/json": { "schema": { "$ref": "#/components/schemas/LoginPostRequest" } },
+            "text/json": { "schema": { "$ref": "#/components/schemas/LoginPostRequest" } },
+            "application/*+json": { "schema": { "$ref": "#/components/schemas/LoginPostRequest" } }
           }
         },
         "responses": {
@@ -302,153 +325,142 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginErrorResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginErrorResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginErrorResponse"
-                }
-              }
+              "text/plain": { "schema": { "$ref": "#/components/schemas/LoginErrorResponse" } },
+              "application/json": { "schema": { "$ref": "#/components/schemas/LoginErrorResponse" } },
+              "text/json": { "schema": { "$ref": "#/components/schemas/LoginErrorResponse" } }
             }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Login"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
+        "tags": [ "Login" ],
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/api/Project": {
+      "get": {
+        "tags": [ "Project" ],
+        "responses": { "200": { "description": "Success" } }
+      },
+      "post": {
+        "tags": [ "Project" ],
+        "summary": "Создать пустой проект",
+        "description": "Создать пустой проект",
+        "responses": { "200": { "description": "Success" } }
+      },
+      "put": {
+        "tags": [ "Project" ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/JurDocProject" } },
+            "text/json": { "schema": { "$ref": "#/components/schemas/JurDocProject" } },
+            "application/*+json": { "schema": { "$ref": "#/components/schemas/JurDocProject" } }
           }
-        }
+        },
+        "responses": { "200": { "description": "Success" } }
+      },
+      "delete": {
+        "tags": [ "Project" ],
+        "summary": "Удалить проект",
+        "description": "Удалить проект",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Success" } }
       }
     },
     "/api/UserDir": {
       "post": {
-        "tags": [
-          "UserDir"
-        ],
+        "tags": [ "Директория пользователей" ],
         "summary": "Очистить каталог пользователя",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ClearTempRequiest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ClearTempRequiest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ClearTempRequiest"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ClearTempResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ClearTempResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ClearTempResponse"
-                }
-              }
+              "text/plain": { "schema": { "$ref": "#/components/schemas/ClearTempResponse" } },
+              "application/json": { "schema": { "$ref": "#/components/schemas/ClearTempResponse" } },
+              "text/json": { "schema": { "$ref": "#/components/schemas/ClearTempResponse" } }
             }
-          }
+          },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" }
         }
       }
     },
     "/api/Users": {
+      "get": {
+        "tags": [ "*Пользователи" ],
+        "summary": "Вывести пользователей",
+        "description": "Вывести пользователей",
+        "responses": { "200": { "description": "Success" } }
+      },
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": [ "*Пользователи" ],
+        "summary": "Добавить пользователей",
+        "description": "Добавить пользователей",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserRequest"
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/JurDocUser" }
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserRequest"
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/JurDocUser" }
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UserRequest"
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/JurDocUser" }
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
-                }
-              }
-            }
+        "responses": { "200": { "description": "Success" } }
+      },
+      "delete": {
+        "tags": [ "*Пользователи" ],
+        "summary": "Удалить пользователя",
+        "description": "Удалить пользователя",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/JurDocUser" } },
+            "text/json": { "schema": { "$ref": "#/components/schemas/JurDocUser" } },
+            "application/*+json": { "schema": { "$ref": "#/components/schemas/JurDocUser" } }
           }
-        }
+        },
+        "responses": { "200": { "description": "Success" } }
       }
     }
   },
   "components": {
     "schemas": {
-      "ClearTempRequiest": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
       "ClearTempResponse": {
         "type": "object",
-        "properties": {
-          "result": {
-            "type": "boolean"
-          }
-        },
+        "properties": { "result": { "type": "boolean" } },
         "additionalProperties": false
       },
       "DocumentListRequest": {
@@ -473,6 +485,55 @@
             "nullable": true
           },
           "fileName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "JurDocProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isDeleted": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      },
+      "JurDocUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "login": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
             "type": "string",
             "nullable": true
           }
@@ -506,31 +567,16 @@
           }
         },
         "additionalProperties": false
-      },
-      "UserRequest": {
-        "type": "object",
-        "properties": {
-          "userName": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UserResponse": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "path": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. \\r\\n\\r\\n \r\n                      Enter 'Bearer' [space] and then your token in the text input below.\r\n                      \\r\\n\\r\\nExample: 'Bearer 12345abcdef'",
+        "name": "Authorization",
+        "in": "header"
       }
     }
-  }
+  },
+  "security": [ { "Bearer": [] } ]
 }

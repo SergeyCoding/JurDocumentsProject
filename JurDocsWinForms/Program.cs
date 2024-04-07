@@ -16,9 +16,6 @@ namespace JurDocsWinForms
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-
-
-
             ApplicationConfiguration.Initialize();
 
             WorkSession? workSession = null;

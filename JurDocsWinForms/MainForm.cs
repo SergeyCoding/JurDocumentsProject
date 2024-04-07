@@ -13,7 +13,6 @@ namespace JurDocsWinForms
     public partial class MainForm : Form
     {
         private const string _noLoginStripStatus = "Выберите пользователя, и нажмите логин...";
-        private UserResponse? _currentUser = null;
 
         internal WorkSession? WorkSession { get; set; }
 
@@ -101,9 +100,7 @@ namespace JurDocsWinForms
 
                 var client = JurClientService.JurDocsClientFactory();
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                var fileName = Path.Combine(_currentUser.Path, fileTableList.FileName!);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                var fileName = Path.Combine(WorkSession!.User.TempDir, fileTableList.FileName!);
 
                 var isError = false;
                 try
@@ -122,7 +119,7 @@ namespace JurDocsWinForms
                     return;
                 }
 
-                var swaggerResponse = await client.DocumentFileGETAsync(fileTableList.DocType, fileTableList.FileName, _currentUser.UserId);
+                var swaggerResponse = await client.DocumentFileGETAsync("", fileTableList.DocType, fileTableList.FileName);
 
                 if (swaggerResponse != null && swaggerResponse.Result)
                 {
@@ -139,23 +136,23 @@ namespace JurDocsWinForms
 
         private async void Login_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(LoginText.Text))
-            {
-                toolStripStatusLabel1.Text = _noLoginStripStatus;
-                return;
-            }
+            //if (string.IsNullOrEmpty(LoginText.Text))
+            //{
+            //    toolStripStatusLabel1.Text = _noLoginStripStatus;
+            //    return;
+            //}
 
-            var client = JurClientService.JurDocsClientFactory();
+            //var client = JurClientService.JurDocsClientFactory();
 
-            var user = await client.UsersAsync(new UserRequest { UserName = LoginText.Text });
+            //var user = await client.UsersAsync(new UserRequest { UserName = LoginText.Text });
 
-            if (user.StatusCode == 200 && user.Result != null)
-            {
+            //if (user.StatusCode == 200 && user.Result != null)
+            //{
 
-                toolStripStatusLabel1.Text = "OK";
-                _currentUser = user.Result;
-                dataGridView1.DataSource = null;
-            }
+            //    toolStripStatusLabel1.Text = "OK";
+            //    _currentUser = user.Result;
+            //    dataGridView1.DataSource = null;
+            //}
         }
 
         private void fileTableListBindingSource_CurrentChanged(object sender, EventArgs e)
@@ -175,14 +172,14 @@ namespace JurDocsWinForms
 
         private async void button6_Click(object sender, EventArgs e)
         {
-            if (_currentUser == null)
+            if (WorkSession!.User == null)
             {
                 MessageBox.Show("Нужно залогинится", "Сообщение");
                 return;
             }
 
             var client = JurClientService.JurDocsClientFactory();
-            var response = await client.DocumentListGETAsync(_currentUser.UserId);
+            var response = await client.DocumentListGETAsync();
 
             var fileTableLists = new List<FileTableList>();
 
@@ -205,14 +202,14 @@ namespace JurDocsWinForms
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            if (_currentUser == null)
+            if (WorkSession?.User == null)
             {
                 MessageBox.Show("Нужно залогинится", "Сообщение");
                 return;
             }
 
             var client = JurClientService.JurDocsClientFactory();
-            var response = await client.DocumentListPOSTAsync(new DocumentListRequest { DocName = "Выписки", UserId = _currentUser.UserId });
+            var response = await client.DocumentListPOSTAsync(new DocumentListRequest { DocName = "Выписки", });
 
             var fileTableLists = new List<FileTableList>();
 
@@ -229,14 +226,14 @@ namespace JurDocsWinForms
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            if (_currentUser == null)
+            if (WorkSession?.User == null)
             {
                 MessageBox.Show("Нужно залогинится", "Сообщение");
                 return;
             }
 
             var client = JurClientService.JurDocsClientFactory();
-            var response = await client.DocumentListPOSTAsync(new DocumentListRequest { DocName = "Договоры", UserId = _currentUser.UserId });
+            var response = await client.DocumentListPOSTAsync(new DocumentListRequest { DocName = "Договоры" });
 
             var fileTableLists = new List<FileTableList>();
 
@@ -255,14 +252,14 @@ namespace JurDocsWinForms
         {
             const string DocName = "Справки";
 
-            if (_currentUser == null)
+            if (WorkSession?.User == null)
             {
                 MessageBox.Show("Нужно залогинится", "Сообщение");
                 return;
             }
 
             var client = JurClientService.JurDocsClientFactory();
-            var response = await client.DocumentListPOSTAsync(new DocumentListRequest { DocName = DocName, UserId = _currentUser.UserId });
+            var response = await client.DocumentListPOSTAsync(new DocumentListRequest { DocName = DocName });
 
             var fileTableLists = new List<FileTableList>();
 

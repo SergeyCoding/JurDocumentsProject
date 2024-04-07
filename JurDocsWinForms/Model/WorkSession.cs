@@ -12,6 +12,8 @@
             _user = user;
         }
 
+        internal CurrentUser User => _user;
+
         public void AddNewDoc(string fileName)
         {
 
