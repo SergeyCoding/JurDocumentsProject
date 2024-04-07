@@ -3,6 +3,7 @@ using System;
 using JurDocs.DbModel.MigrationsContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JurDocs.DbModel.Migrations
 {
     [DbContext(typeof(JurDocsMigrationDbContext))]
-    partial class JurDocsMigrationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240407151400_AddIsDeletedToProject")]
+    partial class AddIsDeletedToProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
