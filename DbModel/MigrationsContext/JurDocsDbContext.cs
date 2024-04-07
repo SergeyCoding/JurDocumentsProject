@@ -1,18 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
-namespace JurDocs.DbModel
+namespace JurDocs.DbModel.MigrationsContext
 {
     /// <summary>
     /// 
     /// </summary>
-    public class JurDocsDbContext(IConfiguration configuration) : DbContext()
+    public class JurDocsDbContext() : DbContext()
     {
-        private const string _dbName = "JurDocs";
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(configuration.GetConnectionString(_dbName));
+            optionsBuilder.UseSqlite();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

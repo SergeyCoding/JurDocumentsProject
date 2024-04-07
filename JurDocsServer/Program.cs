@@ -1,5 +1,6 @@
 using DbModel;
 using JurDocs.Common.Loggers;
+using JurDocs.DbModel;
 using JurDocs.Server.Configurations;
 using JurDocs.Server.Service;
 using Microsoft.OpenApi.Models;

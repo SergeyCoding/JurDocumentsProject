@@ -1,4 +1,5 @@
 ﻿using DbModel;
+using JurDocs.DbModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

@@ -1,5 +1,5 @@
-﻿using DbModel;
-using JurDocs.Common.Loggers;
+﻿using JurDocs.Common.Loggers;
+using JurDocs.DbModel;
 using JurDocs.Server.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
