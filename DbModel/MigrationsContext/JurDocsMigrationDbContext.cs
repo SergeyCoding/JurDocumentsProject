@@ -5,7 +5,7 @@ namespace JurDocs.DbModel.MigrationsContext
     /// <summary>
     /// 
     /// </summary>
-    public class JurDocsDbContext() : DbContext()
+    public class JurDocsMigrationDbContext() : DbContext()
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -16,7 +16,7 @@ namespace JurDocs.DbModel.MigrationsContext
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(JurDocsDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(JurDocsMigrationDbContext).Assembly);
         }
     }
 }

@@ -1,6 +1,10 @@
 ﻿# Migrations sqlite
 
 ```
+ Add-Migration init -Context JurDocsMigrationDbContext
+```
+
+```
 Update-Database -Context JurDocsMigrationDbContext
 ```
 
