@@ -55,6 +55,8 @@
             panel1 = new Panel();
             panel3 = new Panel();
             panel2 = new Panel();
+            создатьПроектToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -231,7 +233,7 @@
             // 
             // файлToolStripMenuItem
             // 
-            файлToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { выходToolStripMenuItem });
+            файлToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { создатьПроектToolStripMenuItem, toolStripMenuItem1, выходToolStripMenuItem });
             файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             файлToolStripMenuItem.Size = new Size(48, 20);
             файлToolStripMenuItem.Text = "Файл";
@@ -239,7 +241,7 @@
             // выходToolStripMenuItem
             // 
             выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            выходToolStripMenuItem.Size = new Size(109, 22);
+            выходToolStripMenuItem.Size = new Size(180, 22);
             выходToolStripMenuItem.Text = "Выход";
             выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
@@ -287,6 +289,18 @@
             panel2.Size = new Size(237, 112);
             panel2.TabIndex = 0;
             panel2.Paint += panel2_Paint;
+            // 
+            // создатьПроектToolStripMenuItem
+            // 
+            создатьПроектToolStripMenuItem.Name = "создатьПроектToolStripMenuItem";
+            создатьПроектToolStripMenuItem.Size = new Size(180, 22);
+            создатьПроектToolStripMenuItem.Text = "Создать проект";
+            создатьПроектToolStripMenuItem.Click += создатьПроектToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(177, 6);
             // 
             // MainForm
             // 
@@ -373,5 +387,7 @@
         private Panel panel1;
         private Panel panel3;
         private Panel panel2;
+        private ToolStripMenuItem создатьПроектToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem1;
     }
 }

@@ -23,6 +23,8 @@ namespace JurDocsWinForms
 
             WorkSession? workSession = null;
 
+            Task.Delay(1500).GetAwaiter().GetResult();
+
             if (AppConst.IsLogin)
             {
                 var loginForm = new LoginForm();

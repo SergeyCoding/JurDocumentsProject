@@ -297,5 +297,12 @@ namespace JurDocsWinForms
         {
 
         }
+
+        private void ñîçäàòüÏğîåêòToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form f = new CreateProjectForm();
+            ProgramHelpers.MoveWindowToCenterScreen(f);
+            f.ShowDialog(this);
+        }
     }
 }
