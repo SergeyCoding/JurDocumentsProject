@@ -1,4 +1,4 @@
-﻿namespace JurDocsCommon
+﻿namespace JurDocs.Common
 {
     /// <summary>
     /// 

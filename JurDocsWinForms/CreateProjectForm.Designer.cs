@@ -37,9 +37,9 @@
             label4 = new Label();
             tabControl1 = new TabControl();
             tabPage2 = new TabPage();
-            clbProjectRight_Справки = new CheckedListBox();
+            clbProjectRights_Справки = new CheckedListBox();
             tabPage1 = new TabPage();
-            clbProjectRight_Выписки = new CheckedListBox();
+            clbProjectRights_Выписки = new CheckedListBox();
             btnOk = new Button();
             btnCancel = new Button();
             label5 = new Label();
@@ -68,7 +68,6 @@
             label1.Size = new Size(141, 15);
             label1.TabIndex = 1;
             label1.Text = "Идентификатор проекта";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -127,7 +126,7 @@
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(clbProjectRight_Справки);
+            tabPage2.Controls.Add(clbProjectRights_Справки);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -138,17 +137,17 @@
             // 
             // clbProjectRight_Справки
             // 
-            clbProjectRight_Справки.Dock = DockStyle.Fill;
-            clbProjectRight_Справки.FormattingEnabled = true;
-            clbProjectRight_Справки.Items.AddRange(new object[] { "111", "222", "333" });
-            clbProjectRight_Справки.Location = new Point(3, 3);
-            clbProjectRight_Справки.Name = "clbProjectRight_Справки";
-            clbProjectRight_Справки.Size = new Size(375, 331);
-            clbProjectRight_Справки.TabIndex = 0;
+            clbProjectRights_Справки.Dock = DockStyle.Fill;
+            clbProjectRights_Справки.FormattingEnabled = true;
+            clbProjectRights_Справки.Items.AddRange(new object[] { "111", "222", "333" });
+            clbProjectRights_Справки.Location = new Point(3, 3);
+            clbProjectRights_Справки.Name = "clbProjectRight_Справки";
+            clbProjectRights_Справки.Size = new Size(375, 331);
+            clbProjectRights_Справки.TabIndex = 0;
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(clbProjectRight_Выписки);
+            tabPage1.Controls.Add(clbProjectRights_Выписки);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
@@ -159,13 +158,13 @@
             // 
             // clbProjectRight_Выписки
             // 
-            clbProjectRight_Выписки.Dock = DockStyle.Fill;
-            clbProjectRight_Выписки.FormattingEnabled = true;
-            clbProjectRight_Выписки.Items.AddRange(new object[] { "ффф", "иии", "ссс" });
-            clbProjectRight_Выписки.Location = new Point(3, 3);
-            clbProjectRight_Выписки.Name = "clbProjectRight_Выписки";
-            clbProjectRight_Выписки.Size = new Size(375, 331);
-            clbProjectRight_Выписки.TabIndex = 0;
+            clbProjectRights_Выписки.Dock = DockStyle.Fill;
+            clbProjectRights_Выписки.FormattingEnabled = true;
+            clbProjectRights_Выписки.Items.AddRange(new object[] { "ффф", "иии", "ссс" });
+            clbProjectRights_Выписки.Location = new Point(3, 3);
+            clbProjectRights_Выписки.Name = "clbProjectRight_Выписки";
+            clbProjectRights_Выписки.Size = new Size(375, 331);
+            clbProjectRights_Выписки.TabIndex = 0;
             // 
             // btnOk
             // 
@@ -176,7 +175,7 @@
             btnOk.TabIndex = 8;
             btnOk.Text = "ОК";
             btnOk.UseVisualStyleBackColor = true;
-            btnOk.Click += button1_Click;
+            btnOk.Click += btnOk_Click;
             // 
             // btnCancel
             // 
@@ -187,6 +186,7 @@
             btnCancel.TabIndex = 9;
             btnCancel.Text = "Отмена";
             btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // label5
             // 
@@ -255,6 +255,7 @@
             Name = "CreateProjectForm";
             Text = "Создать проект";
             TopMost = true;
+            Load += CreateProjectForm_Load;
             tabControl1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -281,8 +282,8 @@
         private Label label5;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
-        private CheckedListBox clbProjectRight_Выписки;
-        private CheckedListBox clbProjectRight_Справки;
+        private CheckedListBox clbProjectRights_Выписки;
+        private CheckedListBox clbProjectRights_Справки;
         private CheckedListBox clbProjectRights;
         private Label label6;
     }

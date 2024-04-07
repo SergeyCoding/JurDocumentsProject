@@ -41,14 +41,14 @@ namespace JurDocs.Server.Controllers
                 return Forbid("Нет доступа к документу");
             }
 
-            var fileSource = Path.Combine(_settings!.Catalog!, projectName, docType, fileName);
+            var fileSource = Path.Combine(Settings!.Catalog!, projectName, docType, fileName);
 
             var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
 
             if (jurDocUser == null)
                 return BadRequest();
 
-            var fileDest = Path.Combine(_settings.Catalog!, jurDocUser.Path!, fileName);
+            var fileDest = Path.Combine(Settings.Catalog!, jurDocUser.Path!, fileName);
 
             if (!System.IO.File.Exists(fileSource))
                 return BadRequest();
@@ -68,7 +68,7 @@ namespace JurDocs.Server.Controllers
             if (jurDocUser == null)
                 return false;
 
-            var project = await _dbContext.Set<Project>().FirstOrDefaultAsync(x => x.Name == projectName);
+            var project = await _dbContext.Set<JurDocProject>().FirstOrDefaultAsync(x => x.Name == projectName);
 
             if (project == null)
                 return false;
@@ -99,14 +99,14 @@ namespace JurDocs.Server.Controllers
             }
 
 
-            var fileSource = Path.Combine(_settings!.Catalog!, projectName, docType, fileName);
+            var fileSource = Path.Combine(Settings!.Catalog!, projectName, docType, fileName);
 
             var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
 
             if (jurDocUser == null)
                 return BadRequest();
 
-            var fileDest = Path.Combine(_settings.Catalog!, jurDocUser.Path!, fileName);
+            var fileDest = Path.Combine(Settings.Catalog!, jurDocUser.Path!, fileName);
 
             if (!System.IO.File.Exists(fileSource))
                 return BadRequest();
@@ -138,7 +138,7 @@ namespace JurDocs.Server.Controllers
                     return BadRequest();
                 }
 
-                var curFile = Path.Combine(_settings.Catalog!, jurDocUser.Path!, fileName);
+                var curFile = Path.Combine(Settings!.Catalog!, jurDocUser.Path!, fileName);
 
                 if (System.IO.File.Exists(curFile))
                     System.IO.File.Delete(curFile);

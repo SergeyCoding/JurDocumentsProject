@@ -1,3 +1,5 @@
+using JurDocs.Common.EnumTypes;
+using JurDocs.WinForms.ViewModel;
 using JurDocsClient;
 using JurDocsWinForms.Model;
 using LexExchangeApi.Clients;
@@ -300,9 +302,43 @@ namespace JurDocsWinForms
 
         private void создатьПроектToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form f = new CreateProjectForm();
+            var createProjectViewModel = new CreateProjectViewModel
+            {
+                ProjectId = "1",
+                ProjectNote = "2",
+                ProjectOwner = "3"
+            };
+
+            createProjectViewModel.ProjectRights.AddRange(
+            [
+                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us111" },
+                new UserRight { UserId = 1, Right = UserRightType.NotAllow, UserName="us112" },
+                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us113" }
+            ]);
+
+            createProjectViewModel.ProjectRights_Справки.AddRange(
+            [
+                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us211" },
+                new UserRight { UserId = 1, Right = UserRightType.NotAllow, UserName="us212" },
+                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us213" }
+            ]);
+
+            createProjectViewModel.ProjectRights_Выписки.AddRange(
+            [
+                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us311" },
+                new UserRight { UserId = 1, Right = UserRightType.NotAllow, UserName="us312" },
+                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us313" }
+            ]);
+
+            var f = new CreateProjectForm { ViewModel = createProjectViewModel };
+
             ProgramHelpers.MoveWindowToCenterScreen(f);
             f.ShowDialog(this);
+        }
+
+        private void изменитьПроектToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -6,10 +6,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>JurDocs.WinForms</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\JurDocsClient\JurDocsClient.csproj" />
+    <ProjectReference Include="..\JurDocsCommon\JurDocsCommon.csproj" />
   </ItemGroup>
 
   <ItemGroup>

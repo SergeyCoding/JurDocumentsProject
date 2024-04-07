@@ -56,9 +56,10 @@
             newDocButton = new ToolStripButton();
             panel1 = new Panel();
             panel3 = new Panel();
+            label2 = new Label();
             panel2 = new Panel();
             label1 = new Label();
-            label2 = new Label();
+            изменитьПроектToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -237,7 +238,7 @@
             // 
             // файлToolStripMenuItem
             // 
-            файлToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { создатьПроектToolStripMenuItem, toolStripMenuItem1, выходToolStripMenuItem });
+            файлToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { создатьПроектToolStripMenuItem, изменитьПроектToolStripMenuItem, toolStripMenuItem1, выходToolStripMenuItem });
             файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             файлToolStripMenuItem.Size = new Size(48, 20);
             файлToolStripMenuItem.Text = "Файл";
@@ -245,19 +246,19 @@
             // создатьПроектToolStripMenuItem
             // 
             создатьПроектToolStripMenuItem.Name = "создатьПроектToolStripMenuItem";
-            создатьПроектToolStripMenuItem.Size = new Size(158, 22);
+            создатьПроектToolStripMenuItem.Size = new Size(180, 22);
             создатьПроектToolStripMenuItem.Text = "Создать проект";
             создатьПроектToolStripMenuItem.Click += создатьПроектToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(155, 6);
+            toolStripMenuItem1.Size = new Size(177, 6);
             // 
             // выходToolStripMenuItem
             // 
             выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            выходToolStripMenuItem.Size = new Size(158, 22);
+            выходToolStripMenuItem.Size = new Size(180, 22);
             выходToolStripMenuItem.Text = "Выход";
             выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
@@ -298,6 +299,16 @@
             panel3.Size = new Size(237, 112);
             panel3.TabIndex = 1;
             // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Location = new Point(80, 45);
+            label2.Name = "label2";
+            label2.Size = new Size(91, 15);
+            label2.TabIndex = 0;
+            label2.Text = "Файл исходник";
+            // 
             // panel2
             // 
             panel2.BorderStyle = BorderStyle.FixedSingle;
@@ -318,15 +329,12 @@
             label1.TabIndex = 0;
             label1.Text = "Файлы документа";
             // 
-            // label2
+            // изменитьПроектToolStripMenuItem
             // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Location = new Point(80, 45);
-            label2.Name = "label2";
-            label2.Size = new Size(91, 15);
-            label2.TabIndex = 0;
-            label2.Text = "Файл исходник";
+            изменитьПроектToolStripMenuItem.Name = "изменитьПроектToolStripMenuItem";
+            изменитьПроектToolStripMenuItem.Size = new Size(180, 22);
+            изменитьПроектToolStripMenuItem.Text = "Изменить проект";
+            изменитьПроектToolStripMenuItem.Click += изменитьПроектToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -421,5 +429,6 @@
         private ToolStripSeparator toolStripMenuItem1;
         private Label label2;
         private Label label1;
+        private ToolStripMenuItem изменитьПроектToolStripMenuItem;
     }
 }

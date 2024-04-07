@@ -6,7 +6,7 @@ namespace DbModel
     /// <summary>
     /// Проект
     /// </summary>
-    public class Project
+    public class JurDocProject
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -14,9 +14,9 @@ namespace DbModel
         public int OwnerId { get; set; }
 
 
-        class Configuration : IEntityTypeConfiguration<Project>
+        class Configuration : IEntityTypeConfiguration<JurDocProject>
         {
-            public void Configure(EntityTypeBuilder<Project> builder)
+            public void Configure(EntityTypeBuilder<JurDocProject> builder)
             {
             }
         }

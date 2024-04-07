@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace JurDocsCommon
+namespace JurDocs.Common.EnumTypes
 {
-    public    enum JurDocType
+    public enum JurDocType
     {
         [Description("Справка")]
         Справка

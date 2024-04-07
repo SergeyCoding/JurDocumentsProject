@@ -1,4 +1,6 @@
 ﻿using DbModel;
+using JurDocs.Common.Loggers;
+using JurDocs.Server.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -9,11 +11,12 @@ namespace JurDocs.Server.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class DocumentListController : ControllerBase
+    public class DocumentListController : JurDocsControllerBase
     {
         private readonly JurDocsDbContext _dbContext;
 
-        public DocumentListController(JurDocsDbContext dbContext)
+        public DocumentListController(JurDocsDbContext dbContext, IConfiguration configuration, ILogger<LogFile> logger)
+            : base(configuration, logger)
         {
             _dbContext = dbContext;
         }
