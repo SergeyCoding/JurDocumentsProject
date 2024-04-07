@@ -1,15 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JurDocs.Common.Loggers;
+using Microsoft.AspNetCore.Mvc;
 
-namespace LexDisposition.Controllers
+namespace JurDocs.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class DateController : ControllerBase
     {
+        private readonly ILogger<LogFile>? _logFile;
+
+        public DateController(ILogger<LogFile>? logFile)
+        {
+            _logFile = logFile;
+        }
+
         [HttpGet]
         public ActionResult<DateTime> Get()
         {
-            return Ok(DateTime.UtcNow);
+            var utcNow = DateTime.UtcNow;
+
+            _logFile?.LogInformation("{msg}", $"Date: {utcNow}");
+
+            return base.Ok(utcNow);
         }
 
         /// <summary>
@@ -19,8 +31,10 @@ namespace LexDisposition.Controllers
         /// <returns></returns>
         [Route("Delay")]
         [HttpGet]
-        public async Task<ActionResult<DateTime>> GetDelay(int delay=1000)
+        public async Task<ActionResult<DateTime>> GetDelay(int delay = 1000)
         {
+            _logFile?.LogInformation("{msg}", delay);
+
             await Task.Delay(delay);
 
             return Ok(delay);

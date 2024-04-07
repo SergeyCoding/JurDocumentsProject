@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace JurDocsServer.Controllers
+namespace JurDocs.Server.Controllers
 {
     /// <summary>
     /// Работа с директорией пользователя
@@ -25,7 +25,9 @@ namespace JurDocsServer.Controllers
         [ProducesResponseType(typeof(ClearTempResponse), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 401)]
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<IActionResult> Post()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             try
             {

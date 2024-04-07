@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
-namespace JurDocsServer.Service
+namespace JurDocs.Server.Service
 {
     public class JurDocsAuthOptions : AuthenticationSchemeOptions
     {

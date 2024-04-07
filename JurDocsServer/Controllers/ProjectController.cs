@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JurDocsServer.Controllers
+namespace JurDocs.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -31,13 +31,23 @@ namespace JurDocsWinForms
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.BorderStyle = BorderStyle.FixedSingle;
 
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             panel1.DragEnter += panel_DragEnter;
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             panel2.DragEnter += panel_DragEnter;
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
 
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             panel1.DragDrop += panel_DragDrop;
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             panel2.DragDrop += panel_DragDrop;
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
 
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             button1.MouseUp += button1_MouseDown;
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
 
         }
 
@@ -61,7 +71,9 @@ namespace JurDocsWinForms
                 {
                     foreach (var item in fileList)
                     {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                         WorkSession.AddNewDoc(item);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                     }
 
                 }
@@ -87,7 +99,9 @@ namespace JurDocsWinForms
 
                 var client = JurClientService.JurDocsClientFactory();
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 var fileName = Path.Combine(_currentUser.Path, fileTableList.FileName!);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
                 var isError = false;
                 try

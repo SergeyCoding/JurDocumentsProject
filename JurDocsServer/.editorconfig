@@ -50,7 +50,7 @@ dotnet_style_null_propagation = true
 dotnet_style_object_initializer = true
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 dotnet_style_prefer_auto_properties = true
-dotnet_style_prefer_collection_expression = true
+dotnet_style_prefer_collection_expression = when_types_loosely_match
 dotnet_style_prefer_compound_assignment = true
 dotnet_style_prefer_conditional_expression_over_assignment = true
 dotnet_style_prefer_conditional_expression_over_return = true
@@ -119,7 +119,7 @@ csharp_style_prefer_top_level_statements = true:silent
 # Expression-level preferences
 csharp_prefer_simple_default_expression = true
 csharp_style_deconstructed_variable_declaration = true
-csharp_style_implicit_object_creation_when_type_is_apparent = false
+csharp_style_implicit_object_creation_when_type_is_apparent = true
 csharp_style_inlined_variable_declaration = true
 csharp_style_prefer_index_operator = true
 csharp_style_prefer_local_over_anonymous_function = true
@@ -204,9 +204,9 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.private_or_internal_field_should_be_undescore.severity = suggestion
-dotnet_naming_rule.private_or_internal_field_should_be_undescore.symbols = private_or_internal_field
-dotnet_naming_rule.private_or_internal_field_should_be_undescore.style = undescore
+dotnet_naming_rule.private_or_internal_field_should_be_underscore.severity = suggestion
+dotnet_naming_rule.private_or_internal_field_should_be_underscore.symbols = private_or_internal_field
+dotnet_naming_rule.private_or_internal_field_should_be_underscore.style = underscore
 
 # Symbol specifications
 
@@ -238,25 +238,10 @@ dotnet_naming_style.begins_with_i.required_suffix =
 dotnet_naming_style.begins_with_i.word_separator = 
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
-dotnet_naming_style.undescore.required_prefix = _
-dotnet_naming_style.undescore.required_suffix = 
-dotnet_naming_style.undescore.word_separator = 
-dotnet_naming_style.undescore.capitalization = camel_case
-
-# CA1860: Avoid using 'Enumerable.Any()' extension method
-dotnet_diagnostic.CA1860.severity = none
-
-# IDE0130: Namespace does not match folder structure
-dotnet_diagnostic.IDE0130.severity = warning
-
-# IDE0005: Using directive is unnecessary.
-dotnet_diagnostic.IDE0005.severity = suggestion
-
-# IDE0001: Simplify Names
-dotnet_diagnostic.IDE0001.severity = suggestion
-
-# CA2241: Provide correct arguments to formatting methods
-dotnet_diagnostic.CA2241.severity = none
+dotnet_naming_style.underscore.required_prefix = _
+dotnet_naming_style.underscore.required_suffix = 
+dotnet_naming_style.underscore.word_separator = 
+dotnet_naming_style.underscore.capitalization = camel_case
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
@@ -264,5 +249,12 @@ tab_width = 4
 indent_size = 4
 end_of_line = crlf
 dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_namespace_match_folder = true:warning
+dotnet_diagnostic.CA1724.severity = error
+
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = warning
 dotnet_style_null_propagation = true:suggestion
-insert_final_newline = true
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_object_initializer = true:suggestion

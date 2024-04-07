@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace JurDocsServer.Controllers
+namespace JurDocs.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

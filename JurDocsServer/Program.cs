@@ -1,37 +1,58 @@
 using DbModel;
-using JurDocsServer.Service;
+using JurDocs.Common.Loggers;
+using JurDocs.Server.Configurations;
+using JurDocs.Server.Service;
 using Microsoft.OpenApi.Models;
+using NLog;
+using NLog.Web;
 
-namespace JurDocsServer
+namespace JurDocs.Server
 {
     public class Program
     {
+        private const string _appsettingFile = "appsettings.json";
+
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var configStart = new ConfigurationBuilder().AddJsonFile(_appsettingFile).Build();
+            var jdSettings = configStart.GetSection(JurDocsApp.sectionName).Get<JurDocsApp>();
 
-            // Add services to the container.
+            if (!string.IsNullOrWhiteSpace(jdSettings?.LogDir))
+                LogManager.Configuration.Variables["logDirectory"] = jdSettings.LogDir;
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c =>
+            var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            logger.Debug("init main");
+
+            try
             {
-                c.EnableAnnotations();
+                var builder = WebApplication.CreateBuilder(args);
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                // Add services to the container.
+                builder.Services.AddControllers();
+
+                // NLog: Setup NLog for Dependency injection
+                builder.Logging.ClearProviders();
+                builder.Host.UseNLog();
+
+                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen(c =>
                 {
-                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                    c.EnableAnnotations();
+
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
                       Enter 'Bearer' [space] and then your token in the text input below.
                       \r\n\r\nExample: 'Bearer 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
+                    });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    {
                     {
                         new OpenApiSecurityScheme
                         {
@@ -46,56 +67,70 @@ namespace JurDocsServer
                         },
                         new List<string>()
                     }
+                    });
                 });
-            });
 
-            builder.Services.AddDbContext<JurDocsDbContext>();
+                builder.Services.AddDbContext<JurDocsDbContext>();
 
-            builder.Services.AddAuthentication(JurDocsAuthOptions.DefaultScheme)
-                .AddScheme<JurDocsAuthOptions, JurDocsAuthHandler>(JurDocsAuthOptions.DefaultScheme,
-                                                                   options => { });
+                builder.Services.AddAuthentication(JurDocsAuthOptions.DefaultScheme)
+                    .AddScheme<JurDocsAuthOptions, JurDocsAuthHandler>(JurDocsAuthOptions.DefaultScheme,
+                                                                       options => { });
 
-            var app = builder.Build();
+                var app = builder.Build();
 
-            CheckDb(app);
+                CheckDb(app);
 
-            app.UseCors(c =>
+                app.UseCors(c =>
+                {
+                    c.AllowAnyOrigin();
+                    c.AllowAnyHeader();
+                    c.AllowAnyMethod();
+                });
+
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+
+                app.MapControllers();
+
+                app.Run();
+            }
+            catch (Exception e)
             {
-                c.AllowAnyOrigin();
-                c.AllowAnyHeader();
-                c.AllowAnyMethod();
-            });
-
-            app.UseSwagger();
-            app.UseSwaggerUI();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
+                // NLog: catch setup errors
+                logger.Error(e, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                LogManager.Shutdown();
+            }
         }
 
         private static void CheckDb(WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<LogConsole>>();
+
                 try
                 {
                     var db = scope.ServiceProvider.GetRequiredService<JurDocsDbContext>();
                     db.Database.EnsureCreated();
 
-                    db.Set<JurDocUser>().Add(new JurDocUser { Id = 1, Login = "root", Name = "root", Password = "root", Path = "" });
-                    db.SaveChanges();
-
+                    if (!db.Set<JurDocUser>().Any(x => x.Login == "root"))
+                    {
+                        db.Set<JurDocUser>().Add(new JurDocUser { Id = 1, Login = "root", Name = "root", Password = "root", Path = "" });
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
-                    Console.WriteLine("Не удалось создать БД");
-                    return;
+                    logger.LogError(e, "{msg}", "Не удалось создать БД");
                 }
             }
         }

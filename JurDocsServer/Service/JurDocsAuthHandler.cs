@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace JurDocsServer.Service
+namespace JurDocs.Server.Service
 {
     /// <summary>
     /// 

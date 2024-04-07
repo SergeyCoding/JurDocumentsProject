@@ -1,5 +1,5 @@
-﻿using NSwag.CodeGeneration.CSharp;
-using NSwag;
+﻿using NSwag;
+using NSwag.CodeGeneration.CSharp;
 using System.Diagnostics.CodeAnalysis;
 
 namespace LexClientGenerator
@@ -40,7 +40,7 @@ namespace LexClientGenerator
                 WrapResponses = true,
                 ParameterDateFormat = "yyyyMMdd",
                 ParameterDateTimeFormat = "yyyyMMddHHmmss",
-                GenerateDtoTypes = true,
+                GenerateDtoTypes = true, 
             };
 
             var generator = new CSharpClientGenerator(document, settings);
