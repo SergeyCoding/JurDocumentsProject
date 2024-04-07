@@ -4,6 +4,7 @@ using JurDocs.Server.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace JurDocs.Server.Controllers
 {
@@ -42,7 +43,32 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] JurDocProject project)
+        [SwaggerOperation("Создать пустой проект", "Создать пустой проект")]
+        public async Task<IActionResult> Post()
+        {
+            try
+            {
+                var login = GetUserLogin();
+
+                var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
+
+                var jurDocProject = new JurDocProject { OwnerId = user.Id };
+
+                var jdProject = await _dbContext.AddAsync(jurDocProject);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(jurDocProject);
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, message: null);
+
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] JurDocProject project)
         {
             try
             {

@@ -302,11 +302,15 @@ namespace JurDocsWinForms
 
         private void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var client = JurClientService.JurDocsClientFactory();
+
+            //client.
+
             var createProjectViewModel = new CreateProjectViewModel
             {
-                ProjectId = "1",
-                ProjectNote = "2",
-                ProjectOwner = "3"
+                ProjectName = "",
+                ProjectFullName = "",
+                ProjectOwner = ""
             };
 
             createProjectViewModel.ProjectRights.AddRange(

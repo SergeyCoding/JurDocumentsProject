@@ -17,8 +17,8 @@ namespace JurDocsWinForms
             if (ViewModel == null)
                 return;
 
-            tbProjectId.Text = ViewModel.ProjectId;
-            tbProjectNote.Text = ViewModel.ProjectNote;
+            tbProjectId.Text = ViewModel.ProjectName;
+            tbProjectNote.Text = ViewModel.ProjectFullName;
             cbProjectOwner.Items.Add(ViewModel.ProjectOwner);
             cbProjectOwner.Items.Add(ViewModel.ProjectOwner + "1");
             cbProjectOwner.Items.Add(ViewModel.ProjectOwner + "2");
