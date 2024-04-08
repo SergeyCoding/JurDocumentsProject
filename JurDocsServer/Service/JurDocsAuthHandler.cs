@@ -1,5 +1,6 @@
 ﻿using DbModel;
 using JurDocs.DbModel;
+using JurDocs.Server.Configurations;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -14,19 +15,20 @@ namespace JurDocs.Server.Service
     public class JurDocsAuthHandler : AuthenticationHandler<JurDocsAuthOptions>
     {
         private readonly JurDocsDbContext _dbContext;
-
-        private readonly Guid _adminToken = new Guid("bdee5a3d-2962-4013-b6c5-950ad708f6d6");
+        private readonly IConfiguration _configuration;
 
         public JurDocsAuthHandler(IOptionsMonitor<JurDocsAuthOptions> options,
                                   ILoggerFactory logger,
                                   UrlEncoder encoder,
-                                  JurDocsDbContext dbContext) : base(options, logger, encoder)
+                                  JurDocsDbContext dbContext, IConfiguration configuration) : base(options, logger, encoder)
         {
             _dbContext = dbContext;
+            _configuration = configuration;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+
             if (!Request.Headers.TryGetValue(Options.AuthHeader, out var value))
                 return AuthenticateResult.Fail($"Missing header: {Options.AuthHeader}");
 
@@ -35,7 +37,8 @@ namespace JurDocs.Server.Service
             if (!Guid.TryParse(token, out var guidToken))
                 return AuthenticateResult.Fail($"Invalid token.");
 
-            if (guidToken == _adminToken)
+            var _adminToken = _configuration.GetRequiredSection(JurDocsApp.sectionName).Get<JurDocsApp>();
+            if (guidToken == _adminToken?.GuidRootToken)
                 return AdminAuth();
 
             var userToken = await _dbContext.Set<Token>().Where(x => x.Value == guidToken).ToArrayAsync();
