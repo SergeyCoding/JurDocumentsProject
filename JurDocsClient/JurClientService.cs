@@ -9,13 +9,15 @@ namespace JurDocsClient
     /// </summary>
     public static class JurClientService
     {
-        private const string _baseUrl = "http://localhost:5580";
+        private static string _baseUrl = "http://localhost:5580";
+
+        public static string UrlBase { get => _baseUrl; set => _baseUrl = value; }
 
         /// <summary>
         /// 
         /// </summary>
         public static Client JurDocsClientFactory() => JurDocsClientFactory(Guid.Empty);
-        public static Client JurDocsClientFactory(Guid token) => JurDocsClientFactory("root", "root", _baseUrl, token);
+        public static Client JurDocsClientFactory(Guid token) => JurDocsClientFactory("root", "root", UrlBase, token);
 
         /// <summary>
         /// 

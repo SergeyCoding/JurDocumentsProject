@@ -1,17 +1,41 @@
+using JurDocs.WinForms.Configuration;
 using JurDocsClient;
+using JurDocsWinForms;
 using JurDocsWinForms.Model;
 using LexExchangeApi.Clients;
+using Microsoft.Extensions.Configuration;
 
-namespace JurDocsWinForms
+namespace JurDocs.WinForms
 {
     internal static class Program
     {
+        private const string _appsettingFile = "appsettings.json";
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            try
+            {
+                var configStart = new ConfigurationBuilder().AddJsonFile(_appsettingFile).Build();
+                var jdSettings = configStart.GetSection(JurDocsApp.sectionName).Get<JurDocsApp>();
+
+                if (jdSettings == null)
+                    throw new Exception("Ошибка в конфигурационном файле.");
+
+                jdSettings.Validate();
+
+                JurClientService.UrlBase = jdSettings.UrlBase!;
+            }
+            catch (Exception e)
+            {
+                _ = MessageBox.Show(e.Message);
+                return;
+            }
+
+
             Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
