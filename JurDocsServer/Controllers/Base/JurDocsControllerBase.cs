@@ -11,12 +11,26 @@ namespace JurDocs.Server.Controllers.Base
     {
         protected readonly IConfiguration _configuration;
         protected readonly ILogger<LogFile> _logger;
-        protected JurDocsApp? _settings;
+        private JurDocsApp? _settings;
 
         public JurDocsControllerBase(IConfiguration configuration, ILogger<LogFile> logger)
         {
             _configuration = configuration;
             _logger = logger;
+        }
+
+        protected JurDocsApp Settings
+        {
+            get
+            {
+                if (_settings == null)
+                {
+                    _settings = _configuration.GetSection(JurDocsApp.sectionName).Get<JurDocsApp>();
+                    _settings!.Validate();
+                }
+
+                return _settings;
+            }
         }
 
         protected string GetUserLogin()
@@ -25,10 +39,5 @@ namespace JurDocs.Server.Controllers.Base
             return claim!.Value;
         }
 
-        private void InitSettings()
-        {
-            _settings = _configuration.GetSection(JurDocsApp.sectionName).Get<JurDocsApp>();
-            _settings!.Validate();
-        }
     }
 }

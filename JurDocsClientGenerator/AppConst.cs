@@ -1,4 +1,4 @@
-﻿namespace LexClientGenerator
+﻿namespace JurClientGenerator
 {
     internal static class AppConst
     {

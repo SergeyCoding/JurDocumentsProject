@@ -16,12 +16,11 @@ namespace JurDocsWinForms
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-
-
-
             ApplicationConfiguration.Initialize();
 
             WorkSession? workSession = null;
+
+            Task.Delay(1500).GetAwaiter().GetResult();
 
             if (AppConst.IsLogin)
             {
@@ -39,13 +38,21 @@ namespace JurDocsWinForms
             }
             else
             {
-                // блок для тестирования, что бы не вводить логин, пароль
+                // блок для тестирования, чтобы не вводить логин, пароль
+
+                const string curLogin = "user2";
+                const string curPwd = "";
+
                 var client = JurClientService.JurDocsClientFactory();
-                var result = client.LoginPOSTAsync(new LoginPostRequest { Login = "root", Password = "root" })
+                var token = client.LoginPOSTAsync(new LoginPostRequest { Login = curLogin, Password = curPwd })
                     .GetAwaiter()
                     .GetResult();
 
-                workSession = new WorkSession(new CurrentUser { Token = result.Result });
+                var client2 = JurClientService.JurDocsClientFactory(token.Result);
+
+                var user = client2.LoginGETAsync(curLogin).GetAwaiter().GetResult();
+
+                workSession = new WorkSession(new CurrentUser { Token = token.Result, UserName = user.Result.Name, TempDir = user.Result.Path });
             }
 
             if (workSession == null)

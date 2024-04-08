@@ -6,17 +6,19 @@ namespace DbModel
     /// <summary>
     /// Проект
     /// </summary>
-    public class Project
+    public class JurDocProject
     {
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? FullName { get; set; }
         public int OwnerId { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
 
-        class Configuration : IEntityTypeConfiguration<Project>
+
+        class Configuration : IEntityTypeConfiguration<JurDocProject>
         {
-            public void Configure(EntityTypeBuilder<Project> builder)
+            public void Configure(EntityTypeBuilder<JurDocProject> builder)
             {
             }
         }

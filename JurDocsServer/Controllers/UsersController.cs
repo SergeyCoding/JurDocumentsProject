@@ -1,4 +1,5 @@
 ﻿using DbModel;
+using JurDocs.DbModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ namespace JurDocs.Server.Controllers
     [Authorize(Roles = "Admin")]
     public class UsersController : ControllerBase
     {
+        private const string Tag = "*Пользователи";
+
         private readonly JurDocsDbContext _dbContext;
 
         public UsersController(JurDocsDbContext dbContext)
@@ -19,7 +22,7 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation("Вывести пользователей", "Вывести пользователей", Tags = ["Пользователи"])]
+        [SwaggerOperation("Вывести пользователей", "Вывести пользователей", Tags = [Tag])]
         public async Task<IActionResult> Get()
         {
             var users = await _dbContext.Set<JurDocUser>().ToArrayAsync();
@@ -31,7 +34,7 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpPost]
-        [SwaggerOperation("Добавить пользователей", "Добавить пользователей", Tags = ["Пользователи"])]
+        [SwaggerOperation("Добавить пользователей", "Добавить пользователей", Tags = [Tag])]
         public async Task<IActionResult> Post([FromBody] JurDocUser[] users)
         {
             try
@@ -69,7 +72,7 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpDelete]
-        [SwaggerOperation("Удалить пользователя", "Удалить пользователя", Tags = ["Пользователи"])]
+        [SwaggerOperation("Удалить пользователя", "Удалить пользователя", Tags = [Tag])]
         public async Task<IActionResult> Delete([FromBody] JurDocUser user)
         {
             try

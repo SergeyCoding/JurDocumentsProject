@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace DbModel
+namespace JurDocs.DbModel
 {
     /// <summary>
     /// 

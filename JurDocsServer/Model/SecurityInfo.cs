@@ -1,6 +1,4 @@
-﻿using JurDocs.Server.Model;
-
-namespace JurDocsServer.Model
+﻿namespace JurDocs.Server.Model
 {
     /// <summary>
     /// 

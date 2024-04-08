@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsServer", "JurDocsServer\JurDocsServer.csproj", "{D12B39BC-0704-4314-B9BD-E088E7078097}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsWinForms", "JurDocsWinForms\JurDocsWinForms.csproj", "{F2A40DFB-057C-4F2A-9754-31F36BF36E50}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D12B39BC-0704-4314-B9BD-E088E7078097} = {D12B39BC-0704-4314-B9BD-E088E7078097}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{74A6F318-30FC-4ED6-BC3B-2A5A39830693}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurClientGenerator", "JurDo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbModel", "DbModel\DbModel.csproj", "{81432F34-D5B5-4D47-A71E-68D37974E705}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurDocsCommon", "JurDocsCommon\JurDocsCommon.csproj", "{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsCommon", "JurDocsCommon\JurDocsCommon.csproj", "{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
