@@ -1,4 +1,5 @@
 using JurDocs.Common.EnumTypes;
+using JurDocs.WinForms;
 using JurDocs.WinForms.ViewModel;
 using JurDocsClient;
 using JurDocsWinForms.Model;
@@ -134,7 +135,7 @@ namespace JurDocsWinForms
             }
         }
 
-        private async void Login_Click(object sender, EventArgs e)
+        private void Login_Click(object sender, EventArgs e)
         {
             //if (string.IsNullOrEmpty(LoginText.Text))
             //{

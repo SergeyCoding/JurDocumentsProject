@@ -6,6 +6,8 @@
 Temp1
 Temp2
 Temp3
+*.db-shm
+*.db-wal
 
 # User-specific files
 *.rsuser
