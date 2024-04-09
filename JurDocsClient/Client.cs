@@ -1062,7 +1062,7 @@ namespace LexExchangeApi.Clients
         /// </remarks>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<string>>> PersonAsync()
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<PersonGetResponse>>> PersonAsync()
         {
             return PersonAsync(System.Threading.CancellationToken.None);
         }
@@ -1076,7 +1076,7 @@ namespace LexExchangeApi.Clients
         /// </remarks>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<string>>> PersonAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<PersonGetResponse>>> PersonAsync(System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1117,12 +1117,12 @@ namespace LexExchangeApi.Clients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<PersonGetResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<System.Collections.Generic.ICollection<string>>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<System.Collections.Generic.ICollection<PersonGetResponse>>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         {
@@ -2151,6 +2151,30 @@ namespace LexExchangeApi.Clients
         {
 
             return Newtonsoft.Json.JsonConvert.DeserializeObject<LoginPostRequest>(data, new Newtonsoft.Json.JsonSerializerSettings());
+
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PersonGetResponse
+    {
+        [Newtonsoft.Json.JsonProperty("personId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int PersonId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("personName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string PersonName { get; set; }
+
+        public string ToJson()
+        {
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, new Newtonsoft.Json.JsonSerializerSettings());
+
+        }
+        public static PersonGetResponse FromJson(string data)
+        {
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<PersonGetResponse>(data, new Newtonsoft.Json.JsonSerializerSettings());
 
         }
 

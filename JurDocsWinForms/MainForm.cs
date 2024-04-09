@@ -304,34 +304,33 @@ namespace JurDocsWinForms
                 ProjectId = result.Id,
                 ProjectName = result.Name,
                 ProjectFullName = result.FullName,
-                ProjectOwner = result.OwnerId.ToString(),
+                ProjectOwnerId = result.OwnerId,
+                ProjectOwnerName = WorkSession.User.UserName!,
             };
 
-            foreach ( var person in persons.Result)
+            foreach (var person in persons.Result)
             {
+                createProjectViewModel.ProjectRights.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
 
+                createProjectViewModel.ProjectRights_Справки.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
+
+                createProjectViewModel.ProjectRights_Выписки.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
             }
-
-            createProjectViewModel.ProjectRights.AddRange(
-            [
-                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us111" },
-                new UserRight { UserId = 1, Right = UserRightType.NotAllow, UserName="us112" },
-                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us113" }
-            ]);
-
-            createProjectViewModel.ProjectRights_Справки.AddRange(
-            [
-                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us211" },
-                new UserRight { UserId = 1, Right = UserRightType.NotAllow, UserName="us212" },
-                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us213" }
-            ]);
-
-            createProjectViewModel.ProjectRights_Выписки.AddRange(
-            [
-                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us311" },
-                new UserRight { UserId = 1, Right = UserRightType.NotAllow, UserName="us312" },
-                new UserRight { UserId = 1, Right = UserRightType.Allow, UserName="us313" }
-            ]);
 
             var f = new CreateProjectForm { ViewModel = createProjectViewModel };
 

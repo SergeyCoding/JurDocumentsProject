@@ -135,13 +135,13 @@
             tabPage2.Text = "Справки";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // clbProjectRight_Справки
+            // clbProjectRights_Справки
             // 
             clbProjectRights_Справки.Dock = DockStyle.Fill;
             clbProjectRights_Справки.FormattingEnabled = true;
             clbProjectRights_Справки.Items.AddRange(new object[] { "111", "222", "333" });
             clbProjectRights_Справки.Location = new Point(3, 3);
-            clbProjectRights_Справки.Name = "clbProjectRight_Справки";
+            clbProjectRights_Справки.Name = "clbProjectRights_Справки";
             clbProjectRights_Справки.Size = new Size(375, 331);
             clbProjectRights_Справки.TabIndex = 0;
             // 
@@ -156,13 +156,13 @@
             tabPage1.Text = "Выписки";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // clbProjectRight_Выписки
+            // clbProjectRights_Выписки
             // 
             clbProjectRights_Выписки.Dock = DockStyle.Fill;
             clbProjectRights_Выписки.FormattingEnabled = true;
             clbProjectRights_Выписки.Items.AddRange(new object[] { "ффф", "иии", "ссс" });
             clbProjectRights_Выписки.Location = new Point(3, 3);
-            clbProjectRights_Выписки.Name = "clbProjectRight_Выписки";
+            clbProjectRights_Выписки.Name = "clbProjectRights_Выписки";
             clbProjectRights_Выписки.Size = new Size(375, 331);
             clbProjectRights_Выписки.TabIndex = 0;
             // 
@@ -225,7 +225,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(12, 121);
+            label6.Location = new Point(12, 127);
             label6.Name = "label6";
             label6.Size = new Size(146, 15);
             label6.TabIndex = 13;

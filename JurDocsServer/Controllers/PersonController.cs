@@ -1,5 +1,4 @@
 ﻿using JurDocs.DbModel;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
@@ -25,13 +24,12 @@ namespace JurDocs.Server.Controllers
             var users = await _dbContext.Set<JurDocUser>()
                 .AsNoTracking()
                 .Where(x => x.Login != "root")
-                .Select(x => x.Name)
-                .OrderBy(x => x)
+                .Select(x => new { x.Name, x.Id })
                 .ToArrayAsync();
 
-            return Ok(users.Order());
+            return Ok(users.Select(x => new PersonGetResponse(x.Id, x?.Name ?? string.Empty)));
         }
 
-        public record PersonGetResponse(string PersonId, string PersonName);
+        public record PersonGetResponse(int PersonId, string PersonName);
     }
 }
