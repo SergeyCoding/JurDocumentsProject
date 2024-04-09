@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DbModel\DbModel.csproj" />
+    <ProjectReference Include="..\JurDocsClient\JurDocsClient.csproj" />
     <ProjectReference Include="..\JurDocsCommon\JurDocsCommon.csproj" />
   </ItemGroup>
 

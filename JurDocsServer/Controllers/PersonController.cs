@@ -1,5 +1,5 @@
 ﻿using JurDocs.DbModel;
-using LexExchangeApi.Clients;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
@@ -19,12 +19,19 @@ namespace JurDocs.Server.Controllers
 
         [SwaggerOperation("Сотрудники", "Сотрудники")]
         [HttpGet]
-        [ProducesResponseType(typeof(List<string>), 200)]
-        public async Task<IActionResult> Index()
+        [ProducesResponseType(typeof(List<PersonGetResponse>), 200)]
+        public async Task<IActionResult> Get()
         {
-            var users = await _dbContext.Set<JurDocUser>().Select(x => x.Name).ToArrayAsync();
+            var users = await _dbContext.Set<JurDocUser>()
+                .AsNoTracking()
+                .Where(x => x.Login != "root")
+                .Select(x => x.Name)
+                .OrderBy(x => x)
+                .ToArrayAsync();
 
-            return Ok(users);
+            return Ok(users.Order());
         }
+
+        public record PersonGetResponse(string PersonId, string PersonName);
     }
 }

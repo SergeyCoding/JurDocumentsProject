@@ -1,5 +1,4 @@
-﻿using DbModel;
-using JurDocs.Common.Loggers;
+﻿using JurDocs.Common.Loggers;
 using JurDocs.DbModel;
 using JurDocs.Server.Configurations;
 using JurDocs.Server.Controllers.Base;

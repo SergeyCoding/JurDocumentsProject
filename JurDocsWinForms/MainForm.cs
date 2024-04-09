@@ -295,6 +295,8 @@ namespace JurDocsWinForms
 
             var swaggerResponse = await client.ProjectPOSTAsync();
 
+            var persons = await client.PersonAsync();
+
             var result = swaggerResponse.Result;
 
             var createProjectViewModel = new CreateProjectViewModel
@@ -304,6 +306,11 @@ namespace JurDocsWinForms
                 ProjectFullName = result.FullName,
                 ProjectOwner = result.OwnerId.ToString(),
             };
+
+            foreach ( var person in persons.Result)
+            {
+
+            }
 
             createProjectViewModel.ProjectRights.AddRange(
             [

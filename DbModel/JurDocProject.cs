@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DbModel
+namespace JurDocs.DbModel
 {
     /// <summary>
     /// Проект
