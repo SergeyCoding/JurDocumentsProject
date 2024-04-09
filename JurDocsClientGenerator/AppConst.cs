@@ -10,6 +10,6 @@
         /// <summary>
         /// Путь к генерируемому классу-клиенту
         /// </summary>
-        public const string JurDocsClientCodefile = @"D:\TFS\JurDocumentsProject\JurDocsClient\Client.cs";
+        public const string JurDocsClientCodefile = @"D:\TFS\JurDocumentsProject\JurDocsClient\JurDocsClient.cs";
     }
 }

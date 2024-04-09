@@ -1,4 +1,4 @@
-﻿using JurDocsClient;
+﻿using JurDocs.Client;
 
 namespace JurDocsWinForms.Model
 {

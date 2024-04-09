@@ -1,8 +1,7 @@
+using JurDocs.Client;
 using JurDocs.WinForms.Configuration;
-using JurDocsClient;
 using JurDocsWinForms;
 using JurDocsWinForms.Model;
-using LexExchangeApi.Clients;
 using Microsoft.Extensions.Configuration;
 
 namespace JurDocs.WinForms

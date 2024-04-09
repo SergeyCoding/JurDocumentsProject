@@ -9,7 +9,7 @@ namespace JurClientGenerator
         [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         static void Main(string[] args)
         {
-            Console.WriteLine("LexExchangeApi Client Generator!");
+            Console.WriteLine("JurDocs Client Generator!");
 
             var f = Run().GetAwaiter().GetResult();
 
@@ -25,9 +25,9 @@ namespace JurClientGenerator
 
             var settings = new CSharpClientGeneratorSettings
             {
-                ClassName = "Client",
+                ClassName = "JurDocsClient",
                 CSharpGeneratorSettings = {
-                    Namespace = "LexExchangeApi.Clients",
+                    Namespace = "JurDocs.Client",
                     GenerateJsonMethods = true, 
                     //DateType="DateTime",
                     //DateTimeType="DateTime"

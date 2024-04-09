@@ -1,8 +1,7 @@
-﻿using LexExchangeApi.Clients;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
 
-namespace JurDocsClient
+namespace JurDocs.Client
 {
     /// <summary>
     /// 
@@ -16,13 +15,13 @@ namespace JurDocsClient
         /// <summary>
         /// 
         /// </summary>
-        public static Client JurDocsClientFactory() => JurDocsClientFactory(Guid.Empty);
-        public static Client JurDocsClientFactory(Guid token) => JurDocsClientFactory("root", "root", UrlBase, token);
+        public static JurDocsClient JurDocsClientFactory() => JurDocsClientFactory(Guid.Empty);
+        public static JurDocsClient JurDocsClientFactory(Guid token) => JurDocsClientFactory("root", "root", UrlBase, token);
 
         /// <summary>
         /// 
         /// </summary>
-        public static Client JurDocsClientFactory(string name, string password, string url, Guid token)
+        public static JurDocsClient JurDocsClientFactory(string name, string password, string url, Guid token)
         {
             var encodedAuth = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{name}:{password}"));
             var auth = new AuthenticationHeaderValue("Basic", encodedAuth);
@@ -38,7 +37,7 @@ namespace JurDocsClient
                 httpClient.DefaultRequestHeaders.Add("Authorization", token.ToString());
             }
 
-            return new Client(url, httpClient);
+            return new JurDocsClient(url, httpClient);
         }
     }
 }

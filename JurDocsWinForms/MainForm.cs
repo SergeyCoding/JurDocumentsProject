@@ -1,9 +1,8 @@
+using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
 using JurDocs.WinForms;
 using JurDocs.WinForms.ViewModel;
-using JurDocsClient;
 using JurDocsWinForms.Model;
-using LexExchangeApi.Clients;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
@@ -299,7 +298,7 @@ namespace JurDocsWinForms
 
             var result = swaggerResponse.Result;
 
-            var createProjectViewModel = new CreateProjectViewModel
+            var createProjectViewModel = new CreateProjectViewModel(client)
             {
                 ProjectId = result.Id,
                 ProjectName = result.Name,

@@ -5,7 +5,7 @@ namespace JurDocsWinForms
 {
     public partial class CreateProjectForm : Form
     {
-        public CreateProjectViewModel? ViewModel { get; set; }
+        public required CreateProjectViewModel ViewModel { get; set; }
 
         public CreateProjectForm()
         {
@@ -43,8 +43,7 @@ namespace JurDocsWinForms
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-
-
+            ViewModel.SaveProject();
             Close();
         }
 
