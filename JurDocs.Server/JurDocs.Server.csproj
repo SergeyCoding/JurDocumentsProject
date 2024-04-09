@@ -17,17 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DbModel\JurDocs.DbModel.csproj" />
-    <ProjectReference Include="..\JurDocsClient\JurDocs.Client.csproj" />
-    <ProjectReference Include="..\JurDocsCommon\JurDocs.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EditorConfigFiles Remove="D:\TFS\JurDocumentsProject\JurDocsServer\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="D:\TFS\JurDocumentsProject\JurDocsServer\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JurDocs.Common\JurDocs.Common.csproj" />
+    <ProjectReference Include="..\JurDocs.DbModel\JurDocs.DbModel.csproj" />
   </ItemGroup>
 
 </Project>

@@ -28,8 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JurDocsClient\JurDocs.Client.csproj" />
-    <ProjectReference Include="..\JurDocsCommon\JurDocs.Common.csproj" />
+    <ProjectReference Include="..\JurDocs.Client\JurDocs.Client.csproj" />
+    <ProjectReference Include="..\JurDocs.Common\JurDocs.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
