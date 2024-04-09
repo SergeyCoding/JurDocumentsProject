@@ -13,8 +13,6 @@ namespace JurDocsWinForms
 
     public partial class MainForm : Form
     {
-        private const string _noLoginStripStatus = "Выберите пользователя, и нажмите логин...";
-
         internal WorkSession? WorkSession { get; set; }
 
         public MainForm()
@@ -24,7 +22,10 @@ namespace JurDocsWinForms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            toolStripStatusLabel1.Text = _noLoginStripStatus;
+            if (WorkSession?.User != null)
+            {
+                toolStripStatusLabel1.Text = $"Пользователь: {WorkSession.User.UserName}";
+            }
             MinimumSize = new Size(Width, Height);
 
             panel1.AllowDrop = true;
@@ -35,19 +36,9 @@ namespace JurDocsWinForms
 
 #pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             panel1.DragEnter += panel_DragEnter;
-#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             panel2.DragEnter += panel_DragEnter;
-#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-
-#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             panel1.DragDrop += panel_DragDrop;
-#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             panel2.DragDrop += panel_DragDrop;
-#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-
-#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             button1.MouseUp += button1_MouseDown;
 #pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
 
