@@ -45,6 +45,7 @@
             bindingSource1 = new BindingSource(components);
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolStripStatusLabel2 = new ToolStripStatusLabel();
             LoginText = new ComboBox();
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
@@ -64,31 +65,44 @@
             pasteToolStripButton = new ToolStripButton();
             toolStripSeparator1 = new ToolStripSeparator();
             helpToolStripButton = new ToolStripButton();
-            panel1 = new Panel();
-            panel3 = new Panel();
+            panelDragDrop = new Panel();
+            panelSourceDocs = new Panel();
             label2 = new Label();
-            panel2 = new Panel();
+            panelDocs = new Panel();
             label1 = new Label();
-            textBox1 = new TextBox();
+            tbПисьмо = new TextBox();
             label3 = new Label();
             label4 = new Label();
             comboBox1 = new ComboBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
-            panel4 = new Panel();
-            toolStripStatusLabel2 = new ToolStripStatusLabel();
+            panelGrid = new Panel();
+            label5 = new Label();
+            label6 = new Label();
+            tbПолучатель = new TextBox();
+            label7 = new Label();
+            label8 = new Label();
+            tbВх = new TextBox();
+            tbОтпавитель = new TextBox();
+            tbИсх = new TextBox();
+            textBox6 = new TextBox();
+            label9 = new Label();
+            label10 = new Label();
+            textBox7 = new TextBox();
+            label11 = new Label();
+            comboBox2 = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             toolStrip2.SuspendLayout();
-            panel1.SuspendLayout();
-            panel3.SuspendLayout();
-            panel2.SuspendLayout();
+            panelDragDrop.SuspendLayout();
+            panelSourceDocs.SuspendLayout();
+            panelDocs.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
-            panel4.SuspendLayout();
+            panelGrid.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -132,14 +146,14 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { id, DocType, DocDate, FileName, Remark, Column1 });
-            dataGridView1.Dock = DockStyle.Bottom;
             dataGridView1.Location = new Point(3, 71);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(681, 352);
+            dataGridView1.Size = new Size(983, 342);
             dataGridView1.TabIndex = 5;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -214,9 +228,9 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel2 });
-            statusStrip1.Location = new Point(0, 547);
+            statusStrip1.Location = new Point(0, 537);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(998, 22);
+            statusStrip1.Size = new Size(1300, 22);
             statusStrip1.TabIndex = 7;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -227,12 +241,18 @@
             toolStripStatusLabel1.Text = "ОК";
             toolStripStatusLabel1.Click += toolStripStatusLabel1_Click;
             // 
+            // toolStripStatusLabel2
+            // 
+            toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            toolStripStatusLabel2.Size = new Size(97, 17);
+            toolStripStatusLabel2.Text = "Текущий проект";
+            // 
             // LoginText
             // 
             LoginText.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             LoginText.FormattingEnabled = true;
             LoginText.Items.AddRange(new object[] { "Иванов", "Петров", "Сидоров" });
-            LoginText.Location = new Point(733, 52);
+            LoginText.Location = new Point(1035, 52);
             LoginText.Name = "LoginText";
             LoginText.Size = new Size(253, 23);
             LoginText.TabIndex = 8;
@@ -242,7 +262,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(998, 24);
+            menuStrip1.Size = new Size(1300, 24);
             menuStrip1.TabIndex = 10;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -285,7 +305,7 @@
             toolStrip2.Location = new Point(0, 24);
             toolStrip2.Name = "toolStrip2";
             toolStrip2.RenderMode = ToolStripRenderMode.System;
-            toolStrip2.Size = new Size(998, 25);
+            toolStrip2.Size = new Size(1300, 25);
             toolStrip2.TabIndex = 12;
             toolStrip2.Text = "toolStrip2";
             // 
@@ -381,23 +401,24 @@
             helpToolStripButton.Size = new Size(23, 22);
             helpToolStripButton.Text = "He&lp";
             // 
-            // panel1
+            // panelDragDrop
             // 
-            panel1.Controls.Add(panel3);
-            panel1.Controls.Add(panel2);
-            panel1.Location = new Point(713, 82);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(273, 454);
-            panel1.TabIndex = 13;
+            panelDragDrop.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            panelDragDrop.Controls.Add(panelSourceDocs);
+            panelDragDrop.Controls.Add(panelDocs);
+            panelDragDrop.Location = new Point(1015, 82);
+            panelDragDrop.Name = "panelDragDrop";
+            panelDragDrop.Size = new Size(273, 444);
+            panelDragDrop.TabIndex = 13;
             // 
-            // panel3
+            // panelSourceDocs
             // 
-            panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(label2);
-            panel3.Location = new Point(20, 172);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(237, 112);
-            panel3.TabIndex = 1;
+            panelSourceDocs.BorderStyle = BorderStyle.FixedSingle;
+            panelSourceDocs.Controls.Add(label2);
+            panelSourceDocs.Location = new Point(20, 172);
+            panelSourceDocs.Name = "panelSourceDocs";
+            panelSourceDocs.Size = new Size(237, 112);
+            panelSourceDocs.TabIndex = 1;
             // 
             // label2
             // 
@@ -409,15 +430,15 @@
             label2.TabIndex = 0;
             label2.Text = "Файл исходник";
             // 
-            // panel2
+            // panelDocs
             // 
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(label1);
-            panel2.Location = new Point(20, 37);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(237, 112);
-            panel2.TabIndex = 0;
-            panel2.Paint += panel2_Paint;
+            panelDocs.BorderStyle = BorderStyle.FixedSingle;
+            panelDocs.Controls.Add(label1);
+            panelDocs.Location = new Point(20, 37);
+            panelDocs.Name = "panelDocs";
+            panelDocs.Size = new Size(237, 112);
+            panelDocs.TabIndex = 0;
+            panelDocs.Paint += panel2_Paint;
             // 
             // label1
             // 
@@ -429,12 +450,12 @@
             label1.TabIndex = 0;
             label1.Text = "Файлы документа";
             // 
-            // textBox1
+            // tbПисьмо
             // 
-            textBox1.Location = new Point(65, 42);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(133, 23);
-            textBox1.TabIndex = 14;
+            tbПисьмо.Location = new Point(65, 42);
+            tbПисьмо.Name = "tbПисьмо";
+            tbПисьмо.Size = new Size(133, 23);
+            tbПисьмо.TabIndex = 14;
             // 
             // label3
             // 
@@ -470,20 +491,34 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(695, 454);
+            tabControl1.Size = new Size(997, 444);
             tabControl1.TabIndex = 18;
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(comboBox2);
+            tabPage1.Controls.Add(label11);
+            tabPage1.Controls.Add(textBox6);
+            tabPage1.Controls.Add(label9);
+            tabPage1.Controls.Add(label10);
+            tabPage1.Controls.Add(textBox7);
+            tabPage1.Controls.Add(tbИсх);
+            tabPage1.Controls.Add(tbОтпавитель);
+            tabPage1.Controls.Add(label7);
+            tabPage1.Controls.Add(label8);
+            tabPage1.Controls.Add(tbВх);
+            tabPage1.Controls.Add(label5);
+            tabPage1.Controls.Add(label6);
+            tabPage1.Controls.Add(tbПолучатель);
             tabPage1.Controls.Add(dataGridView1);
             tabPage1.Controls.Add(label3);
             tabPage1.Controls.Add(label4);
             tabPage1.Controls.Add(comboBox1);
-            tabPage1.Controls.Add(textBox1);
+            tabPage1.Controls.Add(tbПисьмо);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(687, 426);
+            tabPage1.Size = new Size(989, 416);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Письмо";
             tabPage1.UseVisualStyleBackColor = true;
@@ -498,27 +533,135 @@
             tabPage2.Text = "Договор";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // panel4
+            // panelGrid
             // 
-            panel4.Controls.Add(tabControl1);
-            panel4.Location = new Point(12, 82);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(695, 454);
-            panel4.TabIndex = 19;
+            panelGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelGrid.Controls.Add(tabControl1);
+            panelGrid.Location = new Point(12, 82);
+            panelGrid.Name = "panelGrid";
+            panelGrid.Size = new Size(997, 444);
+            panelGrid.TabIndex = 19;
             // 
-            // toolStripStatusLabel2
+            // label5
             // 
-            toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            toolStripStatusLabel2.Size = new Size(97, 17);
-            toolStripStatusLabel2.Text = "Текущий проект";
+            label5.AutoSize = true;
+            label5.Location = new Point(213, 45);
+            label5.Name = "label5";
+            label5.Size = new Size(73, 15);
+            label5.TabIndex = 19;
+            label5.Text = "Получатель";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(217, 16);
+            label6.Name = "label6";
+            label6.Size = new Size(78, 15);
+            label6.TabIndex = 20;
+            label6.Text = "Отправитель";
+            // 
+            // tbПолучатель
+            // 
+            tbПолучатель.Location = new Point(304, 42);
+            tbПолучатель.Name = "tbПолучатель";
+            tbПолучатель.Size = new Size(133, 23);
+            tbПолучатель.TabIndex = 18;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(451, 45);
+            label7.Name = "label7";
+            label7.Size = new Size(38, 15);
+            label7.TabIndex = 23;
+            label7.Text = "№ вх.";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(451, 16);
+            label8.Name = "label8";
+            label8.Size = new Size(45, 15);
+            label8.TabIndex = 24;
+            label8.Text = "№ исх.";
+            // 
+            // tbВх
+            // 
+            tbВх.Location = new Point(502, 42);
+            tbВх.Name = "tbВх";
+            tbВх.Size = new Size(133, 23);
+            tbВх.TabIndex = 22;
+            // 
+            // tbОтпавитель
+            // 
+            tbОтпавитель.Location = new Point(304, 13);
+            tbОтпавитель.Name = "tbОтпавитель";
+            tbОтпавитель.Size = new Size(133, 23);
+            tbОтпавитель.TabIndex = 25;
+            // 
+            // tbИсх
+            // 
+            tbИсх.Location = new Point(502, 13);
+            tbИсх.Name = "tbИсх";
+            tbИсх.Size = new Size(133, 23);
+            tbИсх.TabIndex = 26;
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(693, 13);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(133, 23);
+            textBox6.TabIndex = 30;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(642, 45);
+            label9.Name = "label9";
+            label9.Size = new Size(50, 15);
+            label9.TabIndex = 28;
+            label9.Text = "Дата вх.";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(642, 16);
+            label10.Name = "label10";
+            label10.Size = new Size(57, 15);
+            label10.TabIndex = 29;
+            label10.Text = "Дата исх.";
+            // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(693, 42);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(133, 23);
+            textBox7.TabIndex = 27;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(837, 16);
+            label11.Name = "label11";
+            label11.Size = new Size(81, 15);
+            label11.TabIndex = 31;
+            label11.Text = "Исполнитель";
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(837, 42);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(133, 23);
+            comboBox2.TabIndex = 32;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(998, 569);
-            Controls.Add(panel4);
-            Controls.Add(panel1);
+            ClientSize = new Size(1300, 559);
+            Controls.Add(panelGrid);
+            Controls.Add(panelDragDrop);
             Controls.Add(toolStrip2);
             Controls.Add(LoginText);
             Controls.Add(statusStrip1);
@@ -540,15 +683,15 @@
             menuStrip1.PerformLayout();
             toolStrip2.ResumeLayout(false);
             toolStrip2.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            panelDragDrop.ResumeLayout(false);
+            panelSourceDocs.ResumeLayout(false);
+            panelSourceDocs.PerformLayout();
+            panelDocs.ResumeLayout(false);
+            panelDocs.PerformLayout();
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
-            panel4.ResumeLayout(false);
+            panelGrid.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -600,9 +743,9 @@
         private ToolStripButton toolStripButton3;
 #pragma warning restore CS0169 // The field 'MainForm.toolStripButton3' is never used
         private ToolStripButton newDocButton;
-        private Panel panel1;
-        private Panel panel3;
-        private Panel panel2;
+        private Panel panelDragDrop;
+        private Panel panelSourceDocs;
+        private Panel panelDocs;
         private ToolStripMenuItem создатьПроектToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
         private Label label2;
@@ -618,14 +761,28 @@
         private ToolStripButton pasteToolStripButton;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton helpToolStripButton;
-        private TextBox textBox1;
+        private TextBox tbПисьмо;
         private Label label3;
         private Label label4;
         private ComboBox comboBox1;
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private Panel panel4;
+        private Panel panelGrid;
         private ToolStripStatusLabel toolStripStatusLabel2;
+        private Label label7;
+        private Label label8;
+        private TextBox tbВх;
+        private Label label5;
+        private Label label6;
+        private TextBox tbПолучатель;
+        private ComboBox comboBox2;
+        private Label label11;
+        private TextBox textBox6;
+        private Label label9;
+        private Label label10;
+        private TextBox textBox7;
+        private TextBox tbИсх;
+        private TextBox tbОтпавитель;
     }
 }

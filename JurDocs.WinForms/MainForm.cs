@@ -27,17 +27,17 @@ namespace JurDocsWinForms
             }
             MinimumSize = new Size(Width, Height);
 
-            panel1.AllowDrop = true;
-            panel1.AllowDrop = true;
+            panelDragDrop.AllowDrop = true;
+            panelDragDrop.AllowDrop = true;
 
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panelDragDrop.BorderStyle = BorderStyle.FixedSingle;
+            panelDragDrop.BorderStyle = BorderStyle.FixedSingle;
 
 #pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-            panel1.DragEnter += panel_DragEnter;
-            panel2.DragEnter += panel_DragEnter;
-            panel1.DragDrop += panel_DragDrop;
-            panel2.DragDrop += panel_DragDrop;
+            panelDragDrop.DragEnter += panel_DragEnter;
+            panelDocs.DragEnter += panel_DragEnter;
+            panelDragDrop.DragDrop += panel_DragDrop;
+            panelDocs.DragDrop += panel_DragDrop;
             button1.MouseUp += button1_MouseDown;
 #pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
 
@@ -338,6 +338,11 @@ namespace JurDocsWinForms
         }
 
         private void èçìåíèòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
