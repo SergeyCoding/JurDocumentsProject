@@ -17,8 +17,8 @@ namespace JurDocsWinForms
             if (ViewModel == null)
                 return;
 
-            tbProjectId.Text = ViewModel.ProjectName;
-            tbProjectNote.Text = ViewModel.ProjectFullName;
+            tbProjectName.Text = ViewModel.ProjectName;
+            tbProjectFullName.Text = ViewModel.ProjectFullName;
             cbProjectOwner.Text = ViewModel.ProjectOwnerName;
             cbProjectOwner.Items.Add(ViewModel.ProjectOwnerName);
 
@@ -41,15 +41,29 @@ namespace JurDocsWinForms
             }
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
+        private async void btnOk_Click(object sender, EventArgs e)
         {
-            ViewModel.SaveProject();
+            TopMost = false;
+
+            ViewModel.ProjectName = tbProjectName.Text;
+            ViewModel.ProjectFullName = tbProjectFullName.Text;
+
+            await ViewModel.SaveProjectAsync();
+
             Close();
+
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private async void btnCancel_Click(object sender, EventArgs e)
         {
-            Close();
+            var dialogResult = MessageBox.Show("Закрыть окно проекта без сохранения?", "Проект", MessageBoxButtons.YesNoCancel);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                await ViewModel.DeleteProjectAsync();
+
+                Close();
+            }
         }
     }
 }

@@ -63,19 +63,29 @@ namespace JurDocs.WinForms
             {
                 // блок для тестирования, чтобы не вводить логин, пароль
 
-                const string curLogin = "user2";
-                const string curPwd = "";
+                for (var i = 0; i < 10; i++)
+                {
+                    try
+                    {
+                        const string curLogin = "user2";
+                        const string curPwd = "";
 
-                var client = JurClientService.JurDocsClientFactory();
-                var token = client.LoginPOSTAsync(new LoginPostRequest { Login = curLogin, Password = curPwd })
-                    .GetAwaiter()
-                    .GetResult();
+                        var client = JurClientService.JurDocsClientFactory();
+                        var token = client.LoginPOSTAsync(new LoginPostRequest { Login = curLogin, Password = curPwd })
+                            .GetAwaiter()
+                            .GetResult();
 
-                var client2 = JurClientService.JurDocsClientFactory(token.Result);
+                        var client2 = JurClientService.JurDocsClientFactory(token.Result);
 
-                var user = client2.LoginGETAsync(curLogin).GetAwaiter().GetResult();
+                        var user = client2.LoginGETAsync(curLogin).GetAwaiter().GetResult();
 
-                workSession = new WorkSession(new CurrentUser { Token = token.Result, UserName = user.Result.Name, TempDir = user.Result.Path });
+                        workSession = new WorkSession(new CurrentUser { Token = token.Result, UserName = user.Result.Name, TempDir = user.Result.Path });
+
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
             }
 
             if (workSession == null)

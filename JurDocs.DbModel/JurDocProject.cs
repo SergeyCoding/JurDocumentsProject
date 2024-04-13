@@ -20,6 +20,7 @@ namespace JurDocs.DbModel
         {
             public void Configure(EntityTypeBuilder<JurDocProject> builder)
             {
+                builder.HasIndex(x => x.Name).IsUnique();
             }
         }
     }

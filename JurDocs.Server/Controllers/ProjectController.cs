@@ -81,9 +81,25 @@ namespace JurDocs.Server.Controllers
 
                 var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
 
-                var jurDocUserList = await _dbContext.Set<JurDocProject>().Where(x => x.OwnerId == user!.Id).ToArrayAsync();
+                var changedProject = await _dbContext.Set<JurDocProject>().FirstOrDefaultAsync(x => x.OwnerId == user!.Id && x.Id == project.Id);
 
-                return Ok(jurDocUserList);
+                if (changedProject == null)
+                {
+                    return BadRequest("Нет прав на изменение проекта");
+                }
+
+                changedProject.Name = project.Name;
+                changedProject.FullName = project.FullName;
+                changedProject.OwnerId = project.OwnerId;
+
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(changedProject);
+            }
+            catch (DbUpdateException e)
+            {
+                _logger?.LogError(e, message: null);
+                return BadRequest("Ошибка при обновлении проекта");
             }
             catch (Exception e)
             {

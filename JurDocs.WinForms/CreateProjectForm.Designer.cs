@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tbProjectId = new TextBox();
+            tbProjectName = new TextBox();
             label1 = new Label();
             label2 = new Label();
-            tbProjectNote = new TextBox();
+            tbProjectFullName = new TextBox();
             label3 = new Label();
             cbProjectOwner = new ComboBox();
             label4 = new Label();
@@ -53,12 +53,12 @@
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // tbProjectId
+            // tbProjectName
             // 
-            tbProjectId.Location = new Point(159, 12);
-            tbProjectId.Name = "tbProjectId";
-            tbProjectId.Size = new Size(186, 23);
-            tbProjectId.TabIndex = 0;
+            tbProjectName.Location = new Point(159, 12);
+            tbProjectName.Name = "tbProjectName";
+            tbProjectName.Size = new Size(186, 23);
+            tbProjectName.TabIndex = 0;
             // 
             // label1
             // 
@@ -78,14 +78,14 @@
             label2.TabIndex = 2;
             label2.Text = "(уникальный текст из цифр и букв, не более 10 символов без пробелов )";
             // 
-            // tbProjectNote
+            // tbProjectFullName
             // 
-            tbProjectNote.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            tbProjectNote.Location = new Point(159, 41);
-            tbProjectNote.Multiline = true;
-            tbProjectNote.Name = "tbProjectNote";
-            tbProjectNote.Size = new Size(601, 48);
-            tbProjectNote.TabIndex = 3;
+            tbProjectFullName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            tbProjectFullName.Location = new Point(159, 41);
+            tbProjectFullName.Multiline = true;
+            tbProjectFullName.Name = "tbProjectFullName";
+            tbProjectFullName.Size = new Size(601, 48);
+            tbProjectFullName.TabIndex = 3;
             // 
             // label3
             // 
@@ -246,10 +246,10 @@
             Controls.Add(label4);
             Controls.Add(cbProjectOwner);
             Controls.Add(label3);
-            Controls.Add(tbProjectNote);
+            Controls.Add(tbProjectFullName);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(tbProjectId);
+            Controls.Add(tbProjectName);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "CreateProjectForm";
@@ -267,10 +267,10 @@
 
         #endregion
 
-        private TextBox tbProjectId;
+        private TextBox tbProjectName;
         private Label label1;
         private Label label2;
-        private TextBox tbProjectNote;
+        private TextBox tbProjectFullName;
         private Label label3;
         private ComboBox cbProjectOwner;
         private Label label4;

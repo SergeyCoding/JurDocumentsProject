@@ -12,16 +12,28 @@ namespace JurDocs.WinForms.ViewModel
 
         public string ProjectName { get; set; } = string.Empty;
         public string ProjectFullName { get; set; } = string.Empty;
-        public int ProjectOwnerId { get; set; } 
+        public int ProjectOwnerId { get; set; }
         public List<UserRight> ProjectRights { get; } = [];
         public List<UserRight> ProjectRights_Справки { get; } = [];
         public List<UserRight> ProjectRights_Выписки { get; } = [];
         public int ProjectId { get; internal set; }
-        public string ProjectOwnerName { get; internal set; }=string.Empty;
+        public string ProjectOwnerName { get; internal set; } = string.Empty;
 
-        internal void SaveProject()
+        internal async Task DeleteProjectAsync()
         {
-            throw new NotImplementedException();
+            await _client.ProjectDELETEAsync(ProjectId);
+        }
+
+        internal async Task SaveProjectAsync()
+        {
+            var swaggerResponse = await _client.ProjectPUTAsync(new JurDocProject
+            {
+                Id = ProjectId,
+                FullName = ProjectFullName,
+                IsDeleted = false,
+                Name = ProjectName,
+                OwnerId = ProjectOwnerId
+            });
         }
     }
 }
