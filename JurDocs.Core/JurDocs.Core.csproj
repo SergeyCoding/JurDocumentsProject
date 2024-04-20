@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\JurDocs.Client\JurDocs.Client.csproj" />
+    <ProjectReference Include="..\JurDocs.Common\JurDocs.Common.csproj" />
+  </ItemGroup>
+
 </Project>

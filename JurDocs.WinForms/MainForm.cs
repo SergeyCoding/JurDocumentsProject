@@ -1,5 +1,8 @@
 using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
+using JurDocs.Core;
+using JurDocs.Core.Operations;
+using JurDocs.Core.States;
 using JurDocs.WinForms;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
@@ -341,17 +344,46 @@ namespace JurDocsWinForms
 
         private async void newToolStripButton_Click(object sender, EventArgs e)
         {
-            var createProjectViewModel = await ViewModel!.CreateNewProject();
+            if (GetState.State.CurrentPage == JurDocs.Core.Constants.AppPage.Проект)
+            {
+                var createProjectViewModel = await ViewModel!.CreateNewProject();
 
-            var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
+                var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
 
-            ProgramHelpers.MoveWindowToCenterScreen(f);
-            f.ShowDialog(this);
+                ProgramHelpers.MoveWindowToCenterScreen(f);
+                f.ShowDialog(this);
+
+                return;
+            }
+
+
         }
 
         private async void cutToolStripButton_Click(object sender, EventArgs e)
         {
             await UpdateProjectList();
+        }
+
+        private void openToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is TabControl tc)
+            {
+                var text = tc.SelectedTab?.Text;
+
+                var context = new ChangeCurrentPageContext
+                {
+                    TextPage = text
+                };
+
+                new ChangeCurrentPage().ExecuteAsync(context);
+
+                toolStripStatusLabel2.Text = $"Текущий проект: {GetState.State.CurrentPage}";
+            }
         }
     }
 }

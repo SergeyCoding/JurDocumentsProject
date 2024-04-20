@@ -101,10 +101,10 @@ namespace JurDocsWinForms
             label6 = new Label();
             tbПолучатель = new TextBox();
             tabPage2 = new TabPage();
-            panelGrid = new Panel();
             dataGridView1 = new DataGridView();
             a1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
+            panelGrid = new Panel();
             ((System.ComponentModel.ISupportInitialize)dgvProjects).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -118,8 +118,8 @@ namespace JurDocsWinForms
             ((System.ComponentModel.ISupportInitialize)dgvProjectList).BeginInit();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
-            panelGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panelGrid.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -353,7 +353,7 @@ namespace JurDocsWinForms
             newToolStripButton.ImageTransparentColor = Color.Magenta;
             newToolStripButton.Name = "newToolStripButton";
             newToolStripButton.Size = new Size(23, 22);
-            newToolStripButton.Text = "&New";
+            newToolStripButton.Text = "Создать";
             newToolStripButton.Click += newToolStripButton_Click;
             // 
             // openToolStripButton
@@ -364,6 +364,7 @@ namespace JurDocsWinForms
             openToolStripButton.Name = "openToolStripButton";
             openToolStripButton.Size = new Size(23, 22);
             openToolStripButton.Text = "&Open";
+            openToolStripButton.Click += openToolStripButton_Click;
             // 
             // saveToolStripButton
             // 
@@ -523,6 +524,7 @@ namespace JurDocsWinForms
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(997, 429);
             tabControl1.TabIndex = 18;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage3
             // 
@@ -741,15 +743,6 @@ namespace JurDocsWinForms
             tabPage2.Text = "Договор";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // panelGrid
-            // 
-            panelGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panelGrid.Controls.Add(tabControl1);
-            panelGrid.Location = new Point(12, 82);
-            panelGrid.Name = "panelGrid";
-            panelGrid.Size = new Size(997, 429);
-            panelGrid.TabIndex = 19;
-            // 
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
@@ -774,6 +767,15 @@ namespace JurDocsWinForms
             Column2.HeaderText = "Column2";
             Column2.Name = "Column2";
             Column2.ReadOnly = true;
+            // 
+            // panelGrid
+            // 
+            panelGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelGrid.Controls.Add(tabControl1);
+            panelGrid.Location = new Point(12, 82);
+            panelGrid.Name = "panelGrid";
+            panelGrid.Size = new Size(997, 429);
+            panelGrid.TabIndex = 19;
             // 
             // MainForm
             // 
@@ -813,8 +815,8 @@ namespace JurDocsWinForms
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
-            panelGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            panelGrid.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
