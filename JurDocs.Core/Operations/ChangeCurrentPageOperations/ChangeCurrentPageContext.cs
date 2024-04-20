@@ -1,4 +1,4 @@
-﻿namespace JurDocs.Core.Operations
+﻿namespace JurDocs.Core.Operations.ChangeCurrentPageOperations
 {
 
     public class ChangeCurrentPageContext : AppStateContext

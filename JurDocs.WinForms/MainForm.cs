@@ -2,6 +2,8 @@ using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
 using JurDocs.Core;
 using JurDocs.Core.Operations;
+using JurDocs.Core.Operations.ChangeCurrentPageOperations;
+using JurDocs.Core.Operations.ChangeCurrentProjectOperation;
 using JurDocs.Core.States;
 using JurDocs.WinForms;
 using JurDocs.WinForms.Model;
@@ -75,6 +77,8 @@ namespace JurDocsWinForms
             dgvProjectList.ShowCellToolTips = false;
             dgvProjectList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProjectList.MultiSelect = false;
+
+            //dgvProjectList.row
         }
 
         void button1_MouseDown(object sender, MouseEventArgs e)
@@ -384,6 +388,21 @@ namespace JurDocsWinForms
 
                 toolStripStatusLabel2.Text = $"Текущий проект: {GetState.State.CurrentPage}";
             }
+        }
+
+        private async void dgvProjectList_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            var projectListTables = dgvProjectList.DataSource as SortableBindingList<ProjectListTable>;
+
+            if (projectListTables != null)
+            {
+                var projectListTable = projectListTables[e.RowIndex];
+                await new ChangeCurrentProject().ExecuteAsync(
+                    new ChangeCurrentProjectContext { ProjectId = projectListTable.Id }
+                    );
+            }
+
+            toolStripStatusLabel2.Text = $"Текущий проект: {GetState.State.CurrentProject.Name}";
         }
     }
 }

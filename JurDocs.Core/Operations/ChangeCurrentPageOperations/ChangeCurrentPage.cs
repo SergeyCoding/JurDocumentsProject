@@ -1,7 +1,7 @@
 ﻿using JurDocs.Common.Operations;
 using JurDocs.Core.Constants;
 
-namespace JurDocs.Core.Operations
+namespace JurDocs.Core.Operations.ChangeCurrentPageOperations
 {
     /// <summary>
     /// 

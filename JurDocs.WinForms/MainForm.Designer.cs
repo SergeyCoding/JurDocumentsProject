@@ -545,11 +545,12 @@ namespace JurDocsWinForms
             dgvProjectList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProjectList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProjectList.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4 });
-            dgvProjectList.Location = new Point(3, 37);
+            dgvProjectList.Location = new Point(3, 36);
             dgvProjectList.Name = "dgvProjectList";
             dgvProjectList.ReadOnly = true;
             dgvProjectList.Size = new Size(983, 358);
             dgvProjectList.TabIndex = 6;
+            dgvProjectList.RowEnter += dgvProjectList_RowEnter;
             // 
             // dataGridViewTextBoxColumn1
             // 

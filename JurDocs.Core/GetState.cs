@@ -7,7 +7,7 @@ namespace JurDocs.Core
     /// </summary>
     public class GetState
     {
-        public static AppState state = new();
+        private static AppState state = new();
 
         internal static AppState AppState() => state;
 
