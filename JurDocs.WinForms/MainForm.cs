@@ -58,21 +58,17 @@ namespace JurDocsWinForms
                 cbProjectList.Text = cbProjectList.Items[0]! as string;
             }
 
+            await UpdateProjectList();
+        }
+
+        private async Task UpdateProjectList()
+        {
+            if (ViewModel == null)
+                return;
+
             var projectList = await ViewModel.GetProjectList();
 
-            var data = new List<ProjectListTable>() {
-                new() { Id = 1, ProjectName = "11" },
-                new() { Id = 1, ProjectName = "112" }
-            };
-            foreach (var item in projectList)
-            {
-                data.Add(new ProjectListTable { Id = 1, ProjectName = item.Name, ProjectFullName = item.FullName, Owner = item.OwnerId.ToString() });
-            }
-
-            dgvProjectList.DataSource = null;
-            dgvProjectList.AutoGenerateColumns = true;
-
-            dgvProjectList.DataSource = new SortableBindingList<ProjectListTable>(data);
+            dgvProjectList.DataSource = new SortableBindingList<ProjectListTable>(projectList);
             dgvProjectList.ShowCellToolTips = false;
             dgvProjectList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProjectList.MultiSelect = false;
@@ -325,48 +321,9 @@ namespace JurDocsWinForms
 
         private async void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var client = JurClientService.JurDocsClientFactory(WorkSession!.User.Token);
+            var createProjectViewModel = await ViewModel!.CreateNewProject();
 
-            var swaggerResponse = await client.ProjectPOSTAsync();
-
-            var persons = await client.PersonAsync();
-
-            var result = swaggerResponse.Result;
-
-            var createProjectViewModel = new CreateProjectViewModel(client)
-            {
-                ProjectId = result.Id,
-                ProjectName = result.Name,
-                ProjectFullName = result.FullName,
-                ProjectOwnerId = result.OwnerId,
-                ProjectOwnerName = WorkSession.User.UserName!,
-            };
-
-            foreach (var person in persons.Result)
-            {
-                createProjectViewModel.ProjectRights.Add(new UserRight
-                {
-                    UserId = person.PersonId,
-                    UserName = person.PersonName,
-                    Right = UserRightType.NotAllow
-                });
-
-                createProjectViewModel.ProjectRights_Ñïðàâêè.Add(new UserRight
-                {
-                    UserId = person.PersonId,
-                    UserName = person.PersonName,
-                    Right = UserRightType.NotAllow
-                });
-
-                createProjectViewModel.ProjectRights_Âûïèñêè.Add(new UserRight
-                {
-                    UserId = person.PersonId,
-                    UserName = person.PersonName,
-                    Right = UserRightType.NotAllow
-                });
-            }
-
-            var f = new CreateProjectForm { ViewModel = createProjectViewModel };
+            var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
 
             ProgramHelpers.MoveWindowToCenterScreen(f);
             f.ShowDialog(this);
@@ -380,6 +337,21 @@ namespace JurDocsWinForms
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private async void newToolStripButton_Click(object sender, EventArgs e)
+        {
+            var createProjectViewModel = await ViewModel!.CreateNewProject();
+
+            var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
+
+            ProgramHelpers.MoveWindowToCenterScreen(f);
+            f.ShowDialog(this);
+        }
+
+        private async void cutToolStripButton_Click(object sender, EventArgs e)
+        {
+            await UpdateProjectList();
         }
     }
 }

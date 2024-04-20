@@ -81,6 +81,10 @@ namespace JurDocsWinForms
             tabControl1 = new TabControl();
             tabPage3 = new TabPage();
             dgvProjectList = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
             tabPage1 = new TabPage();
             comboBox2 = new ComboBox();
             label11 = new Label();
@@ -98,10 +102,9 @@ namespace JurDocsWinForms
             tbПолучатель = new TextBox();
             tabPage2 = new TabPage();
             panelGrid = new Panel();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridView1 = new DataGridView();
+            a1 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvProjects).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -114,7 +117,9 @@ namespace JurDocsWinForms
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProjectList).BeginInit();
             tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
             panelGrid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -349,6 +354,7 @@ namespace JurDocsWinForms
             newToolStripButton.Name = "newToolStripButton";
             newToolStripButton.Size = new Size(23, 22);
             newToolStripButton.Text = "&New";
+            newToolStripButton.Click += newToolStripButton_Click;
             // 
             // openToolStripButton
             // 
@@ -390,6 +396,7 @@ namespace JurDocsWinForms
             cutToolStripButton.Name = "cutToolStripButton";
             cutToolStripButton.Size = new Size(23, 22);
             cutToolStripButton.Text = "C&ut";
+            cutToolStripButton.Click += cutToolStripButton_Click;
             // 
             // copyToolStripButton
             // 
@@ -542,6 +549,45 @@ namespace JurDocsWinForms
             dgvProjectList.Size = new Size(983, 358);
             dgvProjectList.TabIndex = 6;
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            dataGridViewTextBoxColumn1.HeaderText = "#";
+            dataGridViewTextBoxColumn1.MinimumWidth = 50;
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Resizable = DataGridViewTriState.False;
+            dataGridViewTextBoxColumn1.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewTextBoxColumn2.DataPropertyName = "ProjectName";
+            dataGridViewTextBoxColumn2.HeaderText = "Код проекта";
+            dataGridViewTextBoxColumn2.MaxInputLength = 10;
+            dataGridViewTextBoxColumn2.MinimumWidth = 100;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.DataPropertyName = "ProjectFullName";
+            dataGridViewTextBoxColumn3.HeaderText = "Наименование проекта";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            dataGridViewTextBoxColumn3.ToolTipText = "---";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridViewTextBoxColumn4.DataPropertyName = "Owner";
+            dataGridViewTextBoxColumn4.HeaderText = "Владелец";
+            dataGridViewTextBoxColumn4.MinimumWidth = 150;
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
+            dataGridViewTextBoxColumn4.Width = 150;
+            // 
             // tabPage1
             // 
             tabPage1.Controls.Add(comboBox2);
@@ -686,6 +732,7 @@ namespace JurDocsWinForms
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(dataGridView1);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -703,44 +750,30 @@ namespace JurDocsWinForms
             panelGrid.Size = new Size(997, 429);
             panelGrid.TabIndex = 19;
             // 
-            // dataGridViewTextBoxColumn1
+            // dataGridView1
             // 
-            dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dataGridViewTextBoxColumn1.DataPropertyName = "Id";
-            dataGridViewTextBoxColumn1.HeaderText = "#";
-            dataGridViewTextBoxColumn1.MinimumWidth = 50;
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
-            dataGridViewTextBoxColumn1.Resizable = DataGridViewTriState.False;
-            dataGridViewTextBoxColumn1.Width = 50;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { a1, Column2 });
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(3, 3);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.Size = new Size(983, 395);
+            dataGridView1.TabIndex = 0;
             // 
-            // dataGridViewTextBoxColumn2
+            // a1
             // 
-            dataGridViewTextBoxColumn2.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewTextBoxColumn2.DataPropertyName = "ProjectName";
-            dataGridViewTextBoxColumn2.HeaderText = "Код проекта";
-            dataGridViewTextBoxColumn2.MaxInputLength = 10;
-            dataGridViewTextBoxColumn2.MinimumWidth = 100;
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
+            a1.HeaderText = "#";
+            a1.Name = "a1";
+            a1.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn3
+            // Column2
             // 
-            dataGridViewTextBoxColumn3.DataPropertyName = "ProjectFullName";
-            dataGridViewTextBoxColumn3.HeaderText = "Наименование проекта";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
-            dataGridViewTextBoxColumn3.ToolTipText = "---";
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            dataGridViewTextBoxColumn4.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dataGridViewTextBoxColumn4.DataPropertyName = "Owner";
-            dataGridViewTextBoxColumn4.HeaderText = "Владелец";
-            dataGridViewTextBoxColumn4.MinimumWidth = 150;
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            dataGridViewTextBoxColumn4.ReadOnly = true;
-            dataGridViewTextBoxColumn4.Width = 150;
+            Column2.HeaderText = "Column2";
+            Column2.Name = "Column2";
+            Column2.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -779,7 +812,9 @@ namespace JurDocsWinForms
             ((System.ComponentModel.ISupportInitialize)dgvProjectList).EndInit();
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
+            tabPage2.ResumeLayout(false);
             panelGrid.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -878,5 +913,8 @@ namespace JurDocsWinForms
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn a1;
+        private DataGridViewTextBoxColumn Column2;
     }
 }

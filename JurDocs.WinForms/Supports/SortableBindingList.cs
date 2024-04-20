@@ -64,20 +64,24 @@ namespace JurDocs.WinForms.Supports
             */
 
             var sourceParameter = Expression.Parameter(typeof(List<T>), "source");
+
             var lambdaParameter = Expression.Parameter(typeof(T), "lambdaParameter");
-            var accesedMember = typeof(T).GetProperty(prop.Name);
-            var propertySelectorLambda =
-                Expression.Lambda(Expression.MakeMemberAccess(lambdaParameter, accesedMember!), lambdaParameter);
-            var orderByMethod = typeof(Enumerable).GetMethods()
-                                          .Where(a => a.Name == orderByMethodName &&
-                                                       a.GetParameters().Length == 2)
-                                          .Single()
-                                          .MakeGenericMethod(typeof(T), prop.PropertyType);
+
+            var accesedMember = typeof(T).GetProperty(prop.Name)!;
+
+            var propertySelectorLambda = Expression.Lambda(
+                Expression.MakeMemberAccess(lambdaParameter, accesedMember),
+                lambdaParameter);
+
+            var orderByMethod = typeof(Enumerable)
+                .GetMethods()
+                .Where(a => a.Name == orderByMethodName && a.GetParameters().Length == 2)
+                .Single()
+                .MakeGenericMethod(typeof(T), prop.PropertyType);
 
             var orderByExpression = Expression.Lambda<Func<List<T>, IEnumerable<T>>>(
-                                        Expression.Call(orderByMethod,
-                                        new Expression[] { sourceParameter, propertySelectorLambda }),
-                                                sourceParameter);
+                Expression.Call(orderByMethod, [sourceParameter, propertySelectorLambda]),
+                sourceParameter);
 
             _cachedOrderByExpressions.Add(cacheKey, orderByExpression.Compile());
         }
@@ -89,13 +93,10 @@ namespace JurDocs.WinForms.Supports
 
         private void ResetItems(List<T> items)
         {
-
             base.ClearItems();
 
             for (int i = 0; i < items.Count; i++)
-            {
                 base.InsertItem(i, items[i]);
-            }
         }
 
         protected override bool SupportsSortingCore => true;
