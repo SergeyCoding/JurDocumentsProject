@@ -1,6 +1,8 @@
 using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
 using JurDocs.WinForms;
+using JurDocs.WinForms.Model;
+using JurDocs.WinForms.Supports;
 using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms.Model;
 using System.Diagnostics;
@@ -48,14 +50,32 @@ namespace JurDocsWinForms
 
             cbProjectList.Items.Clear();
 
-            var items = await ViewModel.GetProjectList();
+            var projectNameList = await ViewModel.GetProjectNameList();
 
-            if (items.Any())
+            if (projectNameList.Any())
             {
-                cbProjectList.Items.AddRange(items);
+                cbProjectList.Items.AddRange(projectNameList);
                 cbProjectList.Text = cbProjectList.Items[0]! as string;
             }
 
+            var projectList = await ViewModel.GetProjectList();
+
+            var data = new List<ProjectListTable>() {
+                new() { Id = 1, ProjectName = "11" },
+                new() { Id = 1, ProjectName = "112" }
+            };
+            foreach (var item in projectList)
+            {
+                data.Add(new ProjectListTable { Id = 1, ProjectName = item.Name, ProjectFullName = item.FullName, Owner = item.OwnerId.ToString() });
+            }
+
+            dgvProjectList.DataSource = null;
+            dgvProjectList.AutoGenerateColumns = true;
+
+            dgvProjectList.DataSource = new SortableBindingList<ProjectListTable>(data);
+            dgvProjectList.ShowCellToolTips = false;
+            dgvProjectList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProjectList.MultiSelect = false;
         }
 
         void button1_MouseDown(object sender, MouseEventArgs e)
@@ -98,7 +118,7 @@ namespace JurDocsWinForms
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
                 e.RowIndex >= 0)
             {
-                var ftl = (List<FileTableList>)dataGridView1.DataSource;
+                var ftl = (List<FileTableList>)dgvProjects.DataSource;
 
                 var fileTableList = ftl[e.RowIndex];
 
@@ -201,9 +221,9 @@ namespace JurDocsWinForms
                 });
                 k++;
             }
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = fileTableLists;
+            dgvProjects.AutoGenerateColumns = false;
+            dgvProjects.DataSource = null;
+            dgvProjects.DataSource = fileTableLists;
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -225,9 +245,9 @@ namespace JurDocsWinForms
                 fileTableLists.Add(new FileTableList { Id = k, DocType = item.DocName, BtnText = "îòêðûòü", FileName = item.FileName });
                 k++;
             }
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = fileTableLists;
+            dgvProjects.AutoGenerateColumns = false;
+            dgvProjects.DataSource = null;
+            dgvProjects.DataSource = fileTableLists;
         }
 
         private async void button2_Click(object sender, EventArgs e)
@@ -249,9 +269,9 @@ namespace JurDocsWinForms
                 fileTableLists.Add(new FileTableList { Id = k, DocType = "Äîãîâîðû", BtnText = "îòêðûòü", FileName = item.FileName });
                 k++;
             }
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = fileTableLists;
+            dgvProjects.AutoGenerateColumns = false;
+            dgvProjects.DataSource = null;
+            dgvProjects.DataSource = fileTableLists;
         }
 
         private async void button3_Click(object sender, EventArgs e)
@@ -281,9 +301,9 @@ namespace JurDocsWinForms
                 });
                 k++;
             }
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = fileTableLists;
+            dgvProjects.AutoGenerateColumns = false;
+            dgvProjects.DataSource = null;
+            dgvProjects.DataSource = fileTableLists;
         }
 
         private void âûõîäToolStripMenuItem_Click(object sender, EventArgs e)

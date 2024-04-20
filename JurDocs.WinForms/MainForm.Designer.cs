@@ -1,4 +1,6 @@
-﻿namespace JurDocsWinForms
+﻿using JurDocs.WinForms.Model;
+
+namespace JurDocsWinForms
 {
     partial class MainForm
     {
@@ -34,7 +36,7 @@
             button2 = new Button();
             button3 = new Button();
             button4 = new Button();
-            dataGridView1 = new DataGridView();
+            dgvProjects = new DataGridView();
             id = new DataGridViewTextBoxColumn();
             PrjectId = new DataGridViewTextBoxColumn();
             DocType = new DataGridViewTextBoxColumn();
@@ -55,8 +57,6 @@
             выходToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem2 = new ToolStripMenuItem();
             создатьСправкуToolStripMenuItem = new ToolStripMenuItem();
-            toolStripComboBox1 = new ToolStripComboBox();
-            toolStripTextBox1 = new ToolStripTextBox();
             toolStrip2 = new ToolStrip();
             newDocButton = new ToolStripButton();
             newToolStripButton = new ToolStripButton();
@@ -79,6 +79,8 @@
             label4 = new Label();
             cbProjectList = new ComboBox();
             tabControl1 = new TabControl();
+            tabPage3 = new TabPage();
+            dgvProjectList = new DataGridView();
             tabPage1 = new TabPage();
             comboBox2 = new ComboBox();
             label11 = new Label();
@@ -96,7 +98,11 @@
             tbПолучатель = new TextBox();
             tabPage2 = new TabPage();
             panelGrid = new Panel();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)dgvProjects).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
@@ -105,6 +111,8 @@
             panelSourceDocs.SuspendLayout();
             panelDocs.SuspendLayout();
             tabControl1.SuspendLayout();
+            tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProjectList).BeginInit();
             tabPage1.SuspendLayout();
             panelGrid.SuspendLayout();
             SuspendLayout();
@@ -146,20 +154,21 @@
             button4.Size = new Size(75, 23);
             button4.TabIndex = 11;
             // 
-            // dataGridView1
+            // dgvProjects
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { id, PrjectId, DocType, DocDate, FileName, Remark, Column1 });
-            dataGridView1.Location = new Point(3, 71);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(983, 449);
-            dataGridView1.TabIndex = 5;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dgvProjects.AllowUserToAddRows = false;
+            dgvProjects.AllowUserToDeleteRows = false;
+            dgvProjects.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvProjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProjects.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProjects.Columns.AddRange(new DataGridViewColumn[] { id, PrjectId, DocType, DocDate, FileName, Remark, Column1 });
+            dgvProjects.Location = new Point(3, 71);
+            dgvProjects.Name = "dgvProjects";
+            dgvProjects.ReadOnly = true;
+            dgvProjects.ShowCellToolTips = false;
+            dgvProjects.Size = new Size(983, 327);
+            dgvProjects.TabIndex = 5;
+            dgvProjects.CellContentClick += dataGridView1_CellContentClick;
             // 
             // id
             // 
@@ -238,7 +247,7 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel2 });
-            statusStrip1.Location = new Point(0, 644);
+            statusStrip1.Location = new Point(0, 522);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1300, 22);
             statusStrip1.TabIndex = 7;
@@ -259,10 +268,10 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem, toolStripMenuItem2, toolStripComboBox1, toolStripTextBox1 });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem, toolStripMenuItem2 });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1300, 27);
+            menuStrip1.Size = new Size(1300, 24);
             menuStrip1.TabIndex = 10;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -270,7 +279,7 @@
             // 
             файлToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { создатьПроектToolStripMenuItem, изменитьПроектToolStripMenuItem, toolStripMenuItem1, выходToolStripMenuItem });
             файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            файлToolStripMenuItem.Size = new Size(48, 23);
+            файлToolStripMenuItem.Size = new Size(48, 20);
             файлToolStripMenuItem.Text = "Файл";
             // 
             // создатьПроектToolStripMenuItem
@@ -303,7 +312,7 @@
             // 
             toolStripMenuItem2.DropDownItems.AddRange(new ToolStripItem[] { создатьСправкуToolStripMenuItem });
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(59, 23);
+            toolStripMenuItem2.Size = new Size(59, 20);
             toolStripMenuItem2.Text = "Проект";
             // 
             // создатьСправкуToolStripMenuItem
@@ -312,20 +321,10 @@
             создатьСправкуToolStripMenuItem.Size = new Size(164, 22);
             создатьСправкуToolStripMenuItem.Text = "Создать справку";
             // 
-            // toolStripComboBox1
-            // 
-            toolStripComboBox1.Name = "toolStripComboBox1";
-            toolStripComboBox1.Size = new Size(121, 23);
-            // 
-            // toolStripTextBox1
-            // 
-            toolStripTextBox1.Name = "toolStripTextBox1";
-            toolStripTextBox1.Size = new Size(100, 23);
-            // 
             // toolStrip2
             // 
             toolStrip2.Items.AddRange(new ToolStripItem[] { newDocButton, newToolStripButton, openToolStripButton, saveToolStripButton, printToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton, toolStripSeparator1, helpToolStripButton });
-            toolStrip2.Location = new Point(0, 27);
+            toolStrip2.Location = new Point(0, 24);
             toolStrip2.Name = "toolStrip2";
             toolStrip2.RenderMode = ToolStripRenderMode.System;
             toolStrip2.Size = new Size(1300, 25);
@@ -431,7 +430,7 @@
             panelDragDrop.Controls.Add(panelDocs);
             panelDragDrop.Location = new Point(1015, 82);
             panelDragDrop.Name = "panelDragDrop";
-            panelDragDrop.Size = new Size(273, 551);
+            panelDragDrop.Size = new Size(273, 429);
             panelDragDrop.TabIndex = 13;
             // 
             // panelSourceDocs
@@ -508,14 +507,40 @@
             // 
             // tabControl1
             // 
+            tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(997, 551);
+            tabControl1.Size = new Size(997, 429);
             tabControl1.TabIndex = 18;
+            // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(dgvProjectList);
+            tabPage3.Location = new Point(4, 24);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(989, 401);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "Проект";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // dgvProjectList
+            // 
+            dgvProjectList.AllowUserToAddRows = false;
+            dgvProjectList.AllowUserToDeleteRows = false;
+            dgvProjectList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvProjectList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProjectList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProjectList.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4 });
+            dgvProjectList.Location = new Point(3, 37);
+            dgvProjectList.Name = "dgvProjectList";
+            dgvProjectList.ReadOnly = true;
+            dgvProjectList.Size = new Size(983, 358);
+            dgvProjectList.TabIndex = 6;
             // 
             // tabPage1
             // 
@@ -533,7 +558,7 @@
             tabPage1.Controls.Add(label5);
             tabPage1.Controls.Add(label6);
             tabPage1.Controls.Add(tbПолучатель);
-            tabPage1.Controls.Add(dataGridView1);
+            tabPage1.Controls.Add(dgvProjects);
             tabPage1.Controls.Add(label3);
             tabPage1.Controls.Add(label4);
             tabPage1.Controls.Add(cbProjectList);
@@ -541,7 +566,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(989, 523);
+            tabPage1.Size = new Size(989, 401);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Письмо";
             tabPage1.UseVisualStyleBackColor = true;
@@ -664,7 +689,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(989, 523);
+            tabPage2.Size = new Size(989, 401);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Договор";
             tabPage2.UseVisualStyleBackColor = true;
@@ -675,14 +700,53 @@
             panelGrid.Controls.Add(tabControl1);
             panelGrid.Location = new Point(12, 82);
             panelGrid.Name = "panelGrid";
-            panelGrid.Size = new Size(997, 551);
+            panelGrid.Size = new Size(997, 429);
             panelGrid.TabIndex = 19;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            dataGridViewTextBoxColumn1.HeaderText = "#";
+            dataGridViewTextBoxColumn1.MinimumWidth = 50;
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Resizable = DataGridViewTriState.False;
+            dataGridViewTextBoxColumn1.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewTextBoxColumn2.DataPropertyName = "ProjectName";
+            dataGridViewTextBoxColumn2.HeaderText = "Код проекта";
+            dataGridViewTextBoxColumn2.MaxInputLength = 10;
+            dataGridViewTextBoxColumn2.MinimumWidth = 100;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.DataPropertyName = "ProjectFullName";
+            dataGridViewTextBoxColumn3.HeaderText = "Наименование проекта";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            dataGridViewTextBoxColumn3.ToolTipText = "---";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridViewTextBoxColumn4.DataPropertyName = "Owner";
+            dataGridViewTextBoxColumn4.HeaderText = "Владелец";
+            dataGridViewTextBoxColumn4.MinimumWidth = 150;
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
+            dataGridViewTextBoxColumn4.Width = 150;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1300, 666);
+            ClientSize = new Size(1300, 544);
             Controls.Add(panelGrid);
             Controls.Add(panelDragDrop);
             Controls.Add(toolStrip2);
@@ -697,7 +761,7 @@
             Name = "MainForm";
             Text = "Архив документов";
             Load += MainForm_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProjects).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
@@ -711,6 +775,8 @@
             panelDocs.ResumeLayout(false);
             panelDocs.PerformLayout();
             tabControl1.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvProjectList).EndInit();
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             panelGrid.ResumeLayout(false);
@@ -724,7 +790,7 @@
         private Button button2;
         private Button button3;
         private Button button4;
-        private DataGridView dataGridView1;
+        private DataGridView dgvProjects;
         private Button button6;
 #pragma warning disable CS0169 // The field 'MainForm.myPropertyDataGridViewTextBoxColumn' is never used
         private DataGridViewTextBoxColumn myPropertyDataGridViewTextBoxColumn;
@@ -744,9 +810,6 @@
 #pragma warning restore CS0169 // The field 'MainForm.toolStrip1' is never used
 #pragma warning disable CS0169 // The field 'MainForm.toolStripProgressBar1' is never used
         private ToolStripProgressBar toolStripProgressBar1;
-#pragma warning restore CS0169 // The field 'MainForm.toolStripProgressBar1' is never used
-#pragma warning disable CS0169 // The field 'MainForm.toolStripButton1' is never used
-        private ToolStripButton toolStripButton1;
 #pragma warning restore CS0169 // The field 'MainForm.toolStripButton1' is never used
 #pragma warning disable CS0169 // The field 'MainForm.toolStripButton2' is never used
         private ToolStripButton toolStripButton2;
@@ -802,7 +865,6 @@
         private TextBox tbОтпавитель;
         private ToolStripMenuItem toolStripMenuItem2;
         private ToolStripMenuItem создатьСправкуToolStripMenuItem;
-        private ToolStripComboBox toolStripComboBox1;
         private DataGridViewTextBoxColumn id;
         private DataGridViewTextBoxColumn PrjectId;
         private DataGridViewTextBoxColumn DocType;
@@ -810,6 +872,11 @@
         private DataGridViewTextBoxColumn FileName;
         private DataGridViewTextBoxColumn Remark;
         private DataGridViewButtonColumn Column1;
-        private ToolStripTextBox toolStripTextBox1;
+        private TabPage tabPage3;
+        private DataGridView dgvProjectList;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
     }
 }

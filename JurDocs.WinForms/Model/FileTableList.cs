@@ -1,4 +1,4 @@
-﻿namespace JurDocsWinForms
+﻿namespace JurDocs.WinForms.Model
 {
     /// <summary>
     /// 

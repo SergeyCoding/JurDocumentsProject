@@ -23,7 +23,7 @@ namespace JurDocs.Server.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(JurDocProject[]), 200)]
-        [ProducesResponseType(typeof(string),400)]
+        [ProducesResponseType(typeof(string), 400)]
         public async Task<IActionResult> Get()
         {
             try
@@ -32,12 +32,19 @@ namespace JurDocs.Server.Controllers
 
                 var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
 
-                var jurDocUserList = await _dbContext.Set<JurDocProject>()
-                    .AsTracking()
-                    .Where(x => x.OwnerId == user!.Id && !x.IsDeleted)
+                var projectRights = await _dbContext.Set<ProjectRights>()
+                    .AsNoTracking()
+                    .Where(x => x.UserId == user!.Id)
+                    .Select(x => x.Id)
+                    .Distinct()
                     .ToArrayAsync();
 
-                return Ok(jurDocUserList);
+                var projectByOwners = await _dbContext.Set<JurDocProject>()
+                    .AsNoTracking()
+                    .Where(x => (x.OwnerId == user!.Id || projectRights.Contains(x.Id)) && !x.IsDeleted)
+                    .ToArrayAsync();
+
+                return Ok(projectByOwners);
             }
             catch (Exception e)
             {
