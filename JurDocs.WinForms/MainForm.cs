@@ -1,10 +1,6 @@
 using JurDocs.Client;
-using JurDocs.Common.EnumTypes;
 using JurDocs.Core;
-using JurDocs.Core.Operations;
-using JurDocs.Core.Operations.ChangeCurrentPageOperations;
-using JurDocs.Core.Operations.ChangeCurrentProjectOperation;
-using JurDocs.Core.States;
+using JurDocs.Core.Commands;
 using JurDocs.WinForms;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
@@ -348,7 +344,7 @@ namespace JurDocsWinForms
 
         private async void newToolStripButton_Click(object sender, EventArgs e)
         {
-            if (GetState.State.CurrentPage == JurDocs.Core.Constants.AppPage.Проект)
+            if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
             {
                 var createProjectViewModel = await ViewModel!.CreateNewProject();
 
@@ -379,30 +375,21 @@ namespace JurDocsWinForms
             {
                 var text = tc.SelectedTab?.Text;
 
-                var context = new ChangeCurrentPageContext
-                {
-                    TextPage = text
-                };
+                new ChangeCurrentPage(text!).Execute();
 
-                new ChangeCurrentPage().ExecuteAsync(context);
-
-                toolStripStatusLabel2.Text = $"Текущий проект: {GetState.State.CurrentPage}";
+                toolStripStatusLabel2.Text = $"Текущий проект: {new GetState().GetCurrentPage}";
             }
         }
 
         private async void dgvProjectList_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            var projectListTables = dgvProjectList.DataSource as SortableBindingList<ProjectListTable>;
-
-            if (projectListTables != null)
+            if (dgvProjectList.DataSource is SortableBindingList<ProjectListTable> projectListTables)
             {
                 var projectListTable = projectListTables[e.RowIndex];
-                await new ChangeCurrentProject().ExecuteAsync(
-                    new ChangeCurrentProjectContext { ProjectId = projectListTable.Id }
-                    );
+                await new ChangeCurrentProject(projectListTable.Id).ExecuteAsync();
             }
 
-            toolStripStatusLabel2.Text = $"Текущий проект: {GetState.State.CurrentProject.Name}";
+            toolStripStatusLabel2.Text = $"Текущий проект: {new GetState().GetCurrentProject.Name}";
         }
     }
 }

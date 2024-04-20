@@ -1,4 +1,6 @@
-﻿using JurDocs.Core.States;
+﻿using JurDocs.Client;
+using JurDocs.Core.Constants;
+using JurDocs.Core.States;
 
 namespace JurDocs.Core
 {
@@ -7,14 +9,7 @@ namespace JurDocs.Core
     /// </summary>
     public class GetState
     {
-        private static AppState state = new();
-
-        internal static AppState AppState() => state;
-
-        public static AppState State => new()
-        {
-            CurrentPage = state.CurrentPage,
-            CurrentProject = state.CurrentProject
-        };
+        public AppPage GetCurrentPage => AppState.Instance.CurrentPage;
+        public JurDocProject GetCurrentProject => AppState.Instance.CurrentProject;
     }
 }

@@ -4,8 +4,10 @@ using JurDocs.Core.Model;
 
 namespace JurDocs.Core.States
 {
-    public class AppState
+    internal class AppState
     {
+        public static AppState Instance = new();
+
         private JurDocsClient? _client = null;
 
         private JurDocUser? _user;
