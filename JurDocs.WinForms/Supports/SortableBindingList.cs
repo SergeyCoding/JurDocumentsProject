@@ -8,39 +8,26 @@ namespace JurDocs.WinForms.Supports
     {
 
         // reference to the list provided at the time of instantiation
-        List<T> originalList;
-        ListSortDirection sortDirection;
-        PropertyDescriptor sortProperty;
+        private List<T> _originalList = [];
+        private ListSortDirection _sortDirection;
+        private PropertyDescriptor? _sortProperty;
 
         // function that refereshes the contents
         // of the base classes collection of elements
-        Action<SortableBindingList<T>, List<T>> populateBaseList = (a, b) => a.ResetItems(b);
+        private readonly Action<SortableBindingList<T>, List<T>> _populateBaseList = (a, b) => a.ResetItems(b);
 
         // a cache of functions that perform the sorting
         // for a given type, property, and sort direction
-        static Dictionary<string, Func<List<T>, IEnumerable<T>>>
-           cachedOrderByExpressions = new Dictionary<string, Func<List<T>,
-                                                     IEnumerable<T>>>();
+        static readonly Dictionary<string, Func<List<T>, IEnumerable<T>>> _cachedOrderByExpressions = [];
 
-        public SortableBindingList()
-        {
-            originalList = new List<T>();
-        }
 
         public SortableBindingList(IEnumerable<T> enumerable)
         {
-            originalList = enumerable.ToList();
-            populateBaseList(this, originalList);
+            _originalList.AddRange(enumerable);
+            _populateBaseList(this, _originalList);
         }
 
-        public SortableBindingList(List<T> list)
-        {
-            originalList = list;
-            populateBaseList(this, originalList);
-        }
-
-        protected override void ApplySortCore(PropertyDescriptor prop,
-                                ListSortDirection direction)
+        protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
         {
             /*
              Look for an appropriate sort method in the cache if not found .
@@ -49,26 +36,26 @@ namespace JurDocs.WinForms.Supports
              Notify any bound controls that the sort has been applied.
              */
 
-            sortProperty = prop;
+            _sortProperty = prop;
 
-            var orderByMethodName = sortDirection ==
-                ListSortDirection.Ascending ? "OrderBy" : "OrderByDescending";
+            var orderByMethodName = _sortDirection == ListSortDirection.Ascending ? "OrderBy" : "OrderByDescending";
+
             var cacheKey = typeof(T).GUID + prop.Name + orderByMethodName;
 
-            if (!cachedOrderByExpressions.ContainsKey(cacheKey))
+            if (!_cachedOrderByExpressions.ContainsKey(cacheKey))
             {
-                CreateOrderByMethod(prop, orderByMethodName, cacheKey);
+                SortableBindingList<T>.CreateOrderByMethod(prop, orderByMethodName, cacheKey);
             }
 
-            ResetItems(cachedOrderByExpressions[cacheKey](originalList).ToList());
+            ResetItems(_cachedOrderByExpressions[cacheKey](_originalList).ToList());
+
             ResetBindings();
-            sortDirection = sortDirection == ListSortDirection.Ascending ?
-                            ListSortDirection.Descending : ListSortDirection.Ascending;
+
+            _sortDirection = _sortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
         }
 
 
-        private void CreateOrderByMethod(PropertyDescriptor prop,
-                     string orderByMethodName, string cacheKey)
+        private static void CreateOrderByMethod(PropertyDescriptor prop, string orderByMethodName, string cacheKey)
         {
 
             /*
@@ -80,8 +67,7 @@ namespace JurDocs.WinForms.Supports
             var lambdaParameter = Expression.Parameter(typeof(T), "lambdaParameter");
             var accesedMember = typeof(T).GetProperty(prop.Name);
             var propertySelectorLambda =
-                Expression.Lambda(Expression.MakeMemberAccess(lambdaParameter,
-                                  accesedMember), lambdaParameter);
+                Expression.Lambda(Expression.MakeMemberAccess(lambdaParameter, accesedMember!), lambdaParameter);
             var orderByMethod = typeof(Enumerable).GetMethods()
                                           .Where(a => a.Name == orderByMethodName &&
                                                        a.GetParameters().Length == 2)
@@ -90,16 +76,15 @@ namespace JurDocs.WinForms.Supports
 
             var orderByExpression = Expression.Lambda<Func<List<T>, IEnumerable<T>>>(
                                         Expression.Call(orderByMethod,
-                                                new Expression[] { sourceParameter,
-                                                               propertySelectorLambda }),
+                                        new Expression[] { sourceParameter, propertySelectorLambda }),
                                                 sourceParameter);
 
-            cachedOrderByExpressions.Add(cacheKey, orderByExpression.Compile());
+            _cachedOrderByExpressions.Add(cacheKey, orderByExpression.Compile());
         }
 
         protected override void RemoveSortCore()
         {
-            ResetItems(originalList);
+            ResetItems(_originalList);
         }
 
         private void ResetItems(List<T> items)
@@ -113,34 +98,16 @@ namespace JurDocs.WinForms.Supports
             }
         }
 
-        protected override bool SupportsSortingCore
-        {
-            get
-            {
-                // indeed we do
-                return true;
-            }
-        }
+        protected override bool SupportsSortingCore => true;
 
-        protected override ListSortDirection SortDirectionCore
-        {
-            get
-            {
-                return sortDirection;
-            }
-        }
+        protected override ListSortDirection SortDirectionCore => _sortDirection;
 
-        protected override PropertyDescriptor SortPropertyCore
-        {
-            get
-            {
-                return sortProperty;
-            }
-        }
+#pragma warning disable CS8603 // Possible null reference return.
+        protected override PropertyDescriptor SortPropertyCore => _sortProperty;
 
         protected override void OnListChanged(ListChangedEventArgs e)
         {
-            originalList = Items.ToList();
+            _originalList = [.. Items];
         }
     }
 }
