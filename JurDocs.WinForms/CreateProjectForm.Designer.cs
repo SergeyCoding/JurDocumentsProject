@@ -59,6 +59,7 @@
             tbProjectName.Name = "tbProjectName";
             tbProjectName.Size = new Size(186, 23);
             tbProjectName.TabIndex = 0;
+            tbProjectName.MaxLength = 10;
             // 
             // label1
             // 

@@ -12,6 +12,8 @@ namespace JurDocsWinForms
 
     public partial class MainForm : Form
     {
+        internal MainViewModel? ViewModel;
+
         internal WorkSession? WorkSession { get; set; }
 
         public MainForm()
@@ -19,12 +21,15 @@ namespace JurDocsWinForms
             InitializeComponent();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private async void MainForm_Load(object sender, EventArgs e)
         {
-            if (WorkSession?.User != null)
-            {
-                toolStripStatusLabel1.Text = $"Пользователь: {WorkSession.User.UserName}";
-            }
+            if (WorkSession == null)
+                throw new InvalidOperationException("Пользователь не зарегистррован");
+
+            ViewModel = new MainViewModel(JurClientService.JurDocsClientFactory(WorkSession.User.Token));
+
+            toolStripStatusLabel1.Text = $"Пользователь: {WorkSession.User.UserName}";
+
             MinimumSize = new Size(Width, Height);
 
             panelDragDrop.AllowDrop = true;
@@ -40,6 +45,16 @@ namespace JurDocsWinForms
             panelDocs.DragDrop += panel_DragDrop;
             button1.MouseUp += button1_MouseDown;
 #pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
+
+            cbProjectList.Items.Clear();
+
+            var items = await ViewModel.GetProjectList();
+
+            if (items.Any())
+            {
+                cbProjectList.Items.AddRange(items);
+                cbProjectList.Text = cbProjectList.Items[0]! as string;
+            }
 
         }
 
