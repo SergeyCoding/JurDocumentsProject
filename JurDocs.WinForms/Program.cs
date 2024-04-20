@@ -1,4 +1,5 @@
 using JurDocs.Client;
+using JurDocs.Core.Commands1;
 using JurDocs.WinForms.Configuration;
 using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms;
@@ -91,6 +92,8 @@ namespace JurDocs.WinForms
 
             if (workSession == null)
                 return;
+
+            new InitApiClient(workSession.User.Token).Execute();
 
             var mainForm = new MainForm { WorkSession = workSession };
             ProgramHelpers.MoveWindowToCenterScreen(mainForm);
