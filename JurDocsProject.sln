@@ -3,31 +3,32 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsServer", "JurDocsServer\JurDocsServer.csproj", "{D12B39BC-0704-4314-B9BD-E088E7078097}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsWinForms", "JurDocsWinForms\JurDocsWinForms.csproj", "{F2A40DFB-057C-4F2A-9754-31F36BF36E50}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D12B39BC-0704-4314-B9BD-E088E7078097} = {D12B39BC-0704-4314-B9BD-E088E7078097}
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{74A6F318-30FC-4ED6-BC3B-2A5A39830693}"
 	ProjectSection(SolutionItems) = preProject
 		current-tasks.md = current-tasks.md
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsClient", "JurDocsClient\JurDocsClient.csproj", "{41E2C466-9705-4852-89B7-00780BCA1A62}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurClientGenerator", "JurDocsClientGenerator\JurClientGenerator.csproj", "{A51B8EF9-BAB0-46FB-8091-1BA5F3A968B2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbModel", "DbModel\DbModel.csproj", "{81432F34-D5B5-4D47-A71E-68D37974E705}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocsCommon", "JurDocsCommon\JurDocsCommon.csproj", "{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{97196670-39E0-479A-AE2D-AC28067EE151}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{1E80E7E6-837E-499D-9735-94C4D79CA11C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs.ClientGenerator", "Tools\JurDocs.ClientGenerator\JurDocs.ClientGenerator.csproj", "{DC6A626C-A327-4A2D-B584-B784F1E4DB64}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs.Client", "JurDocs.Client\JurDocs.Client.csproj", "{AE3EED7B-EA21-41D9-9392-6B4654C7EACA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs.Common", "JurDocs.Common\JurDocs.Common.csproj", "{B7193043-9348-4723-9EAC-B2DFE47117CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs.DbModel", "JurDocs.DbModel\JurDocs.DbModel.csproj", "{E833270D-E2E2-410A-9145-F103D3142C03}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs.Server", "JurDocs.Server\JurDocs.Server.csproj", "{A472FAF3-5159-489A-A0DC-7A01ED453F7B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs.WinForms", "JurDocs.WinForms\JurDocs.WinForms.csproj", "{0151DD9F-5D8A-4FD7-AB82-EBD46B6CD651}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurDocs.Core", "JurDocs.Core\JurDocs.Core.csproj", "{B8D27DED-4BC9-4EA5-9E32-C6E07490C669}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,33 +36,40 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D12B39BC-0704-4314-B9BD-E088E7078097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D12B39BC-0704-4314-B9BD-E088E7078097}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D12B39BC-0704-4314-B9BD-E088E7078097}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D12B39BC-0704-4314-B9BD-E088E7078097}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2A40DFB-057C-4F2A-9754-31F36BF36E50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2A40DFB-057C-4F2A-9754-31F36BF36E50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2A40DFB-057C-4F2A-9754-31F36BF36E50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2A40DFB-057C-4F2A-9754-31F36BF36E50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41E2C466-9705-4852-89B7-00780BCA1A62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41E2C466-9705-4852-89B7-00780BCA1A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41E2C466-9705-4852-89B7-00780BCA1A62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41E2C466-9705-4852-89B7-00780BCA1A62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A51B8EF9-BAB0-46FB-8091-1BA5F3A968B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A51B8EF9-BAB0-46FB-8091-1BA5F3A968B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A51B8EF9-BAB0-46FB-8091-1BA5F3A968B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A51B8EF9-BAB0-46FB-8091-1BA5F3A968B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81432F34-D5B5-4D47-A71E-68D37974E705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81432F34-D5B5-4D47-A71E-68D37974E705}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81432F34-D5B5-4D47-A71E-68D37974E705}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81432F34-D5B5-4D47-A71E-68D37974E705}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B9C47B6-7160-4F7A-940C-A0BC7A00FB54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC6A626C-A327-4A2D-B584-B784F1E4DB64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC6A626C-A327-4A2D-B584-B784F1E4DB64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC6A626C-A327-4A2D-B584-B784F1E4DB64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC6A626C-A327-4A2D-B584-B784F1E4DB64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE3EED7B-EA21-41D9-9392-6B4654C7EACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE3EED7B-EA21-41D9-9392-6B4654C7EACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE3EED7B-EA21-41D9-9392-6B4654C7EACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE3EED7B-EA21-41D9-9392-6B4654C7EACA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7193043-9348-4723-9EAC-B2DFE47117CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7193043-9348-4723-9EAC-B2DFE47117CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7193043-9348-4723-9EAC-B2DFE47117CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7193043-9348-4723-9EAC-B2DFE47117CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E833270D-E2E2-410A-9145-F103D3142C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E833270D-E2E2-410A-9145-F103D3142C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E833270D-E2E2-410A-9145-F103D3142C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E833270D-E2E2-410A-9145-F103D3142C03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A472FAF3-5159-489A-A0DC-7A01ED453F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A472FAF3-5159-489A-A0DC-7A01ED453F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A472FAF3-5159-489A-A0DC-7A01ED453F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A472FAF3-5159-489A-A0DC-7A01ED453F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0151DD9F-5D8A-4FD7-AB82-EBD46B6CD651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0151DD9F-5D8A-4FD7-AB82-EBD46B6CD651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0151DD9F-5D8A-4FD7-AB82-EBD46B6CD651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0151DD9F-5D8A-4FD7-AB82-EBD46B6CD651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D27DED-4BC9-4EA5-9E32-C6E07490C669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D27DED-4BC9-4EA5-9E32-C6E07490C669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D27DED-4BC9-4EA5-9E32-C6E07490C669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D27DED-4BC9-4EA5-9E32-C6E07490C669}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DC6A626C-A327-4A2D-B584-B784F1E4DB64} = {1E80E7E6-837E-499D-9735-94C4D79CA11C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B88AE52-B6C2-4B7C-8204-23A28C22196B}
