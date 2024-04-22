@@ -10,5 +10,6 @@ namespace JurDocs.Core.Model
         public int UserId { get; set; }
         public string UserName { get; set; } = string.Empty;
         public UserRightType Right { get; set; }
+        public JurDocType DocType { get; set; } = JurDocType.None;
     }
 }

@@ -17,6 +17,19 @@ namespace JurDocsWinForms
     {
         internal MainViewModel? ViewModel;
 
+        private MainViewModel VM
+        {
+            get
+            {
+                if (ViewModel == null)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                return ViewModel;
+            }
+        }
+
         internal WorkSession? WorkSession { get; set; }
 
         public MainForm()
@@ -58,8 +71,11 @@ namespace JurDocsWinForms
                 cbProjectList.Items.AddRange(projectNameList);
                 cbProjectList.Text = cbProjectList.Items[0]! as string;
             }
-
             await UpdateProjectList();
+
+            new ChangeCurrentPage("Проект").Execute();
+
+            tssCurrentPage.Text = $"Текущий раздел: {new GetState().GetCurrentPage}";
         }
 
         private async Task UpdateProjectList()
@@ -344,9 +360,10 @@ namespace JurDocsWinForms
 
         private async void newToolStripButton_Click(object sender, EventArgs e)
         {
+
             if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
             {
-                var createProjectViewModel = await ViewModel!.CreateNewProject();
+                var createProjectViewModel = await VM.CreateNewProject();
 
                 var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
 
@@ -354,6 +371,15 @@ namespace JurDocsWinForms
                 f.ShowDialog(this);
 
                 return;
+            }
+
+            if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
+            {
+                VM.CreateNewLetter();
+
+                Form f = new AddNewDoc();
+                ProgramHelpers.MoveWindowToCenterScreen(f);
+                f.ShowDialog(this);
             }
 
 
@@ -377,7 +403,7 @@ namespace JurDocsWinForms
 
                 new ChangeCurrentPage(text!).Execute();
 
-                toolStripStatusLabel2.Text = $"Текущий проект: {new GetState().GetCurrentPage}";
+                tssCurrentPage.Text = $"Текущий раздел: {new GetState().GetCurrentPage}";
             }
         }
 
@@ -389,7 +415,7 @@ namespace JurDocsWinForms
                 await new ChangeCurrentProject(projectListTable.Id).ExecuteAsync();
             }
 
-            toolStripStatusLabel2.Text = $"Текущий проект: {new GetState().GetCurrentProject.Name}";
+            tssCurrentProject.Text = $"Текущий проект: {new GetState().GetCurrentProject.Name}";
         }
     }
 }
