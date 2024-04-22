@@ -21,9 +21,24 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        [ProducesResponseType(typeof(ProjectRights[]), 200)]
+        public async Task<IActionResult> Get([FromQuery] int projectId)
         {
-            return Ok();
+            try
+            {
+                var projectRights = await _dbContext.Set<ProjectRights>()
+                    .AsNoTracking()
+                    .Where(x => x.ProjectId == projectId)
+                    .ToArrayAsync();
+
+                if (projectRights != null)
+                    return Ok(projectRights);
+            }
+            catch (Exception)
+            {
+            }
+
+            return BadRequest();
         }
 
         [HttpPost]
@@ -65,8 +80,9 @@ namespace JurDocs.Server.Controllers
             }
             catch (Exception)
             {
-                throw;
             }
+
+            return BadRequest();
         }
 
         public record class RightsPostRequest
@@ -74,6 +90,51 @@ namespace JurDocs.Server.Controllers
             public int ProjectId { get; set; }
             public string? DocType { get; set; }
             public int UserId { get; set; }
+        }
+
+
+        [HttpDelete]
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(string), 400)]
+        public async Task<IActionResult> Delete([FromBody] ProjectRights rights)
+        {
+            try
+            {
+                var login = GetUserLogin();
+
+                var owner = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == login);
+
+                if (owner == null)
+                    return BadRequest("Нет прав для изменения данного проекта");
+
+                var jurDocProject = _dbContext.Set<JurDocProject>()
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == rights.ProjectId && x.OwnerId == owner.Id);
+
+                if (jurDocProject == null)
+                    return BadRequest("Нет прав для изменения данного проекта");
+
+                var projectRights = await _dbContext.Set<ProjectRights>()
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.ProjectId == rights.ProjectId && x.UserId == rights.UserId && x.DocType == rights.DocType);
+
+                if (projectRights != null)
+                    return Ok("OK");
+
+                var newRights = new ProjectRights
+                {
+                    ProjectId = rights.ProjectId,
+                    DocType = rights.DocType,
+                    UserId = rights.UserId,
+                };
+
+                return Ok("OK");
+            }
+            catch (Exception)
+            {
+            }
+
+            return BadRequest();
         }
     }
 }
