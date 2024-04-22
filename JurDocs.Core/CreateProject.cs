@@ -1,5 +1,4 @@
-﻿using JurDocs.Common.EnumTypes;
-using JurDocs.Core.States;
+﻿using JurDocs.Core.States;
 
 namespace JurDocs.Core
 {

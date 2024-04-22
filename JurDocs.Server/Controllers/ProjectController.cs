@@ -82,6 +82,8 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(typeof(JurDocProject), 200)]
+        [ProducesResponseType(typeof(string), 400)]
         public async Task<IActionResult> Put([FromBody] JurDocProject project)
         {
             try

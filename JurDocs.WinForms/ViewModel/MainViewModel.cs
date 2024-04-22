@@ -86,5 +86,10 @@ namespace JurDocs.WinForms.ViewModel
             var swaggerResponse = await client.ProjectAllAsync();
             return [.. swaggerResponse.Result.Select(x => x.Name).Where(x => !string.IsNullOrWhiteSpace(x))];
         }
+
+        internal void CreateNewLetter()
+        {
+
+        }
     }
 }
