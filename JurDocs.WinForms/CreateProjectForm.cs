@@ -1,4 +1,5 @@
 ﻿using JurDocs.Common.EnumTypes;
+using JurDocs.Core.Model;
 using JurDocs.WinForms.ViewModel;
 
 namespace JurDocsWinForms
