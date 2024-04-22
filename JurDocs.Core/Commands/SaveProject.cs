@@ -32,7 +32,7 @@ namespace JurDocs.Core.Commands
                             UserId = item.UserId,
                             DocType = item.DocType.ToString(),
                             ProjectId = newProject.Id,
-                        });
+                        }).ConfigureAwait(false);
                     }
                     else
                     {
