@@ -1,7 +1,9 @@
 ﻿using JurDocs.Common.Loggers;
 using JurDocs.DbModel;
 using JurDocs.Server.Controllers.Base;
+using JurDocs.Server.Model.Responses;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,8 +44,8 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(string), 200)]
-        [ProducesResponseType(typeof(string), 400)]
+        [ProducesResponseType(typeof(DataResponse<string>), 200)]
+        [ProducesResponseType(typeof(DataResponse<string>), 400)]
         public async Task<IActionResult> Post([FromBody] RightsPostRequest rights)
         {
             try
@@ -53,21 +55,21 @@ namespace JurDocs.Server.Controllers
                 var owner = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == login);
 
                 if (owner == null)
-                    return BadRequest("Нет прав для изменения данного проекта");
+                    return BadRequest(new DataResponse<string> { Status = 400, MessageToUser = "Нет прав для изменения данного проекта" });
 
                 var jurDocProject = _dbContext.Set<JurDocProject>()
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Id == rights.ProjectId && x.OwnerId == owner.Id);
 
                 if (jurDocProject == null)
-                    return BadRequest("Нет прав для изменения данного проекта");
+                    return BadRequest(new DataResponse<string> { Status = 400, MessageToUser = "Нет прав для изменения данного проекта" });
 
                 var projectRights = await _dbContext.Set<ProjectRights>()
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.ProjectId == rights.ProjectId && x.UserId == rights.UserId && x.DocType == rights.DocType);
 
                 if (projectRights != null)
-                    return Ok("OK");
+                    return Ok(new DataResponse<string> { Status = 200, MessageToUser = string.Empty });
 
                 var newRights = new ProjectRights
                 {
@@ -76,13 +78,23 @@ namespace JurDocs.Server.Controllers
                     UserId = rights.UserId,
                 };
 
-                return Ok("OK");
+                await _dbContext.AddAsync(newRights).ConfigureAwait(false);
+                await _dbContext.SaveChangesAsync().ConfigureAwait(false);
+
+                return Ok(new DataResponse<string> { Status = 200, MessageToUser = string.Empty });
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger?.LogError(e, null);
+                return BadRequest(new DataResponse<string>
+                {
+                    Status = 400,
+                    Data = null,
+                    Errors = [e.ToString()],
+                    MessageToUser = "Непредвиденная ошибка"
+                });
             }
 
-            return BadRequest();
         }
 
         public record class RightsPostRequest
