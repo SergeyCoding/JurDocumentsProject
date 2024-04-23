@@ -7,6 +7,7 @@
     {
         public const string sectionName = "JurDocsApp";
 
+        public string? AdditionalConfig { get; set; }
         public string? Catalog { get; set; }
         public string? LogDir { get; set; }
         public string? RootToken { get; set; }
