@@ -1,7 +1,6 @@
 using JurDocs.Client;
 using JurDocs.Core.Commands1;
 using JurDocs.WinForms.Configuration;
-using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms;
 using JurDocsWinForms.Model;
 using Microsoft.Extensions.Configuration;
