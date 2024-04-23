@@ -383,6 +383,7 @@
     "/api/Project": {
       "get": {
         "tags": [ "Project" ],
+        "summary": "Получить список проектов",
         "responses": {
           "200": {
             "description": "Success",
@@ -488,6 +489,41 @@
           }
         },
         "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/api/Project/{projectId}": {
+      "get": {
+        "tags": [ "Project" ],
+        "summary": "Получить проект по Id",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": { "schema": { "$ref": "#/components/schemas/JurDocProjectDataResponse" } },
+              "application/json": { "schema": { "$ref": "#/components/schemas/JurDocProjectDataResponse" } },
+              "text/json": { "schema": { "$ref": "#/components/schemas/JurDocProjectDataResponse" } }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": { "schema": { "$ref": "#/components/schemas/JurDocProjectDataResponse" } },
+              "application/json": { "schema": { "$ref": "#/components/schemas/JurDocProjectDataResponse" } },
+              "text/json": { "schema": { "$ref": "#/components/schemas/JurDocProjectDataResponse" } }
+            }
+          }
+        }
       }
     },
     "/api/Rights": {
@@ -712,6 +748,26 @@
         },
         "additionalProperties": false
       },
+      "JurDocProjectDataResponse": {
+        "type": "object",
+        "properties": {
+          "data": { "$ref": "#/components/schemas/JurDocProject" },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errors": {
+            "type": "array",
+            "items": { "type": "string" },
+            "nullable": true
+          },
+          "messageToUser": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "JurDocUser": {
         "type": "object",
         "properties": {
@@ -852,8 +908,7 @@
           "errors": {
             "type": "array",
             "items": { "type": "string" },
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "messageToUser": {
             "type": "string",

@@ -59,7 +59,8 @@ namespace JurDocs.WinForms.ViewModel
                 rights.Add(item);
             }
 
-            await new SaveProject(project, rights).ExecuteAsync();
+            await new SaveProject(project).ExecuteAsync();
+            await new SaveRights(project, rights).ExecuteAsync();
         }
     }
 }
