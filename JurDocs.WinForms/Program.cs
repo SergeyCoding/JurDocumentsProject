@@ -20,12 +20,25 @@ namespace JurDocs.WinForms
             try
             {
                 var configStart = new ConfigurationBuilder().AddJsonFile(_appsettingFile).Build();
+
                 var jdSettings = configStart.GetSection(JurDocsApp.sectionName).Get<JurDocsApp>();
 
                 if (jdSettings == null)
                     throw new Exception("Ошибка в конфигурационном файле.");
 
-                jdSettings.Validate();
+                if (!string.IsNullOrWhiteSpace(jdSettings?.AdditionalConfig))
+                {
+                    configStart = new ConfigurationBuilder()
+                        .AddJsonFile(_appsettingFile)
+                        .AddJsonFile($"appsettings.{jdSettings.AdditionalConfig}.json")
+                        .Build();
+
+                    jdSettings = configStart.GetSection(JurDocsApp.sectionName).Get<JurDocsApp>();
+                }
+
+                jdSettings!.Validate();
+
+
 
                 JurClientService.UrlBase = jdSettings.UrlBase!;
             }

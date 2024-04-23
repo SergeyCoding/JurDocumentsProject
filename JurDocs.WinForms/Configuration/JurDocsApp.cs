@@ -7,10 +7,9 @@
     {
         public const string sectionName = "JurDocsApp";
 
+        public string? AdditionalConfig { get; set; }
         public string? UrlBase { get; set; }
         public string? LogDir { get; set; }
-
-
 
         internal void Validate()
         {
