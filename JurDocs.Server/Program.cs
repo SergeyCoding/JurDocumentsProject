@@ -27,6 +27,9 @@ namespace JurDocs.Server
             {
                 var builder = WebApplication.CreateBuilder(args);
 
+                if (!string.IsNullOrWhiteSpace(jdSettings?.AdditionalConfig))
+                    builder.Configuration.AddJsonFile($"appsettings.{jdSettings.AdditionalConfig}.json", true, true);
+
                 // Add services to the container.
                 builder.Services.AddControllers();
 

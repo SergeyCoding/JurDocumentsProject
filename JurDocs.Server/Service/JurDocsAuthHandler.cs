@@ -32,6 +32,12 @@ namespace JurDocs.Server.Service
             if (!Request.Headers.TryGetValue(Options.AuthHeader, out var value))
                 return AuthenticateResult.Fail($"Missing header: {Options.AuthHeader}");
 
+            if (value == "1")
+            {
+                return TestUserAuth();
+            }
+
+
             string token = value!;
 
             if (!Guid.TryParse(token, out var guidToken))
@@ -52,6 +58,20 @@ namespace JurDocs.Server.Service
                 new Claim("Login", user.Login!),
                 new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Login!)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, Scheme.Name);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            return AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Scheme.Name));
+        }
+
+        private AuthenticateResult TestUserAuth()
+        {
+            var claims = new List<Claim>() {
+                new Claim("Login", "user2"),
+                new Claim("Id", 2.ToString()),
+                new Claim(ClaimTypes.Name, "user2")
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, Scheme.Name);

@@ -1,5 +1,8 @@
 ﻿
 using JurDocs.Client;
+using JurDocs.Common.EnumTypes;
+using JurDocs.Core.Commands;
+using JurDocs.Core.Model;
 
 namespace JurDocs.WinForms.ViewModel
 {
@@ -26,14 +29,38 @@ namespace JurDocs.WinForms.ViewModel
 
         internal async Task SaveProjectAsync()
         {
-            var swaggerResponse = await _client.ProjectPUTAsync(new JurDocProject
+
+            var project = new JurDocProject
             {
                 Id = ProjectId,
                 FullName = ProjectFullName,
                 IsDeleted = false,
                 Name = ProjectName,
                 OwnerId = ProjectOwnerId
-            });
+            };
+
+            var rights = new List<UserRight>();
+
+            foreach (var item in ProjectRights)
+            {
+                item.DocType = JurDocType.All;
+                rights.Add(item);
+            }
+
+            foreach (var item in ProjectRights_Справки)
+            {
+                item.DocType = JurDocType.Справка;
+                rights.Add(item);
+            }
+
+            foreach (var item in ProjectRights_Выписки)
+            {
+                item.DocType = JurDocType.Выписка;
+                rights.Add(item);
+            }
+
+            await new SaveProject(project).ExecuteAsync();
+            await new SaveRights(project, rights).ExecuteAsync();
         }
     }
 }

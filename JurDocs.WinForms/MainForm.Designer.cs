@@ -48,7 +48,7 @@ namespace JurDocsWinForms
             bindingSource1 = new BindingSource(components);
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
-            toolStripStatusLabel2 = new ToolStripStatusLabel();
+            tssCurrentProject = new ToolStripStatusLabel();
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
             создатьПроектToolStripMenuItem = new ToolStripMenuItem();
@@ -105,6 +105,7 @@ namespace JurDocsWinForms
             a1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             panelGrid = new Panel();
+            tssCurrentPage = new ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)dgvProjects).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -251,7 +252,7 @@ namespace JurDocsWinForms
             // 
             // statusStrip1
             // 
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel2 });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, tssCurrentProject, tssCurrentPage });
             statusStrip1.Location = new Point(0, 522);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1300, 22);
@@ -265,11 +266,11 @@ namespace JurDocsWinForms
             toolStripStatusLabel1.Text = "ОК";
             toolStripStatusLabel1.Click += toolStripStatusLabel1_Click;
             // 
-            // toolStripStatusLabel2
+            // tssCurrentProject
             // 
-            toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            toolStripStatusLabel2.Size = new Size(97, 17);
-            toolStripStatusLabel2.Text = "Текущий проект";
+            tssCurrentProject.Name = "tssCurrentProject";
+            tssCurrentProject.Size = new Size(97, 17);
+            tssCurrentProject.Text = "Текущий проект";
             // 
             // menuStrip1
             // 
@@ -778,6 +779,12 @@ namespace JurDocsWinForms
             panelGrid.Size = new Size(997, 429);
             panelGrid.TabIndex = 19;
             // 
+            // tssCurrentPage
+            // 
+            tssCurrentPage.Name = "tssCurrentPage";
+            tssCurrentPage.Size = new Size(118, 17);
+            tssCurrentPage.Text = "toolStripStatusLabel3";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -886,7 +893,7 @@ namespace JurDocsWinForms
         private TabPage tabPage1;
         private TabPage tabPage2;
         private Panel panelGrid;
-        private ToolStripStatusLabel toolStripStatusLabel2;
+        private ToolStripStatusLabel tssCurrentProject;
         private Label label7;
         private Label label8;
         private TextBox tbВх;
@@ -919,5 +926,6 @@ namespace JurDocsWinForms
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn a1;
         private DataGridViewTextBoxColumn Column2;
+        private ToolStripStatusLabel tssCurrentPage;
     }
 }

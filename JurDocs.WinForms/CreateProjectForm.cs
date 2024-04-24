@@ -1,4 +1,5 @@
 ﻿using JurDocs.Common.EnumTypes;
+using JurDocs.Core.Model;
 using JurDocs.WinForms.ViewModel;
 
 namespace JurDocsWinForms
@@ -41,6 +42,21 @@ namespace JurDocsWinForms
             }
         }
 
+        private static void LoadCheckListBox(CheckedListBox clb, IEnumerable<UserRight> rights)
+        {
+            foreach (var item in rights)
+            {
+                if (clb.CheckedItems.Contains(item.UserName))
+                {
+                    item.Right = UserRightType.Allow;
+                }
+                else
+                {
+                    item.Right = UserRightType.NotAllow;
+                }
+            }
+        }
+
         private async void btnOk_Click(object sender, EventArgs e)
         {
             TopMost = false;
@@ -48,7 +64,13 @@ namespace JurDocsWinForms
             ViewModel.ProjectName = tbProjectName.Text;
             ViewModel.ProjectFullName = tbProjectFullName.Text;
 
+            LoadCheckListBox(clbProjectRights, ViewModel.ProjectRights);
+            LoadCheckListBox(clbProjectRights_Справки, ViewModel.ProjectRights_Справки);
+            LoadCheckListBox(clbProjectRights_Выписки, ViewModel.ProjectRights_Выписки);
+
             await ViewModel.SaveProjectAsync();
+
+            //this.clbProjectRights
 
             Close();
 

@@ -1,5 +1,6 @@
 ﻿using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
+using JurDocs.Core.Model;
 using JurDocs.WinForms.Model;
 
 namespace JurDocs.WinForms.ViewModel
@@ -85,6 +86,11 @@ namespace JurDocs.WinForms.ViewModel
         {
             var swaggerResponse = await client.ProjectAllAsync();
             return [.. swaggerResponse.Result.Select(x => x.Name).Where(x => !string.IsNullOrWhiteSpace(x))];
+        }
+
+        internal void CreateNewLetter()
+        {
+
         }
     }
 }

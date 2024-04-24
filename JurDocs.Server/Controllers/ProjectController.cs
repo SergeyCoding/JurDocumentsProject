@@ -1,6 +1,7 @@
 ﻿using JurDocs.Common.Loggers;
 using JurDocs.DbModel;
 using JurDocs.Server.Controllers.Base;
+using JurDocs.Server.Model.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,10 +22,11 @@ namespace JurDocs.Server.Controllers
             _dbContext = dbContext;
         }
 
+        [SwaggerOperation("Получить список проектов")]
         [HttpGet]
         [ProducesResponseType(typeof(JurDocProject[]), 200)]
         [ProducesResponseType(typeof(string), 400)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
@@ -54,6 +56,62 @@ namespace JurDocs.Server.Controllers
             }
         }
 
+        [SwaggerOperation("Получить проект по Id")]
+        [HttpGet("{projectId}")]
+        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 200)]
+        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 400)]
+        public async Task<IActionResult> Get(int projectId)
+        {
+            try
+            {
+                var login = GetUserLogin();
+
+                var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
+
+                var projectRights = await _dbContext.Set<ProjectRights>()
+                    .AsNoTracking()
+                    .Where(x => x.ProjectId == projectId)
+                    .Where(x => x.UserId == user!.Id)
+                    .Select(x => x.Id)
+                    .Take(1)
+                    .ToArrayAsync();
+
+                if (projectRights.Any())
+                {
+                    var projectByOwners = await _dbContext.Set<JurDocProject>()
+                        .AsNoTracking()
+                        .Where(x => (x.OwnerId == user!.Id || projectRights.Contains(x.Id)) && !x.IsDeleted)
+                        .ToArrayAsync();
+
+                    return Ok(new DataResponse<JurDocProject>
+                    {
+                        Data = projectByOwners[0],
+                        Status = 200
+                    });
+                }
+
+                return BadRequest(new DataResponse<JurDocProject>
+                {
+                    Data = null,
+                    Status = 400,
+                    MessageToUser = "Нет прав для использования данного проекта"
+                });
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, message: null);
+
+                return BadRequest(new DataResponse<JurDocProject>
+                {
+                    Data = null,
+                    Status = 400,
+                    Errors = [e.ToString()],
+                    MessageToUser = "Нет прав для использования данного проекта"
+                });
+            }
+        }
+
+
         [HttpPost]
         [SwaggerOperation("Создать пустой проект", "Создать пустой проект")]
         [ProducesResponseType(typeof(JurDocProject), 200)]
@@ -82,6 +140,8 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(typeof(JurDocProject), 200)]
+        [ProducesResponseType(typeof(string), 400)]
         public async Task<IActionResult> Put([FromBody] JurDocProject project)
         {
             try
