@@ -14,6 +14,10 @@ namespace JurDocs.Core.Commands
                 var _client = AppState.Instance.Client;
                 var answer = await _client.ProjectGETAsync(project.Id);
 
+                if (answer.Result.Status != "OK") {
+                    throw new Exception(answer.Result.MessageToUser);
+                }
+
                 var newProject = answer.Result.Data;
 
                 var resp = await _client.RightsAllAsync(newProject.First().Id).ConfigureAwait(false);

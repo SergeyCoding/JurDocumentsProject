@@ -68,6 +68,15 @@ namespace JurDocs.Server.Controllers
 
                 var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
 
+                var project = await _dbContext.Set<JurDocProject>()
+                    .AsNoTracking()
+                    .Where(x => x.Id == projectId)
+                    .Where(x => x.OwnerId == user!.Id)
+                    .ToArrayAsync();
+
+                if (project.Any())
+                    return Ok(new DataResponse<JurDocProject>(project.First()));
+
                 var projectRights = await _dbContext.Set<ProjectRights>()
                     .AsNoTracking()
                     .Where(x => x.ProjectId == projectId)

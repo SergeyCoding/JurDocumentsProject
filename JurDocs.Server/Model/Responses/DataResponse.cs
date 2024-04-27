@@ -15,7 +15,7 @@
 
         public List<T> Data { get; set; } = [];
 
-        public string Status { get; set; } = "OK";
+        public string Status { get; set; } = StatusDataResponse.OK;
 
         public IEnumerable<string> Errors { get; set; } = [];
 
