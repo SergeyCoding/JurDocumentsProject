@@ -55,21 +55,21 @@ namespace JurDocs.Server.Controllers
                 var owner = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == login);
 
                 if (owner == null)
-                    return BadRequest(new DataResponse<string> { Status = 400, MessageToUser = "Нет прав для изменения данного проекта" });
+                    return BadRequest(new DataResponse<string> { Status = "BadRequest", MessageToUser = "Нет прав для изменения данного проекта" });
 
                 var jurDocProject = _dbContext.Set<JurDocProject>()
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Id == rights.ProjectId && x.OwnerId == owner.Id);
 
                 if (jurDocProject == null)
-                    return BadRequest(new DataResponse<string> { Status = 400, MessageToUser = "Нет прав для изменения данного проекта" });
+                    return BadRequest(new DataResponse<string> ("BadRequest", "Нет прав для изменения данного проекта"));
 
                 var projectRights = await _dbContext.Set<ProjectRights>()
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.ProjectId == rights.ProjectId && x.UserId == rights.UserId && x.DocType == rights.DocType);
 
                 if (projectRights != null)
-                    return Ok(new DataResponse<string> { Status = 200, MessageToUser = string.Empty });
+                    return Ok(new DataResponse<string> ("BadRequest", string.Empty));
 
                 var newRights = new ProjectRights
                 {
@@ -81,18 +81,12 @@ namespace JurDocs.Server.Controllers
                 await _dbContext.AddAsync(newRights).ConfigureAwait(false);
                 await _dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-                return Ok(new DataResponse<string> { Status = 200, MessageToUser = string.Empty });
+                return Ok(new DataResponse<string>("BadRequest", string.Empty));
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, null);
-                return BadRequest(new DataResponse<string>
-                {
-                    Status = 400,
-                    Data = null,
-                    Errors = [e.ToString()],
-                    MessageToUser = "Непредвиденная ошибка"
-                });
+                return BadRequest(new DataResponse<string>("BadRequest", "Непредвиденная ошибка"));
             }
 
         }

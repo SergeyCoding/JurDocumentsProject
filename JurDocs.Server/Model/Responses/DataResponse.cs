@@ -3,11 +3,19 @@
     /// <summary>
     /// 
     /// </summary>
-    public class DataResponse<T>
-    {
-        public T? Data { get; set; }
 
-        public int Status { get; set; } = 0;
+    public class DataResponse<T>()
+    {
+        public DataResponse(T data) : this() => Data.Add(data);
+        public DataResponse(string status, string message) : this()
+        {
+            Status = status;
+            MessageToUser = message;
+        }
+
+        public List<T> Data { get; set; } = [];
+
+        public string Status { get; set; } = "OK";
 
         public IEnumerable<string> Errors { get; set; } = [];
 

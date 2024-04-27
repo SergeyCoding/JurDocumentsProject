@@ -83,19 +83,10 @@ namespace JurDocs.Server.Controllers
                         .Where(x => (x.OwnerId == user!.Id || projectRights.Contains(x.Id)) && !x.IsDeleted)
                         .ToArrayAsync();
 
-                    return Ok(new DataResponse<JurDocProject>
-                    {
-                        Data = projectByOwners[0],
-                        Status = 200
-                    });
+                    return Ok(new DataResponse<JurDocProject>(projectByOwners[0]));
                 }
 
-                return BadRequest(new DataResponse<JurDocProject>
-                {
-                    Data = null,
-                    Status = 400,
-                    MessageToUser = "Нет прав для использования данного проекта"
-                });
+                return BadRequest(new DataResponse<JurDocProject>("BadRequest", "Нет прав для использования данного проекта"));
             }
             catch (Exception e)
             {
@@ -103,8 +94,7 @@ namespace JurDocs.Server.Controllers
 
                 return BadRequest(new DataResponse<JurDocProject>
                 {
-                    Data = null,
-                    Status = 400,
+                    Status = "BadRequest",
                     Errors = [e.ToString()],
                     MessageToUser = "Нет прав для использования данного проекта"
                 });
