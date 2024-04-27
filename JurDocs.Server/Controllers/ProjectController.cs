@@ -52,7 +52,7 @@ namespace JurDocs.Server.Controllers
             {
                 _logger?.LogError(e, message: null);
 
-                return BadRequest();
+                return Ok();
             }
         }
 
@@ -86,13 +86,13 @@ namespace JurDocs.Server.Controllers
                     return Ok(new DataResponse<JurDocProject>(projectByOwners[0]));
                 }
 
-                return BadRequest(new DataResponse<JurDocProject>("BadRequest", "Нет прав для использования данного проекта"));
+                return Ok(new DataResponse<JurDocProject>("BadRequest", "Нет прав для использования данного проекта"));
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, message: null);
 
-                return BadRequest(new DataResponse<JurDocProject>
+                return Ok(new DataResponse<JurDocProject>
                 {
                     Status = "BadRequest",
                     Errors = [e.ToString()],

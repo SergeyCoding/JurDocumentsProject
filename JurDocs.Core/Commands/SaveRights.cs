@@ -16,7 +16,7 @@ namespace JurDocs.Core.Commands
 
                 var newProject = answer.Result.Data;
 
-                var resp = await _client.RightsAllAsync(newProject.Id).ConfigureAwait(false);
+                var resp = await _client.RightsAllAsync(newProject.First().Id).ConfigureAwait(false);
                 var newRights = resp.Result;
 
                 foreach (var item in rights)
@@ -27,7 +27,7 @@ namespace JurDocs.Core.Commands
                         {
                             UserId = item.UserId,
                             DocType = item.DocType.ToString(),
-                            ProjectId = newProject.Id,
+                            ProjectId = newProject.First().Id,
                         }).ConfigureAwait(false);
                     }
                     else
