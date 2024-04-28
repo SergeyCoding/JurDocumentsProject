@@ -1,9 +1,15 @@
 ﻿using JurDocs.Core;
+using JurDocs.WinForms.ViewModel;
 
 namespace JurDocsWinForms
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class AddNewDoc : Form
     {
+        public required AddNewDocViewModel ViewModel { get; set; }
+
         public AddNewDoc()
         {
             InitializeComponent();
@@ -22,8 +28,6 @@ namespace JurDocsWinForms
             {
                 cbDocType.Text = "Письмо";
             }
-
-
         }
 
         private void label1_Click(object sender, EventArgs e)

@@ -75,6 +75,36 @@ namespace JurDocs.WinForms.ViewModel
             return createProjectViewModel;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        internal async Task<AddNewDocViewModel> CreateNewDoc()
+        {
+            await Task.Delay(10);
+
+            //var swaggerResponse = await client.ProjectPOSTAsync();
+
+            //var persons = (await client.PersonAsync()).Result;
+
+            //var result = swaggerResponse.Result;
+
+            //var ownerId = result.OwnerId;
+
+            var createProjectViewModel = new AddNewDocViewModel(client)
+            {
+                //ProjectId = result.Id,
+                //ProjectName = result.Name,
+                //ProjectFullName = result.FullName,
+                //ProjectOwnerId = result.OwnerId,
+                //ProjectOwnerName = persons.FirstOrDefault(x => x.PersonId == ownerId)!.PersonName,
+            };
+
+
+            return createProjectViewModel;
+        }
+
+
 
         internal async Task<PersonGetResponse[]> GetUserList()
         {

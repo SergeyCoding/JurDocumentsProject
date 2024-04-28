@@ -332,9 +332,9 @@ namespace JurDocsWinForms
             Application.Exit();
         }
 
-        private void toolStripButton3_Click(object sender, EventArgs e)
+        private async void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Form f = new AddNewDoc();
+            Form f = new AddNewDoc { ViewModel = await VM.CreateNewDoc() };
             ProgramHelpers.MoveWindowToCenterScreen(f);
             f.ShowDialog(this);
         }
@@ -366,7 +366,6 @@ namespace JurDocsWinForms
 
         private async void newToolStripButton_Click(object sender, EventArgs e)
         {
-
             if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
             {
                 var createProjectViewModel = await VM.CreateNewProject();
@@ -385,12 +384,10 @@ namespace JurDocsWinForms
             {
                 VM.CreateNewLetter();
 
-                Form f = new AddNewDoc();
+                Form f = new AddNewDoc { ViewModel = await VM.CreateNewDoc() };
                 ProgramHelpers.MoveWindowToCenterScreen(f);
                 f.ShowDialog(this);
             }
-
-
         }
 
         private async void cutToolStripButton_Click(object sender, EventArgs e)
