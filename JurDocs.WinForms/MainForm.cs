@@ -403,12 +403,9 @@ namespace JurDocsWinForms
 
         }
 
-        private async Task tabControl1_SelectedIndexChangedAsync(object sender, EventArgs e)
+        private async void tabControl1_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
             var state = new GetState();
-
-            var CurrentPage = state.GetCurrentPage;
-            var CurrentProject = state.GetCurrentProject;
 
             if (sender is TabControl tc)
             {
@@ -416,10 +413,10 @@ namespace JurDocsWinForms
 
                 new ChangeCurrentPage(text!).Execute();
 
-                tssCurrentPage.Text = $"Текущий раздел: {CurrentPage}";
+                tssCurrentPage.Text = $"Текущий раздел: {state.GetCurrentPage}";
             }
 
-            if (CurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
+            if (state.GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
             {
                 cbProjectList.Items.Clear();
 
@@ -428,8 +425,7 @@ namespace JurDocsWinForms
                 if (projectNameList.Any())
                 {
                     cbProjectList.Items.AddRange(projectNameList);
-
-                    cbProjectList.Text = cbProjectList.Items[0]! as string;
+                    cbProjectList.Text = state.GetCurrentProject.Name;
                 }
             }
         }

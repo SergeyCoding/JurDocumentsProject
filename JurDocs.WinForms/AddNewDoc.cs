@@ -1,4 +1,6 @@
-﻿namespace JurDocsWinForms
+﻿using JurDocs.Core;
+
+namespace JurDocsWinForms
 {
     public partial class AddNewDoc : Form
     {
@@ -10,6 +12,18 @@
         private void AddNewDoc_Load(object sender, EventArgs e)
         {
             MinimumSize = new Size(Width, Height);
+
+            var state = new GetState();
+
+            cbProjectName.Items.Clear();
+            cbProjectName.Text = state.GetCurrentProject.Name;
+
+            if (state.GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
+            {
+                cbDocType.Text = "Письмо";
+            }
+
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -31,6 +45,11 @@
         }
 
         private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label29_Click(object sender, EventArgs e)
         {
 
         }
