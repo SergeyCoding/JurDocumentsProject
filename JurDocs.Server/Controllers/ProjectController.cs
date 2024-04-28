@@ -138,8 +138,8 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(JurDocProject), 200)]
-        [ProducesResponseType(typeof(string), 400)]
+        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 200)]
+        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 400)]
         public async Task<IActionResult> Put([FromBody] JurDocProject project)
         {
             try
@@ -152,7 +152,7 @@ namespace JurDocs.Server.Controllers
 
                 if (changedProject == null)
                 {
-                    return BadRequest("Нет прав на изменение проекта");
+                    return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Нет прав на изменение проекта"));
                 }
 
                 changedProject.Name = project.Name;
@@ -161,18 +161,21 @@ namespace JurDocs.Server.Controllers
 
                 await _dbContext.SaveChangesAsync();
 
-                return Ok(changedProject);
+                return Ok(new DataResponse<JurDocProject>(changedProject));
             }
             catch (DbUpdateException e)
             {
                 _logger?.LogError(e, message: null);
-                return BadRequest("Ошибка при обновлении проекта");
+                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Ошибка при обновлении проекта"));
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, message: null);
 
-                return BadRequest();
+                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD)
+                {
+                    Errors = [e.ToString()]
+                });
             }
         }
 
