@@ -1,6 +1,8 @@
+using Autofac;
 using JurDocs.Client;
 using JurDocs.Core.Commands;
 using JurDocs.WinForms.Configuration;
+using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms;
 using JurDocsWinForms.Model;
 using Microsoft.Extensions.Configuration;
@@ -55,9 +57,36 @@ namespace JurDocs.WinForms
 
             ApplicationConfiguration.Initialize();
 
-            WorkSession? workSession = null;
-
             Task.Delay(1500).GetAwaiter().GetResult();
+
+            WorkSession? workSession = LoginAction();
+
+            if (workSession == null)
+            {
+                MessageBox.Show("Неверное имя пользователя или пароль");
+                return;
+            }
+
+            var builder = new ContainerBuilder();
+            builder.RegisterType<MainForm>().PropertiesAutowired();
+            builder.RegisterInstance(workSession);
+            builder.RegisterType<MainViewModel>();
+            builder.Register(c => JurClientService.JurDocsClientFactory(c.Resolve<WorkSession>().User.Token));
+            var container = builder.Build();
+
+            new InitApiClient(workSession.User.Token).Execute();
+
+            using (var lifetimeScope = container.BeginLifetimeScope())
+            {
+                //var mainForm = new MainForm { WorkSession = workSession };
+                var mainForm = lifetimeScope.Resolve<MainForm>();
+                ProgramHelpers.MoveWindowToCenterScreen(mainForm);
+                Application.Run(mainForm);
+            }
+        }
+
+        private static WorkSession? LoginAction()
+        {
 
             if (AppConst.IsLogin)
             {
@@ -65,13 +94,9 @@ namespace JurDocs.WinForms
                 ProgramHelpers.MoveWindowToCenterScreen(loginForm);
                 loginForm.ShowDialog();
 
-                workSession = loginForm.GetWorkSession();
+                var workSession = loginForm.GetWorkSession();
 
-                if (workSession == null)
-                {
-                    MessageBox.Show("Неверное имя пользователя или пароль");
-                    return;
-                }
+                return workSession;
             }
             else
             {
@@ -93,7 +118,7 @@ namespace JurDocs.WinForms
 
                         var user = client2.LoginGETAsync(curLogin).GetAwaiter().GetResult();
 
-                        workSession = new WorkSession(new CurrentUser { Token = token.Result, UserName = user.Result.Name, TempDir = user.Result.Path });
+                        return new WorkSession(new CurrentUser { Token = token.Result, UserName = user.Result.Name, TempDir = user.Result.Path });
 
                     }
                     catch (Exception)
@@ -102,14 +127,7 @@ namespace JurDocs.WinForms
                 }
             }
 
-            if (workSession == null)
-                return;
-
-            new InitApiClient(workSession.User.Token).Execute();
-
-            var mainForm = new MainForm { WorkSession = workSession };
-            ProgramHelpers.MoveWindowToCenterScreen(mainForm);
-            Application.Run(mainForm);
+            return null;
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

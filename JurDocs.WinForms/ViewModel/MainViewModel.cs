@@ -8,7 +8,7 @@ namespace JurDocs.WinForms.ViewModel
     /// <summary>
     /// 
     /// </summary>
-    internal class MainViewModel(JurDocsClient client)
+    public class MainViewModel(JurDocsClient client)
     {
         internal async Task<ProjectListTable[]> GetProjectList()
         {

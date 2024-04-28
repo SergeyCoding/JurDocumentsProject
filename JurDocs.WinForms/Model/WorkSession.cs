@@ -3,14 +3,9 @@
     /// <summary>
     /// 
     /// </summary>
-    internal class WorkSession
+    public class WorkSession(CurrentUser user)
     {
-        private readonly CurrentUser _user;
-
-        public WorkSession(CurrentUser user)
-        {
-            _user = user;
-        }
+        private readonly CurrentUser _user = user;
 
         internal CurrentUser User => _user;
 

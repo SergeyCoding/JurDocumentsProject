@@ -16,22 +16,9 @@ namespace JurDocsWinForms
 
     public partial class MainForm : Form, IProjectView
     {
-        internal MainViewModel? ViewModel;
+        public required MainViewModel ViewModel { get; set; }
 
-        private MainViewModel VM
-        {
-            get
-            {
-                if (ViewModel == null)
-                {
-                    throw new InvalidOperationException();
-                }
-
-                return ViewModel;
-            }
-        }
-
-        internal WorkSession? WorkSession { get; set; }
+        public required WorkSession WorkSession { get; set; }
 
         public MainForm()
         {
@@ -334,7 +321,7 @@ namespace JurDocsWinForms
 
         private async void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Form f = new AddNewDoc { ViewModel = await VM.CreateNewDoc() };
+            Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
             ProgramHelpers.MoveWindowToCenterScreen(f);
             f.ShowDialog(this);
         }
@@ -368,7 +355,7 @@ namespace JurDocsWinForms
         {
             if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
             {
-                var createProjectViewModel = await VM.CreateNewProject();
+                var createProjectViewModel = await ViewModel.CreateNewProject();
 
                 var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
 
@@ -382,9 +369,9 @@ namespace JurDocsWinForms
 
             if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
             {
-                VM.CreateNewLetter();
+                ViewModel.CreateNewLetter();
 
-                Form f = new AddNewDoc { ViewModel = await VM.CreateNewDoc() };
+                Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
                 ProgramHelpers.MoveWindowToCenterScreen(f);
                 f.ShowDialog(this);
             }
@@ -417,7 +404,7 @@ namespace JurDocsWinForms
             {
                 cbProjectList.Items.Clear();
 
-                var projectNameList = await VM.GetProjectNameList();
+                var projectNameList = await ViewModel.GetProjectNameList();
 
                 if (projectNameList.Any())
                 {
