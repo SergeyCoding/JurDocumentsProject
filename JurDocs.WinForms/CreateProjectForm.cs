@@ -69,6 +69,7 @@ namespace JurDocsWinForms
             LoadCheckListBox(clbProjectRights_Выписки, ViewModel.ProjectRights_Выписки);
 
             await ViewModel.SaveProjectAsync();
+            
 
             //this.clbProjectRights
 

@@ -52,7 +52,7 @@ namespace JurDocs.Server.Controllers
             {
                 _logger?.LogError(e, message: null);
 
-                return BadRequest();
+                return Ok();
             }
         }
 
@@ -67,6 +67,15 @@ namespace JurDocs.Server.Controllers
                 var login = GetUserLogin();
 
                 var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
+
+                var project = await _dbContext.Set<JurDocProject>()
+                    .AsNoTracking()
+                    .Where(x => x.Id == projectId)
+                    .Where(x => x.OwnerId == user!.Id)
+                    .ToArrayAsync();
+
+                if (project.Any())
+                    return Ok(new DataResponse<JurDocProject>(project.First()));
 
                 var projectRights = await _dbContext.Set<ProjectRights>()
                     .AsNoTracking()
@@ -83,28 +92,17 @@ namespace JurDocs.Server.Controllers
                         .Where(x => (x.OwnerId == user!.Id || projectRights.Contains(x.Id)) && !x.IsDeleted)
                         .ToArrayAsync();
 
-                    return Ok(new DataResponse<JurDocProject>
-                    {
-                        Data = projectByOwners[0],
-                        Status = 200
-                    });
+                    return Ok(new DataResponse<JurDocProject>(projectByOwners[0]));
                 }
 
-                return BadRequest(new DataResponse<JurDocProject>
-                {
-                    Data = null,
-                    Status = 400,
-                    MessageToUser = "Нет прав для использования данного проекта"
-                });
+                return Ok(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Нет прав для использования данного проекта"));
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, message: null);
 
-                return BadRequest(new DataResponse<JurDocProject>
+                return Ok(new DataResponse<JurDocProject>(StatusDataResponse.BAD)
                 {
-                    Data = null,
-                    Status = 400,
                     Errors = [e.ToString()],
                     MessageToUser = "Нет прав для использования данного проекта"
                 });
@@ -140,8 +138,8 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(JurDocProject), 200)]
-        [ProducesResponseType(typeof(string), 400)]
+        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 200)]
+        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 400)]
         public async Task<IActionResult> Put([FromBody] JurDocProject project)
         {
             try
@@ -154,7 +152,7 @@ namespace JurDocs.Server.Controllers
 
                 if (changedProject == null)
                 {
-                    return BadRequest("Нет прав на изменение проекта");
+                    return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Нет прав на изменение проекта"));
                 }
 
                 changedProject.Name = project.Name;
@@ -163,18 +161,21 @@ namespace JurDocs.Server.Controllers
 
                 await _dbContext.SaveChangesAsync();
 
-                return Ok(changedProject);
+                return Ok(new DataResponse<JurDocProject>(changedProject));
             }
             catch (DbUpdateException e)
             {
                 _logger?.LogError(e, message: null);
-                return BadRequest("Ошибка при обновлении проекта");
+                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Ошибка при обновлении проекта"));
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, message: null);
 
-                return BadRequest();
+                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD)
+                {
+                    Errors = [e.ToString()]
+                });
             }
         }
 

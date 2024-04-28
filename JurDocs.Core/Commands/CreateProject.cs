@@ -1,6 +1,6 @@
 ﻿using JurDocs.Core.States;
 
-namespace JurDocs.Core
+namespace JurDocs.Core.Commands
 {
     /// <summary>
     /// 

@@ -525,7 +525,7 @@ namespace JurDocsWinForms
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(997, 429);
             tabControl1.TabIndex = 18;
-            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChangedAsync;
             // 
             // tabPage3
             // 

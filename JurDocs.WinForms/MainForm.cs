@@ -1,6 +1,7 @@
 using JurDocs.Client;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
+using JurDocs.Core.View;
 using JurDocs.WinForms;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
@@ -13,7 +14,7 @@ namespace JurDocsWinForms
 {
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
 
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IProjectView
     {
         internal MainViewModel? ViewModel;
 
@@ -62,15 +63,6 @@ namespace JurDocsWinForms
             button1.MouseUp += button1_MouseDown;
 #pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
 
-            cbProjectList.Items.Clear();
-
-            var projectNameList = await ViewModel.GetProjectNameList();
-
-            if (projectNameList.Any())
-            {
-                cbProjectList.Items.AddRange(projectNameList);
-                cbProjectList.Text = cbProjectList.Items[0]! as string;
-            }
             await UpdateProjectList();
 
             new ChangeCurrentPage("Проект").Execute();
@@ -78,7 +70,9 @@ namespace JurDocsWinForms
             tssCurrentPage.Text = $"Текущий раздел: {new GetState().GetCurrentPage}";
         }
 
-        private async Task UpdateProjectList()
+
+
+        public async Task UpdateProjectList()
         {
             if (ViewModel == null)
                 return;
@@ -90,7 +84,19 @@ namespace JurDocsWinForms
             dgvProjectList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProjectList.MultiSelect = false;
 
-            //dgvProjectList.row
+            var curProject = new GetState().GetCurrentProject;
+
+            if (curProject == null)
+                return;
+
+            for (int i = 0; i < projectList.Length; i++)
+            {
+                if (projectList[i].Id == curProject.Id)
+                {
+                    dgvProjectList.CurrentCell = dgvProjectList.Rows[i].Cells[0];
+                    break;
+                }
+            }
         }
 
         void button1_MouseDown(object sender, MouseEventArgs e)
@@ -326,9 +332,9 @@ namespace JurDocsWinForms
             Application.Exit();
         }
 
-        private void toolStripButton3_Click(object sender, EventArgs e)
+        private async void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Form f = new AddNewDoc();
+            Form f = new AddNewDoc { ViewModel = await VM.CreateNewDoc() };
             ProgramHelpers.MoveWindowToCenterScreen(f);
             f.ShowDialog(this);
         }
@@ -360,7 +366,6 @@ namespace JurDocsWinForms
 
         private async void newToolStripButton_Click(object sender, EventArgs e)
         {
-
             if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
             {
                 var createProjectViewModel = await VM.CreateNewProject();
@@ -370,6 +375,8 @@ namespace JurDocsWinForms
                 ProgramHelpers.MoveWindowToCenterScreen(f);
                 f.ShowDialog(this);
 
+                await UpdateProjectList();
+
                 return;
             }
 
@@ -377,12 +384,10 @@ namespace JurDocsWinForms
             {
                 VM.CreateNewLetter();
 
-                Form f = new AddNewDoc();
+                Form f = new AddNewDoc { ViewModel = await VM.CreateNewDoc() };
                 ProgramHelpers.MoveWindowToCenterScreen(f);
                 f.ShowDialog(this);
             }
-
-
         }
 
         private async void cutToolStripButton_Click(object sender, EventArgs e)
@@ -395,15 +400,30 @@ namespace JurDocsWinForms
 
         }
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private async void tabControl1_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
+            var state = new GetState();
+
             if (sender is TabControl tc)
             {
                 var text = tc.SelectedTab?.Text;
 
                 new ChangeCurrentPage(text!).Execute();
 
-                tssCurrentPage.Text = $"Текущий раздел: {new GetState().GetCurrentPage}";
+                tssCurrentPage.Text = $"Текущий раздел: {state.GetCurrentPage}";
+            }
+
+            if (state.GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
+            {
+                cbProjectList.Items.Clear();
+
+                var projectNameList = await VM.GetProjectNameList();
+
+                if (projectNameList.Any())
+                {
+                    cbProjectList.Items.AddRange(projectNameList);
+                    cbProjectList.Text = state.GetCurrentProject.Name;
+                }
             }
         }
 
@@ -416,6 +436,11 @@ namespace JurDocsWinForms
             }
 
             tssCurrentProject.Text = $"Текущий проект: {new GetState().GetCurrentProject.Name}";
+        }
+
+        public Task SetCurrentProject(int projectId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -14,9 +14,13 @@ namespace JurDocs.Core.Commands
                 var _client = AppState.Instance.Client;
                 var answer = await _client.ProjectGETAsync(project.Id);
 
+                if (answer.Result.Status != "OK") {
+                    throw new Exception(answer.Result.MessageToUser);
+                }
+
                 var newProject = answer.Result.Data;
 
-                var resp = await _client.RightsAllAsync(newProject.Id).ConfigureAwait(false);
+                var resp = await _client.RightsAllAsync(newProject.First().Id).ConfigureAwait(false);
                 var newRights = resp.Result;
 
                 foreach (var item in rights)
@@ -27,7 +31,7 @@ namespace JurDocs.Core.Commands
                         {
                             UserId = item.UserId,
                             DocType = item.DocType.ToString(),
-                            ProjectId = newProject.Id,
+                            ProjectId = newProject.First().Id,
                         }).ConfigureAwait(false);
                     }
                     else

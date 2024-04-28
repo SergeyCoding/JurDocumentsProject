@@ -14,7 +14,12 @@ namespace JurDocs.Core.Commands
 
                 var _client = AppState.Instance.Client;
 
-                AppState.Instance.CurrentProject = (await _client.ProjectPUTAsync(project)).Result;
+                var result = (await _client.ProjectPUTAsync(project)).Result;
+
+                if (result != null && result.Status == "OK")
+                {
+                    AppState.Instance.CurrentProject = result.Data.First();
+                }
 
                 //var resp = await _client.RightsAllAsync(newProject.Id).ConfigureAwait(false);
                 //var newRights = resp.Result;
