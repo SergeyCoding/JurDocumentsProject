@@ -6,12 +6,14 @@ using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms;
 using JurDocsWinForms.Model;
 using Microsoft.Extensions.Configuration;
+using System.ComponentModel;
 
 namespace JurDocs.WinForms
 {
     internal static class Program
     {
         private const string _appsettingFile = "appsettings.json";
+
 
         /// <summary>
         ///  The main entry point for the application.
@@ -55,26 +57,19 @@ namespace JurDocs.WinForms
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
+            Autofac.IContainer container = MakeContainer();
+
             ApplicationConfiguration.Initialize();
 
             Task.Delay(1500).GetAwaiter().GetResult();
 
-            WorkSession? workSession = LoginAction();
-
-            if (workSession == null)
+            if (!LoginAction(container))
             {
                 MessageBox.Show("Неверное имя пользователя или пароль");
                 return;
             }
 
-            var builder = new ContainerBuilder();
-            builder.RegisterType<MainForm>().PropertiesAutowired();
-            builder.RegisterInstance(workSession);
-            builder.RegisterType<MainViewModel>();
-            builder.Register(c => JurClientService.JurDocsClientFactory(c.Resolve<WorkSession>().User.Token));
-            var container = builder.Build();
-
-            new InitApiClient(workSession.User.Token).Execute();
+            new InitApiClient(container.Resolve<WorkSession>().User.Token).Execute();
 
             using (var lifetimeScope = container.BeginLifetimeScope())
             {
@@ -85,18 +80,29 @@ namespace JurDocs.WinForms
             }
         }
 
-        private static WorkSession? LoginAction()
+        private static Autofac.IContainer MakeContainer()
         {
+            var builder = new ContainerBuilder();
+            builder.RegisterType<CurrentUser>();
+            builder.RegisterType<WorkSession>().SingleInstance();
+
+            builder.Register(c => JurClientService.JurDocsClientFactory(c.Resolve<WorkSession>().User.Token));
+
+            builder.RegisterType<MainForm>().PropertiesAutowired();
+            builder.RegisterType<MainViewModel>();
+
+            return builder.Build();
+        }
+
+        private static bool LoginAction(Autofac.IContainer container)
+        {
+            var workSession = container.Resolve<WorkSession>();
 
             if (AppConst.IsLogin)
             {
-                var loginForm = new LoginForm();
+                var loginForm = container.Resolve<LoginForm>();
                 ProgramHelpers.MoveWindowToCenterScreen(loginForm);
                 loginForm.ShowDialog();
-
-                var workSession = loginForm.GetWorkSession();
-
-                return workSession;
             }
             else
             {
@@ -114,12 +120,10 @@ namespace JurDocs.WinForms
                             .GetAwaiter()
                             .GetResult();
 
-                        var client2 = JurClientService.JurDocsClientFactory(token.Result);
+                        workSession.User.Login = curLogin;
+                        workSession.User.Token = token.Result;
 
-                        var user = client2.LoginGETAsync(curLogin).GetAwaiter().GetResult();
-
-                        return new WorkSession(new CurrentUser { Token = token.Result, UserName = user.Result.Name, TempDir = user.Result.Path });
-
+                        break;
                     }
                     catch (Exception)
                     {
@@ -127,7 +131,13 @@ namespace JurDocs.WinForms
                 }
             }
 
-            return null;
+            var client2 = container.Resolve<JurDocsClient>();
+            var user = client2.LoginGETAsync(workSession.User.Login).GetAwaiter().GetResult();
+
+            workSession.User.UserName = user.Result.Name;
+            workSession.User.TempDir = user.Result.Path;
+
+            return workSession.User.Token != Guid.Empty;
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

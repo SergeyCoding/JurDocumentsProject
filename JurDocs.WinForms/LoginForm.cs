@@ -5,11 +5,12 @@ namespace JurDocsWinForms;
 
 public partial class LoginForm : Form
 {
-    private WorkSession? _workSession = null;
+    private readonly WorkSession _workSession;
 
-    public LoginForm()
+    public LoginForm(WorkSession workSession)
     {
         InitializeComponent();
+        _workSession = workSession;
     }
 
     private async void BtnExitClick(object sender, EventArgs e)
@@ -24,7 +25,10 @@ public partial class LoginForm : Form
             });
 
             if (token.Result != Guid.Empty)
-                _workSession = new WorkSession(new CurrentUser { Token = token.Result });
+            {
+                _workSession.User.Login = tbLogin.Text;
+                _workSession.User.Token = token.Result;
+            }
         }
         catch (Exception)
         {
@@ -33,11 +37,4 @@ public partial class LoginForm : Form
 
         Close();
     }
-
-    internal WorkSession? GetWorkSession()
-    {
-        return _workSession;
-    }
-
-
 }
