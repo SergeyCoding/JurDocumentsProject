@@ -11,18 +11,28 @@ namespace JurDocs.WinForms.DI
     /// </summary>
     internal static class JurDocsContainer
     {
-        public static IContainer MakeContainer()
+        private static IContainer? _container;
+
+        public static IContainer GetContainer()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterType<CurrentUser>();
-            builder.RegisterType<WorkSession>().SingleInstance();
+            if (_container == null)
+            {
+                var builder = new ContainerBuilder();
+                builder.RegisterType<CurrentUser>();
+                builder.RegisterType<WorkSession>().SingleInstance();
 
-            builder.Register(c => JurClientService.JurDocsClientFactory(c.Resolve<WorkSession>().User.Token));
+                builder.Register(c => JurClientService.JurDocsClientFactory(c.Resolve<WorkSession>().User.Token));
 
-            builder.RegisterType<MainForm>().PropertiesAutowired();
-            builder.RegisterType<MainViewModel>();
+                builder.RegisterType<MainForm>().PropertiesAutowired();
+                builder.RegisterType<MainViewModel>();
 
-            return builder.Build();
+                builder.RegisterType<CreateProjectForm>().PropertiesAutowired();
+                builder.RegisterType<CreateProjectViewModel>();
+
+                _container = builder.Build();
+            }
+
+            return _container;
         }
     }
 }

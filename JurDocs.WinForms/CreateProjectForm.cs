@@ -13,10 +13,12 @@ namespace JurDocsWinForms
             InitializeComponent();
         }
 
-        private void CreateProjectForm_Load(object sender, EventArgs e)
+        private async void CreateProjectForm_Load(object sender, EventArgs e)
         {
             if (ViewModel == null)
                 return;
+
+            await ViewModel.InitNewProject();
 
             tbProjectName.Text = ViewModel.ProjectName;
             tbProjectFullName.Text = ViewModel.ProjectFullName;
@@ -69,12 +71,8 @@ namespace JurDocsWinForms
             LoadCheckListBox(clbProjectRights_Выписки, ViewModel.ProjectRights_Выписки);
 
             await ViewModel.SaveProjectAsync();
-            
-
-            //this.clbProjectRights
 
             Close();
-
         }
 
         private async void BtnCancel_Click(object sender, EventArgs e)

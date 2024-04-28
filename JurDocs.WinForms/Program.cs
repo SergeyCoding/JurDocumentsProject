@@ -57,7 +57,7 @@ namespace JurDocs.WinForms
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            var container = JurDocsContainer.MakeContainer();
+            var container = JurDocsContainer.GetContainer();
 
             ApplicationConfiguration.Initialize();
 

@@ -1,8 +1,10 @@
+using Autofac;
 using JurDocs.Client;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
 using JurDocs.Core.View;
 using JurDocs.WinForms;
+using JurDocs.WinForms.DI;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
 using JurDocs.WinForms.ViewModel;
@@ -350,12 +352,21 @@ namespace JurDocsWinForms
         {
             if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
             {
-                var createProjectViewModel = await ViewModel.CreateNewProject();
+                //var createProjectViewModel = await ViewModel.CreateNewProject();
 
-                var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
+                //var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
 
-                ProgramHelpers.MoveWindowToCenterScreen(f);
-                f.ShowDialog(this);
+                //ProgramHelpers.MoveWindowToCenterScreen(f);
+                //f.ShowDialog(this);
+
+                var container = JurDocsContainer.GetContainer();
+
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    var f = scope.Resolve<CreateProjectForm>();
+                    ProgramHelpers.MoveWindowToCenterScreen(f);
+                    f.ShowDialog(this);
+                }
 
                 await UpdateProjectList();
 
