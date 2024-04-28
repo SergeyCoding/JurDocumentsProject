@@ -3,19 +3,24 @@
     /// <summary>
     /// 
     /// </summary>
-
-    public class DataResponse<T>()
+    public class DataResponse<T>
     {
-        public DataResponse(T data) : this() => Data.Add(data);
-        public DataResponse(string status, string message) : this()
+        private readonly StatusDataResponse _status;
+
+        public DataResponse(StatusDataResponse status)
         {
-            Status = status;
+            _status = status;
+        }
+
+        public DataResponse(T data) : this(StatusDataResponse.OK) => Data.Add(data);
+        public DataResponse(StatusDataResponse status, string message) : this(status)
+        {
             MessageToUser = message;
         }
 
         public List<T> Data { get; set; } = [];
 
-        public string Status { get; set; } = StatusDataResponse.OK;
+        public string Status => _status.Value;
 
         public IEnumerable<string> Errors { get; set; } = [];
 
