@@ -16,7 +16,10 @@ namespace JurDocs.Core.Commands
                 AppState.Instance.CurrentPage = AppPage.Null;
 
             if (_textPage == "Проект")
+            {
                 AppState.Instance.CurrentPage = AppPage.Проект;
+
+            }
 
             if (_textPage == "Справка")
                 AppState.Instance.CurrentPage = AppPage.Справка;

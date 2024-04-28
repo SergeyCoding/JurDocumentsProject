@@ -1,5 +1,5 @@
 using JurDocs.Client;
-using JurDocs.Core.Commands1;
+using JurDocs.Core.Commands;
 using JurDocs.WinForms.Configuration;
 using JurDocsWinForms;
 using JurDocsWinForms.Model;

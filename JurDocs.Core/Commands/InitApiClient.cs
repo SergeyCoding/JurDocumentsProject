@@ -1,7 +1,7 @@
 ﻿using JurDocs.Client;
 using JurDocs.Core.States;
 
-namespace JurDocs.Core.Commands1
+namespace JurDocs.Core.Commands
 {
     /// <summary>
     /// 

@@ -1,6 +1,7 @@
 using JurDocs.Client;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
+using JurDocs.Core.View;
 using JurDocs.WinForms;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
@@ -13,7 +14,7 @@ namespace JurDocsWinForms
 {
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
 
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IProjectView
     {
         internal MainViewModel? ViewModel;
 
@@ -78,7 +79,7 @@ namespace JurDocsWinForms
             tssCurrentPage.Text = $"Текущий раздел: {new GetState().GetCurrentPage}";
         }
 
-        private async Task UpdateProjectList()
+        public async Task UpdateProjectList()
         {
             if (ViewModel == null)
                 return;
@@ -416,6 +417,11 @@ namespace JurDocsWinForms
             }
 
             tssCurrentProject.Text = $"Текущий проект: {new GetState().GetCurrentProject.Name}";
+        }
+
+        public Task SetCurrentProject(int projectId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
