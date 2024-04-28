@@ -13,3 +13,4 @@
 # fix
 
 - Настроить конфигурации
+- StatusDataResponse

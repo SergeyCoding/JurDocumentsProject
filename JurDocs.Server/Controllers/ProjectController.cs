@@ -95,15 +95,14 @@ namespace JurDocs.Server.Controllers
                     return Ok(new DataResponse<JurDocProject>(projectByOwners[0]));
                 }
 
-                return Ok(new DataResponse<JurDocProject>("BadRequest", "Нет прав для использования данного проекта"));
+                return Ok(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Нет прав для использования данного проекта"));
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, message: null);
 
-                return Ok(new DataResponse<JurDocProject>
+                return Ok(new DataResponse<JurDocProject>(StatusDataResponse.BAD)
                 {
-                    Status = "BadRequest",
                     Errors = [e.ToString()],
                     MessageToUser = "Нет прав для использования данного проекта"
                 });

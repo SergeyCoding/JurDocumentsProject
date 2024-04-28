@@ -1,9 +1,10 @@
 ﻿namespace JurDocs.Server.Model.Responses
 {
-    public class StatusDataResponse
+    public class StatusDataResponse(string value)
     {
-        public const string OK = nameof(OK);
+        public string Value { get; } = value;
 
-        public const string BAD = nameof(BAD);
+        public static StatusDataResponse OK { get; } = new StatusDataResponse("OK");
+        public static StatusDataResponse BAD { get; } = new StatusDataResponse("BAD");
     }
 }
