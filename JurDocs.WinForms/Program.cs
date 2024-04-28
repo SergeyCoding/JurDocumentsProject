@@ -2,11 +2,11 @@ using Autofac;
 using JurDocs.Client;
 using JurDocs.Core.Commands;
 using JurDocs.WinForms.Configuration;
+using JurDocs.WinForms.DI;
 using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms;
 using JurDocsWinForms.Model;
 using Microsoft.Extensions.Configuration;
-using System.ComponentModel;
 
 namespace JurDocs.WinForms
 {
@@ -57,7 +57,7 @@ namespace JurDocs.WinForms
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            Autofac.IContainer container = MakeContainer();
+            var container = JurDocsContainer.MakeContainer();
 
             ApplicationConfiguration.Initialize();
 
@@ -80,21 +80,9 @@ namespace JurDocs.WinForms
             }
         }
 
-        private static Autofac.IContainer MakeContainer()
-        {
-            var builder = new ContainerBuilder();
-            builder.RegisterType<CurrentUser>();
-            builder.RegisterType<WorkSession>().SingleInstance();
 
-            builder.Register(c => JurClientService.JurDocsClientFactory(c.Resolve<WorkSession>().User.Token));
 
-            builder.RegisterType<MainForm>().PropertiesAutowired();
-            builder.RegisterType<MainViewModel>();
-
-            return builder.Build();
-        }
-
-        private static bool LoginAction(Autofac.IContainer container)
+        private static bool LoginAction(IContainer container)
         {
             var workSession = container.Resolve<WorkSession>();
 

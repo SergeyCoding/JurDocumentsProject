@@ -30,12 +30,12 @@ namespace JurDocsWinForms
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void Label1_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             var dialogResult = openFileDialog1.ShowDialog(this);
 
@@ -43,19 +43,6 @@ namespace JurDocsWinForms
                 textBoxFileName.Text = openFileDialog1.FileName;
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label29_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

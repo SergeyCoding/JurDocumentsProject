@@ -214,7 +214,6 @@
             label29.Size = new Size(74, 15);
             label29.TabIndex = 67;
             label29.Text = "Код проекта";
-            label29.Click += label29_Click;
             // 
             // label27
             // 
@@ -619,7 +618,6 @@
             label5.Size = new Size(50, 15);
             label5.TabIndex = 21;
             label5.Text = "Дата вх.";
-            label5.Click += label5_Click;
             // 
             // tbCaption
             // 

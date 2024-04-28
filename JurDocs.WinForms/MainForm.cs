@@ -105,12 +105,7 @@ namespace JurDocsWinForms
                 if (files != null && files is string[] fileList)
                 {
                     foreach (var item in fileList)
-                    {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
                         WorkSession.AddNewDoc(item);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-                    }
-
                 }
             }
             catch (Exception)

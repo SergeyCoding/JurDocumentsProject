@@ -57,7 +57,7 @@ namespace JurDocsWinForms
             }
         }
 
-        private async void btnOk_Click(object sender, EventArgs e)
+        private async void BtnOk_Click(object sender, EventArgs e)
         {
             TopMost = false;
 
@@ -77,7 +77,7 @@ namespace JurDocsWinForms
 
         }
 
-        private async void btnCancel_Click(object sender, EventArgs e)
+        private async void BtnCancel_Click(object sender, EventArgs e)
         {
             var dialogResult = MessageBox.Show("Закрыть окно проекта без сохранения?", "Проект", MessageBoxButtons.YesNoCancel);
 

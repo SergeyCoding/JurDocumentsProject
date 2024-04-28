@@ -176,7 +176,7 @@
             btnOk.TabIndex = 8;
             btnOk.Text = "ОК";
             btnOk.UseVisualStyleBackColor = true;
-            btnOk.Click += btnOk_Click;
+            btnOk.Click += BtnOk_Click;
             // 
             // btnCancel
             // 
@@ -187,7 +187,7 @@
             btnCancel.TabIndex = 9;
             btnCancel.Text = "Отмена";
             btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += btnCancel_Click;
+            btnCancel.Click += BtnCancel_Click;
             // 
             // label5
             // 
