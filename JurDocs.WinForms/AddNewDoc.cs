@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using JurDocs.Core;
 using JurDocs.Core.DI;
+using JurDocs.Core.Views;
 using JurDocs.WinForms.ViewModel;
 
 namespace JurDocsWinForms
@@ -8,7 +9,7 @@ namespace JurDocsWinForms
     /// <summary>
     /// 
     /// </summary>
-    public partial class AddNewDoc : Form
+    public partial class AddNewDoc : Form, IDocEditor
     {
         public required AddNewDocViewModel ViewModel { get; set; }
 

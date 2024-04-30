@@ -1,67 +1,62 @@
-﻿using JurDocs.Core.States;
+﻿using JurDocs.Common.EnumTypes;
+using JurDocs.Core.Model;
+using JurDocs.Core.States;
+using JurDocs.Core.Views;
 
 namespace JurDocs.Core.Commands.Impl
 {
     /// <summary>
     /// 
     /// </summary>
-    internal class CreateProject(AppState state) : ICreateProject
+    internal partial class CreateProject(AppState state) : ICreateProject
     {
-        public void Execute()
-        {
-            state.CurrentProject = null;
-        }
-
         /// <summary>
         /// 
         /// </summary>
-        internal async Task CreateNewProject()
+        public async Task CreateNewProject(IProjectEditor projectEditor)
         {
-            await Task.CompletedTask;
+            var persons = (await state.Client.PersonAsync()).Result;
 
-            //var persons = (await state.Client.PersonAsync()).Result;
+            var newProject = (await state.Client.ProjectPOSTAsync()).Result;
 
-            //var newProject = (await state.Client.ProjectPOSTAsync()).Result;
+            state.CurrentProject = newProject;
 
-            //state.CurrentProject = newProject;
+            var ownerId = newProject.OwnerId;
 
-            //var ownerId = newProject.OwnerId;
+            var projDto = new EditedProject
+            {
+                ProjectId = newProject.Id,
+                ProjectName = newProject.Name,
+                ProjectFullName = newProject.FullName,
+                ProjectOwnerId = newProject.OwnerId,
+                ProjectOwnerName = persons.FirstOrDefault(x => x.PersonId == ownerId)!.PersonName,
+            };
 
-            //var createProjectViewModel = new CreateProjectViewModel((Client.JurDocsClient?)state.Client)
-            //{
-            //    ProjectId = newProject.Id,
-            //    ProjectName = newProject.Name,
-            //    ProjectFullName = newProject.FullName,
-            //    ProjectOwnerId = newProject.OwnerId,
-            //    ProjectOwnerName = persons.FirstOrDefault(x => x.PersonId == ownerId)!.PersonName,
-            //};
+            foreach (var person in persons)
+            {
+                projDto.ProjectRights.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
 
-            //foreach (var person in persons)
-            //{
-            //    createProjectViewModel.ProjectRights.Add(new UserRight
-            //    {
-            //        UserId = person.PersonId,
-            //        UserName = person.PersonName,
-            //        Right = UserRightType.NotAllow
-            //    });
+                projDto.ProjectRights_Справки.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
 
-            //    createProjectViewModel.ProjectRights_Справки.Add(new UserRight
-            //    {
-            //        UserId = person.PersonId,
-            //        UserName = person.PersonName,
-            //        Right = UserRightType.NotAllow
-            //    });
+                projDto.ProjectRights_Выписки.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
+            }
 
-            //    createProjectViewModel.ProjectRights_Выписки.Add(new UserRight
-            //    {
-            //        UserId = person.PersonId,
-            //        UserName = person.PersonName,
-            //        Right = UserRightType.NotAllow
-            //    });
-
-            //}
-
-            //return createProjectViewModel;
+            projectEditor.Open(projDto);
         }
     }
 }

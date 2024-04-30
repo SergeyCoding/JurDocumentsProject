@@ -10,7 +10,6 @@ namespace JurDocs.Core.Commands.Impl
     {
         public Task ExecuteAsync(string textPage)
         {
-
             if (string.IsNullOrEmpty(textPage))
             {
                 state.CurrentPage = AppPage.Null;

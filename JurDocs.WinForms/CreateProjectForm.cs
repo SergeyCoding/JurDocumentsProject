@@ -1,10 +1,11 @@
 ﻿using JurDocs.Common.EnumTypes;
 using JurDocs.Core.Model;
+using JurDocs.Core.Views;
 using JurDocs.WinForms.ViewModel;
 
 namespace JurDocsWinForms
 {
-    public partial class CreateProjectForm : Form
+    public partial class CreateProjectForm : Form, IProjectEditor
     {
         public required CreateProjectViewModel ViewModel { get; set; }
 
@@ -85,6 +86,11 @@ namespace JurDocsWinForms
 
                 Close();
             }
+        }
+
+        public void Open(EditedProject projDto)
+        {
+
         }
     }
 }

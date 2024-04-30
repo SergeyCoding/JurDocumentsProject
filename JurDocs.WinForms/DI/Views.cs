@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using JurDocs.Client;
+using JurDocs.Core.Views;
 using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms;
 using JurDocsWinForms.Model;
@@ -34,8 +35,11 @@ namespace JurDocs.WinForms.DI
                 builder.RegisterType<MainForm>().PropertiesAutowired();
                 builder.RegisterType<MainViewModel>();
 
-                builder.RegisterType<CreateProjectForm>().PropertiesAutowired();
+                builder.RegisterType<CreateProjectForm>().PropertiesAutowired().As<IProjectEditor>();
                 builder.RegisterType<CreateProjectViewModel>();
+
+                builder.RegisterType<AddNewDoc>().PropertiesAutowired().As<IDocEditor>();
+                builder.RegisterType<AddNewDocViewModel>();
 
                 _container = builder.Build();
 

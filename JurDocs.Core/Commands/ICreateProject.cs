@@ -1,7 +1,10 @@
-﻿namespace JurDocs.Core.Commands
+﻿
+using JurDocs.Core.Views;
+
+namespace JurDocs.Core.Commands
 {
     public interface ICreateProject
     {
-        void Execute();
+        Task CreateNewProject(IProjectEditor projectEditor);
     }
 }

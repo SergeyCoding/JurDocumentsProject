@@ -51,7 +51,7 @@ namespace JurDocs.Core.DI
             return Get().Resolve<T>();
         }
 
-        public static IGetState GetState<T>()
+        public static IGetState GetState()
         {
             return Get().Resolve<IGetState>();
         }

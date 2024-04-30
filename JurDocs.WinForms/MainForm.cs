@@ -5,6 +5,7 @@ using JurDocs.Core.Commands;
 using JurDocs.Core.DI;
 using JurDocs.Core.Views;
 using JurDocs.WinForms;
+using JurDocs.WinForms.DI;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
 using JurDocs.WinForms.ViewModel;
@@ -16,7 +17,7 @@ namespace JurDocsWinForms
 {
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
 
-    public partial class MainForm : Form, IProjectView
+    public partial class MainForm : Form, IProjectListView
     {
         public required MainViewModel ViewModel { get; set; }
 
@@ -357,8 +358,11 @@ namespace JurDocsWinForms
         {
             using (var scope = CoreContainer.Get().BeginLifetimeScope())
             {
+                var projectEditor = Views.Container().Resolve<IProjectEditor>();
+                var docEditor = Views.Container().Resolve<IDocEditor>();
+
                 var createNewDoc = scope.Resolve<ICreateDocument>();
-                await createNewDoc.ExecuteAsync();
+                await createNewDoc.ExecuteAsync(projectEditor, docEditor);
 
                 //Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
                 //ProgramHelpers.MoveWindowToCenterScreen(f);
@@ -453,17 +457,19 @@ namespace JurDocsWinForms
 
                 var changeCurrentProject = CoreContainer.Get().Resolve<IChangeCurrentProject>();
 
-                await changeCurrentProject.ExecuteAsync(projectListTable.Id);
+                await changeCurrentProject.ExecuteAsync(this, projectListTable.Id);
             }
-
-            var state = CoreContainer.Get().Resolve<IGetState>();
-
-            tssCurrentProject.Text = $"Текущий проект: {state.GetCurrentProject.Name}";
         }
 
         public Task SetCurrentProject(int projectId)
         {
             throw new NotImplementedException();
+        }
+
+        public void ChangeCurrentProject(JurDocProject currentProject)
+        {
+            var state = CoreContainer.GetState();
+            tssCurrentProject.Text = $"Текущий проект: {state.GetCurrentProject.Name}";
         }
     }
 }
