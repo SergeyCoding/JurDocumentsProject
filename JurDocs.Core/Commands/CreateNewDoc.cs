@@ -5,7 +5,7 @@ namespace JurDocs.Core.Commands
     /// <summary>
     /// 
     /// </summary>
-    internal class CreateProject(AppState state) : ICreateProject
+    internal class CreateNewDoc(AppState state) : ICreateNewDoc
     {
         public void Execute()
         {
@@ -15,8 +15,9 @@ namespace JurDocs.Core.Commands
         /// <summary>
         /// 
         /// </summary>
-        internal async Task CreateNewProject()
+        internal async Task Execute1()
         {
+            await Task.CompletedTask;
 
             //var persons = (await state.Client.PersonAsync()).Result;
 

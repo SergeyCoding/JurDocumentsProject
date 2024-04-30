@@ -11,6 +11,7 @@ using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms.Model;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace JurDocsWinForms
 {
@@ -352,6 +353,11 @@ namespace JurDocsWinForms
         {
             if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
             {
+                using (var scope = JurDocsCoreContainer.GetContainer().BeginLifetimeScope())
+                {
+                    var createProject = scope.Resolve<ICreateProject>();
+                }
+
                 //var createProjectViewModel = await ViewModel.CreateNewProject();
 
                 //var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
@@ -375,11 +381,15 @@ namespace JurDocsWinForms
 
             if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
             {
-                ViewModel.CreateNewLetter();
 
-                Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
-                ProgramHelpers.MoveWindowToCenterScreen(f);
-                f.ShowDialog(this);
+                using (var scope = JurDocsCoreContainer.GetContainer().BeginLifetimeScope())
+                {
+                    var createNewDoc = scope.Resolve<ICreateNewDoc>();
+
+                    Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
+                    ProgramHelpers.MoveWindowToCenterScreen(f);
+                    f.ShowDialog(this);
+                }
             }
         }
 
