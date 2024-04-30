@@ -1,6 +1,6 @@
 ﻿using JurDocs.Core.States;
 
-namespace JurDocs.Core.Commands
+namespace JurDocs.Core.Commands.Impl
 {
     /// <summary>
     /// 
@@ -17,6 +17,7 @@ namespace JurDocs.Core.Commands
         /// </summary>
         internal async Task CreateNewProject()
         {
+            await Task.CompletedTask;
 
             //var persons = (await state.Client.PersonAsync()).Result;
 

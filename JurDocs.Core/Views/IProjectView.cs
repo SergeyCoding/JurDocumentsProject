@@ -1,4 +1,4 @@
-﻿namespace JurDocs.Core.View
+﻿namespace JurDocs.Core.Views
 {
     public interface IProjectView
     {

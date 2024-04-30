@@ -1,6 +1,7 @@
 using Autofac;
 using JurDocs.Client;
 using JurDocs.Core.Commands;
+using JurDocs.Core.DI;
 using JurDocs.WinForms.Configuration;
 using JurDocs.WinForms.DI;
 using JurDocs.WinForms.ViewModel;
@@ -57,7 +58,7 @@ namespace JurDocs.WinForms
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            var container = JurDocsContainer.GetContainer();
+            var container = Views.Container();
 
             ApplicationConfiguration.Initialize();
 
@@ -69,7 +70,9 @@ namespace JurDocs.WinForms
                 return;
             }
 
-            new InitApiClient(container.Resolve<WorkSession>().User.Token).Execute();
+
+            var token = container.Resolve<WorkSession>().User.Token;
+            CoreContainer.Get<IInitApiClient>().Execute(token);
 
             using (var lifetimeScope = container.BeginLifetimeScope())
             {

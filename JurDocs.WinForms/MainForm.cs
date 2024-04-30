@@ -2,16 +2,15 @@ using Autofac;
 using JurDocs.Client;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
-using JurDocs.Core.View;
+using JurDocs.Core.DI;
+using JurDocs.Core.Views;
 using JurDocs.WinForms;
-using JurDocs.WinForms.DI;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
 using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms.Model;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace JurDocsWinForms
 {
@@ -55,9 +54,12 @@ namespace JurDocsWinForms
 
             await UpdateProjectList();
 
-            new ChangeCurrentPage("Проект").Execute();
 
-            tssCurrentPage.Text = $"Текущий раздел: {new GetState().GetCurrentPage}";
+            var changeCurrentPage = CoreContainer.Get().Resolve<IChangeCurrentPage>();
+            await changeCurrentPage.ExecuteAsync("Проект");
+
+            var state = CoreContainer.Get().Resolve<IGetState>();
+            tssCurrentPage.Text = $"Текущий раздел: {state.GetCurrentPage}";
         }
 
 
@@ -74,7 +76,9 @@ namespace JurDocsWinForms
             dgvProjectList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProjectList.MultiSelect = false;
 
-            var curProject = new GetState().GetCurrentProject;
+            var state = CoreContainer.Get().Resolve<IGetState>();
+
+            var curProject = state.GetCurrentProject;
 
             if (curProject == null)
                 return;
@@ -351,46 +355,54 @@ namespace JurDocsWinForms
 
         private async void newToolStripButton_Click(object sender, EventArgs e)
         {
-            if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
+            using (var scope = CoreContainer.Get().BeginLifetimeScope())
             {
-                using (var scope = JurDocsCoreContainer.GetContainer().BeginLifetimeScope())
-                {
-                    var createProject = scope.Resolve<ICreateProject>();
-                }
+                var createNewDoc = scope.Resolve<ICreateDocument>();
+                await createNewDoc.ExecuteAsync();
 
-                //var createProjectViewModel = await ViewModel.CreateNewProject();
-
-                //var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
-
+                //Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
                 //ProgramHelpers.MoveWindowToCenterScreen(f);
                 //f.ShowDialog(this);
-
-                var container = JurDocsContainer.GetContainer();
-
-                using (var scope = container.BeginLifetimeScope())
-                {
-                    var f = scope.Resolve<CreateProjectForm>();
-                    ProgramHelpers.MoveWindowToCenterScreen(f);
-                    f.ShowDialog(this);
-                }
-
-                await UpdateProjectList();
-
-                return;
             }
 
-            if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
-            {
+            //if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
+            //{
+            //    using (var scope = Core.Container().BeginLifetimeScope())
+            //    {
+            //        var createProject = scope.Resolve<ICreateProject>();
+            //    }
 
-                using (var scope = JurDocsCoreContainer.GetContainer().BeginLifetimeScope())
-                {
-                    var createNewDoc = scope.Resolve<ICreateNewDoc>();
+            //    //var createProjectViewModel = await ViewModel.CreateNewProject();
 
-                    Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
-                    ProgramHelpers.MoveWindowToCenterScreen(f);
-                    f.ShowDialog(this);
-                }
-            }
+            //    //var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
+
+            //    //ProgramHelpers.MoveWindowToCenterScreen(f);
+            //    //f.ShowDialog(this);
+
+            //    using (var scope = Views.Container().BeginLifetimeScope())
+            //    {
+            //        var f = scope.Resolve<CreateProjectForm>();
+            //        ProgramHelpers.MoveWindowToCenterScreen(f);
+            //        f.ShowDialog(this);
+            //    }
+
+            //    await UpdateProjectList();
+
+            //    return;
+            //}
+
+            //if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
+            //{
+
+            //    using (var scope = Core.Container().BeginLifetimeScope())
+            //    {
+            //        var createNewDoc = scope.Resolve<ICreateNewDoc>();
+
+            //        Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
+            //        ProgramHelpers.MoveWindowToCenterScreen(f);
+            //        f.ShowDialog(this);
+            //    }
+            //}
         }
 
         private async void cutToolStripButton_Click(object sender, EventArgs e)
@@ -405,13 +417,16 @@ namespace JurDocsWinForms
 
         private async void tabControl1_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
-            var state = new GetState();
+            var state = CoreContainer.Get().Resolve<IGetState>();
 
             if (sender is TabControl tc)
             {
                 var text = tc.SelectedTab?.Text;
 
-                new ChangeCurrentPage(text!).Execute();
+                var changeCurrentPage = CoreContainer.Get().Resolve<IChangeCurrentPage>();
+
+                await changeCurrentPage.ExecuteAsync(text!);
+
 
                 tssCurrentPage.Text = $"Текущий раздел: {state.GetCurrentPage}";
             }
@@ -435,10 +450,15 @@ namespace JurDocsWinForms
             if (dgvProjectList.DataSource is SortableBindingList<ProjectListTable> projectListTables)
             {
                 var projectListTable = projectListTables[e.RowIndex];
-                await new ChangeCurrentProject(projectListTable.Id).ExecuteAsync();
+
+                var changeCurrentProject = CoreContainer.Get().Resolve<IChangeCurrentProject>();
+
+                await changeCurrentProject.ExecuteAsync(projectListTable.Id);
             }
 
-            tssCurrentProject.Text = $"Текущий проект: {new GetState().GetCurrentProject.Name}";
+            var state = CoreContainer.Get().Resolve<IGetState>();
+
+            tssCurrentProject.Text = $"Текущий проект: {state.GetCurrentProject.Name}";
         }
 
         public Task SetCurrentProject(int projectId)

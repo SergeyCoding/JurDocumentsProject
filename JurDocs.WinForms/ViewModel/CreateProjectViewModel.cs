@@ -1,6 +1,7 @@
 ﻿using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
 using JurDocs.Core.Commands;
+using JurDocs.Core.DI;
 using JurDocs.Core.Model;
 
 namespace JurDocs.WinForms.ViewModel
@@ -102,8 +103,11 @@ namespace JurDocs.WinForms.ViewModel
                 rights.Add(item);
             }
 
-            await new SaveProject(project).ExecuteAsync();
-            await new SaveRights(project, rights).ExecuteAsync();
+            var saveProject = CoreContainer.Get<ISaveProject>();
+            var saveRights = CoreContainer.Get<ISaveRights>();
+
+            await saveProject.ExecuteAsync(project);
+            await saveRights.ExecuteAsync(project, rights);
         }
     }
 }

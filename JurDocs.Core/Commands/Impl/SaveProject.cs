@@ -1,24 +1,27 @@
 ﻿using JurDocs.Client;
 using JurDocs.Core.States;
 
-namespace JurDocs.Core.Commands
+namespace JurDocs.Core.Commands.Impl
 {
-    public class SaveProject(JurDocProject project)
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class SaveProject(AppState state) : ISaveProject
     {
-        public async Task ExecuteAsync()
+        public async Task ExecuteAsync(JurDocProject project)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(project.Name))
                     throw new Exception("Проект должен иметь наименование");
 
-                var _client = AppState.Instance.Client;
+                var _client = state.Client;
 
                 var result = (await _client.ProjectPUTAsync(project)).Result;
 
                 if (result != null && result.Status == "OK")
                 {
-                    AppState.Instance.CurrentProject = result.Data.First();
+                    state.CurrentProject = result.Data.First();
                 }
 
                 //var resp = await _client.RightsAllAsync(newProject.Id).ConfigureAwait(false);

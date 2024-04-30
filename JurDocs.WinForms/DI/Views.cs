@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using JurDocs.Client;
-using JurDocs.Core.Commands;
 using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms;
 using JurDocsWinForms.Model;
@@ -10,14 +9,22 @@ namespace JurDocs.WinForms.DI
     /// <summary>
     /// 
     /// </summary>
-    internal static class JurDocsContainer
+    internal static class Views
     {
         private static IContainer? _container;
 
-        public static IContainer GetContainer()
+        private static readonly object _locker = new();
+
+        public static IContainer Container()
         {
-            if (_container == null)
+            if (_container != null)
+                return _container;
+
+            lock (_locker)
             {
+                if (_container != null)
+                    return _container;
+
                 var builder = new ContainerBuilder();
                 builder.RegisterType<CurrentUser>();
                 builder.RegisterType<WorkSession>().SingleInstance();
@@ -29,11 +36,11 @@ namespace JurDocs.WinForms.DI
 
                 builder.RegisterType<CreateProjectForm>().PropertiesAutowired();
                 builder.RegisterType<CreateProjectViewModel>();
-                
-                _container = builder.Build();
-            }
 
-            return _container;
+                _container = builder.Build();
+
+                return _container;
+            }
         }
     }
 }

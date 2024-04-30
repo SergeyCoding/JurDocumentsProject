@@ -1,4 +1,6 @@
-﻿using JurDocs.Core;
+﻿using Autofac;
+using JurDocs.Core;
+using JurDocs.Core.DI;
 using JurDocs.WinForms.ViewModel;
 
 namespace JurDocsWinForms
@@ -19,7 +21,7 @@ namespace JurDocsWinForms
         {
             MinimumSize = new Size(Width, Height);
 
-            var state = new GetState();
+            var state = CoreContainer.Get().Resolve<IGetState>();
 
             cbProjectName.Items.Clear();
             cbProjectName.Text = state.GetCurrentProject.Name;
