@@ -1,7 +1,7 @@
-﻿
-using JurDocs.Client;
+﻿using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
 using JurDocs.Core.Commands;
+using JurDocs.Core.DI;
 using JurDocs.Core.Model;
 
 namespace JurDocs.WinForms.ViewModel
@@ -11,8 +11,6 @@ namespace JurDocs.WinForms.ViewModel
     /// </summary>
     public class CreateProjectViewModel(JurDocsClient client)
     {
-        private readonly JurDocsClient _client = client;
-
         public string ProjectName { get; set; } = string.Empty;
         public string ProjectFullName { get; set; } = string.Empty;
         public int ProjectOwnerId { get; set; }
@@ -24,8 +22,54 @@ namespace JurDocs.WinForms.ViewModel
 
         internal async Task DeleteProjectAsync()
         {
-            await _client.ProjectDELETEAsync(ProjectId);
+            await client.ProjectDELETEAsync(ProjectId);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal async Task InitNewProject()
+        {
+            var swaggerResponse = await client.ProjectPOSTAsync();
+
+            var persons = (await client.PersonAsync()).Result;
+
+            var result = swaggerResponse.Result;
+
+            var ownerId = result.OwnerId;
+
+            ProjectId = result.Id;
+            ProjectName = result.Name;
+            ProjectFullName = result.FullName;
+            ProjectOwnerId = result.OwnerId;
+            ProjectOwnerName = persons.FirstOrDefault(x => x.PersonId == ownerId)!.PersonName;
+
+            foreach (var person in persons)
+            {
+                ProjectRights.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
+
+                ProjectRights_Справки.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
+
+                ProjectRights_Выписки.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
+
+            }
+        }
+
 
         internal async Task SaveProjectAsync()
         {
@@ -59,8 +103,11 @@ namespace JurDocs.WinForms.ViewModel
                 rights.Add(item);
             }
 
-            await new SaveProject(project).ExecuteAsync();
-            await new SaveRights(project, rights).ExecuteAsync();
+            var saveProject = CoreContainer.Get<ISaveProject>();
+            var saveRights = CoreContainer.Get<ISaveRights>();
+
+            await saveProject.ExecuteAsync(project);
+            await saveRights.ExecuteAsync(project, rights);
         }
     }
 }

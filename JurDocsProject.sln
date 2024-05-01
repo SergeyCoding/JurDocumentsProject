@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs.Server", "JurDocs.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs.WinForms", "JurDocs.WinForms\JurDocs.WinForms.csproj", "{0151DD9F-5D8A-4FD7-AB82-EBD46B6CD651}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurDocs.Core", "JurDocs.Core\JurDocs.Core.csproj", "{B8D27DED-4BC9-4EA5-9E32-C6E07490C669}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurDocs.Core", "JurDocs.Core\JurDocs.Core.csproj", "{B8D27DED-4BC9-4EA5-9E32-C6E07490C669}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

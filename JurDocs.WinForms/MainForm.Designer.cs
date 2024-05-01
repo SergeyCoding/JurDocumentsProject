@@ -49,6 +49,7 @@ namespace JurDocsWinForms
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             tssCurrentProject = new ToolStripStatusLabel();
+            tssCurrentPage = new ToolStripStatusLabel();
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
             создатьПроектToolStripMenuItem = new ToolStripMenuItem();
@@ -105,7 +106,6 @@ namespace JurDocsWinForms
             a1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             panelGrid = new Panel();
-            tssCurrentPage = new ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)dgvProjects).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -272,6 +272,12 @@ namespace JurDocsWinForms
             tssCurrentProject.Size = new Size(97, 17);
             tssCurrentProject.Text = "Текущий проект";
             // 
+            // tssCurrentPage
+            // 
+            tssCurrentPage.Name = "tssCurrentPage";
+            tssCurrentPage.Size = new Size(118, 17);
+            tssCurrentPage.Text = "toolStripStatusLabel3";
+            // 
             // menuStrip1
             // 
             menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem, toolStripMenuItem2 });
@@ -291,26 +297,26 @@ namespace JurDocsWinForms
             // создатьПроектToolStripMenuItem
             // 
             создатьПроектToolStripMenuItem.Name = "создатьПроектToolStripMenuItem";
-            создатьПроектToolStripMenuItem.Size = new Size(169, 22);
+            создатьПроектToolStripMenuItem.Size = new Size(180, 22);
             создатьПроектToolStripMenuItem.Text = "Создать проект";
             создатьПроектToolStripMenuItem.Click += создатьПроектToolStripMenuItem_Click;
             // 
             // изменитьПроектToolStripMenuItem
             // 
             изменитьПроектToolStripMenuItem.Name = "изменитьПроектToolStripMenuItem";
-            изменитьПроектToolStripMenuItem.Size = new Size(169, 22);
+            изменитьПроектToolStripMenuItem.Size = new Size(180, 22);
             изменитьПроектToolStripMenuItem.Text = "Изменить проект";
             изменитьПроектToolStripMenuItem.Click += изменитьПроектToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(166, 6);
+            toolStripMenuItem1.Size = new Size(177, 6);
             // 
             // выходToolStripMenuItem
             // 
             выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            выходToolStripMenuItem.Size = new Size(169, 22);
+            выходToolStripMenuItem.Size = new Size(180, 22);
             выходToolStripMenuItem.Text = "Выход";
             выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
@@ -779,12 +785,6 @@ namespace JurDocsWinForms
             panelGrid.Size = new Size(997, 429);
             panelGrid.TabIndex = 19;
             // 
-            // tssCurrentPage
-            // 
-            tssCurrentPage.Name = "tssCurrentPage";
-            tssCurrentPage.Size = new Size(118, 17);
-            tssCurrentPage.Text = "toolStripStatusLabel3";
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -870,7 +870,7 @@ namespace JurDocsWinForms
         private Panel panelDragDrop;
         private Panel panelSourceDocs;
         private Panel panelDocs;
-        private ToolStripMenuItem создатьПроектToolStripMenuItem;
+        //private ToolStripMenuItem создатьПроектToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
         private Label label2;
         private Label label1;
@@ -927,5 +927,6 @@ namespace JurDocsWinForms
         private DataGridViewTextBoxColumn a1;
         private DataGridViewTextBoxColumn Column2;
         private ToolStripStatusLabel tssCurrentPage;
+        private ToolStripMenuItem создатьПроектToolStripMenuItem;
     }
 }

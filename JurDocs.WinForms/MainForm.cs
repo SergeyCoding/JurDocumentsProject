@@ -1,8 +1,12 @@
+using Autofac;
 using JurDocs.Client;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
-using JurDocs.Core.View;
+using JurDocs.Core.DI;
+using JurDocs.Core.Model;
+using JurDocs.Core.Views;
 using JurDocs.WinForms;
+using JurDocs.WinForms.DI;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
 using JurDocs.WinForms.ViewModel;
@@ -14,24 +18,11 @@ namespace JurDocsWinForms
 {
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
 
-    public partial class MainForm : Form, IProjectView
+    public partial class MainForm : Form, IProjectListView, IMainView
     {
-        internal MainViewModel? ViewModel;
+        public required MainViewModel ViewModel { get; set; }
 
-        private MainViewModel VM
-        {
-            get
-            {
-                if (ViewModel == null)
-                {
-                    throw new InvalidOperationException();
-                }
-
-                return ViewModel;
-            }
-        }
-
-        internal WorkSession? WorkSession { get; set; }
+        public required WorkSession WorkSession { get; set; }
 
         public MainForm()
         {
@@ -65,9 +56,12 @@ namespace JurDocsWinForms
 
             await UpdateProjectList();
 
-            new ChangeCurrentPage("Проект").Execute();
 
-            tssCurrentPage.Text = $"Текущий раздел: {new GetState().GetCurrentPage}";
+            var changeCurrentPage = CoreContainer.Get().Resolve<IChangeCurrentPage>();
+            await changeCurrentPage.ExecuteAsync("Проект");
+
+            var state = CoreContainer.Get().Resolve<IGetState>();
+            tssCurrentPage.Text = $"Текущий раздел: {state.GetCurrentPage}";
         }
 
 
@@ -84,7 +78,9 @@ namespace JurDocsWinForms
             dgvProjectList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProjectList.MultiSelect = false;
 
-            var curProject = new GetState().GetCurrentProject;
+            var state = CoreContainer.Get().Resolve<IGetState>();
+
+            var curProject = state.GetCurrentProject;
 
             if (curProject == null)
                 return;
@@ -118,12 +114,7 @@ namespace JurDocsWinForms
                 if (files != null && files is string[] fileList)
                 {
                     foreach (var item in fileList)
-                    {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
                         WorkSession.AddNewDoc(item);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-                    }
-
                 }
             }
             catch (Exception)
@@ -334,7 +325,7 @@ namespace JurDocsWinForms
 
         private async void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Form f = new AddNewDoc { ViewModel = await VM.CreateNewDoc() };
+            Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
             ProgramHelpers.MoveWindowToCenterScreen(f);
             f.ShowDialog(this);
         }
@@ -344,15 +335,15 @@ namespace JurDocsWinForms
 
         }
 
-        private async void создатьПроектToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var createProjectViewModel = await ViewModel!.CreateNewProject();
+        //private async void создатьПроектToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    var createProjectViewModel = await ViewModel!.CreateNewProject();
 
-            var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
+        //    var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
 
-            ProgramHelpers.MoveWindowToCenterScreen(f);
-            f.ShowDialog(this);
-        }
+        //    ProgramHelpers.MoveWindowToCenterScreen(f);
+        //    f.ShowDialog(this);
+        //}
 
         private void изменитьПроектToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -366,28 +357,7 @@ namespace JurDocsWinForms
 
         private async void newToolStripButton_Click(object sender, EventArgs e)
         {
-            if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Проект)
-            {
-                var createProjectViewModel = await VM.CreateNewProject();
-
-                var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
-
-                ProgramHelpers.MoveWindowToCenterScreen(f);
-                f.ShowDialog(this);
-
-                await UpdateProjectList();
-
-                return;
-            }
-
-            if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
-            {
-                VM.CreateNewLetter();
-
-                Form f = new AddNewDoc { ViewModel = await VM.CreateNewDoc() };
-                ProgramHelpers.MoveWindowToCenterScreen(f);
-                f.ShowDialog(this);
-            }
+            await CoreContainer.Get<ICreateProjectOrDocument>().ExecuteAsync(this);
         }
 
         private async void cutToolStripButton_Click(object sender, EventArgs e)
@@ -402,13 +372,16 @@ namespace JurDocsWinForms
 
         private async void tabControl1_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
-            var state = new GetState();
+            var state = CoreContainer.Get().Resolve<IGetState>();
 
             if (sender is TabControl tc)
             {
                 var text = tc.SelectedTab?.Text;
 
-                new ChangeCurrentPage(text!).Execute();
+                var changeCurrentPage = CoreContainer.Get().Resolve<IChangeCurrentPage>();
+
+                await changeCurrentPage.ExecuteAsync(text!);
+
 
                 tssCurrentPage.Text = $"Текущий раздел: {state.GetCurrentPage}";
             }
@@ -417,7 +390,7 @@ namespace JurDocsWinForms
             {
                 cbProjectList.Items.Clear();
 
-                var projectNameList = await VM.GetProjectNameList();
+                var projectNameList = await ViewModel.GetProjectNameList();
 
                 if (projectNameList.Any())
                 {
@@ -432,13 +405,50 @@ namespace JurDocsWinForms
             if (dgvProjectList.DataSource is SortableBindingList<ProjectListTable> projectListTables)
             {
                 var projectListTable = projectListTables[e.RowIndex];
-                await new ChangeCurrentProject(projectListTable.Id).ExecuteAsync();
-            }
 
-            tssCurrentProject.Text = $"Текущий проект: {new GetState().GetCurrentProject.Name}";
+                var changeCurrentProject = CoreContainer.Get().Resolve<IChangeCurrentProject>();
+
+                await changeCurrentProject.ExecuteAsync(this, projectListTable.Id);
+            }
         }
 
         public Task SetCurrentProject(int projectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeCurrentProject(JurDocProject currentProject)
+        {
+            var state = CoreContainer.GetState();
+            tssCurrentProject.Text = $"Текущий проект: {state.GetCurrentProject.Name}";
+        }
+
+        public async void OpenProjectEditor(EditedProjectData projDto)
+        {
+            var projectEditor = Views.Container().Resolve<IProjectEditor>();
+            projectEditor.SetData(projDto);
+
+            var projectEditorResult = (projectEditor as Form)?.ShowDialog(this);
+
+            if (projectEditorResult == DialogResult.Cancel)
+            {
+                await CoreContainer.Get<IDeleteProject>().ExecuteAsync(projDto.ProjectId);
+            }
+            else if (projectEditorResult == DialogResult.OK)
+            {
+                var editedProjectData = projectEditor.GetData();
+                await CoreContainer.Get<ISaveProject>().ExecuteAsync(editedProjectData);
+            }
+
+            await UpdateProjectList();
+        }
+
+        private async void создатьПроектToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await CoreContainer.Get<ICreateProject>().CreateNewProject(this);
+        }
+
+        public void OpenDocEditor()
         {
             throw new NotImplementedException();
         }

@@ -10,9 +10,4 @@
     <PackageReference Include="Autofac" Version="8.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\JurDocs.Client\JurDocs.Client.csproj" />
-    <ProjectReference Include="..\JurDocs.Common\JurDocs.Common.csproj" />
-  </ItemGroup>
-
 </Project>

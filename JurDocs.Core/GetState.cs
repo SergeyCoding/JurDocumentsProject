@@ -7,9 +7,9 @@ namespace JurDocs.Core
     /// <summary>
     /// 
     /// </summary>
-    public class GetState
+    internal class GetState(AppState state) : IGetState
     {
-        public AppPage GetCurrentPage => AppState.Instance.CurrentPage;
-        public JurDocProject GetCurrentProject => AppState.Instance.CurrentProject;
+        public AppPage GetCurrentPage => state.CurrentPage;
+        public JurDocProject GetCurrentProject => state.CurrentProject;
     }
 }

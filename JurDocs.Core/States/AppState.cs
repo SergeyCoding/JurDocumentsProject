@@ -6,8 +6,6 @@ namespace JurDocs.Core.States
 {
     internal class AppState
     {
-        public static AppState Instance = new();
-
         private JurDocsClient? _client = null;
 
         private JurDocUser? _user;
