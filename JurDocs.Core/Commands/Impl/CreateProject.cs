@@ -8,12 +8,12 @@ namespace JurDocs.Core.Commands.Impl
     /// <summary>
     /// 
     /// </summary>
-    internal partial class CreateProject(AppState state) : ICreateProject
+    internal class CreateProject(AppState state) : ICreateProject
     {
         /// <summary>
         /// 
         /// </summary>
-        public async Task CreateNewProject(IProjectEditor projectEditor)
+        public async Task CreateNewProject(IMainView mainView)
         {
             var persons = (await state.Client.PersonAsync()).Result;
 
@@ -23,7 +23,7 @@ namespace JurDocs.Core.Commands.Impl
 
             var ownerId = newProject.OwnerId;
 
-            var projDto = new EditedProject
+            var projDto = new EditedProjectData
             {
                 ProjectId = newProject.Id,
                 ProjectName = newProject.Name,
@@ -56,7 +56,7 @@ namespace JurDocs.Core.Commands.Impl
                 });
             }
 
-            projectEditor.Open(projDto);
+            mainView.OpenProjectEditor(projDto);
         }
     }
 }

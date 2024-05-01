@@ -35,8 +35,7 @@ namespace JurDocs.WinForms.DI
                 builder.RegisterType<MainForm>().PropertiesAutowired();
                 builder.RegisterType<MainViewModel>();
 
-                builder.RegisterType<CreateProjectForm>().PropertiesAutowired().As<IProjectEditor>();
-                builder.RegisterType<CreateProjectViewModel>();
+                builder.RegisterType<CreateProjectForm>().As<IProjectEditor>();
 
                 builder.RegisterType<AddNewDoc>().PropertiesAutowired().As<IDocEditor>();
                 builder.RegisterType<AddNewDocViewModel>();

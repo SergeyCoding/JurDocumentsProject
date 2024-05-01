@@ -256,7 +256,7 @@
             Name = "CreateProjectForm";
             Text = "Создать проект";
             TopMost = true;
-            Load += CreateProjectForm_Load;
+            //Load += CreateProjectForm_Load;
             tabControl1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage1.ResumeLayout(false);

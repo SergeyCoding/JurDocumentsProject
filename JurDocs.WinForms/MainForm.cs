@@ -3,6 +3,7 @@ using JurDocs.Client;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
 using JurDocs.Core.DI;
+using JurDocs.Core.Model;
 using JurDocs.Core.Views;
 using JurDocs.WinForms;
 using JurDocs.WinForms.DI;
@@ -17,7 +18,7 @@ namespace JurDocsWinForms
 {
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
 
-    public partial class MainForm : Form, IProjectListView
+    public partial class MainForm : Form, IProjectListView, IMainView
     {
         public required MainViewModel ViewModel { get; set; }
 
@@ -334,15 +335,15 @@ namespace JurDocsWinForms
 
         }
 
-        private async void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var createProjectViewModel = await ViewModel!.CreateNewProject();
+        //private async void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    var createProjectViewModel = await ViewModel!.CreateNewProject();
 
-            var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
+        //    var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
 
-            ProgramHelpers.MoveWindowToCenterScreen(f);
-            f.ShowDialog(this);
-        }
+        //    ProgramHelpers.MoveWindowToCenterScreen(f);
+        //    f.ShowDialog(this);
+        //}
 
         private void èçìåíèòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -356,57 +357,7 @@ namespace JurDocsWinForms
 
         private async void newToolStripButton_Click(object sender, EventArgs e)
         {
-            using (var scope = CoreContainer.Get().BeginLifetimeScope())
-            {
-                var projectEditor = Views.Container().Resolve<IProjectEditor>();
-                var docEditor = Views.Container().Resolve<IDocEditor>();
-
-                var createNewDoc = scope.Resolve<ICreateDocument>();
-                await createNewDoc.ExecuteAsync(projectEditor, docEditor);
-
-                //Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
-                //ProgramHelpers.MoveWindowToCenterScreen(f);
-                //f.ShowDialog(this);
-            }
-
-            //if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Ïðîåêò)
-            //{
-            //    using (var scope = Core.Container().BeginLifetimeScope())
-            //    {
-            //        var createProject = scope.Resolve<ICreateProject>();
-            //    }
-
-            //    //var createProjectViewModel = await ViewModel.CreateNewProject();
-
-            //    //var f = new CreateProjectForm { ViewModel = createProjectViewModel! };
-
-            //    //ProgramHelpers.MoveWindowToCenterScreen(f);
-            //    //f.ShowDialog(this);
-
-            //    using (var scope = Views.Container().BeginLifetimeScope())
-            //    {
-            //        var f = scope.Resolve<CreateProjectForm>();
-            //        ProgramHelpers.MoveWindowToCenterScreen(f);
-            //        f.ShowDialog(this);
-            //    }
-
-            //    await UpdateProjectList();
-
-            //    return;
-            //}
-
-            //if (new GetState().GetCurrentPage == JurDocs.Core.Constants.AppPage.Ïèñüìî)
-            //{
-
-            //    using (var scope = Core.Container().BeginLifetimeScope())
-            //    {
-            //        var createNewDoc = scope.Resolve<ICreateNewDoc>();
-
-            //        Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
-            //        ProgramHelpers.MoveWindowToCenterScreen(f);
-            //        f.ShowDialog(this);
-            //    }
-            //}
+            await CoreContainer.Get<ICreateProjectOrDocument>().ExecuteAsync(this);
         }
 
         private async void cutToolStripButton_Click(object sender, EventArgs e)
@@ -470,6 +421,23 @@ namespace JurDocsWinForms
         {
             var state = CoreContainer.GetState();
             tssCurrentProject.Text = $"Òåêóùèé ïðîåêò: {state.GetCurrentProject.Name}";
+        }
+
+        public void OpenProjectEditor(EditedProjectData projDto)
+        {
+            var projectEditor = Views.Container().Resolve<IProjectEditor>();
+            projectEditor.SetData(projDto);
+            (projectEditor as Form)?.ShowDialog(this);
+        }
+
+        private async void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await CoreContainer.Get<ICreateProject>().CreateNewProject(this);
+        }
+
+        public void OpenDocEditor()
+        {
+            throw new NotImplementedException();
         }
     }
 }

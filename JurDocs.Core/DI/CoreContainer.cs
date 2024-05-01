@@ -29,7 +29,7 @@ namespace JurDocs.Core.DI
                 builder.RegisterType<AppState>().SingleInstance();
                 builder.RegisterType<GetState>().As<IGetState>();
 
-                builder.RegisterType<CreateNewDoc>().As<ICreateDocument>();
+                builder.RegisterType<CreateProjectOrDocument>().As<ICreateProjectOrDocument>();
                 builder.RegisterType<CreateProject>().As<ICreateProject>();
 
                 builder.RegisterType<ChangeCurrentPage>().As<IChangeCurrentPage>();

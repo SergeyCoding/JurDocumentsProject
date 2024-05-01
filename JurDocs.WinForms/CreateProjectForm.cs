@@ -1,36 +1,15 @@
 ﻿using JurDocs.Common.EnumTypes;
 using JurDocs.Core.Model;
 using JurDocs.Core.Views;
-using JurDocs.WinForms.ViewModel;
 
 namespace JurDocsWinForms
 {
     public partial class CreateProjectForm : Form, IProjectEditor
     {
-        public required CreateProjectViewModel ViewModel { get; set; }
-
         public CreateProjectForm()
         {
             InitializeComponent();
         }
-
-        private async void CreateProjectForm_Load(object sender, EventArgs e)
-        {
-            if (ViewModel == null)
-                return;
-
-            await ViewModel.InitNewProject();
-
-            tbProjectName.Text = ViewModel.ProjectName;
-            tbProjectFullName.Text = ViewModel.ProjectFullName;
-            cbProjectOwner.Text = ViewModel.ProjectOwnerName;
-            cbProjectOwner.Items.Add(ViewModel.ProjectOwnerName);
-
-            FillCheckListBox(clbProjectRights, ViewModel.ProjectRights);
-            FillCheckListBox(clbProjectRights_Справки, ViewModel.ProjectRights_Справки);
-            FillCheckListBox(clbProjectRights_Выписки, ViewModel.ProjectRights_Выписки);
-        }
-
 
         private static void FillCheckListBox(CheckedListBox clb, IEnumerable<UserRight> rights)
         {
@@ -64,33 +43,45 @@ namespace JurDocsWinForms
         {
             TopMost = false;
 
-            ViewModel.ProjectName = tbProjectName.Text;
-            ViewModel.ProjectFullName = tbProjectFullName.Text;
+            //ViewModel.ProjectName = tbProjectName.Text;
+            //ViewModel.ProjectFullName = tbProjectFullName.Text;
 
-            LoadCheckListBox(clbProjectRights, ViewModel.ProjectRights);
-            LoadCheckListBox(clbProjectRights_Справки, ViewModel.ProjectRights_Справки);
-            LoadCheckListBox(clbProjectRights_Выписки, ViewModel.ProjectRights_Выписки);
+            //LoadCheckListBox(clbProjectRights, ViewModel.ProjectRights);
+            //LoadCheckListBox(clbProjectRights_Справки, ViewModel.ProjectRights_Справки);
+            //LoadCheckListBox(clbProjectRights_Выписки, ViewModel.ProjectRights_Выписки);
 
-            await ViewModel.SaveProjectAsync();
+            //await ViewModel.SaveProjectAsync();
 
             Close();
         }
 
-        private async void BtnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             var dialogResult = MessageBox.Show("Закрыть окно проекта без сохранения?", "Проект", MessageBoxButtons.YesNoCancel);
 
             if (dialogResult == DialogResult.Yes)
             {
-                await ViewModel.DeleteProjectAsync();
+                //await ViewModel.DeleteProjectAsync();
 
                 Close();
             }
         }
 
-        public void Open(EditedProject projDto)
+        public void SetData(EditedProjectData projectData)
         {
+            tbProjectName.Text = projectData.ProjectName;
+            tbProjectFullName.Text = projectData.ProjectFullName;
+            cbProjectOwner.Text = projectData.ProjectOwnerName;
+            cbProjectOwner.Items.Add(projectData.ProjectOwnerName);
 
+            FillCheckListBox(clbProjectRights, projectData.ProjectRights);
+            FillCheckListBox(clbProjectRights_Справки, projectData.ProjectRights_Справки);
+            FillCheckListBox(clbProjectRights_Выписки, projectData.ProjectRights_Выписки);
+        }
+
+        public EditedProjectData GetData()
+        {
+            throw new NotImplementedException();
         }
     }
 }

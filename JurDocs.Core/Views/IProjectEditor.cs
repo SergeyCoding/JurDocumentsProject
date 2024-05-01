@@ -5,6 +5,7 @@ namespace JurDocs.Core.Views
 {
     public interface IProjectEditor
     {
-        void Open(EditedProject projDto);
+        EditedProjectData GetData();
+        void SetData(EditedProjectData projectData);
     }
 }
