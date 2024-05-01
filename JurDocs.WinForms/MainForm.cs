@@ -325,9 +325,7 @@ namespace JurDocsWinForms
 
         private async void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
-            ProgramHelpers.MoveWindowToCenterScreen(f);
-            f.ShowDialog(this);
+
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -448,9 +446,13 @@ namespace JurDocsWinForms
             await CoreContainer.Get<ICreateProject>().CreateNewProject(this);
         }
 
-        public void OpenDocEditor()
+        public void OpenDocEditor(EditedDocData data)
         {
-            throw new NotImplementedException();
+            var docEditor = Views.Container().Resolve<IDocEditor>();
+            docEditor.SetData(data);
+
+            (docEditor as Form)?.ShowDialog(this);
+
         }
     }
 }

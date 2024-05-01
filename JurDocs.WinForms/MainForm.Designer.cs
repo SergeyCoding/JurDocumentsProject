@@ -60,8 +60,8 @@ namespace JurDocsWinForms
             создатьСправкуToolStripMenuItem = new ToolStripMenuItem();
             toolStrip2 = new ToolStrip();
             newDocButton = new ToolStripButton();
-            newToolStripButton = new ToolStripButton();
-            openToolStripButton = new ToolStripButton();
+            tsbNewProjectOrDoc = new ToolStripButton();
+            tsbOpenProjectOrDoc = new ToolStripButton();
             saveToolStripButton = new ToolStripButton();
             printToolStripButton = new ToolStripButton();
             toolStripSeparator = new ToolStripSeparator();
@@ -297,26 +297,26 @@ namespace JurDocsWinForms
             // создатьПроектToolStripMenuItem
             // 
             создатьПроектToolStripMenuItem.Name = "создатьПроектToolStripMenuItem";
-            создатьПроектToolStripMenuItem.Size = new Size(180, 22);
+            создатьПроектToolStripMenuItem.Size = new Size(169, 22);
             создатьПроектToolStripMenuItem.Text = "Создать проект";
             создатьПроектToolStripMenuItem.Click += создатьПроектToolStripMenuItem_Click;
             // 
             // изменитьПроектToolStripMenuItem
             // 
             изменитьПроектToolStripMenuItem.Name = "изменитьПроектToolStripMenuItem";
-            изменитьПроектToolStripMenuItem.Size = new Size(180, 22);
+            изменитьПроектToolStripMenuItem.Size = new Size(169, 22);
             изменитьПроектToolStripMenuItem.Text = "Изменить проект";
             изменитьПроектToolStripMenuItem.Click += изменитьПроектToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(177, 6);
+            toolStripMenuItem1.Size = new Size(166, 6);
             // 
             // выходToolStripMenuItem
             // 
             выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            выходToolStripMenuItem.Size = new Size(180, 22);
+            выходToolStripMenuItem.Size = new Size(169, 22);
             выходToolStripMenuItem.Text = "Выход";
             выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
@@ -335,7 +335,7 @@ namespace JurDocsWinForms
             // 
             // toolStrip2
             // 
-            toolStrip2.Items.AddRange(new ToolStripItem[] { newDocButton, newToolStripButton, openToolStripButton, saveToolStripButton, printToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton, toolStripSeparator1, helpToolStripButton });
+            toolStrip2.Items.AddRange(new ToolStripItem[] { newDocButton, tsbNewProjectOrDoc, tsbOpenProjectOrDoc, saveToolStripButton, printToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton, toolStripSeparator1, helpToolStripButton });
             toolStrip2.Location = new Point(0, 24);
             toolStrip2.Name = "toolStrip2";
             toolStrip2.RenderMode = ToolStripRenderMode.System;
@@ -353,25 +353,25 @@ namespace JurDocsWinForms
             newDocButton.Text = "Добавить документ";
             newDocButton.Click += toolStripButton3_Click;
             // 
-            // newToolStripButton
+            // tsbNewProjectOrDoc
             // 
-            newToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            newToolStripButton.Image = (Image)resources.GetObject("newToolStripButton.Image");
-            newToolStripButton.ImageTransparentColor = Color.Magenta;
-            newToolStripButton.Name = "newToolStripButton";
-            newToolStripButton.Size = new Size(23, 22);
-            newToolStripButton.Text = "Создать";
-            newToolStripButton.Click += newToolStripButton_Click;
+            tsbNewProjectOrDoc.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbNewProjectOrDoc.Image = (Image)resources.GetObject("tsbNewProjectOrDoc.Image");
+            tsbNewProjectOrDoc.ImageTransparentColor = Color.Magenta;
+            tsbNewProjectOrDoc.Name = "tsbNewProjectOrDoc";
+            tsbNewProjectOrDoc.Size = new Size(23, 22);
+            tsbNewProjectOrDoc.Text = "Создать";
+            tsbNewProjectOrDoc.Click += newToolStripButton_Click;
             // 
-            // openToolStripButton
+            // tsbOpenProjectOrDoc
             // 
-            openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            openToolStripButton.Image = (Image)resources.GetObject("openToolStripButton.Image");
-            openToolStripButton.ImageTransparentColor = Color.Magenta;
-            openToolStripButton.Name = "openToolStripButton";
-            openToolStripButton.Size = new Size(23, 22);
-            openToolStripButton.Text = "&Open";
-            openToolStripButton.Click += openToolStripButton_Click;
+            tsbOpenProjectOrDoc.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbOpenProjectOrDoc.Image = (Image)resources.GetObject("tsbOpenProjectOrDoc.Image");
+            tsbOpenProjectOrDoc.ImageTransparentColor = Color.Magenta;
+            tsbOpenProjectOrDoc.Name = "tsbOpenProjectOrDoc";
+            tsbOpenProjectOrDoc.Size = new Size(23, 22);
+            tsbOpenProjectOrDoc.Text = "&Open";
+            tsbOpenProjectOrDoc.Click += openToolStripButton_Click;
             // 
             // saveToolStripButton
             // 
@@ -875,8 +875,8 @@ namespace JurDocsWinForms
         private Label label2;
         private Label label1;
         private ToolStripMenuItem изменитьПроектToolStripMenuItem;
-        private ToolStripButton newToolStripButton;
-        private ToolStripButton openToolStripButton;
+        private ToolStripButton tsbNewProjectOrDoc;
+        private ToolStripButton tsbOpenProjectOrDoc;
         private ToolStripButton saveToolStripButton;
         private ToolStripButton printToolStripButton;
         private ToolStripSeparator toolStripSeparator;

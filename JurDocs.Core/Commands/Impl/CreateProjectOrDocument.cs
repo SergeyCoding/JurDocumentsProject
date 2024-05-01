@@ -30,37 +30,10 @@ namespace JurDocs.Core.Commands.Impl
 
             if (state.CurrentPage == AppPage.Письмо)
             {
-                mainView.OpenDocEditor();
+                var createDocument = CoreContainer.Get<ICreateDocument>();
+                await createDocument.CreateDocumentAsync(mainView);
                 return;
-                //using (var scope = Core.Container().BeginLifetimeScope())
-                //{
-                //    var createNewDoc = scope.Resolve<ICreateNewDoc>();
-
-                //    Form f = new AddNewDoc { ViewModel = await ViewModel.CreateNewDoc() };
-                //    ProgramHelpers.MoveWindowToCenterScreen(f);
-                //    f.ShowDialog(this);
-                //}
             }
-
-            //var persons = (await state.Client.PersonAsync()).Result;
-
-            //var newProject = (await state.Client.ProjectPOSTAsync()).Result;
-
-            //state.CurrentProject = newProject;
-
-            //var ownerId = newProject.OwnerId;
-
-            //var createProjectViewModel = new CreateProjectViewModel((Client.JurDocsClient?)state.Client)
-            //{
-            //    ProjectId = newProject.Id,
-            //    ProjectName = newProject.Name,
-            //    ProjectFullName = newProject.FullName,
-            //    ProjectOwnerId = newProject.OwnerId,
-            //    ProjectOwnerName = persons.FirstOrDefault(x => x.PersonId == ownerId)!.PersonName,
-            //};
-
-
-            //return createProjectViewModel;
         }
     }
 }

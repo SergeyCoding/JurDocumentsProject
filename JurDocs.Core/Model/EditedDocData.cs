@@ -1,11 +1,9 @@
-﻿using JurDocs.Client;
-
-namespace JurDocs.WinForms.ViewModel
+﻿namespace JurDocs.WinForms.ViewModel
 {
     /// <summary>
     /// 
     /// </summary>
-    public class AddNewDocViewModel(JurDocsClient client)
+    public class EditedDocData
     {
         public string ProjectName { get; set; } = string.Empty;
         public string ProjectFullName { get; set; } = string.Empty;
@@ -20,10 +18,5 @@ namespace JurDocs.WinForms.ViewModel
         /// Получатель
         /// </summary>
         public List<string> Recipient { get; } = [];
-
-        public void SaveDoc()
-        {
-
-        }
     }
 }

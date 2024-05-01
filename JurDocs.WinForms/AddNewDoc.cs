@@ -11,7 +11,6 @@ namespace JurDocsWinForms
     /// </summary>
     public partial class AddNewDoc : Form, IDocEditor
     {
-        public required AddNewDocViewModel ViewModel { get; set; }
 
         public AddNewDoc()
         {
@@ -21,21 +20,6 @@ namespace JurDocsWinForms
         private void AddNewDoc_Load(object sender, EventArgs e)
         {
             MinimumSize = new Size(Width, Height);
-
-            var state = CoreContainer.Get().Resolve<IGetState>();
-
-            cbProjectName.Items.Clear();
-            cbProjectName.Text = state.GetCurrentProject.Name;
-
-            if (state.GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
-            {
-                cbDocType.Text = "Письмо";
-            }
-        }
-
-        private void Label1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -46,6 +30,14 @@ namespace JurDocsWinForms
                 textBoxFileName.Text = openFileDialog1.FileName;
         }
 
+        public void SetData(EditedDocData data)
+        {
+            throw new NotImplementedException();
+        }
 
+        EditedDocData IDocEditor.GetData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
