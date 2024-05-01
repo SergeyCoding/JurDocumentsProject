@@ -423,11 +423,24 @@ namespace JurDocsWinForms
             tssCurrentProject.Text = $"Текущий проект: {state.GetCurrentProject.Name}";
         }
 
-        public void OpenProjectEditor(EditedProjectData projDto)
+        public async void OpenProjectEditor(EditedProjectData projDto)
         {
             var projectEditor = Views.Container().Resolve<IProjectEditor>();
             projectEditor.SetData(projDto);
-            (projectEditor as Form)?.ShowDialog(this);
+
+            var projectEditorResult = (projectEditor as Form)?.ShowDialog(this);
+
+            if (projectEditorResult == DialogResult.Cancel)
+            {
+                await CoreContainer.Get<IDeleteProject>().ExecuteAsync(projDto.ProjectId);
+            }
+            else if (projectEditorResult == DialogResult.OK)
+            {
+                var editedProjectData = projectEditor.GetData();
+                await CoreContainer.Get<ISaveProject>().ExecuteAsync(editedProjectData);
+            }
+
+            await UpdateProjectList();
         }
 
         private async void создатьПроектToolStripMenuItem_Click(object sender, EventArgs e)

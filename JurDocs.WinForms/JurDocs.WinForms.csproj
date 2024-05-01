@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JurDocs.Client\JurDocs.Client.csproj" />
     <ProjectReference Include="..\JurDocs.Common\JurDocs.Common.csproj" />
     <ProjectReference Include="..\JurDocs.Core\JurDocs.Core.csproj" />
   </ItemGroup>

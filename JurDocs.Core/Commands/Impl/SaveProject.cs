@@ -1,4 +1,5 @@
 ﻿using JurDocs.Client;
+using JurDocs.Core.Model;
 using JurDocs.Core.States;
 
 namespace JurDocs.Core.Commands.Impl
@@ -23,35 +24,25 @@ namespace JurDocs.Core.Commands.Impl
                 {
                     state.CurrentProject = result.Data.First();
                 }
-
-                //var resp = await _client.RightsAllAsync(newProject.Id).ConfigureAwait(false);
-                //var newRights = resp.Result;
-
-                //foreach (var item in rights)
-                //{
-                //    if (item.Right == UserRightType.Allow)
-                //    {
-                //        await _client.RightsPOSTAsync(new RightsPostRequest
-                //        {
-                //            UserId = item.UserId,
-                //            DocType = item.DocType.ToString(),
-                //            ProjectId = newProject.Id,
-                //        }).ConfigureAwait(false);
-                //    }
-                //    else
-                //    {
-                //        //var value = newRights.FirstOrDefault(x => x.DocType == item.DocType.ToString());
-                //        //if (value != null)
-                //        //{
-                //        //    await _client.RightsDELETEAsync(newProject.Id, item.DocType.ToString(), item.UserId);
-                //        //}
-                //    }
-                //}
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        public async Task ExecuteAsync(EditedProjectData project)
+        {
+            var jurDocProject = new JurDocProject
+            {
+                Id = project.ProjectId,
+                Name = project.ProjectName,
+                FullName = project.ProjectFullName,
+                OwnerId = project.ProjectOwnerId,
+                IsDeleted = false
+            };
+
+            await ExecuteAsync(jurDocProject);
         }
     }
 }

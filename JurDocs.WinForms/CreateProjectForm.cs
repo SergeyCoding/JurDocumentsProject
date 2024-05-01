@@ -6,6 +6,9 @@ namespace JurDocsWinForms
 {
     public partial class CreateProjectForm : Form, IProjectEditor
     {
+
+        private readonly List<EditedProjectData> _data = [];
+
         public CreateProjectForm()
         {
             InitializeComponent();
@@ -39,36 +42,30 @@ namespace JurDocsWinForms
             }
         }
 
-        private async void BtnOk_Click(object sender, EventArgs e)
+        private void BtnOk_Click(object sender, EventArgs e)
         {
-            TopMost = false;
-
-            //ViewModel.ProjectName = tbProjectName.Text;
-            //ViewModel.ProjectFullName = tbProjectFullName.Text;
-
-            //LoadCheckListBox(clbProjectRights, ViewModel.ProjectRights);
-            //LoadCheckListBox(clbProjectRights_Справки, ViewModel.ProjectRights_Справки);
-            //LoadCheckListBox(clbProjectRights_Выписки, ViewModel.ProjectRights_Выписки);
-
-            //await ViewModel.SaveProjectAsync();
-
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            var dialogResult = MessageBox.Show("Закрыть окно проекта без сохранения?", "Проект", MessageBoxButtons.YesNoCancel);
 
-            if (dialogResult == DialogResult.Yes)
+            if (MessageBox.Show("Закрыть окно проекта без сохранения?",
+                                "Проект",
+                                MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
-                //await ViewModel.DeleteProjectAsync();
-
+                DialogResult = DialogResult.Cancel;
                 Close();
             }
         }
 
+
         public void SetData(EditedProjectData projectData)
         {
+            _data.Clear();
+            _data.Add(projectData);
+
             tbProjectName.Text = projectData.ProjectName;
             tbProjectFullName.Text = projectData.ProjectFullName;
             cbProjectOwner.Text = projectData.ProjectOwnerName;
@@ -81,7 +78,16 @@ namespace JurDocsWinForms
 
         public EditedProjectData GetData()
         {
-            throw new NotImplementedException();
+            var result = _data.First();
+
+            result.ProjectName = tbProjectName.Text;
+            result.ProjectFullName = tbProjectFullName.Text;
+
+            LoadCheckListBox(clbProjectRights, result.ProjectRights);
+            LoadCheckListBox(clbProjectRights_Справки, result.ProjectRights_Справки);
+            LoadCheckListBox(clbProjectRights_Выписки, result.ProjectRights_Выписки);
+
+            return result;
         }
     }
 }

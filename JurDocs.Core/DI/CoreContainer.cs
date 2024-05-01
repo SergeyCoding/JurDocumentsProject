@@ -40,6 +40,8 @@ namespace JurDocs.Core.DI
 
                 builder.RegisterType<SaveProject>().As<ISaveProject>();
 
+                builder.RegisterType<DeleteProject>().As<IDeleteProject>();
+
                 _container = builder.Build();
 
                 return _container;
