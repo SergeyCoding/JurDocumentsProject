@@ -1,6 +1,10 @@
+using Autofac;
 using JurDocs.Client;
-using JurDocs.Core.Commands1;
+using JurDocs.Core.Commands;
+using JurDocs.Core.DI;
 using JurDocs.WinForms.Configuration;
+using JurDocs.WinForms.DI;
+using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms;
 using JurDocsWinForms.Model;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +14,7 @@ namespace JurDocs.WinForms
     internal static class Program
     {
         private const string _appsettingFile = "appsettings.json";
+
 
         /// <summary>
         ///  The main entry point for the application.
@@ -53,25 +58,42 @@ namespace JurDocs.WinForms
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            ApplicationConfiguration.Initialize();
+            var container = Views.Container();
 
-            WorkSession? workSession = null;
+            ApplicationConfiguration.Initialize();
 
             Task.Delay(1500).GetAwaiter().GetResult();
 
+            if (!LoginAction(container))
+            {
+                MessageBox.Show("Неверное имя пользователя или пароль");
+                return;
+            }
+
+
+            var token = container.Resolve<WorkSession>().User.Token;
+            CoreContainer.Get<IInitApiClient>().Execute(token);
+
+            using (var lifetimeScope = container.BeginLifetimeScope())
+            {
+                //var mainForm = new MainForm { WorkSession = workSession };
+                var mainForm = lifetimeScope.Resolve<MainForm>();
+                ProgramHelpers.MoveWindowToCenterScreen(mainForm);
+                Application.Run(mainForm);
+            }
+        }
+
+
+
+        private static bool LoginAction(IContainer container)
+        {
+            var workSession = container.Resolve<WorkSession>();
+
             if (AppConst.IsLogin)
             {
-                var loginForm = new LoginForm();
+                var loginForm = container.Resolve<LoginForm>();
                 ProgramHelpers.MoveWindowToCenterScreen(loginForm);
                 loginForm.ShowDialog();
-
-                workSession = loginForm.GetWorkSession();
-
-                if (workSession == null)
-                {
-                    MessageBox.Show("Неверное имя пользователя или пароль");
-                    return;
-                }
             }
             else
             {
@@ -89,12 +111,10 @@ namespace JurDocs.WinForms
                             .GetAwaiter()
                             .GetResult();
 
-                        var client2 = JurClientService.JurDocsClientFactory(token.Result);
+                        workSession.User.Login = curLogin;
+                        workSession.User.Token = token.Result;
 
-                        var user = client2.LoginGETAsync(curLogin).GetAwaiter().GetResult();
-
-                        workSession = new WorkSession(new CurrentUser { Token = token.Result, UserName = user.Result.Name, TempDir = user.Result.Path });
-
+                        break;
                     }
                     catch (Exception)
                     {
@@ -102,14 +122,13 @@ namespace JurDocs.WinForms
                 }
             }
 
-            if (workSession == null)
-                return;
+            var client2 = container.Resolve<JurDocsClient>();
+            var user = client2.LoginGETAsync(workSession.User.Login).GetAwaiter().GetResult();
 
-            new InitApiClient(workSession.User.Token).Execute();
+            workSession.User.UserName = user.Result.Name;
+            workSession.User.TempDir = user.Result.Path;
 
-            var mainForm = new MainForm { WorkSession = workSession };
-            ProgramHelpers.MoveWindowToCenterScreen(mainForm);
-            Application.Run(mainForm);
+            return workSession.User.Token != Guid.Empty;
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

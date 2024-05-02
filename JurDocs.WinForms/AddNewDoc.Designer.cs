@@ -30,7 +30,10 @@
         {
             openFileDialog1 = new OpenFileDialog();
             splitContainer1 = new SplitContainer();
-            domainUpDown1 = new DomainUpDown();
+            cbDocType = new ComboBox();
+            label31 = new Label();
+            cbProjectName = new ComboBox();
+            label29 = new Label();
             label27 = new Label();
             label28 = new Label();
             comboBox20 = new ComboBox();
@@ -109,7 +112,10 @@
             // 
             // splitContainer1.Panel1
             // 
-            splitContainer1.Panel1.Controls.Add(domainUpDown1);
+            splitContainer1.Panel1.Controls.Add(cbDocType);
+            splitContainer1.Panel1.Controls.Add(label31);
+            splitContainer1.Panel1.Controls.Add(cbProjectName);
+            splitContainer1.Panel1.Controls.Add(label29);
             splitContainer1.Panel1.Controls.Add(label27);
             splitContainer1.Panel1.Controls.Add(label28);
             splitContainer1.Panel1.Controls.Add(comboBox20);
@@ -175,19 +181,45 @@
             splitContainer1.SplitterDistance = 788;
             splitContainer1.TabIndex = 13;
             // 
-            // domainUpDown1
+            // cbDocType
             // 
-            domainUpDown1.Location = new Point(200, 670);
-            domainUpDown1.Name = "domainUpDown1";
-            domainUpDown1.Size = new Size(8, 23);
-            domainUpDown1.TabIndex = 66;
-            domainUpDown1.Text = "domainUpDown1";
+            cbDocType.FormattingEnabled = true;
+            cbDocType.Location = new Point(457, 13);
+            cbDocType.Name = "cbDocType";
+            cbDocType.Size = new Size(153, 23);
+            cbDocType.TabIndex = 72;
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(337, 16);
+            label31.Name = "label31";
+            label31.Size = new Size(88, 15);
+            label31.TabIndex = 71;
+            label31.Text = "Тип документа";
+            // 
+            // cbProjectName
+            // 
+            cbProjectName.FormattingEnabled = true;
+            cbProjectName.Location = new Point(152, 13);
+            cbProjectName.Name = "cbProjectName";
+            cbProjectName.Size = new Size(147, 23);
+            cbProjectName.TabIndex = 69;
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new Point(26, 14);
+            label29.Name = "label29";
+            label29.Size = new Size(74, 15);
+            label29.TabIndex = 67;
+            label29.Text = "Код проекта";
             // 
             // label27
             // 
             label27.AutoSize = true;
             label27.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label27.Location = new Point(393, 522);
+            label27.Location = new Point(407, 555);
             label27.Name = "label27";
             label27.Size = new Size(24, 15);
             label27.TabIndex = 65;
@@ -197,7 +229,7 @@
             // 
             label28.AutoSize = true;
             label28.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label28.Location = new Point(11, 522);
+            label28.Location = new Point(25, 555);
             label28.Name = "label28";
             label28.Size = new Size(24, 15);
             label28.TabIndex = 64;
@@ -206,7 +238,7 @@
             // comboBox20
             // 
             comboBox20.FormattingEnabled = true;
-            comboBox20.Location = new Point(421, 519);
+            comboBox20.Location = new Point(435, 552);
             comboBox20.Name = "comboBox20";
             comboBox20.Size = new Size(299, 23);
             comboBox20.TabIndex = 63;
@@ -214,7 +246,7 @@
             // comboBox21
             // 
             comboBox21.FormattingEnabled = true;
-            comboBox21.Location = new Point(44, 519);
+            comboBox21.Location = new Point(58, 552);
             comboBox21.Name = "comboBox21";
             comboBox21.Size = new Size(297, 23);
             comboBox21.TabIndex = 62;
@@ -223,7 +255,7 @@
             // 
             label21.AutoSize = true;
             label21.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label21.Location = new Point(393, 493);
+            label21.Location = new Point(407, 526);
             label21.Name = "label21";
             label21.Size = new Size(17, 15);
             label21.TabIndex = 57;
@@ -233,7 +265,7 @@
             // 
             label22.AutoSize = true;
             label22.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label22.Location = new Point(11, 493);
+            label22.Location = new Point(25, 526);
             label22.Name = "label22";
             label22.Size = new Size(17, 15);
             label22.TabIndex = 56;
@@ -242,7 +274,7 @@
             // comboBox14
             // 
             comboBox14.FormattingEnabled = true;
-            comboBox14.Location = new Point(421, 490);
+            comboBox14.Location = new Point(435, 523);
             comboBox14.Name = "comboBox14";
             comboBox14.Size = new Size(299, 23);
             comboBox14.TabIndex = 55;
@@ -250,7 +282,7 @@
             // comboBox15
             // 
             comboBox15.FormattingEnabled = true;
-            comboBox15.Location = new Point(44, 490);
+            comboBox15.Location = new Point(58, 523);
             comboBox15.Name = "comboBox15";
             comboBox15.Size = new Size(297, 23);
             comboBox15.TabIndex = 54;
@@ -259,7 +291,7 @@
             // 
             label23.AutoSize = true;
             label23.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label23.Location = new Point(393, 464);
+            label23.Location = new Point(407, 497);
             label23.Name = "label23";
             label23.Size = new Size(17, 15);
             label23.TabIndex = 61;
@@ -269,7 +301,7 @@
             // 
             label24.AutoSize = true;
             label24.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label24.Location = new Point(11, 464);
+            label24.Location = new Point(25, 497);
             label24.Name = "label24";
             label24.Size = new Size(17, 15);
             label24.TabIndex = 60;
@@ -278,7 +310,7 @@
             // comboBox16
             // 
             comboBox16.FormattingEnabled = true;
-            comboBox16.Location = new Point(421, 461);
+            comboBox16.Location = new Point(435, 494);
             comboBox16.Name = "comboBox16";
             comboBox16.Size = new Size(299, 23);
             comboBox16.TabIndex = 59;
@@ -286,7 +318,7 @@
             // comboBox17
             // 
             comboBox17.FormattingEnabled = true;
-            comboBox17.Location = new Point(44, 461);
+            comboBox17.Location = new Point(58, 494);
             comboBox17.Name = "comboBox17";
             comboBox17.Size = new Size(297, 23);
             comboBox17.TabIndex = 58;
@@ -295,7 +327,7 @@
             // 
             label25.AutoSize = true;
             label25.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label25.Location = new Point(393, 435);
+            label25.Location = new Point(407, 468);
             label25.Name = "label25";
             label25.Size = new Size(17, 15);
             label25.TabIndex = 53;
@@ -305,7 +337,7 @@
             // 
             label26.AutoSize = true;
             label26.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label26.Location = new Point(11, 435);
+            label26.Location = new Point(25, 468);
             label26.Name = "label26";
             label26.Size = new Size(17, 15);
             label26.TabIndex = 52;
@@ -314,7 +346,7 @@
             // comboBox18
             // 
             comboBox18.FormattingEnabled = true;
-            comboBox18.Location = new Point(421, 432);
+            comboBox18.Location = new Point(435, 465);
             comboBox18.Name = "comboBox18";
             comboBox18.Size = new Size(299, 23);
             comboBox18.TabIndex = 51;
@@ -322,7 +354,7 @@
             // comboBox19
             // 
             comboBox19.FormattingEnabled = true;
-            comboBox19.Location = new Point(44, 432);
+            comboBox19.Location = new Point(58, 465);
             comboBox19.Name = "comboBox19";
             comboBox19.Size = new Size(297, 23);
             comboBox19.TabIndex = 50;
@@ -331,7 +363,7 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label15.Location = new Point(393, 407);
+            label15.Location = new Point(407, 440);
             label15.Name = "label15";
             label15.Size = new Size(17, 15);
             label15.TabIndex = 45;
@@ -341,7 +373,7 @@
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label16.Location = new Point(11, 407);
+            label16.Location = new Point(25, 440);
             label16.Name = "label16";
             label16.Size = new Size(17, 15);
             label16.TabIndex = 44;
@@ -350,7 +382,7 @@
             // comboBox8
             // 
             comboBox8.FormattingEnabled = true;
-            comboBox8.Location = new Point(421, 404);
+            comboBox8.Location = new Point(435, 437);
             comboBox8.Name = "comboBox8";
             comboBox8.Size = new Size(299, 23);
             comboBox8.TabIndex = 43;
@@ -358,7 +390,7 @@
             // comboBox9
             // 
             comboBox9.FormattingEnabled = true;
-            comboBox9.Location = new Point(44, 404);
+            comboBox9.Location = new Point(58, 437);
             comboBox9.Name = "comboBox9";
             comboBox9.Size = new Size(297, 23);
             comboBox9.TabIndex = 42;
@@ -367,7 +399,7 @@
             // 
             label17.AutoSize = true;
             label17.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label17.Location = new Point(393, 378);
+            label17.Location = new Point(407, 411);
             label17.Name = "label17";
             label17.Size = new Size(17, 15);
             label17.TabIndex = 49;
@@ -377,7 +409,7 @@
             // 
             label18.AutoSize = true;
             label18.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label18.Location = new Point(11, 378);
+            label18.Location = new Point(25, 411);
             label18.Name = "label18";
             label18.Size = new Size(17, 15);
             label18.TabIndex = 48;
@@ -386,7 +418,7 @@
             // comboBox10
             // 
             comboBox10.FormattingEnabled = true;
-            comboBox10.Location = new Point(421, 375);
+            comboBox10.Location = new Point(435, 408);
             comboBox10.Name = "comboBox10";
             comboBox10.Size = new Size(299, 23);
             comboBox10.TabIndex = 47;
@@ -394,7 +426,7 @@
             // comboBox11
             // 
             comboBox11.FormattingEnabled = true;
-            comboBox11.Location = new Point(44, 375);
+            comboBox11.Location = new Point(58, 408);
             comboBox11.Name = "comboBox11";
             comboBox11.Size = new Size(297, 23);
             comboBox11.TabIndex = 46;
@@ -403,7 +435,7 @@
             // 
             label19.AutoSize = true;
             label19.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label19.Location = new Point(393, 349);
+            label19.Location = new Point(407, 382);
             label19.Name = "label19";
             label19.Size = new Size(17, 15);
             label19.TabIndex = 41;
@@ -413,7 +445,7 @@
             // 
             label20.AutoSize = true;
             label20.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label20.Location = new Point(11, 349);
+            label20.Location = new Point(25, 382);
             label20.Name = "label20";
             label20.Size = new Size(17, 15);
             label20.TabIndex = 40;
@@ -422,7 +454,7 @@
             // comboBox12
             // 
             comboBox12.FormattingEnabled = true;
-            comboBox12.Location = new Point(421, 346);
+            comboBox12.Location = new Point(435, 379);
             comboBox12.Name = "comboBox12";
             comboBox12.Size = new Size(299, 23);
             comboBox12.TabIndex = 39;
@@ -430,7 +462,7 @@
             // comboBox13
             // 
             comboBox13.FormattingEnabled = true;
-            comboBox13.Location = new Point(44, 346);
+            comboBox13.Location = new Point(58, 379);
             comboBox13.Name = "comboBox13";
             comboBox13.Size = new Size(297, 23);
             comboBox13.TabIndex = 38;
@@ -439,7 +471,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label11.Location = new Point(393, 319);
+            label11.Location = new Point(407, 352);
             label11.Name = "label11";
             label11.Size = new Size(17, 15);
             label11.TabIndex = 33;
@@ -449,7 +481,7 @@
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label12.Location = new Point(11, 319);
+            label12.Location = new Point(25, 352);
             label12.Name = "label12";
             label12.Size = new Size(17, 15);
             label12.TabIndex = 32;
@@ -458,7 +490,7 @@
             // comboBox4
             // 
             comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(421, 316);
+            comboBox4.Location = new Point(435, 349);
             comboBox4.Name = "comboBox4";
             comboBox4.Size = new Size(299, 23);
             comboBox4.TabIndex = 31;
@@ -466,7 +498,7 @@
             // comboBox5
             // 
             comboBox5.FormattingEnabled = true;
-            comboBox5.Location = new Point(44, 316);
+            comboBox5.Location = new Point(58, 349);
             comboBox5.Name = "comboBox5";
             comboBox5.Size = new Size(297, 23);
             comboBox5.TabIndex = 30;
@@ -475,7 +507,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label13.Location = new Point(393, 290);
+            label13.Location = new Point(407, 323);
             label13.Name = "label13";
             label13.Size = new Size(17, 15);
             label13.TabIndex = 37;
@@ -485,7 +517,7 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label14.Location = new Point(11, 290);
+            label14.Location = new Point(25, 323);
             label14.Name = "label14";
             label14.Size = new Size(17, 15);
             label14.TabIndex = 36;
@@ -494,7 +526,7 @@
             // comboBox6
             // 
             comboBox6.FormattingEnabled = true;
-            comboBox6.Location = new Point(421, 287);
+            comboBox6.Location = new Point(435, 320);
             comboBox6.Name = "comboBox6";
             comboBox6.Size = new Size(299, 23);
             comboBox6.TabIndex = 35;
@@ -502,7 +534,7 @@
             // comboBox7
             // 
             comboBox7.FormattingEnabled = true;
-            comboBox7.Location = new Point(44, 287);
+            comboBox7.Location = new Point(58, 320);
             comboBox7.Name = "comboBox7";
             comboBox7.Size = new Size(297, 23);
             comboBox7.TabIndex = 34;
@@ -511,7 +543,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label10.Location = new Point(393, 261);
+            label10.Location = new Point(407, 294);
             label10.Name = "label10";
             label10.Size = new Size(17, 15);
             label10.TabIndex = 29;
@@ -521,7 +553,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label9.Location = new Point(11, 261);
+            label9.Location = new Point(25, 294);
             label9.Name = "label9";
             label9.Size = new Size(17, 15);
             label9.TabIndex = 28;
@@ -530,7 +562,7 @@
             // comboBox3
             // 
             comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(421, 258);
+            comboBox3.Location = new Point(435, 291);
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(299, 23);
             comboBox3.TabIndex = 27;
@@ -538,7 +570,7 @@
             // comboBox2
             // 
             comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(44, 258);
+            comboBox2.Location = new Point(58, 291);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(297, 23);
             comboBox2.TabIndex = 26;
@@ -546,7 +578,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(421, 240);
+            label8.Location = new Point(435, 273);
             label8.Name = "label8";
             label8.Size = new Size(73, 15);
             label8.TabIndex = 25;
@@ -555,7 +587,7 @@
             // textBox4
             // 
             textBox4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox4.Location = new Point(297, 140);
+            textBox4.Location = new Point(312, 223);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(113, 23);
             textBox4.TabIndex = 24;
@@ -563,7 +595,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(246, 143);
+            label7.Location = new Point(261, 226);
             label7.Name = "label7";
             label7.Size = new Size(38, 15);
             label7.TabIndex = 23;
@@ -572,7 +604,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(246, 114);
+            label6.Location = new Point(261, 197);
             label6.Name = "label6";
             label6.Size = new Size(45, 15);
             label6.TabIndex = 22;
@@ -581,28 +613,27 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(11, 143);
+            label5.Location = new Point(26, 226);
             label5.Name = "label5";
             label5.Size = new Size(50, 15);
             label5.TabIndex = 21;
             label5.Text = "Дата вх.";
-            label5.Click += label5_Click;
             // 
             // tbCaption
             // 
             tbCaption.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            tbCaption.Location = new Point(131, 8);
+            tbCaption.Location = new Point(152, 55);
             tbCaption.Multiline = true;
             tbCaption.Name = "tbCaption";
-            tbCaption.Size = new Size(589, 57);
+            tbCaption.Size = new Size(583, 55);
             tbCaption.TabIndex = 20;
             // 
             // button2
             // 
             button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button2.Location = new Point(595, 565);
+            button2.Location = new Point(609, 597);
             button2.Name = "button2";
-            button2.Size = new Size(125, 23);
+            button2.Size = new Size(125, 21);
             button2.TabIndex = 3;
             button2.Text = "Сохранить";
             button2.UseVisualStyleBackColor = true;
@@ -610,7 +641,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(44, 240);
+            label4.Location = new Point(58, 273);
             label4.Name = "label4";
             label4.Size = new Size(78, 15);
             label4.TabIndex = 19;
@@ -619,7 +650,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(11, 181);
+            label3.Location = new Point(26, 130);
             label3.Name = "label3";
             label3.Size = new Size(82, 15);
             label3.TabIndex = 18;
@@ -628,7 +659,7 @@
             // textBox3
             // 
             textBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox3.Location = new Point(297, 111);
+            textBox3.Location = new Point(312, 194);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(113, 23);
             textBox3.TabIndex = 17;
@@ -636,7 +667,7 @@
             // textBox2
             // 
             textBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox2.Location = new Point(74, 140);
+            textBox2.Location = new Point(89, 223);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(146, 23);
             textBox2.TabIndex = 16;
@@ -644,7 +675,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(11, 111);
+            label2.Location = new Point(26, 197);
             label2.Name = "label2";
             label2.Size = new Size(57, 15);
             label2.TabIndex = 15;
@@ -653,7 +684,7 @@
             // textBoxFileName
             // 
             textBoxFileName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxFileName.Location = new Point(74, 111);
+            textBoxFileName.Location = new Point(89, 194);
             textBoxFileName.Name = "textBoxFileName";
             textBoxFileName.Size = new Size(146, 23);
             textBoxFileName.TabIndex = 14;
@@ -661,7 +692,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(11, 8);
+            label1.Location = new Point(26, 58);
             label1.Name = "label1";
             label1.Size = new Size(120, 15);
             label1.TabIndex = 13;
@@ -672,7 +703,7 @@
             comboBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Выписки", "Справки", "Договора" });
-            comboBox1.Location = new Point(11, 199);
+            comboBox1.Location = new Point(26, 148);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(709, 23);
             comboBox1.TabIndex = 12;
@@ -786,6 +817,9 @@
         private Label label26;
         private ComboBox comboBox18;
         private ComboBox comboBox19;
-        private DomainUpDown domainUpDown1;
+        private Label label29;
+        private ComboBox cbDocType;
+        private Label label31;
+        private ComboBox cbProjectName;
     }
 }

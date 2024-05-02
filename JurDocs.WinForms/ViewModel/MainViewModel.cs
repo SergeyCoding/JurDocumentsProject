@@ -8,7 +8,7 @@ namespace JurDocs.WinForms.ViewModel
     /// <summary>
     /// 
     /// </summary>
-    internal class MainViewModel(JurDocsClient client)
+    public class MainViewModel(JurDocsClient client)
     {
         internal async Task<ProjectListTable[]> GetProjectList()
         {
@@ -25,57 +25,6 @@ namespace JurDocs.WinForms.ViewModel
             return [.. data!];
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        internal async Task<CreateProjectViewModel> CreateNewProject()
-        {
-            var swaggerResponse = await client.ProjectPOSTAsync();
-
-            var persons = (await client.PersonAsync()).Result;
-
-            var result = swaggerResponse.Result;
-
-            var ownerId = result.OwnerId;
-
-            var createProjectViewModel = new CreateProjectViewModel(client)
-            {
-                ProjectId = result.Id,
-                ProjectName = result.Name,
-                ProjectFullName = result.FullName,
-                ProjectOwnerId = result.OwnerId,
-                ProjectOwnerName = persons.FirstOrDefault(x => x.PersonId == ownerId)!.PersonName,
-            };
-
-            foreach (var person in persons)
-            {
-                createProjectViewModel.ProjectRights.Add(new UserRight
-                {
-                    UserId = person.PersonId,
-                    UserName = person.PersonName,
-                    Right = UserRightType.NotAllow
-                });
-
-                createProjectViewModel.ProjectRights_Справки.Add(new UserRight
-                {
-                    UserId = person.PersonId,
-                    UserName = person.PersonName,
-                    Right = UserRightType.NotAllow
-                });
-
-                createProjectViewModel.ProjectRights_Выписки.Add(new UserRight
-                {
-                    UserId = person.PersonId,
-                    UserName = person.PersonName,
-                    Right = UserRightType.NotAllow
-                });
-
-            }
-
-            return createProjectViewModel;
-        }
-
-
         internal async Task<PersonGetResponse[]> GetUserList()
         {
             var users = await client.PersonAsync();
@@ -88,9 +37,6 @@ namespace JurDocs.WinForms.ViewModel
             return [.. swaggerResponse.Result.Select(x => x.Name).Where(x => !string.IsNullOrWhiteSpace(x))];
         }
 
-        internal void CreateNewLetter()
-        {
 
-        }
     }
 }

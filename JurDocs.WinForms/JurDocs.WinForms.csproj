@@ -27,13 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JurDocs.Client\JurDocs.Client.csproj" />
     <ProjectReference Include="..\JurDocs.Common\JurDocs.Common.csproj" />
     <ProjectReference Include="..\JurDocs.Core\JurDocs.Core.csproj" />
   </ItemGroup>

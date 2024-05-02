@@ -49,6 +49,7 @@ namespace JurDocsWinForms
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             tssCurrentProject = new ToolStripStatusLabel();
+            tssCurrentPage = new ToolStripStatusLabel();
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
             создатьПроектToolStripMenuItem = new ToolStripMenuItem();
@@ -59,8 +60,8 @@ namespace JurDocsWinForms
             создатьСправкуToolStripMenuItem = new ToolStripMenuItem();
             toolStrip2 = new ToolStrip();
             newDocButton = new ToolStripButton();
-            newToolStripButton = new ToolStripButton();
-            openToolStripButton = new ToolStripButton();
+            tsbNewProjectOrDoc = new ToolStripButton();
+            tsbOpenProjectOrDoc = new ToolStripButton();
             saveToolStripButton = new ToolStripButton();
             printToolStripButton = new ToolStripButton();
             toolStripSeparator = new ToolStripSeparator();
@@ -105,7 +106,6 @@ namespace JurDocsWinForms
             a1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             panelGrid = new Panel();
-            tssCurrentPage = new ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)dgvProjects).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -272,6 +272,12 @@ namespace JurDocsWinForms
             tssCurrentProject.Size = new Size(97, 17);
             tssCurrentProject.Text = "Текущий проект";
             // 
+            // tssCurrentPage
+            // 
+            tssCurrentPage.Name = "tssCurrentPage";
+            tssCurrentPage.Size = new Size(118, 17);
+            tssCurrentPage.Text = "toolStripStatusLabel3";
+            // 
             // menuStrip1
             // 
             menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem, toolStripMenuItem2 });
@@ -329,7 +335,7 @@ namespace JurDocsWinForms
             // 
             // toolStrip2
             // 
-            toolStrip2.Items.AddRange(new ToolStripItem[] { newDocButton, newToolStripButton, openToolStripButton, saveToolStripButton, printToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton, toolStripSeparator1, helpToolStripButton });
+            toolStrip2.Items.AddRange(new ToolStripItem[] { newDocButton, tsbNewProjectOrDoc, tsbOpenProjectOrDoc, saveToolStripButton, printToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton, toolStripSeparator1, helpToolStripButton });
             toolStrip2.Location = new Point(0, 24);
             toolStrip2.Name = "toolStrip2";
             toolStrip2.RenderMode = ToolStripRenderMode.System;
@@ -347,25 +353,25 @@ namespace JurDocsWinForms
             newDocButton.Text = "Добавить документ";
             newDocButton.Click += toolStripButton3_Click;
             // 
-            // newToolStripButton
+            // tsbNewProjectOrDoc
             // 
-            newToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            newToolStripButton.Image = (Image)resources.GetObject("newToolStripButton.Image");
-            newToolStripButton.ImageTransparentColor = Color.Magenta;
-            newToolStripButton.Name = "newToolStripButton";
-            newToolStripButton.Size = new Size(23, 22);
-            newToolStripButton.Text = "Создать";
-            newToolStripButton.Click += newToolStripButton_Click;
+            tsbNewProjectOrDoc.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbNewProjectOrDoc.Image = (Image)resources.GetObject("tsbNewProjectOrDoc.Image");
+            tsbNewProjectOrDoc.ImageTransparentColor = Color.Magenta;
+            tsbNewProjectOrDoc.Name = "tsbNewProjectOrDoc";
+            tsbNewProjectOrDoc.Size = new Size(23, 22);
+            tsbNewProjectOrDoc.Text = "Создать";
+            tsbNewProjectOrDoc.Click += newToolStripButton_Click;
             // 
-            // openToolStripButton
+            // tsbOpenProjectOrDoc
             // 
-            openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            openToolStripButton.Image = (Image)resources.GetObject("openToolStripButton.Image");
-            openToolStripButton.ImageTransparentColor = Color.Magenta;
-            openToolStripButton.Name = "openToolStripButton";
-            openToolStripButton.Size = new Size(23, 22);
-            openToolStripButton.Text = "&Open";
-            openToolStripButton.Click += openToolStripButton_Click;
+            tsbOpenProjectOrDoc.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbOpenProjectOrDoc.Image = (Image)resources.GetObject("tsbOpenProjectOrDoc.Image");
+            tsbOpenProjectOrDoc.ImageTransparentColor = Color.Magenta;
+            tsbOpenProjectOrDoc.Name = "tsbOpenProjectOrDoc";
+            tsbOpenProjectOrDoc.Size = new Size(23, 22);
+            tsbOpenProjectOrDoc.Text = "&Open";
+            tsbOpenProjectOrDoc.Click += openToolStripButton_Click;
             // 
             // saveToolStripButton
             // 
@@ -525,7 +531,7 @@ namespace JurDocsWinForms
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(997, 429);
             tabControl1.TabIndex = 18;
-            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChangedAsync;
             // 
             // tabPage3
             // 
@@ -779,12 +785,6 @@ namespace JurDocsWinForms
             panelGrid.Size = new Size(997, 429);
             panelGrid.TabIndex = 19;
             // 
-            // tssCurrentPage
-            // 
-            tssCurrentPage.Name = "tssCurrentPage";
-            tssCurrentPage.Size = new Size(118, 17);
-            tssCurrentPage.Text = "toolStripStatusLabel3";
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -870,13 +870,13 @@ namespace JurDocsWinForms
         private Panel panelDragDrop;
         private Panel panelSourceDocs;
         private Panel panelDocs;
-        private ToolStripMenuItem создатьПроектToolStripMenuItem;
+        //private ToolStripMenuItem создатьПроектToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
         private Label label2;
         private Label label1;
         private ToolStripMenuItem изменитьПроектToolStripMenuItem;
-        private ToolStripButton newToolStripButton;
-        private ToolStripButton openToolStripButton;
+        private ToolStripButton tsbNewProjectOrDoc;
+        private ToolStripButton tsbOpenProjectOrDoc;
         private ToolStripButton saveToolStripButton;
         private ToolStripButton printToolStripButton;
         private ToolStripSeparator toolStripSeparator;
@@ -927,5 +927,6 @@ namespace JurDocsWinForms
         private DataGridViewTextBoxColumn a1;
         private DataGridViewTextBoxColumn Column2;
         private ToolStripStatusLabel tssCurrentPage;
+        private ToolStripMenuItem создатьПроектToolStripMenuItem;
     }
 }

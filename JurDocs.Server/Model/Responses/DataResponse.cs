@@ -5,9 +5,22 @@
     /// </summary>
     public class DataResponse<T>
     {
-        public T? Data { get; set; }
+        private readonly StatusDataResponse _status;
 
-        public int Status { get; set; } = 0;
+        public DataResponse(StatusDataResponse status)
+        {
+            _status = status;
+        }
+
+        public DataResponse(T data) : this(StatusDataResponse.OK) => Data.Add(data);
+        public DataResponse(StatusDataResponse status, string message) : this(status)
+        {
+            MessageToUser = message;
+        }
+
+        public List<T> Data { get; set; } = [];
+
+        public string Status => _status.Value;
 
         public IEnumerable<string> Errors { get; set; } = [];
 

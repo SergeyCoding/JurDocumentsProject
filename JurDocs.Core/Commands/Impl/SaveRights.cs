@@ -3,20 +3,25 @@ using JurDocs.Common.EnumTypes;
 using JurDocs.Core.Model;
 using JurDocs.Core.States;
 
-namespace JurDocs.Core.Commands
+namespace JurDocs.Core.Commands.Impl
 {
-    public class SaveRights(JurDocProject project, List<UserRight> rights)
+    internal class SaveRights(AppState state) : ISaveRights
     {
-        public async Task ExecuteAsync()
+        public async Task ExecuteAsync(JurDocProject project, List<UserRight> rights)
         {
             try
             {
-                var _client = AppState.Instance.Client;
+                var _client = state.Client;
                 var answer = await _client.ProjectGETAsync(project.Id);
+
+                if (answer.Result.Status != "OK")
+                {
+                    throw new Exception(answer.Result.MessageToUser);
+                }
 
                 var newProject = answer.Result.Data;
 
-                var resp = await _client.RightsAllAsync(newProject.Id).ConfigureAwait(false);
+                var resp = await _client.RightsAllAsync(newProject.First().Id).ConfigureAwait(false);
                 var newRights = resp.Result;
 
                 foreach (var item in rights)
@@ -27,7 +32,7 @@ namespace JurDocs.Core.Commands
                         {
                             UserId = item.UserId,
                             DocType = item.DocType.ToString(),
-                            ProjectId = newProject.Id,
+                            ProjectId = newProject.First().Id,
                         }).ConfigureAwait(false);
                     }
                     else
