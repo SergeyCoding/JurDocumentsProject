@@ -42,6 +42,8 @@ namespace JurDocs.Core.DI
 
                 builder.RegisterType<DeleteProject>().As<IDeleteProject>();
 
+                builder.RegisterType<CreateDocument>().As<ICreateDocument>();
+
                 _container = builder.Build();
 
                 return _container;
