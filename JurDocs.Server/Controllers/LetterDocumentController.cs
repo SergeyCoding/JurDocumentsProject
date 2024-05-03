@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Diagnostics.Metrics;
 
 namespace JurDocs.Server.Controllers1
 {
@@ -22,31 +23,24 @@ namespace JurDocs.Server.Controllers1
             _dbContext = dbContext;
         }
 
-        [SwaggerOperation("Получить список проектов")]
+        [SwaggerOperation("Получить список писем")]
         [HttpGet]
-        [ProducesResponseType(typeof(JurDocProject[]), 200)]
-        [ProducesResponseType(typeof(string), 400)]
+        [ProducesResponseType(typeof(DataResponse<JurDocLetter[]>), 200)]
+        [ProducesResponseType(typeof(DataResponse<JurDocLetter[]>), 400)]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var login = GetUserLogin();
+                var user = await GetCurrentUser();
 
-                var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
+                var pIdList = await GetAvailableProjectIdList(user.Id);
 
-                var projectRights = await _dbContext.Set<ProjectRights>()
-                    .AsNoTracking()
-                    .Where(x => x.UserId == user!.Id)
-                    .Select(x => x.Id)
-                    .Distinct()
-                    .ToArrayAsync();
+                var letters = await _dbContext.Set<JurDocLetter>()
+                                .AsNoTracking()
+                                .Where(x => pIdList.Contains(x.ProjectId))
+                                .ToArrayAsync();
 
-                var projectByOwners = await _dbContext.Set<JurDocProject>()
-                    .AsNoTracking()
-                    .Where(x => (x.OwnerId == user!.Id || projectRights.Contains(x.Id)) && !x.IsDeleted)
-                    .ToArrayAsync();
-
-                return Ok(projectByOwners);
+                return Ok(new DataResponse<JurDocLetter[]>(letters));
             }
             catch (Exception e)
             {
@@ -56,10 +50,37 @@ namespace JurDocs.Server.Controllers1
             }
         }
 
-        [SwaggerOperation("Получить проект по Id")]
+        private async Task<JurDocUser> GetCurrentUser()
+        {
+            var login = GetUserLogin();
+            return await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
+        }
+
+        private async Task<int[]> GetAvailableProjectIdList(int userId)
+        {
+            var projectRights = await _dbContext.Set<ProjectRights>()
+                .AsNoTracking()
+                .Where(x => x.DocType == "Справка")
+                .Where(x => x.UserId == userId)
+                .Select(x => x.Id)
+                .Distinct()
+                .ToArrayAsync();
+
+            var availableProjectList = await _dbContext.Set<JurDocProject>()
+                .AsNoTracking()
+                .Where(x => !x.IsDeleted)
+                .Where(x => x.OwnerId == userId || projectRights.Contains(x.Id))
+                .Select(x => x.Id)
+                .Distinct()
+                .ToArrayAsync();
+
+            return availableProjectList;
+        }
+
+        [SwaggerOperation("Получить письмо по Id проекта")]
         [HttpGet("{projectId}")]
-        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 200)]
-        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 400)]
+        [ProducesResponseType(typeof(DataResponse<JurDocLetter[]>), 200)]
+        [ProducesResponseType(typeof(DataResponse<JurDocLetter[]>), 400)]
         public async Task<IActionResult> Get(int projectId)
         {
             try
@@ -111,35 +132,38 @@ namespace JurDocs.Server.Controllers1
 
 
         [HttpPost]
-        [SwaggerOperation("Создать пустой проект", "Создать пустой проект")]
-        [ProducesResponseType(typeof(JurDocProject), 200)]
-        [ProducesResponseType(typeof(void), 400)]
-        public async Task<IActionResult> Post()
+        [SwaggerOperation("Создать письмо", "Создать письмо")]
+        [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 200)]
+        [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 400)]
+        public async Task<IActionResult> Post(int projectId)
         {
             try
             {
-                var login = GetUserLogin();
+                var user = await GetCurrentUser();
 
-                var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
+                var pIdList = await GetAvailableProjectIdList(user.Id);
 
-                var jurDocProject = new JurDocProject { OwnerId = user.Id };
+                if (!pIdList.Contains(projectId))
+                    return Ok(new DataResponse<JurDocLetter>(StatusDataResponse.BAD, "Недосточно прав для создания письма в текущем проекте"));
 
-                var jdProject = await _dbContext.AddAsync(jurDocProject);
+                var letter = new JurDocLetter { ProjectId = projectId };
+
+                var newLetter = await _dbContext.AddAsync(letter);
                 await _dbContext.SaveChangesAsync();
 
-                return Ok(jurDocProject);
+                return Ok(new DataResponse<JurDocLetter>(letter));
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, message: null);
 
-                return BadRequest();
+                return BadRequest(new DataResponse<JurDocLetter>(StatusDataResponse.BAD, "Непредвиденная ошибка") { Errors = [e.ToString()] });
             }
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 200)]
-        [ProducesResponseType(typeof(DataResponse<JurDocProject>), 400)]
+        [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 200)]
+        [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 400)]
         public async Task<IActionResult> Put([FromBody] JurDocProject project)
         {
             try
@@ -180,7 +204,7 @@ namespace JurDocs.Server.Controllers1
         }
 
         [HttpDelete]
-        [SwaggerOperation("Удалить проект", "Удалить проект")]
+        [SwaggerOperation("Удалить письмо", "Удалить письмо")]
         [ProducesResponseType(typeof(void), 200)]
         public async Task<IActionResult> Delete([FromBody] int projectId)
         {
@@ -211,6 +235,5 @@ namespace JurDocs.Server.Controllers1
                 return BadRequest();
             }
         }
-
     }
 }
