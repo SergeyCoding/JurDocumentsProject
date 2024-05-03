@@ -1,0 +1,20 @@
+{
+  "id": 1,
+  "projectId": 78,
+  "name": "l-001",
+  "dateOutgoing": "0001-01-01T00:00:00",
+  "dateIncoming": "0001-01-01T00:00:00",
+  "numberOutgoing": null,
+  "numberIncoming": null,
+  "executivePerson": 0,
+  "isDeleted": false,
+  "attributes": [
+    {
+      "id": 0,
+      "attributeType": "Спр",
+      "attributeValue": "ффф",
+      "jurDocLetterId": 0,
+      "letter": "string"
+    }
+  ]
+}
