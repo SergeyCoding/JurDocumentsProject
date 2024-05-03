@@ -11,8 +11,8 @@ namespace JurDocs.Server.Model
         public int ProjectId { get; set; }
         public JurDocType DocType { get; set; }
         public string? Name { get; set; }
-        public DateTime DateOutgoing { get; set; }
-        public DateTime DateIncoming { get; set; }
+        public DateTime? DateOutgoing { get; set; }
+        public DateTime? DateIncoming { get; set; }
         public string? NumberOutgoing { get; set; }
         public string? NumberIncoming { get; set; }
         public int ExecutivePerson { get; set; }

@@ -30,4 +30,5 @@ Script-Migration -From AddIsDeletedToProject -To table_Project_makeNameUniq -Con
 Script-Migration -From table_Project_makeNameUniq -To AddTable_JurDocLetter -Context JurDocsMigrationDbContext -Project JurDocs.DbModel -StartupProject JurDocs.DbModel
 Script-Migration -From AddTable_JurDocLetter -To Table_JurDocLetter_Add_ProjectId -Context JurDocsMigrationDbContext -Project JurDocs.DbModel -StartupProject JurDocs.DbModel
 Script-Migration -From Table_JurDocLetter_Add_ProjectId -To Table_JurDocLetter_RemoveAttr -Context JurDocsMigrationDbContext -Project JurDocs.DbModel -StartupProject JurDocs.DbModel
+Script-Migration -From Table_JurDocLetter_RemoveAttr -To Table_JurDocLetter_DateNull -Context JurDocsMigrationDbContext -Project JurDocs.DbModel -StartupProject JurDocs.DbModel
 ```
