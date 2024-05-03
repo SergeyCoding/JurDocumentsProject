@@ -28,4 +28,5 @@ Script-Migration -Context JurDocsMigrationDbContext -From 0 -To init
 ```
 Script-Migration -From AddIsDeletedToProject -To table_Project_makeNameUniq -Context JurDocsMigrationDbContext -Project JurDocs.DbModel
 Script-Migration -From table_Project_makeNameUniq -To AddTable_JurDocLetter -Context JurDocsMigrationDbContext -Project JurDocs.DbModel -StartupProject JurDocs.DbModel
+Script-Migration -From AddTable_JurDocLetter -To Table_JurDocLetter_Add_ProjectId -Context JurDocsMigrationDbContext -Project JurDocs.DbModel -StartupProject JurDocs.DbModel
 ```

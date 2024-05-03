@@ -9,6 +9,7 @@ namespace JurDocs.DbModel
     public class JurDocLetter
     {
         public int Id { get; set; }
+        public int ProjectId { get; set; }
         public string? Name { get; set; }
         public DateTime DateOutgoing { get; set; }
         public DateTime DateIncoming { get; set; }
