@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using JurDocs.Client;
 using JurDocs.Core;
 using JurDocs.Core.DI;
 using JurDocs.Core.Views;
@@ -30,12 +31,12 @@ namespace JurDocsWinForms
                 textBoxFileName.Text = openFileDialog1.FileName;
         }
 
-        public void SetData(EditedDocData data)
+        public void SetData(LetterDocument data)
         {
             throw new NotImplementedException();
         }
 
-        EditedDocData IDocEditor.GetData()
+        LetterDocument IDocEditor.GetData()
         {
             throw new NotImplementedException();
         }

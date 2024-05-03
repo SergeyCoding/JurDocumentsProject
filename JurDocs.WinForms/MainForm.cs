@@ -446,7 +446,7 @@ namespace JurDocsWinForms
             await CoreContainer.Get<ICreateProject>().CreateNewProject(this);
         }
 
-        public void OpenDocEditor(EditedDocData data)
+        public void OpenDocEditor(LetterDocument data)
         {
             var docEditor = Views.Container().Resolve<IDocEditor>();
             docEditor.SetData(data);

@@ -1,5 +1,4 @@
-﻿using JurDocs.Common.EnumTypes;
-using JurDocs.Core.Model;
+﻿using JurDocs.Client;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
 
@@ -13,50 +12,41 @@ namespace JurDocs.Core.Commands.Impl
         /// <summary>
         /// 
         /// </summary>
-        public async Task CreateDocumentAsync(IMainView mainView)
+
+        public async Task ExecuteAsync(IMainView mainView)
         {
-            var persons = (await state.Client.PersonAsync()).Result;
 
-            var newProject = (await state.Client.ProjectPOSTAsync()).Result;
-
-            state.CurrentProject = newProject;
-
-            var ownerId = newProject.OwnerId;
-
-            var projDto = new EditedProjectData
+            try
             {
-                ProjectId = newProject.Id,
-                ProjectName = newProject.Name,
-                ProjectFullName = newProject.FullName,
-                ProjectOwnerId = newProject.OwnerId,
-                ProjectOwnerName = persons.FirstOrDefault(x => x.PersonId == ownerId)!.PersonName,
-            };
+                var answer = await state.Client.LetterDocumentPOSTAsync(state.CurrentProject.Id);
 
-            foreach (var person in persons)
-            {
-                projDto.ProjectRights.Add(new UserRight
-                {
-                    UserId = person.PersonId,
-                    UserName = person.PersonName,
-                    Right = UserRightType.NotAllow
-                });
+                if (answer.Result.Status != "OK")
+                    throw new Exception(answer.Result.MessageToUser);
 
-                projDto.ProjectRights_Справки.Add(new UserRight
-                {
-                    UserId = person.PersonId,
-                    UserName = person.PersonName,
-                    Right = UserRightType.NotAllow
-                });
+                var result = answer.Result.Data.First();
 
-                projDto.ProjectRights_Выписки.Add(new UserRight
+                var letterDocument = new LetterDocument
                 {
-                    UserId = person.PersonId,
-                    UserName = person.PersonName,
-                    Right = UserRightType.NotAllow
-                });
+                    Id = result.Id,
+                    DateIncoming = result.DateIncoming,
+                    DateOutgoing = result.DateOutgoing,
+                    DocType = result.DocType,
+                    ExecutivePerson = result.ExecutivePerson,
+                    IsDeleted = result.IsDeleted,
+                    Name = result.Name,
+                    NumberIncoming = result.NumberIncoming,
+                    NumberOutgoing = result.NumberOutgoing,
+                    ProjectId = result.ProjectId,
+                    Sender = [.. result.Sender],
+                    Recipient = [.. result.Recipient],
+                };
+
+                mainView.OpenDocEditor(letterDocument);
             }
-
-            mainView.OpenProjectEditor(projDto);
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
