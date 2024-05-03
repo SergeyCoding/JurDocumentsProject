@@ -17,6 +17,61 @@ namespace JurDocs.DbModel.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
+            modelBuilder.Entity("JurDocs.DbModel.JurDocLetter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateIncoming")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateOutgoing")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ExecutivePerson")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NumberIncoming")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NumberOutgoing")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("JurDocLetter");
+                });
+
+            modelBuilder.Entity("JurDocs.DbModel.JurDocLetterAttributes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AttributeType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AttributeValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("JurDocLetterId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("JurDocLetterAttributes");
+                });
+
             modelBuilder.Entity("JurDocs.DbModel.JurDocProject", b =>
                 {
                     b.Property<int>("Id")

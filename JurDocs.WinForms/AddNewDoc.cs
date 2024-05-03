@@ -1,4 +1,7 @@
-﻿using JurDocs.Core;
+﻿using Autofac;
+using JurDocs.Core;
+using JurDocs.Core.DI;
+using JurDocs.Core.Views;
 using JurDocs.WinForms.ViewModel;
 
 namespace JurDocsWinForms
@@ -6,9 +9,8 @@ namespace JurDocsWinForms
     /// <summary>
     /// 
     /// </summary>
-    public partial class AddNewDoc : Form
+    public partial class AddNewDoc : Form, IDocEditor
     {
-        public required AddNewDocViewModel ViewModel { get; set; }
 
         public AddNewDoc()
         {
@@ -18,24 +20,9 @@ namespace JurDocsWinForms
         private void AddNewDoc_Load(object sender, EventArgs e)
         {
             MinimumSize = new Size(Width, Height);
-
-            var state = new GetState();
-
-            cbProjectName.Items.Clear();
-            cbProjectName.Text = state.GetCurrentProject.Name;
-
-            if (state.GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
-            {
-                cbDocType.Text = "Письмо";
-            }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             var dialogResult = openFileDialog1.ShowDialog(this);
 
@@ -43,19 +30,14 @@ namespace JurDocsWinForms
                 textBoxFileName.Text = openFileDialog1.FileName;
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        public void SetData(EditedDocData data)
         {
-
+            throw new NotImplementedException();
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        EditedDocData IDocEditor.GetData()
         {
-
-        }
-
-        private void label29_Click(object sender, EventArgs e)
-        {
-
+            throw new NotImplementedException();
         }
     }
 }
