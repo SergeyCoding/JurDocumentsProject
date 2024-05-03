@@ -1,10 +1,9 @@
-﻿using JurDocs.Client;
-using JurDocs.Core.Views;
+﻿using JurDocs.Core.Views;
 
 namespace JurDocs.Core.Commands
 {
     /// <summary>
-    /// 
+    /// Создание документа
     /// </summary>
     public interface ICreateDocument
     {

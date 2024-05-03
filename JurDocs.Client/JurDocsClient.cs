@@ -3039,11 +3039,11 @@ namespace JurDocs.Client
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dateOutgoing", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset DateOutgoing { get; set; }
+        [Newtonsoft.Json.JsonProperty("dateOutgoing", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? DateOutgoing { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dateIncoming", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset DateIncoming { get; set; }
+        [Newtonsoft.Json.JsonProperty("dateIncoming", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? DateIncoming { get; set; }
 
         [Newtonsoft.Json.JsonProperty("numberOutgoing", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string NumberOutgoing { get; set; }

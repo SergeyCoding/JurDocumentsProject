@@ -1,9 +1,5 @@
-﻿using Autofac;
-using JurDocs.Client;
-using JurDocs.Core;
-using JurDocs.Core.DI;
+﻿using JurDocs.Client;
 using JurDocs.Core.Views;
-using JurDocs.WinForms.ViewModel;
 
 namespace JurDocsWinForms
 {
@@ -33,12 +29,11 @@ namespace JurDocsWinForms
 
         public void SetData(LetterDocument data)
         {
-            throw new NotImplementedException();
         }
 
-        LetterDocument IDocEditor.GetData()
+        public LetterDocument GetData()
         {
-            throw new NotImplementedException();
+            return new LetterDocument();
         }
     }
 }
