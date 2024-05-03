@@ -3,6 +3,7 @@ using System;
 using JurDocs.DbModel.MigrationsContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JurDocs.DbModel.Migrations
 {
     [DbContext(typeof(JurDocsMigrationDbContext))]
-    partial class JurDocsMigrationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240503061244_AddTable_JurDocLetter")]
+    partial class AddTable_JurDocLetter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -44,9 +47,6 @@ namespace JurDocs.DbModel.Migrations
                     b.Property<string>("NumberOutgoing")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("JurDocLetter");
@@ -68,6 +68,8 @@ namespace JurDocs.DbModel.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("JurDocLetterId");
 
                     b.ToTable("JurDocLetterAttributes");
                 });
@@ -156,6 +158,22 @@ namespace JurDocs.DbModel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Token");
+                });
+
+            modelBuilder.Entity("JurDocs.DbModel.JurDocLetterAttributes", b =>
+                {
+                    b.HasOne("JurDocs.DbModel.JurDocLetter", "Letter")
+                        .WithMany("Attributes")
+                        .HasForeignKey("JurDocLetterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Letter");
+                });
+
+            modelBuilder.Entity("JurDocs.DbModel.JurDocLetter", b =>
+                {
+                    b.Navigation("Attributes");
                 });
 #pragma warning restore 612, 618
         }
