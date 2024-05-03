@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using JurDocs.Common.EnumTypes;
 
-namespace JurDocs.DbModel
+namespace JurDocs.Server.Model
 {
     /// <summary>
-    /// Письмо
+    /// 
     /// </summary>
-    public class JurDocLetter
+    public class LetterDocument
     {
         public int Id { get; set; }
         public int ProjectId { get; set; }
+        public JurDocType DocType { get; set; }
         public string? Name { get; set; }
         public DateTime DateOutgoing { get; set; }
         public DateTime DateIncoming { get; set; }
@@ -19,11 +19,14 @@ namespace JurDocs.DbModel
 
         public bool IsDeleted { get; set; } = false;
 
-        class Configuration : IEntityTypeConfiguration<JurDocLetter>
-        {
-            public void Configure(EntityTypeBuilder<JurDocLetter> builder)
-            {
-            }
-        }
+        /// <summary>
+        /// Отправитель
+        /// </summary>
+        public List<string> Sender { get; } = [];
+
+        /// <summary>
+        /// Получатель
+        /// </summary>
+        public List<string> Recipient { get; } = [];
     }
 }

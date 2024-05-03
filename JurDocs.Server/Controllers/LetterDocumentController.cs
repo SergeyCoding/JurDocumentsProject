@@ -164,33 +164,37 @@ namespace JurDocs.Server.Controllers1
         [HttpPut]
         [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 200)]
         [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 400)]
-        public async Task<IActionResult> Put([FromBody] JurDocProject project)
+        public async Task<IActionResult> Put([FromBody] JurDocLetter letter)
         {
             try
             {
-                var login = GetUserLogin();
+                var docUser = await GetCurrentUser();
+                var pIdList = await GetAvailableProjectIdList(docUser.Id);
 
-                var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
+                if (!pIdList.Contains(letter.ProjectId))
+                    return BadRequest(new DataResponse<JurDocLetter>(StatusDataResponse.BAD, "Нет прав для изменения данного письма"));
 
-                var changedProject = await _dbContext.Set<JurDocProject>().FirstOrDefaultAsync(x => x.OwnerId == user!.Id && x.Id == project.Id);
 
-                if (changedProject == null)
-                {
-                    return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Нет прав на изменение проекта"));
-                }
+                var oldLetter = await _dbContext.Set<JurDocLetter>().FirstAsync(x => x.Id == letter.Id);
 
-                changedProject.Name = project.Name;
-                changedProject.FullName = project.FullName;
-                changedProject.OwnerId = project.OwnerId;
+                oldLetter.Name = letter.Name;
+                oldLetter.ExecutivePerson = letter.ExecutivePerson;
+                oldLetter.NumberOutgoing = letter.NumberOutgoing;
+                oldLetter.NumberIncoming = letter.NumberIncoming;
+                oldLetter.DateOutgoing = letter.DateOutgoing;
+                oldLetter.DateIncoming = letter.DateIncoming;
+
+                oldLetter.Attributes.Clear();
+                oldLetter.Attributes.AddRange(letter.Attributes);
 
                 await _dbContext.SaveChangesAsync();
 
-                return Ok(new DataResponse<JurDocProject>(changedProject));
+                return Ok(new DataResponse<JurDocLetter>(oldLetter));
             }
             catch (DbUpdateException e)
             {
                 _logger?.LogError(e, message: null);
-                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Ошибка при обновлении проекта"));
+                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Ошибка при обновлении письма"));
             }
             catch (Exception e)
             {

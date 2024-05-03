@@ -7,10 +7,17 @@ namespace JurDocs.WinForms.ViewModel
     /// </summary>
     public class JurDocument
     {
+        public int Id { get; set; }
+        public int ProjectId { get; set; }
         public JurDocType DocType { get; set; }
-        public string ProjectName { get; set; } = string.Empty;
-        public string ProjectFullName { get; set; } = string.Empty;
-        public int ProjectOwnerId { get; set; }
+        public string? Name { get; set; }
+        public DateTime DateOutgoing { get; set; }
+        public DateTime DateIncoming { get; set; }
+        public string? NumberOutgoing { get; set; }
+        public string? NumberIncoming { get; set; }
+        public int ExecutivePerson { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
 
         /// <summary>
         /// Отправитель
