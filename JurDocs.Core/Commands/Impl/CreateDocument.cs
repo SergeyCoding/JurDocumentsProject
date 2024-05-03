@@ -1,5 +1,6 @@
-﻿using JurDocs.Core.States;
-using JurDocs.WinForms.ViewModel;
+﻿using JurDocs.Client;
+using JurDocs.Core.States;
+using JurDocs.Core.Views;
 
 namespace JurDocs.Core.Commands.Impl
 {
@@ -11,57 +12,41 @@ namespace JurDocs.Core.Commands.Impl
         /// <summary>
         /// 
         /// </summary>
-        public async Task<EditedDocData> ExecuteAsync()
+
+        public async Task ExecuteAsync(IMainView mainView)
         {
-            await Task.CompletedTask;
 
+            try
+            {
+                var answer = await state.Client.LetterDocumentPOSTAsync(state.CurrentProject.Id);
 
+                if (answer.Result.Status != "OK")
+                    throw new Exception(answer.Result.MessageToUser);
 
+                var result = answer.Result.Data.First();
 
-            //var persons = (await state.Client.PersonAsync()).Result;
+                var letterDocument = new LetterDocument
+                {
+                    Id = result.Id,
+                    DateIncoming = result.DateIncoming,
+                    DateOutgoing = result.DateOutgoing,
+                    DocType = result.DocType,
+                    ExecutivePerson = result.ExecutivePerson,
+                    IsDeleted = result.IsDeleted,
+                    Name = result.Name,
+                    NumberIncoming = result.NumberIncoming,
+                    NumberOutgoing = result.NumberOutgoing,
+                    ProjectId = result.ProjectId,
+                    Sender = [.. result.Sender],
+                    Recipient = [.. result.Recipient],
+                };
 
-            var newProject = (await state.Client.ProjectPOSTAsync()).Result;
-
-            //state.CurrentProject = newProject;
-
-            //var ownerId = newProject.OwnerId;
-
-            //var projDto = new EditedProjectData
-            //{
-            //    ProjectId = newProject.Id,
-            //    ProjectName = newProject.Name,
-            //    ProjectFullName = newProject.FullName,
-            //    ProjectOwnerId = newProject.OwnerId,
-            //    ProjectOwnerName = persons.FirstOrDefault(x => x.PersonId == ownerId)!.PersonName,
-            //};
-
-            //foreach (var person in persons)
-            //{
-            //    projDto.ProjectRights.Add(new UserRight
-            //    {
-            //        UserId = person.PersonId,
-            //        UserName = person.PersonName,
-            //        Right = UserRightType.NotAllow
-            //    });
-
-            //    projDto.ProjectRights_Справки.Add(new UserRight
-            //    {
-            //        UserId = person.PersonId,
-            //        UserName = person.PersonName,
-            //        Right = UserRightType.NotAllow
-            //    });
-
-            //    projDto.ProjectRights_Выписки.Add(new UserRight
-            //    {
-            //        UserId = person.PersonId,
-            //        UserName = person.PersonName,
-            //        Right = UserRightType.NotAllow
-            //    });
-            //}
-
-            //mainView.OpenProjectEditor(projDto);
-
-            return new EditedDocData();
+                mainView.OpenDocEditor(letterDocument);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

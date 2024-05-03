@@ -1,5 +1,5 @@
-﻿using JurDocs.Core.Views;
-using JurDocs.WinForms.ViewModel;
+﻿using JurDocs.Client;
+using JurDocs.Core.Views;
 
 namespace JurDocs.Core.Commands
 {
@@ -8,6 +8,6 @@ namespace JurDocs.Core.Commands
     /// </summary>
     public interface ICreateDocument
     {
-        Task<EditedDocData> ExecuteAsync();
+        Task ExecuteAsync(IMainView mainView);
     }
 }

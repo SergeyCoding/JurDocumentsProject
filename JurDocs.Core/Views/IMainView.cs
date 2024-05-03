@@ -1,11 +1,11 @@
-﻿using JurDocs.Core.Model;
-using JurDocs.WinForms.ViewModel;
+﻿using JurDocs.Client;
+using JurDocs.Core.Model;
 
 namespace JurDocs.Core.Views
 {
     public interface IMainView
     {
-        void OpenDocEditor(EditedDocData docData);
+        void OpenDocEditor(LetterDocument docData);
         void OpenProjectEditor(EditedProjectData projectData);
     }
 }

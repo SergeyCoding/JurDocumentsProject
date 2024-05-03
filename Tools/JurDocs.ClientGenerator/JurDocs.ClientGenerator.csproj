@@ -7,6 +7,24 @@
 		<Nullable>enable</Nullable>
 		<BaseOutputPath>bin\</BaseOutputPath>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="appsettings.home.json" />
+	  <None Remove="appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="appsettings.home.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Include="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="NSwag.CodeGeneration.CSharp" Version="14.0.7" />

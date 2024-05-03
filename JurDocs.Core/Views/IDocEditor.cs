@@ -1,4 +1,4 @@
-﻿using JurDocs.WinForms.ViewModel;
+﻿using JurDocs.Client;
 
 namespace JurDocs.Core.Views
 {
@@ -7,7 +7,7 @@ namespace JurDocs.Core.Views
     /// </summary>
     public interface IDocEditor
     {
-        void SetData(EditedDocData data);
-        EditedDocData GetData();
+        void SetData(LetterDocument data);
+        LetterDocument GetData();
     }
 }
