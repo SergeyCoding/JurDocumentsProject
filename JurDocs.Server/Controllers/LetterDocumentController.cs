@@ -1,12 +1,13 @@
-﻿using JurDocs.Common.Loggers;
+﻿using JurDocs.Common;
+using JurDocs.Common.Loggers;
 using JurDocs.DbModel;
 using JurDocs.Server.Controllers.Base;
+using JurDocs.Server.Model;
 using JurDocs.Server.Model.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Diagnostics.Metrics;
 
 namespace JurDocs.Server.Controllers1
 {
@@ -25,8 +26,8 @@ namespace JurDocs.Server.Controllers1
 
         [SwaggerOperation("Получить список писем")]
         [HttpGet]
-        [ProducesResponseType(typeof(DataResponse<JurDocLetter[]>), 200)]
-        [ProducesResponseType(typeof(DataResponse<JurDocLetter[]>), 400)]
+        [ProducesResponseType(typeof(DataResponse<LetterDocument[]>), 200)]
+        [ProducesResponseType(typeof(DataResponse<LetterDocument[]>), 400)]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -40,14 +41,224 @@ namespace JurDocs.Server.Controllers1
                                 .Where(x => pIdList.Contains(x.ProjectId))
                                 .ToArrayAsync();
 
-                return Ok(new DataResponse<JurDocLetter[]>(letters));
+                var letterDocuments = new List<LetterDocument>();
+
+                foreach (var item in letters)
+                    letterDocuments.Add(await ToLetterDocument(item));
+
+                return Ok(new DataResponse<LetterDocument[]>([.. letterDocuments]));
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, message: null);
 
+                return Ok(new DataResponse<LetterDocument[]>(StatusDataResponse.BAD, "Ошибка")
+                {
+                    Errors = [e.Message, e.ToString()]
+                });
+            }
+        }
+
+        [SwaggerOperation("Получить письма по Id проекта")]
+        [HttpGet("{projectId}")]
+        [ProducesResponseType(typeof(DataResponse<LetterDocument[]>), 200)]
+        [ProducesResponseType(typeof(DataResponse<LetterDocument[]>), 400)]
+        public async Task<IActionResult> Get(int projectId)
+        {
+            try
+            {
+                var user = await GetCurrentUser();
+
+                var pIdList = (await GetAvailableProjectIdList(user.Id)).Where(x => x == projectId).ToArray();
+
+                if (!pIdList.Any())
+                    return Ok(new DataResponse<LetterDocument[]>(StatusDataResponse.BAD, "Недостаточно прав"));
+
+                var letters = await _dbContext.Set<JurDocLetter>()
+                                .AsNoTracking()
+                                .Where(x => pIdList.Contains(x.ProjectId))
+                                .ToArrayAsync();
+
+                var letterDocuments = new List<LetterDocument>();
+
+                foreach (var item in letters)
+                    letterDocuments.Add(await ToLetterDocument(item));
+
+                return Ok(new DataResponse<LetterDocument[]>([.. letterDocuments]));
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, message: null);
+
+                return Ok(new DataResponse<LetterDocument[]>(StatusDataResponse.BAD, "Ошибка")
+                {
+                    Errors = [e.Message, e.ToString()]
+                });
+            }
+        }
+
+
+        [HttpPost]
+        [SwaggerOperation("Создать письмо", "Создать письмо")]
+        [ProducesResponseType(typeof(DataResponse<LetterDocument>), 200)]
+        [ProducesResponseType(typeof(DataResponse<LetterDocument>), 400)]
+        public async Task<IActionResult> Post(int projectId)
+        {
+            try
+            {
+                var user = await GetCurrentUser();
+
+                var pIdList = await GetAvailableProjectIdList(user.Id);
+
+                if (!pIdList.Contains(projectId))
+                    return Ok(new DataResponse<JurDocLetter>(StatusDataResponse.BAD, "Недостаточно прав для создания письма в текущем проекте"));
+
+                var letter = new JurDocLetter { ProjectId = projectId };
+
+                var newLetter = await _dbContext.AddAsync(letter);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(new DataResponse<LetterDocument>(await ToLetterDocument(letter)));
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, message: null);
+
+                return BadRequest(new DataResponse<LetterDocument>(StatusDataResponse.BAD, "Непредвиденная ошибка") { Errors = [e.ToString()] });
+            }
+        }
+
+        [HttpPut]
+        [SwaggerOperation("Изменить письмо", "Изменить письмо")]
+        [ProducesResponseType(typeof(DataResponse<LetterDocument>), 200)]
+        [ProducesResponseType(typeof(DataResponse<LetterDocument>), 400)]
+        public async Task<IActionResult> Put([FromBody] LetterDocument letterDoc)
+        {
+            try
+            {
+                var docUser = await GetCurrentUser();
+                var pIdList = await GetAvailableProjectIdList(docUser.Id);
+
+                if (!pIdList.Contains(letterDoc.ProjectId))
+                    return BadRequest(new DataResponse<JurDocLetter>(StatusDataResponse.BAD, "Нет прав для изменения данного письма"));
+
+
+                var oldLetter = await _dbContext.Set<JurDocLetter>().FirstAsync(x => x.Id == letterDoc.Id);
+
+                oldLetter.Name = letterDoc.Name;
+                oldLetter.ExecutivePerson = letterDoc.ExecutivePerson;
+                oldLetter.NumberOutgoing = letterDoc.NumberOutgoing;
+                oldLetter.NumberIncoming = letterDoc.NumberIncoming;
+                oldLetter.DateOutgoing = letterDoc.DateOutgoing;
+                oldLetter.DateIncoming = letterDoc.DateIncoming;
+
+                await _dbContext.SaveChangesAsync();
+
+                foreach (var item in letterDoc.Sender)
+                {
+                    _dbContext.Add(new JurDocLetterAttributes
+                    {
+                        JurDocLetterId = letterDoc.Id,
+                        AttributeType = AppConstCommon.Sender,
+                        AttributeValue = item
+                    });
+                }
+
+                foreach (var item in letterDoc.Recipient)
+                {
+                    _dbContext.Add(new JurDocLetterAttributes
+                    {
+                        JurDocLetterId = letterDoc.Id,
+                        AttributeType = AppConstCommon.Recipient,
+                        AttributeValue = item
+                    });
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+
+                return Ok(new DataResponse<LetterDocument>(letterDoc));
+            }
+            catch (DbUpdateException e)
+            {
+                _logger?.LogError(e, message: null);
+                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Ошибка при обновлении письма"));
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, message: null);
+
+                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD)
+                {
+                    Errors = [e.ToString()]
+                });
+            }
+        }
+
+        [HttpDelete]
+        [SwaggerOperation("Удалить письмо", "Удалить письмо")]
+        [ProducesResponseType(typeof(void), 200)]
+        public async Task<IActionResult> Delete([FromBody] int letterId)
+        {
+            try
+            {
+                var docUser = await GetCurrentUser();
+                var pIdList = await GetAvailableProjectIdList(docUser.Id);
+
+                var letter = await _dbContext.Set<JurDocLetter>().FirstAsync(x => x.Id == letterId);
+
+                if (!pIdList.Contains(letter.ProjectId))
+                    return BadRequest(new DataResponse<JurDocLetter>(StatusDataResponse.BAD, "Нет прав для изменения данного письма"));
+
+                _dbContext.Remove(letter);
+                await _dbContext.SaveChangesAsync();
+
                 return Ok();
             }
+            catch (DbUpdateException e)
+            {
+                _logger?.LogError(e, message: null);
+                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Ошибка при удалении письма"));
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, message: null);
+
+                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Ошибка при удалении письма")
+                {
+                    Errors = [e.Message, e.ToString()]
+                });
+            }
+        }
+
+        private async Task<LetterDocument> ToLetterDocument(JurDocLetter dbLetter)
+        {
+            var ld = new LetterDocument
+            {
+                Id = dbLetter.Id,
+                Name = dbLetter.Name,
+                DateIncoming = dbLetter.DateIncoming,
+                DateOutgoing = dbLetter.DateOutgoing,
+                DocType = Common.EnumTypes.JurDocType.Справка,
+                ExecutivePerson = dbLetter.ExecutivePerson,
+                IsDeleted = dbLetter.IsDeleted,
+                NumberIncoming = dbLetter.NumberIncoming,
+                NumberOutgoing = dbLetter.NumberOutgoing,
+                ProjectId = dbLetter.ProjectId
+            };
+
+            var attr = await _dbContext.Set<JurDocLetterAttributes>().Where(x => x.JurDocLetterId == ld.Id).ToArrayAsync();
+
+            foreach (var attrItem in attr)
+            {
+                if (attrItem.AttributeType == AppConstCommon.Sender)
+                    ld.Sender.Add(attrItem.AttributeValue!);
+
+                if (attrItem.AttributeType == AppConstCommon.Recipient)
+                    ld.Recipient.Add(attrItem.AttributeValue!);
+            }
+
+            return ld;
         }
 
         private async Task<JurDocUser> GetCurrentUser()
@@ -77,167 +288,5 @@ namespace JurDocs.Server.Controllers1
             return availableProjectList;
         }
 
-        [SwaggerOperation("Получить письмо по Id проекта")]
-        [HttpGet("{projectId}")]
-        [ProducesResponseType(typeof(DataResponse<JurDocLetter[]>), 200)]
-        [ProducesResponseType(typeof(DataResponse<JurDocLetter[]>), 400)]
-        public async Task<IActionResult> Get(int projectId)
-        {
-            try
-            {
-                var login = GetUserLogin();
-
-                var user = await _dbContext.Set<JurDocUser>().FirstAsync(x => x.Login == login);
-
-                var project = await _dbContext.Set<JurDocProject>()
-                    .AsNoTracking()
-                    .Where(x => x.Id == projectId)
-                    .Where(x => x.OwnerId == user!.Id)
-                    .ToArrayAsync();
-
-                if (project.Any())
-                    return Ok(new DataResponse<JurDocProject>(project.First()));
-
-                var projectRights = await _dbContext.Set<ProjectRights>()
-                    .AsNoTracking()
-                    .Where(x => x.ProjectId == projectId)
-                    .Where(x => x.UserId == user!.Id)
-                    .Select(x => x.Id)
-                    .Take(1)
-                    .ToArrayAsync();
-
-                if (projectRights.Any())
-                {
-                    var projectByOwners = await _dbContext.Set<JurDocProject>()
-                        .AsNoTracking()
-                        .Where(x => (x.OwnerId == user!.Id || projectRights.Contains(x.Id)) && !x.IsDeleted)
-                        .ToArrayAsync();
-
-                    return Ok(new DataResponse<JurDocProject>(projectByOwners[0]));
-                }
-
-                return Ok(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Нет прав для использования данного проекта"));
-            }
-            catch (Exception e)
-            {
-                _logger?.LogError(e, message: null);
-
-                return Ok(new DataResponse<JurDocProject>(StatusDataResponse.BAD)
-                {
-                    Errors = [e.ToString()],
-                    MessageToUser = "Нет прав для использования данного проекта"
-                });
-            }
-        }
-
-
-        [HttpPost]
-        [SwaggerOperation("Создать письмо", "Создать письмо")]
-        [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 200)]
-        [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 400)]
-        public async Task<IActionResult> Post(int projectId)
-        {
-            try
-            {
-                var user = await GetCurrentUser();
-
-                var pIdList = await GetAvailableProjectIdList(user.Id);
-
-                if (!pIdList.Contains(projectId))
-                    return Ok(new DataResponse<JurDocLetter>(StatusDataResponse.BAD, "Недосточно прав для создания письма в текущем проекте"));
-
-                var letter = new JurDocLetter { ProjectId = projectId };
-
-                var newLetter = await _dbContext.AddAsync(letter);
-                await _dbContext.SaveChangesAsync();
-
-                return Ok(new DataResponse<JurDocLetter>(letter));
-            }
-            catch (Exception e)
-            {
-                _logger?.LogError(e, message: null);
-
-                return BadRequest(new DataResponse<JurDocLetter>(StatusDataResponse.BAD, "Непредвиденная ошибка") { Errors = [e.ToString()] });
-            }
-        }
-
-        [HttpPut]
-        [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 200)]
-        [ProducesResponseType(typeof(DataResponse<JurDocLetter>), 400)]
-        public async Task<IActionResult> Put([FromBody] JurDocLetter letter)
-        {
-            try
-            {
-                var docUser = await GetCurrentUser();
-                var pIdList = await GetAvailableProjectIdList(docUser.Id);
-
-                if (!pIdList.Contains(letter.ProjectId))
-                    return BadRequest(new DataResponse<JurDocLetter>(StatusDataResponse.BAD, "Нет прав для изменения данного письма"));
-
-
-                var oldLetter = await _dbContext.Set<JurDocLetter>().FirstAsync(x => x.Id == letter.Id);
-
-                oldLetter.Name = letter.Name;
-                oldLetter.ExecutivePerson = letter.ExecutivePerson;
-                oldLetter.NumberOutgoing = letter.NumberOutgoing;
-                oldLetter.NumberIncoming = letter.NumberIncoming;
-                oldLetter.DateOutgoing = letter.DateOutgoing;
-                oldLetter.DateIncoming = letter.DateIncoming;
-
-                oldLetter.Attributes.Clear();
-                oldLetter.Attributes.AddRange(letter.Attributes);
-
-                await _dbContext.SaveChangesAsync();
-
-                return Ok(new DataResponse<JurDocLetter>(oldLetter));
-            }
-            catch (DbUpdateException e)
-            {
-                _logger?.LogError(e, message: null);
-                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD, "Ошибка при обновлении письма"));
-            }
-            catch (Exception e)
-            {
-                _logger?.LogError(e, message: null);
-
-                return BadRequest(new DataResponse<JurDocProject>(StatusDataResponse.BAD)
-                {
-                    Errors = [e.ToString()]
-                });
-            }
-        }
-
-        [HttpDelete]
-        [SwaggerOperation("Удалить письмо", "Удалить письмо")]
-        [ProducesResponseType(typeof(void), 200)]
-        public async Task<IActionResult> Delete([FromBody] int projectId)
-        {
-            try
-            {
-                var login = GetUserLogin();
-
-                var user = await _dbContext.Set<JurDocUser>()
-                    .AsNoTracking()
-                    .FirstAsync(x => x.Login == login);
-
-                var jdProject = await _dbContext.Set<JurDocProject>()
-                    .AsTracking()
-                    .FirstOrDefaultAsync(x => x.Id == projectId && x.OwnerId == user.Id);
-
-
-                if (jdProject == null)
-                    return Ok();
-
-                jdProject.IsDeleted = true;
-                await _dbContext.SaveChangesAsync();
-
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _logger?.LogError(e, message: null);
-                return BadRequest();
-            }
-        }
     }
 }

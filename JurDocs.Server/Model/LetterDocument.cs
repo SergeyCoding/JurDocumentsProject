@@ -22,11 +22,11 @@ namespace JurDocs.Server.Model
         /// <summary>
         /// Отправитель
         /// </summary>
-        public List<string> Sender { get; } = [];
+        public List<string> Sender { get; set; } = [];
 
         /// <summary>
         /// Получатель
         /// </summary>
-        public List<string> Recipient { get; } = [];
+        public List<string> Recipient { get; set; } = [];
     }
 }
