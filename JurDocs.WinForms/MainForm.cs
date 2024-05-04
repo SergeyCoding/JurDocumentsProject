@@ -51,7 +51,6 @@ namespace JurDocsWinForms
             panelDocs.DragEnter += panel_DragEnter;
             panelDragDrop.DragDrop += panel_DragDrop;
             panelDocs.DragDrop += panel_DragDrop;
-            button1.MouseUp += button1_MouseDown;
 #pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
 
             await UpdateProjectList();
@@ -95,10 +94,39 @@ namespace JurDocsWinForms
             }
         }
 
-        void button1_MouseDown(object sender, MouseEventArgs e)
+        public async Task UpdateLetterDocsList(LetterDocument[] letterDocuments)
         {
-            button1.DoDragDrop(button1, DragDropEffects.Move);
+            if (ViewModel == null)
+                return;
+
+            var enumerable = letterDocuments.Select(x => new LetterDocsListTable { Id = x.Id });
+
+            var projectList = new List<LetterDocsListTable>();
+            projectList.AddRange(enumerable);
+
+            dgvLetterDocsList.DataSource = new SortableBindingList<LetterDocsListTable>(projectList);
+            dgvLetterDocsList.ShowCellToolTips = false;
+            dgvLetterDocsList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvLetterDocsList.MultiSelect = false;
+
+            //var state = CoreContainer.Get().Resolve<IGetState>();
+
+            //var curProject = state.GetCurrentProject;
+
+            //if (curProject == null)
+            //    return;
+
+            //for (int i = 0; i < projectList.Length; i++)
+            //{
+            //    if (projectList[i].Id == curProject.Id)
+            //    {
+            //        dgvLetterDocsList.CurrentCell = dgvLetterDocsList.Rows[i].Cells[0];
+            //        break;
+            //    }
+            //}
         }
+
+
 
         void panel_DragEnter(object sender, DragEventArgs e)
         {
@@ -130,7 +158,7 @@ namespace JurDocsWinForms
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
                 e.RowIndex >= 0)
             {
-                var ftl = (List<FileTableList>)dgvProjects.DataSource;
+                var ftl = (List<FileTableList>)dgvLetterDocsList.DataSource;
 
                 var fileTableList = ftl[e.RowIndex];
 
@@ -233,9 +261,9 @@ namespace JurDocsWinForms
                 });
                 k++;
             }
-            dgvProjects.AutoGenerateColumns = false;
-            dgvProjects.DataSource = null;
-            dgvProjects.DataSource = fileTableLists;
+            dgvLetterDocsList.AutoGenerateColumns = false;
+            dgvLetterDocsList.DataSource = null;
+            dgvLetterDocsList.DataSource = fileTableLists;
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -257,9 +285,9 @@ namespace JurDocsWinForms
                 fileTableLists.Add(new FileTableList { Id = k, DocType = item.DocName, BtnText = "îòêðûòü", FileName = item.FileName });
                 k++;
             }
-            dgvProjects.AutoGenerateColumns = false;
-            dgvProjects.DataSource = null;
-            dgvProjects.DataSource = fileTableLists;
+            dgvLetterDocsList.AutoGenerateColumns = false;
+            dgvLetterDocsList.DataSource = null;
+            dgvLetterDocsList.DataSource = fileTableLists;
         }
 
         private async void button2_Click(object sender, EventArgs e)
@@ -281,9 +309,9 @@ namespace JurDocsWinForms
                 fileTableLists.Add(new FileTableList { Id = k, DocType = "Äîãîâîðû", BtnText = "îòêðûòü", FileName = item.FileName });
                 k++;
             }
-            dgvProjects.AutoGenerateColumns = false;
-            dgvProjects.DataSource = null;
-            dgvProjects.DataSource = fileTableLists;
+            dgvLetterDocsList.AutoGenerateColumns = false;
+            dgvLetterDocsList.DataSource = null;
+            dgvLetterDocsList.DataSource = fileTableLists;
         }
 
         private async void button3_Click(object sender, EventArgs e)
@@ -313,9 +341,9 @@ namespace JurDocsWinForms
                 });
                 k++;
             }
-            dgvProjects.AutoGenerateColumns = false;
-            dgvProjects.DataSource = null;
-            dgvProjects.DataSource = fileTableLists;
+            dgvLetterDocsList.AutoGenerateColumns = false;
+            dgvLetterDocsList.DataSource = null;
+            dgvLetterDocsList.DataSource = fileTableLists;
         }
 
         private void âûõîäToolStripMenuItem_Click(object sender, EventArgs e)
@@ -398,6 +426,8 @@ namespace JurDocsWinForms
 
                 var getDocumentList = CoreContainer.Get<IGetDocumentList>();
                 var letterDocuments = await getDocumentList.ExecuteAsync();
+
+                await UpdateLetterDocsList(letterDocuments);
             }
         }
 
