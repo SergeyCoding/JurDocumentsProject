@@ -376,7 +376,7 @@ namespace JurDocsWinForms
             {
                 var text = tc.SelectedTab?.Text;
 
-                var changeCurrentPage = CoreContainer.Get().Resolve<IChangeCurrentPage>();
+                var changeCurrentPage = CoreContainer.Get<IChangeCurrentPage>();
 
                 await changeCurrentPage.ExecuteAsync(text!);
 
@@ -395,6 +395,9 @@ namespace JurDocsWinForms
                     cbProjectList.Items.AddRange(projectNameList);
                     cbProjectList.Text = state.GetCurrentProject.Name;
                 }
+
+                var getDocumentList = CoreContainer.Get<IGetDocumentList>();
+                var letterDocuments = await getDocumentList.ExecuteAsync();
             }
         }
 

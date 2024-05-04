@@ -44,6 +44,8 @@ namespace JurDocs.Core.DI
 
                 builder.RegisterType<CreateDocument>().As<ICreateDocument>();
 
+                builder.RegisterType<GetDocumentList>().As<IGetDocumentList>();
+
                 _container = builder.Build();
 
                 return _container;
