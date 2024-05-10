@@ -17,7 +17,7 @@ namespace JurDocs.Core.Commands.Impl
             {
                 var answer = await state.Client.LetterDocumentGET2Async(state.CurrentProject.Id);
 
-                var letter = answer.Result.Data.First().First(x => x.Id == state.CurrentDocumentId.Id);
+                var letter = answer.Result.Data.First().First(x => x.Id == state.CurrentDocumentId);
 
                 mainView.OpenDocEditor(letter);
 

@@ -500,5 +500,17 @@ namespace JurDocsWinForms
             //    Conversion.SaveJpeg($"D:\\TFS\\temp\\1_{("000" + i)[^3..]}.jpeg", bytes, null, i);
             //}
         }
+
+        private async void dgvLetterDocsList_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvLetterDocsList.DataSource is SortableBindingList<LetterDocsListTable> letterTable)
+            {
+                var letterListTable = letterTable[e.RowIndex];
+
+                var changeCurrentProject = CoreContainer.Get().Resolve<IChangeCurrentDocument>();
+
+                await changeCurrentProject.ExecuteAsync(letterListTable.Id);
+            }
+        }
     }
 }

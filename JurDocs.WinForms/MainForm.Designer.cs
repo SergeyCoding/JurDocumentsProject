@@ -141,6 +141,7 @@ namespace JurDocsWinForms
             dgvLetterDocsList.Size = new Size(983, 374);
             dgvLetterDocsList.TabIndex = 5;
             dgvLetterDocsList.CellContentClick += dataGridView1_CellContentClick;
+            dgvLetterDocsList.RowEnter += dgvLetterDocsList_RowEnter;
             // 
             // id
             // 

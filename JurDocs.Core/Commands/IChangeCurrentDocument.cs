@@ -2,7 +2,7 @@
 
 {
     /// <summary>
-    /// Изменить текущий проект
+    /// Изменить текущий документ
     /// </summary>
     public interface IChangeCurrentDocument
     {
