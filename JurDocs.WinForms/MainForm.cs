@@ -2,6 +2,8 @@ using Autofac;
 using JurDocs.Client;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
+using JurDocs.Core.Commands.Project;
+using JurDocs.Core.Commands.Projects;
 using JurDocs.Core.DI;
 using JurDocs.Core.Model;
 using JurDocs.Core.Views;
@@ -379,10 +381,9 @@ namespace JurDocsWinForms
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
-        private async void newToolStripButton_Click(object sender, EventArgs e)
+        private async void ToolBtn_CreateCommand_Click(object sender, EventArgs e)
         {
             await CoreContainer.Get<ICreateProjectOrDocument>().ExecuteAsync(this);
         }
@@ -392,9 +393,9 @@ namespace JurDocsWinForms
             await UpdateProjectList();
         }
 
-        private void openToolStripButton_Click(object sender, EventArgs e)
+        private async void ToolBtn_OpenCommand_ClickAsync(object sender, EventArgs e)
         {
-
+            await CoreContainer.Get<IOpenProjectOrDocument>().ExecuteAsync(this);
         }
 
         private async void tabControl1_SelectedIndexChangedAsync(object sender, EventArgs e)

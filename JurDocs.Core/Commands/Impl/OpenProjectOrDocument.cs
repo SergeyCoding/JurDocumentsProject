@@ -8,13 +8,10 @@ using JurDocs.Core.Views;
 namespace JurDocs.Core.Commands.Impl
 {
     /// <summary>
-    /// 
+    /// Открыть проект или документ
     /// </summary>
-    internal class CreateProjectOrDocument(AppState state) : ICreateProjectOrDocument
+    class OpenProjectOrDocument(AppState state) : IOpenProjectOrDocument
     {
-        /// <summary>
-        /// 
-        /// </summary>
         public async Task ExecuteAsync(IMainView mainView)
         {
             if (mainView == null)
@@ -23,9 +20,9 @@ namespace JurDocs.Core.Commands.Impl
             if (state.CurrentPage == AppPage.Проект)
             {
 
-                var createProject = CoreContainer.Get<ICreateProject>();
+                var openProject = CoreContainer.Get<IOpenProject>();
 
-                await createProject.CreateNewProject(mainView);
+                await openProject.ExecuteAsync(mainView);
 
                 return;
             }
@@ -36,6 +33,7 @@ namespace JurDocs.Core.Commands.Impl
                 await createDocument.ExecuteAsync(mainView);
                 return;
             }
+
         }
     }
 }

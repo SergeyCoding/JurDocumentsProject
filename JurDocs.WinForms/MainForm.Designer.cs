@@ -320,7 +320,7 @@ namespace JurDocsWinForms
             tsbNewProjectOrDoc.Name = "tsbNewProjectOrDoc";
             tsbNewProjectOrDoc.Size = new Size(23, 22);
             tsbNewProjectOrDoc.Text = "Создать";
-            tsbNewProjectOrDoc.Click += newToolStripButton_Click;
+            tsbNewProjectOrDoc.Click += ToolBtn_CreateCommand_Click;
             // 
             // tsbOpenProjectOrDoc
             // 
@@ -330,7 +330,7 @@ namespace JurDocsWinForms
             tsbOpenProjectOrDoc.Name = "tsbOpenProjectOrDoc";
             tsbOpenProjectOrDoc.Size = new Size(23, 22);
             tsbOpenProjectOrDoc.Text = "&Open";
-            tsbOpenProjectOrDoc.Click += openToolStripButton_Click;
+            tsbOpenProjectOrDoc.Click += ToolBtn_OpenCommand_ClickAsync;
             // 
             // saveToolStripButton
             // 

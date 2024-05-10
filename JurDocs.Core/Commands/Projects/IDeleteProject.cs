@@ -1,4 +1,4 @@
-﻿namespace JurDocs.Core.Commands
+﻿namespace JurDocs.Core.Commands.Projects
 {
     /// <summary>
     /// Создание документа текущего типа
