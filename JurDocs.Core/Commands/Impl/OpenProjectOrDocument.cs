@@ -29,8 +29,8 @@ namespace JurDocs.Core.Commands.Impl
 
             if (state.CurrentPage == AppPage.Письмо)
             {
-                var createDocument = CoreContainer.Get<ICreateDocument>();
-                await createDocument.ExecuteAsync(mainView);
+                var openDocument = CoreContainer.Get<IOpenDocument>();
+                await openDocument.ExecuteAsync(mainView);
                 return;
             }
 

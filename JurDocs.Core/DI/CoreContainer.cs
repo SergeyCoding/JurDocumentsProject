@@ -31,7 +31,7 @@ namespace JurDocs.Core.DI
 
                 builder.RegisterType<AppState>().SingleInstance();
                 builder.RegisterType<GetState>().As<IGetState>();
-                
+
                 builder.RegisterType<InitApiClient>().As<IInitApiClient>();
 
                 builder.RegisterType<CreateProjectOrDocument>().As<ICreateProjectOrDocument>();
@@ -48,6 +48,8 @@ namespace JurDocs.Core.DI
                 builder.RegisterType<CreateDocument>().As<ICreateDocument>();
                 builder.RegisterType<GetDocumentList>().As<IGetDocumentList>();
                 builder.RegisterType<OpenDocument>().As<IOpenDocument>();
+
+                builder.RegisterType<ChangeCurrentDocument>().As<IChangeCurrentDocument>();
 
                 _container = builder.Build();
 
