@@ -11,6 +11,7 @@ using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
 using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms.Model;
+using PDFtoImage;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
@@ -486,6 +487,17 @@ namespace JurDocsWinForms
 
             (docEditor as Form)?.ShowDialog(this);
 
+        }
+
+        private void copyToolStripButton_Click(object sender, EventArgs e)
+        {
+            //var bytes = File.ReadAllBytes(@"D:\Users\Downloads\3LKTB_3WGMS.pdf");
+
+            //var v = Conversion.GetPageCount(bytes);
+            //for (int i = 0; i < v; i++)
+            //{
+            //    Conversion.SaveJpeg($"D:\\TFS\\temp\\1_{("000" + i)[^3..]}.jpeg", bytes, null, i);
+            //}
         }
     }
 }

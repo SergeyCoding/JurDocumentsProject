@@ -371,12 +371,12 @@ namespace JurDocsWinForms
             // copyToolStripButton
             // 
             copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            copyToolStripButton.Enabled = false;
             copyToolStripButton.Image = (Image)resources.GetObject("copyToolStripButton.Image");
             copyToolStripButton.ImageTransparentColor = Color.Magenta;
             copyToolStripButton.Name = "copyToolStripButton";
             copyToolStripButton.Size = new Size(23, 22);
             copyToolStripButton.Text = "&Copy";
+            copyToolStripButton.Click += copyToolStripButton_Click;
             // 
             // pasteToolStripButton
             // 
