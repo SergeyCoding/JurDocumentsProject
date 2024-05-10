@@ -32,11 +32,8 @@ namespace JurDocsWinForms
         {
             components = new System.ComponentModel.Container();
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
             button4 = new Button();
-            dgvProjects = new DataGridView();
+            dgvLetterDocsList = new DataGridView();
             id = new DataGridViewTextBoxColumn();
             PrjectId = new DataGridViewTextBoxColumn();
             DocType = new DataGridViewTextBoxColumn();
@@ -44,7 +41,6 @@ namespace JurDocsWinForms
             FileName = new DataGridViewTextBoxColumn();
             Remark = new DataGridViewTextBoxColumn();
             Column1 = new DataGridViewButtonColumn();
-            button6 = new Button();
             bindingSource1 = new BindingSource(components);
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
@@ -106,7 +102,7 @@ namespace JurDocsWinForms
             a1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             panelGrid = new Panel();
-            ((System.ComponentModel.ISupportInitialize)dgvProjects).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvLetterDocsList).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
@@ -123,36 +119,6 @@ namespace JurDocsWinForms
             panelGrid.SuspendLayout();
             SuspendLayout();
             // 
-            // button1
-            // 
-            button1.Location = new Point(12, 53);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 0;
-            button1.Text = "Выписки";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(93, 53);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 1;
-            button2.Text = "Договоры";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(174, 53);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 2;
-            button3.Text = "Справки";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
-            // 
             // button4
             // 
             button4.Location = new Point(0, 0);
@@ -160,21 +126,21 @@ namespace JurDocsWinForms
             button4.Size = new Size(75, 23);
             button4.TabIndex = 11;
             // 
-            // dgvProjects
+            // dgvLetterDocsList
             // 
-            dgvProjects.AllowUserToAddRows = false;
-            dgvProjects.AllowUserToDeleteRows = false;
-            dgvProjects.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvProjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvProjects.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProjects.Columns.AddRange(new DataGridViewColumn[] { id, PrjectId, DocType, DocDate, FileName, Remark, Column1 });
-            dgvProjects.Location = new Point(3, 71);
-            dgvProjects.Name = "dgvProjects";
-            dgvProjects.ReadOnly = true;
-            dgvProjects.ShowCellToolTips = false;
-            dgvProjects.Size = new Size(983, 327);
-            dgvProjects.TabIndex = 5;
-            dgvProjects.CellContentClick += dataGridView1_CellContentClick;
+            dgvLetterDocsList.AllowUserToAddRows = false;
+            dgvLetterDocsList.AllowUserToDeleteRows = false;
+            dgvLetterDocsList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvLetterDocsList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvLetterDocsList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvLetterDocsList.Columns.AddRange(new DataGridViewColumn[] { id, PrjectId, DocType, DocDate, FileName, Remark, Column1 });
+            dgvLetterDocsList.Location = new Point(3, 71);
+            dgvLetterDocsList.Name = "dgvLetterDocsList";
+            dgvLetterDocsList.ReadOnly = true;
+            dgvLetterDocsList.ShowCellToolTips = false;
+            dgvLetterDocsList.Size = new Size(983, 374);
+            dgvLetterDocsList.TabIndex = 5;
+            dgvLetterDocsList.CellContentClick += dataGridView1_CellContentClick;
             // 
             // id
             // 
@@ -188,6 +154,7 @@ namespace JurDocsWinForms
             // 
             // PrjectId
             // 
+            PrjectId.DataPropertyName = "ProjectName";
             PrjectId.HeaderText = "Проект";
             PrjectId.Name = "PrjectId";
             PrjectId.ReadOnly = true;
@@ -204,6 +171,7 @@ namespace JurDocsWinForms
             // DocDate
             // 
             DocDate.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DocDate.DataPropertyName = "DocDate";
             DocDate.HeaderText = "Дата документа";
             DocDate.Name = "DocDate";
             DocDate.ReadOnly = true;
@@ -221,6 +189,7 @@ namespace JurDocsWinForms
             // Remark
             // 
             Remark.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Remark.DataPropertyName = "Note";
             Remark.HeaderText = "Описание";
             Remark.Name = "Remark";
             Remark.ReadOnly = true;
@@ -235,16 +204,6 @@ namespace JurDocsWinForms
             Column1.Text = "";
             Column1.Width = 42;
             // 
-            // button6
-            // 
-            button6.Location = new Point(255, 53);
-            button6.Name = "button6";
-            button6.Size = new Size(112, 23);
-            button6.TabIndex = 6;
-            button6.Text = "Все документы";
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
-            // 
             // bindingSource1
             // 
             bindingSource1.DataSource = typeof(FileTableList);
@@ -253,7 +212,7 @@ namespace JurDocsWinForms
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, tssCurrentProject, tssCurrentPage });
-            statusStrip1.Location = new Point(0, 522);
+            statusStrip1.Location = new Point(0, 539);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1300, 22);
             statusStrip1.TabIndex = 7;
@@ -376,6 +335,7 @@ namespace JurDocsWinForms
             // saveToolStripButton
             // 
             saveToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            saveToolStripButton.Enabled = false;
             saveToolStripButton.Image = (Image)resources.GetObject("saveToolStripButton.Image");
             saveToolStripButton.ImageTransparentColor = Color.Magenta;
             saveToolStripButton.Name = "saveToolStripButton";
@@ -385,6 +345,7 @@ namespace JurDocsWinForms
             // printToolStripButton
             // 
             printToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            printToolStripButton.Enabled = false;
             printToolStripButton.Image = (Image)resources.GetObject("printToolStripButton.Image");
             printToolStripButton.ImageTransparentColor = Color.Magenta;
             printToolStripButton.Name = "printToolStripButton";
@@ -399,6 +360,7 @@ namespace JurDocsWinForms
             // cutToolStripButton
             // 
             cutToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            cutToolStripButton.Enabled = false;
             cutToolStripButton.Image = (Image)resources.GetObject("cutToolStripButton.Image");
             cutToolStripButton.ImageTransparentColor = Color.Magenta;
             cutToolStripButton.Name = "cutToolStripButton";
@@ -409,6 +371,7 @@ namespace JurDocsWinForms
             // copyToolStripButton
             // 
             copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            copyToolStripButton.Enabled = false;
             copyToolStripButton.Image = (Image)resources.GetObject("copyToolStripButton.Image");
             copyToolStripButton.ImageTransparentColor = Color.Magenta;
             copyToolStripButton.Name = "copyToolStripButton";
@@ -418,6 +381,7 @@ namespace JurDocsWinForms
             // pasteToolStripButton
             // 
             pasteToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            pasteToolStripButton.Enabled = false;
             pasteToolStripButton.Image = (Image)resources.GetObject("pasteToolStripButton.Image");
             pasteToolStripButton.ImageTransparentColor = Color.Magenta;
             pasteToolStripButton.Name = "pasteToolStripButton";
@@ -432,6 +396,7 @@ namespace JurDocsWinForms
             // helpToolStripButton
             // 
             helpToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            helpToolStripButton.Enabled = false;
             helpToolStripButton.Image = (Image)resources.GetObject("helpToolStripButton.Image");
             helpToolStripButton.ImageTransparentColor = Color.Magenta;
             helpToolStripButton.Name = "helpToolStripButton";
@@ -443,9 +408,9 @@ namespace JurDocsWinForms
             panelDragDrop.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             panelDragDrop.Controls.Add(panelSourceDocs);
             panelDragDrop.Controls.Add(panelDocs);
-            panelDragDrop.Location = new Point(1015, 82);
+            panelDragDrop.Location = new Point(1015, 52);
             panelDragDrop.Name = "panelDragDrop";
-            panelDragDrop.Size = new Size(273, 429);
+            panelDragDrop.Size = new Size(273, 476);
             panelDragDrop.TabIndex = 13;
             // 
             // panelSourceDocs
@@ -529,7 +494,7 @@ namespace JurDocsWinForms
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(997, 429);
+            tabControl1.Size = new Size(997, 476);
             tabControl1.TabIndex = 18;
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChangedAsync;
             // 
@@ -539,7 +504,7 @@ namespace JurDocsWinForms
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(989, 401);
+            tabPage3.Size = new Size(989, 448);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Проект";
             tabPage3.UseVisualStyleBackColor = true;
@@ -555,7 +520,7 @@ namespace JurDocsWinForms
             dgvProjectList.Location = new Point(3, 36);
             dgvProjectList.Name = "dgvProjectList";
             dgvProjectList.ReadOnly = true;
-            dgvProjectList.Size = new Size(983, 358);
+            dgvProjectList.Size = new Size(983, 405);
             dgvProjectList.TabIndex = 6;
             dgvProjectList.RowEnter += dgvProjectList_RowEnter;
             // 
@@ -614,7 +579,7 @@ namespace JurDocsWinForms
             tabPage1.Controls.Add(label5);
             tabPage1.Controls.Add(label6);
             tabPage1.Controls.Add(tbПолучатель);
-            tabPage1.Controls.Add(dgvProjects);
+            tabPage1.Controls.Add(dgvLetterDocsList);
             tabPage1.Controls.Add(label3);
             tabPage1.Controls.Add(label4);
             tabPage1.Controls.Add(cbProjectList);
@@ -622,7 +587,7 @@ namespace JurDocsWinForms
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(989, 401);
+            tabPage1.Size = new Size(989, 448);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Письмо";
             tabPage1.UseVisualStyleBackColor = true;
@@ -746,7 +711,7 @@ namespace JurDocsWinForms
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(989, 401);
+            tabPage2.Size = new Size(989, 448);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Договор";
             tabPage2.UseVisualStyleBackColor = true;
@@ -761,7 +726,7 @@ namespace JurDocsWinForms
             dataGridView1.Location = new Point(3, 3);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(983, 395);
+            dataGridView1.Size = new Size(983, 442);
             dataGridView1.TabIndex = 0;
             // 
             // a1
@@ -780,31 +745,27 @@ namespace JurDocsWinForms
             // 
             panelGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelGrid.Controls.Add(tabControl1);
-            panelGrid.Location = new Point(12, 82);
+            panelGrid.Location = new Point(12, 52);
             panelGrid.Name = "panelGrid";
-            panelGrid.Size = new Size(997, 429);
+            panelGrid.Size = new Size(997, 476);
             panelGrid.TabIndex = 19;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1300, 544);
+            ClientSize = new Size(1300, 561);
             Controls.Add(panelGrid);
             Controls.Add(panelDragDrop);
             Controls.Add(toolStrip2);
             Controls.Add(statusStrip1);
             Controls.Add(menuStrip1);
-            Controls.Add(button6);
             Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
             Text = "Архив документов";
             Load += MainForm_Load;
-            ((System.ComponentModel.ISupportInitialize)dgvProjects).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvLetterDocsList).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
@@ -830,13 +791,8 @@ namespace JurDocsWinForms
         }
 
         #endregion
-
-        private Button button1;
-        private Button button2;
-        private Button button3;
         private Button button4;
-        private DataGridView dgvProjects;
-        private Button button6;
+        private DataGridView dgvLetterDocsList;
 #pragma warning disable CS0169 // The field 'MainForm.myPropertyDataGridViewTextBoxColumn' is never used
         private DataGridViewTextBoxColumn myPropertyDataGridViewTextBoxColumn;
 #pragma warning restore CS0169 // The field 'MainForm.myPropertyDataGridViewTextBoxColumn' is never used
@@ -910,13 +866,6 @@ namespace JurDocsWinForms
         private TextBox tbОтпавитель;
         private ToolStripMenuItem toolStripMenuItem2;
         private ToolStripMenuItem создатьСправкуToolStripMenuItem;
-        private DataGridViewTextBoxColumn id;
-        private DataGridViewTextBoxColumn PrjectId;
-        private DataGridViewTextBoxColumn DocType;
-        private DataGridViewTextBoxColumn DocDate;
-        private DataGridViewTextBoxColumn FileName;
-        private DataGridViewTextBoxColumn Remark;
-        private DataGridViewButtonColumn Column1;
         private TabPage tabPage3;
         private DataGridView dgvProjectList;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
@@ -928,5 +877,12 @@ namespace JurDocsWinForms
         private DataGridViewTextBoxColumn Column2;
         private ToolStripStatusLabel tssCurrentPage;
         private ToolStripMenuItem создатьПроектToolStripMenuItem;
+        private DataGridViewTextBoxColumn id;
+        private DataGridViewTextBoxColumn PrjectId;
+        private DataGridViewTextBoxColumn DocType;
+        private DataGridViewTextBoxColumn DocDate;
+        private DataGridViewTextBoxColumn FileName;
+        private DataGridViewTextBoxColumn Remark;
+        private DataGridViewButtonColumn Column1;
     }
 }

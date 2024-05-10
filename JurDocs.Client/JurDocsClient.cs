@@ -67,7 +67,7 @@ namespace JurDocs.Client
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<System.DateTimeOffset>> DateAsync()
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<DateTime>> DateAsync()
         {
             return DateAsync(System.Threading.CancellationToken.None);
         }
@@ -75,7 +75,7 @@ namespace JurDocs.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.DateTimeOffset>> DateAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<DateTime>> DateAsync(System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -116,12 +116,12 @@ namespace JurDocs.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.DateTimeOffset>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<DateTime>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<System.DateTimeOffset>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<DateTime>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         {
@@ -145,7 +145,7 @@ namespace JurDocs.Client
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<System.DateTimeOffset>> DelayAsync(int? delay)
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<DateTime>> DelayAsync(int? delay)
         {
             return DelayAsync(delay, System.Threading.CancellationToken.None);
         }
@@ -153,7 +153,7 @@ namespace JurDocs.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.DateTimeOffset>> DelayAsync(int? delay, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<DateTime>> DelayAsync(int? delay, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -200,12 +200,12 @@ namespace JurDocs.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.DateTimeOffset>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<DateTime>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<System.DateTimeOffset>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<DateTime>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         {
@@ -3039,11 +3039,11 @@ namespace JurDocs.Client
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dateOutgoing", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset DateOutgoing { get; set; }
+        [Newtonsoft.Json.JsonProperty("dateOutgoing", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTime? DateOutgoing { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dateIncoming", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset DateIncoming { get; set; }
+        [Newtonsoft.Json.JsonProperty("dateIncoming", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTime? DateIncoming { get; set; }
 
         [Newtonsoft.Json.JsonProperty("numberOutgoing", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string NumberOutgoing { get; set; }

@@ -3,7 +3,7 @@
 namespace JurDocs.Core.Commands
 {
     /// <summary>
-    /// Создание документа текущего типа
+    /// Создание проекта или документа текущего типа
     /// </summary>
     public interface ICreateProjectOrDocument
     {

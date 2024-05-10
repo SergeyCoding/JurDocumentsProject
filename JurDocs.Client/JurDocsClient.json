@@ -971,11 +971,13 @@
           },
           "dateOutgoing": {
             "type": "string",
-            "format": "date-time"
+            "format": "date",
+            "nullable": true
           },
           "dateIncoming": {
             "type": "string",
-            "format": "date-time"
+            "format": "date",
+            "nullable": true
           },
           "numberOutgoing": {
             "type": "string",
