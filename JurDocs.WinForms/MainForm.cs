@@ -1,5 +1,6 @@
 using Autofac;
 using JurDocs.Client;
+using JurDocs.Common.EnumTypes;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
 using JurDocs.Core.Commands.Project;
@@ -464,10 +465,10 @@ namespace JurDocsWinForms
             var editedProjectData = projectEditor.GetData();
 
             if (projectEditorResult == DialogResult.Cancel)
-                editedProjectData.CloseType = EditedProjectData.CloseEditorType.Cancel;
+                editedProjectData.CloseType = CloseEditorType.Cancel;
 
             else if (projectEditorResult == DialogResult.OK)
-                editedProjectData.CloseType = EditedProjectData.CloseEditorType.Save;
+                editedProjectData.CloseType = CloseEditorType.Save;
 
             await CoreContainer.Get<ICloseProject>().ExecuteAsync(this, editedProjectData);
         }
@@ -508,5 +509,6 @@ namespace JurDocsWinForms
                 await changeCurrentProject.ExecuteAsync(letterListTable.Id);
             }
         }
+
     }
 }

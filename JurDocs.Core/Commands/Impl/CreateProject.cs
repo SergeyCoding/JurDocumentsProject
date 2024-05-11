@@ -26,7 +26,7 @@ namespace JurDocs.Core.Commands.Impl
 
             var projDto = new EditedProjectData
             {
-                OpenType = true,
+                OpenType = OpenEditorType.Create,
                 ProjectId = newProject.Id,
                 ProjectName = newProject.Name,
                 ProjectFullName = newProject.FullName,

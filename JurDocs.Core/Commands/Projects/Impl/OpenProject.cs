@@ -4,7 +4,7 @@ using JurDocs.Core.Model;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
 
-namespace JurDocs.Core.Commands.Impl
+namespace JurDocs.Core.Commands.Projects.Impl
 {
     /// <summary>
     /// Открыть проект
@@ -21,7 +21,7 @@ namespace JurDocs.Core.Commands.Impl
 
                 var projectData = new EditedProjectData
                 {
-                    OpenType = false,
+                    OpenType = OpenEditorType.Edit,
                     ProjectId = project.Id,
                     ProjectFullName = project.FullName,
                     ProjectName = project.Name,

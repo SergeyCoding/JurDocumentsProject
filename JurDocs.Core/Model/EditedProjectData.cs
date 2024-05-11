@@ -1,4 +1,6 @@
-﻿namespace JurDocs.Core.Model
+﻿using JurDocs.Common.EnumTypes;
+
+namespace JurDocs.Core.Model
 {
     public class EditedProjectData
     {
@@ -12,19 +14,5 @@
         public List<UserRight> ProjectRights { get; } = [];
         public List<UserRight> ProjectRights_Справки { get; } = [];
         public List<UserRight> ProjectRights_Выписки { get; } = [];
-
-        public enum OpenEditorType
-        {
-            None = 0,
-            Create,
-            Edit
-        }
-
-        public enum CloseEditorType
-        {
-            None = 0,
-            Cancel,
-            Save
-        }
     }
 }
