@@ -3,7 +3,6 @@ using JurDocs.DbModel;
 using JurDocs.Server.Controllers.Base;
 using JurDocs.Server.Model.Responses;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,7 +56,7 @@ namespace JurDocs.Server.Controllers
                 if (owner == null)
                     return BadRequest(new DataResponse<string>(StatusDataResponse.BAD, "Нет прав для изменения данного проекта"));
 
-                var jurDocProject = _dbContext.Set<JurDocProject>()
+                var jurDocProject = await _dbContext.Set<JurDocProject>()
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Id == rights.ProjectId && x.OwnerId == owner.Id);
 
@@ -113,7 +112,7 @@ namespace JurDocs.Server.Controllers
                 if (owner == null)
                     return BadRequest("Нет прав для изменения данного проекта");
 
-                var jurDocProject = _dbContext.Set<JurDocProject>()
+                var jurDocProject = await _dbContext.Set<JurDocProject>()
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Id == rights.ProjectId && x.OwnerId == owner.Id);
 
@@ -121,18 +120,14 @@ namespace JurDocs.Server.Controllers
                     return BadRequest("Нет прав для изменения данного проекта");
 
                 var projectRights = await _dbContext.Set<ProjectRights>()
-                    .AsNoTracking()
+                    .AsTracking()
                     .FirstOrDefaultAsync(x => x.ProjectId == rights.ProjectId && x.UserId == rights.UserId && x.DocType == rights.DocType);
 
-                if (projectRights != null)
+                if (projectRights == null)
                     return Ok("OK");
 
-                var newRights = new ProjectRights
-                {
-                    ProjectId = rights.ProjectId,
-                    DocType = rights.DocType,
-                    UserId = rights.UserId,
-                };
+                _dbContext.Remove(projectRights);
+                await _dbContext.SaveChangesAsync();
 
                 return Ok("OK");
             }
