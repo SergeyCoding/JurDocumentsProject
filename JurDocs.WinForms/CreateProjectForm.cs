@@ -27,10 +27,12 @@ namespace JurDocsWinForms
             }
         }
 
-        private static void LoadCheckListBox(CheckedListBox clb, IEnumerable<UserRight> rights)
+        private static void LoadCheckListBox(CheckedListBox clb, IEnumerable<UserRight> rights, JurDocType docType)
         {
             foreach (var item in rights)
             {
+                item.DocType = docType;
+
                 if (clb.CheckedItems.Contains(item.UserName))
                 {
                     item.Right = UserRightType.Allow;
@@ -83,9 +85,9 @@ namespace JurDocsWinForms
             result.ProjectName = tbProjectName.Text;
             result.ProjectFullName = tbProjectFullName.Text;
 
-            LoadCheckListBox(clbProjectRights, result.ProjectRights);
-            LoadCheckListBox(clbProjectRights_Справки, result.ProjectRights_Справки);
-            LoadCheckListBox(clbProjectRights_Выписки, result.ProjectRights_Выписки);
+            LoadCheckListBox(clbProjectRights, result.ProjectRights, JurDocType.All);
+            LoadCheckListBox(clbProjectRights_Справки, result.ProjectRights_Справки, JurDocType.Справка);
+            LoadCheckListBox(clbProjectRights_Выписки, result.ProjectRights_Выписки, JurDocType.Выписка);
 
             return result;
         }

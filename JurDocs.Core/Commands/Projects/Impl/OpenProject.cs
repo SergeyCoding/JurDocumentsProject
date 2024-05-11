@@ -1,5 +1,4 @@
 ﻿using JurDocs.Common.EnumTypes;
-using JurDocs.Core.Commands.Project;
 using JurDocs.Core.Model;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
@@ -13,42 +12,88 @@ namespace JurDocs.Core.Commands.Projects.Impl
     {
         public async Task ExecuteAsync(IMainView mainView)
         {
-            if (state.CurrentPage == Constants.AppPage.Проект)
+            var persons = (await state.Client.PersonAsync()).Result;
+
+            var answer = await state.Client.ProjectGETAsync(state.CurrentProject.Id);
+            var project = answer.Result.Data.First();
+
+            var projDto = new EditedProjectData
             {
-                var answer = await state.Client.ProjectGETAsync(state.CurrentProject.Id);
+                OpenType = OpenEditorType.Edit,
+                ProjectId = project.Id,
+                ProjectName = project.Name,
+                ProjectFullName = project.FullName,
+                ProjectOwnerId = project.OwnerId,
+                ProjectOwnerName = persons.FirstOrDefault(x => x.PersonId == project.OwnerId)!.PersonName,
+            };
 
-                var project = answer.Result.Data.First();
+            var answerRights = await state.Client.RightsAllAsync(project.Id);
+            var answerRightsResult = answerRights.Result;
 
-                var projectData = new EditedProjectData
+            foreach (var person in persons)
+            {
+                projDto.ProjectRights.Add(new UserRight
                 {
-                    OpenType = OpenEditorType.Edit,
-                    ProjectId = project.Id,
-                    ProjectFullName = project.FullName,
-                    ProjectName = project.Name,
-                    ProjectOwnerId = project.OwnerId,
-                    ProjectOwnerName = "",
-                };
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
 
-                var answerPersons = await state.Client.PersonAsync();
-                var personList = answerPersons.Result.ToDictionary(x => x.PersonId, x => x);
-
-
-                var answerRights = await state.Client.RightsAllAsync(project.Id);
-                var result = answerRights.Result;
-
-                foreach (var item in result)
+                projDto.ProjectRights_Справки.Add(new UserRight
                 {
-                    SetRight(projectData, item, JurDocType.Письмо, personList);
-                    SetRight(projectData, item, JurDocType.Выписка, personList);
-                }
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
 
-
-                mainView.OpenProjectEditor(projectData);
-
-                return;
+                projDto.ProjectRights_Выписки.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
             }
 
-            throw new Exception("Нет реализации для данного вида документа");
+            mainView.OpenProjectEditor(projDto);
+
+
+            //---
+
+
+            //if (state.CurrentPage == Constants.AppPage.Проект)
+            //{
+
+
+            //    var projectData = new EditedProjectData
+            //    {
+            //        OpenType = OpenEditorType.Edit,
+            //        ProjectId = project.Id,
+            //        ProjectFullName = project.FullName,
+            //        ProjectName = project.Name,
+            //        ProjectOwnerId = project.OwnerId,
+            //        ProjectOwnerName = "",
+            //    };
+
+            //    var answerPersons = await state.Client.PersonAsync();
+            //    var personList = answerPersons.Result.ToDictionary(x => x.PersonId, x => x);
+
+
+            //    var answerRights = await state.Client.RightsAllAsync(project.Id);
+            //    var result = answerRights.Result;
+
+            //    foreach (var item in result)
+            //    {
+            //        SetRight(projectData, item, JurDocType.Письмо, personList);
+            //        SetRight(projectData, item, JurDocType.Выписка, personList);
+            //    }
+
+
+            //    mainView.OpenProjectEditor(projectData);
+
+            //    return;
+            //}
+
+            //throw new Exception("Нет реализации для данного вида документа");
         }
 
 
@@ -67,5 +112,6 @@ namespace JurDocs.Core.Commands.Projects.Impl
                 projectData.ProjectRights.Add(userRight);
             }
         }
+
     }
 }

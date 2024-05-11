@@ -1,7 +1,7 @@
 ﻿using JurDocs.Client;
 using JurDocs.Core.Model;
 
-namespace JurDocs.Core.Commands.Project
+namespace JurDocs.Core.Commands.Projects
 {
     /// <summary>
     /// Сохранить проект

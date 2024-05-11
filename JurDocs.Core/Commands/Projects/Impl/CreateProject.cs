@@ -1,10 +1,9 @@
 ﻿using JurDocs.Common.EnumTypes;
-using JurDocs.Core.Commands.Project;
 using JurDocs.Core.Model;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
 
-namespace JurDocs.Core.Commands.Impl
+namespace JurDocs.Core.Commands.Projects.Impl
 {
     /// <summary>
     /// 
@@ -14,7 +13,7 @@ namespace JurDocs.Core.Commands.Impl
         /// <summary>
         /// 
         /// </summary>
-        public async Task CreateNewProject(IMainView mainView)
+        public async Task ExecuteAsync(IMainView mainView)
         {
             var persons = (await state.Client.PersonAsync()).Result;
 

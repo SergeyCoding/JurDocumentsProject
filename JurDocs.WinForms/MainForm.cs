@@ -3,7 +3,6 @@ using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
-using JurDocs.Core.Commands.Project;
 using JurDocs.Core.Commands.Projects;
 using JurDocs.Core.DI;
 using JurDocs.Core.Model;
@@ -475,7 +474,7 @@ namespace JurDocsWinForms
 
         private async void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            await CoreContainer.Get<ICreateProject>().CreateNewProject(this);
+            await CoreContainer.Get<ICreateProject>().ExecuteAsync(this);
         }
 
         public void OpenDocEditor(LetterDocument data)

@@ -1,6 +1,6 @@
 ﻿using JurDocs.Core.Views;
 
-namespace JurDocs.Core.Commands.Project
+namespace JurDocs.Core.Commands.Projects
 {
     /// <summary>
     /// Открыть проект
