@@ -443,9 +443,9 @@ namespace JurDocsWinForms
             }
         }
 
-        public Task SetCurrentProject(int projectId)
+        private async void DgvProjectList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            throw new NotImplementedException();
+            await CoreContainer.Get<IOpenProjectOrDocument>().ExecuteAsync(this);
         }
 
         public void ChangeCurrentProject(JurDocProject currentProject)

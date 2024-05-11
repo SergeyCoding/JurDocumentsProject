@@ -524,6 +524,7 @@ namespace JurDocsWinForms
             dgvProjectList.Size = new Size(983, 405);
             dgvProjectList.TabIndex = 6;
             dgvProjectList.RowEnter += dgvProjectList_RowEnter;
+            dgvProjectList.CellMouseDoubleClick += DgvProjectList_CellMouseDoubleClick;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -790,6 +791,8 @@ namespace JurDocsWinForms
             ResumeLayout(false);
             PerformLayout();
         }
+
+
 
         #endregion
         private Button button4;
