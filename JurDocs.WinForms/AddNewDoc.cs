@@ -31,6 +31,11 @@ namespace JurDocsWinForms
 
         public void SetData(LetterDocument data)
         {
+            cbProjectName.Items.Clear();
+            cbProjectName.Text = data.Name;
+
+            cbDocType.Items.Clear();
+            cbDocType.Text = data.Name;
         }
 
         public LetterDocument GetData()
@@ -103,6 +108,16 @@ namespace JurDocsWinForms
             btnPageNext.Enabled = CurrentPage < pages - 1;
 
             UpdatePreview(bytes, sizeF);
+        }
+
+        private void BtnCancelClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnOkClick(object sender, EventArgs e)
+        {
+
         }
     }
 }

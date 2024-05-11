@@ -99,6 +99,7 @@
             ssDocEdit = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             toolStripStatusLabel2 = new ToolStripStatusLabel();
+            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -121,6 +122,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(button3);
             splitContainer1.Panel1.Controls.Add(cbDocType);
             splitContainer1.Panel1.Controls.Add(label31);
             splitContainer1.Panel1.Controls.Add(cbProjectName);
@@ -641,12 +643,13 @@
             // button2
             // 
             button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button2.Location = new Point(610, 581);
+            button2.Location = new Point(555, 699);
             button2.Name = "button2";
-            button2.Size = new Size(125, 21);
+            button2.Size = new Size(100, 25);
             button2.TabIndex = 3;
-            button2.Text = "Сохранить";
+            button2.Text = "ОК";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += BtnOkClick;
             // 
             // label4
             // 
@@ -800,6 +803,17 @@
             toolStripStatusLabel2.Size = new Size(99, 17);
             toolStripStatusLabel2.Text = "Страница: X/XXX";
             // 
+            // button3
+            // 
+            button3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button3.Location = new Point(670, 699);
+            button3.Name = "button3";
+            button3.Size = new Size(100, 25);
+            button3.TabIndex = 73;
+            button3.Text = "Отмена";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += BtnCancelClick;
+            // 
             // AddNewDoc
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -896,5 +910,6 @@
         private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripStatusLabel toolStripStatusLabel2;
         private Panel panel1;
+        private Button button3;
     }
 }
