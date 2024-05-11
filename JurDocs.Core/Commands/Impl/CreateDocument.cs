@@ -1,4 +1,5 @@
 ﻿using JurDocs.Client;
+using JurDocs.Core.Commands.Documents;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
 

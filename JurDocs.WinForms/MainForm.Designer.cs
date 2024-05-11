@@ -141,6 +141,7 @@ namespace JurDocsWinForms
             dgvLetterDocsList.Size = new Size(983, 374);
             dgvLetterDocsList.TabIndex = 5;
             dgvLetterDocsList.CellContentClick += dataGridView1_CellContentClick;
+            dgvLetterDocsList.RowEnter += dgvLetterDocsList_RowEnter;
             // 
             // id
             // 
@@ -320,7 +321,7 @@ namespace JurDocsWinForms
             tsbNewProjectOrDoc.Name = "tsbNewProjectOrDoc";
             tsbNewProjectOrDoc.Size = new Size(23, 22);
             tsbNewProjectOrDoc.Text = "Создать";
-            tsbNewProjectOrDoc.Click += newToolStripButton_Click;
+            tsbNewProjectOrDoc.Click += ToolBtn_CreateCommand_Click;
             // 
             // tsbOpenProjectOrDoc
             // 
@@ -330,7 +331,7 @@ namespace JurDocsWinForms
             tsbOpenProjectOrDoc.Name = "tsbOpenProjectOrDoc";
             tsbOpenProjectOrDoc.Size = new Size(23, 22);
             tsbOpenProjectOrDoc.Text = "&Open";
-            tsbOpenProjectOrDoc.Click += openToolStripButton_Click;
+            tsbOpenProjectOrDoc.Click += ToolBtn_OpenCommand_ClickAsync;
             // 
             // saveToolStripButton
             // 
@@ -371,12 +372,12 @@ namespace JurDocsWinForms
             // copyToolStripButton
             // 
             copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            copyToolStripButton.Enabled = false;
             copyToolStripButton.Image = (Image)resources.GetObject("copyToolStripButton.Image");
             copyToolStripButton.ImageTransparentColor = Color.Magenta;
             copyToolStripButton.Name = "copyToolStripButton";
             copyToolStripButton.Size = new Size(23, 22);
             copyToolStripButton.Text = "&Copy";
+            copyToolStripButton.Click += copyToolStripButton_Click;
             // 
             // pasteToolStripButton
             // 
@@ -523,6 +524,7 @@ namespace JurDocsWinForms
             dgvProjectList.Size = new Size(983, 405);
             dgvProjectList.TabIndex = 6;
             dgvProjectList.RowEnter += dgvProjectList_RowEnter;
+            dgvProjectList.CellMouseDoubleClick += DgvProjectList_CellMouseDoubleClick;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -789,6 +791,8 @@ namespace JurDocsWinForms
             ResumeLayout(false);
             PerformLayout();
         }
+
+
 
         #endregion
         private Button button4;

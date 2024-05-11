@@ -25,6 +25,7 @@ namespace JurDocs.Core.States
         public AppPage CurrentPage { get; set; } = AppPage.Null;
 
         public JurDocProject CurrentProject { get; set; } = new JurDocProject { Id = 0 };
+        public int CurrentDocumentId { get; set; }
 
 
         internal JurDocsClient Client

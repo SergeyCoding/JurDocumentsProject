@@ -1,4 +1,5 @@
 ﻿using JurDocs.Client;
+using JurDocs.Core.Commands.Projects;
 using JurDocs.Core.Model;
 using JurDocs.Core.States;
 
@@ -24,6 +25,7 @@ namespace JurDocs.Core.Commands.Impl
                 {
                     state.CurrentProject = result.Data.First();
                 }
+
             }
             catch (Exception)
             {

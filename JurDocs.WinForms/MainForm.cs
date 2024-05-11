@@ -1,11 +1,12 @@
 using Autofac;
 using JurDocs.Client;
+using JurDocs.Common.EnumTypes;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
+using JurDocs.Core.Commands.Projects;
 using JurDocs.Core.DI;
 using JurDocs.Core.Model;
 using JurDocs.Core.Views;
-using JurDocs.WinForms;
 using JurDocs.WinForms.DI;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
@@ -378,10 +379,9 @@ namespace JurDocsWinForms
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
-        private async void newToolStripButton_Click(object sender, EventArgs e)
+        private async void ToolBtn_CreateCommand_Click(object sender, EventArgs e)
         {
             await CoreContainer.Get<ICreateProjectOrDocument>().ExecuteAsync(this);
         }
@@ -391,9 +391,9 @@ namespace JurDocsWinForms
             await UpdateProjectList();
         }
 
-        private void openToolStripButton_Click(object sender, EventArgs e)
+        private async void ToolBtn_OpenCommand_ClickAsync(object sender, EventArgs e)
         {
-
+            await CoreContainer.Get<IOpenProjectOrDocument>().ExecuteAsync(this);
         }
 
         private async void tabControl1_SelectedIndexChangedAsync(object sender, EventArgs e)
@@ -443,9 +443,9 @@ namespace JurDocsWinForms
             }
         }
 
-        public Task SetCurrentProject(int projectId)
+        private async void DgvProjectList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            throw new NotImplementedException();
+            await CoreContainer.Get<IOpenProjectOrDocument>().ExecuteAsync(this);
         }
 
         public void ChangeCurrentProject(JurDocProject currentProject)
@@ -461,22 +461,20 @@ namespace JurDocsWinForms
 
             var projectEditorResult = (projectEditor as Form)?.ShowDialog(this);
 
-            if (projectEditorResult == DialogResult.Cancel)
-            {
-                await CoreContainer.Get<IDeleteProject>().ExecuteAsync(projDto.ProjectId);
-            }
-            else if (projectEditorResult == DialogResult.OK)
-            {
-                var editedProjectData = projectEditor.GetData();
-                await CoreContainer.Get<ISaveProject>().ExecuteAsync(editedProjectData);
-            }
+            var editedProjectData = projectEditor.GetData();
 
-            await UpdateProjectList();
+            if (projectEditorResult == DialogResult.Cancel)
+                editedProjectData.CloseType = CloseEditorType.Cancel;
+
+            else if (projectEditorResult == DialogResult.OK)
+                editedProjectData.CloseType = CloseEditorType.Save;
+
+            await CoreContainer.Get<ICloseProject>().ExecuteAsync(this, editedProjectData);
         }
 
         private async void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            await CoreContainer.Get<ICreateProject>().CreateNewProject(this);
+            await CoreContainer.Get<ICreateProject>().ExecuteAsync(this);
         }
 
         public void OpenDocEditor(LetterDocument data)
@@ -487,5 +485,29 @@ namespace JurDocsWinForms
             (docEditor as Form)?.ShowDialog(this);
 
         }
+
+        private void copyToolStripButton_Click(object sender, EventArgs e)
+        {
+            //var bytes = File.ReadAllBytes(@"D:\Users\Downloads\3LKTB_3WGMS.pdf");
+
+            //var v = Conversion.GetPageCount(bytes);
+            //for (int i = 0; i < v; i++)
+            //{
+            //    Conversion.SaveJpeg($"D:\\TFS\\temp\\1_{("000" + i)[^3..]}.jpeg", bytes, null, i);
+            //}
+        }
+
+        private async void dgvLetterDocsList_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvLetterDocsList.DataSource is SortableBindingList<LetterDocsListTable> letterTable)
+            {
+                var letterListTable = letterTable[e.RowIndex];
+
+                var changeCurrentProject = CoreContainer.Get().Resolve<IChangeCurrentDocument>();
+
+                await changeCurrentProject.ExecuteAsync(letterListTable.Id);
+            }
+        }
+
     }
 }

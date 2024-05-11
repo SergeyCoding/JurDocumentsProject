@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(AddNewDoc));
             openFileDialog1 = new OpenFileDialog();
             splitContainer1 = new SplitContainer();
             cbDocType = new ComboBox();
@@ -90,13 +91,21 @@
             label1 = new Label();
             comboBox1 = new ComboBox();
             button1 = new Button();
-            pictureBox1 = new PictureBox();
+            pbViewer = new PictureBox();
             textBox1 = new TextBox();
+            panel1 = new Panel();
+            btnPageNext = new Button();
+            btnPageBack = new Button();
+            ssDocEdit = new StatusStrip();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolStripStatusLabel2 = new ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbViewer).BeginInit();
+            panel1.SuspendLayout();
+            ssDocEdit.SuspendLayout();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -175,9 +184,10 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(pictureBox1);
+            splitContainer1.Panel2.Controls.Add(pbViewer);
             splitContainer1.Panel2.Controls.Add(textBox1);
-            splitContainer1.Size = new Size(1192, 769);
+            splitContainer1.Panel2.Controls.Add(panel1);
+            splitContainer1.Size = new Size(1192, 747);
             splitContainer1.SplitterDistance = 788;
             splitContainer1.TabIndex = 13;
             // 
@@ -631,7 +641,7 @@
             // button2
             // 
             button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button2.Location = new Point(609, 597);
+            button2.Location = new Point(610, 581);
             button2.Name = "button2";
             button2.Size = new Size(125, 21);
             button2.TabIndex = 3;
@@ -718,14 +728,15 @@
             button1.Text = "Открыть";
             button1.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // pbViewer
             // 
-            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            pictureBox1.Location = new Point(3, 71);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(384, 601);
-            pictureBox1.TabIndex = 1;
-            pictureBox1.TabStop = false;
+            pbViewer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pbViewer.Image = (Image)resources.GetObject("pbViewer.Image");
+            pbViewer.Location = new Point(3, 71);
+            pbViewer.Name = "pbViewer";
+            pbViewer.Size = new Size(384, 579);
+            pbViewer.TabIndex = 1;
+            pbViewer.TabStop = false;
             // 
             // textBox1
             // 
@@ -736,12 +747,66 @@
             textBox1.Size = new Size(384, 54);
             textBox1.TabIndex = 0;
             // 
+            // panel1
+            // 
+            panel1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel1.Controls.Add(btnPageNext);
+            panel1.Controls.Add(btnPageBack);
+            panel1.Location = new Point(3, 656);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(384, 86);
+            panel1.TabIndex = 75;
+            // 
+            // btnPageNext
+            // 
+            btnPageNext.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnPageNext.Location = new Point(208, 32);
+            btnPageNext.Name = "btnPageNext";
+            btnPageNext.Size = new Size(75, 23);
+            btnPageNext.TabIndex = 74;
+            btnPageNext.Text = ">";
+            btnPageNext.UseVisualStyleBackColor = true;
+            btnPageNext.Click += BtnPageNext_Click;
+            // 
+            // btnPageBack
+            // 
+            btnPageBack.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnPageBack.Location = new Point(127, 32);
+            btnPageBack.Name = "btnPageBack";
+            btnPageBack.Size = new Size(75, 23);
+            btnPageBack.TabIndex = 73;
+            btnPageBack.Text = "<";
+            btnPageBack.UseVisualStyleBackColor = true;
+            btnPageBack.Click += BtnPageBack_Click;
+            // 
+            // ssDocEdit
+            // 
+            ssDocEdit.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel2 });
+            ssDocEdit.Location = new Point(0, 747);
+            ssDocEdit.Name = "ssDocEdit";
+            ssDocEdit.Size = new Size(1192, 22);
+            ssDocEdit.TabIndex = 14;
+            ssDocEdit.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(23, 17);
+            toolStripStatusLabel1.Text = "OK";
+            // 
+            // toolStripStatusLabel2
+            // 
+            toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            toolStripStatusLabel2.Size = new Size(99, 17);
+            toolStripStatusLabel2.Text = "Страница: X/XXX";
+            // 
             // AddNewDoc
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1192, 769);
             Controls.Add(splitContainer1);
+            Controls.Add(ssDocEdit);
             MinimumSize = new Size(1200, 800);
             Name = "AddNewDoc";
             Text = "Внесение документа в архив";
@@ -752,8 +817,12 @@
             splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbViewer).EndInit();
+            panel1.ResumeLayout(false);
+            ssDocEdit.ResumeLayout(false);
+            ssDocEdit.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -771,7 +840,7 @@
         private ComboBox comboBox1;
         private TextBox tbCaption;
         private Label label5;
-        private PictureBox pictureBox1;
+        private PictureBox pbViewer;
         private TextBox textBox1;
         private TextBox textBox4;
         private Label label7;
@@ -821,5 +890,11 @@
         private ComboBox cbDocType;
         private Label label31;
         private ComboBox cbProjectName;
+        private Button btnPageNext;
+        private Button btnPageBack;
+        private StatusStrip ssDocEdit;
+        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripStatusLabel toolStripStatusLabel2;
+        private Panel panel1;
     }
 }

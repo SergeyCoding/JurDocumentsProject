@@ -1,21 +1,19 @@
 ﻿using JurDocs.Core.Commands.Documents;
 using JurDocs.Core.Commands.Projects;
 using JurDocs.Core.Constants;
+using JurDocs.Core.DI;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
 
 namespace JurDocs.Core.Commands.Impl
 {
     /// <summary>
-    /// 
+    /// Открыть проект или документ
     /// </summary>
-    internal class CreateProjectOrDocument(AppState state,
-                                           ICreateProject createProject,
-                                           ICreateDocument createDocument) : ICreateProjectOrDocument
+    class OpenProjectOrDocument(AppState state,
+                                IOpenProject openProject,
+                                IOpenDocument openDocument) : IOpenProjectOrDocument
     {
-        /// <summary>
-        /// 
-        /// </summary>
         public async Task ExecuteAsync(IMainView mainView)
         {
             if (mainView == null)
@@ -23,16 +21,16 @@ namespace JurDocs.Core.Commands.Impl
 
             if (state.CurrentPage == AppPage.Проект)
             {
-                await createProject.ExecuteAsync(mainView);
-
+                await openProject.ExecuteAsync(mainView);
                 return;
             }
 
             if (state.CurrentPage == AppPage.Письмо)
             {
-                await createDocument.ExecuteAsync(mainView);
+                await openDocument.ExecuteAsync(mainView);
                 return;
             }
+
         }
     }
 }

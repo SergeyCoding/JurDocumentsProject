@@ -3,9 +3,9 @@
 namespace JurDocs.Core.Commands
 {
     /// <summary>
-    /// Создать проект или документ текущего типа
+    /// Создание проекта или документа текущего типа
     /// </summary>
-    public interface ICreateProjectOrDocument
+    public interface IOpenProjectOrDocument
     {
         Task ExecuteAsync(IMainView mainView);
     }

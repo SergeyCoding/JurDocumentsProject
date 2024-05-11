@@ -1,11 +1,11 @@
 ﻿using JurDocs.Core.Views;
 
-namespace JurDocs.Core.Commands
+namespace JurDocs.Core.Commands.Projects
 {
     /// <summary>
-    /// Создание документа
+    /// Открыть проект
     /// </summary>
-    public interface ICreateDocument
+    public interface IOpenProject
     {
         Task ExecuteAsync(IMainView mainView);
     }
