@@ -1,5 +1,6 @@
-﻿using JurDocs.Core.Constants;
-using JurDocs.Core.DI;
+﻿using JurDocs.Core.Commands.Documents;
+using JurDocs.Core.Commands.Projects;
+using JurDocs.Core.Constants;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
 
@@ -8,7 +9,9 @@ namespace JurDocs.Core.Commands.Impl
     /// <summary>
     /// 
     /// </summary>
-    internal class CreateProjectOrDocument(AppState state) : ICreateProjectOrDocument
+    internal class CreateProjectOrDocument(AppState state,
+                                           ICreateProject createProject,
+                                           ICreateDocument createDocument) : ICreateProjectOrDocument
     {
         /// <summary>
         /// 
@@ -20,18 +23,14 @@ namespace JurDocs.Core.Commands.Impl
 
             if (state.CurrentPage == AppPage.Проект)
             {
-
-                var createProject = CoreContainer.Get<ICreateProject>();
-
-                await createProject.CreateNewProject(mainView);
+                await createProject.ExecuteAsync(mainView);
 
                 return;
             }
 
             if (state.CurrentPage == AppPage.Письмо)
             {
-                var createDocument = CoreContainer.Get<ICreateDocument>();
-                await createDocument.CreateDocumentAsync(mainView);
+                await createDocument.ExecuteAsync(mainView);
                 return;
             }
         }

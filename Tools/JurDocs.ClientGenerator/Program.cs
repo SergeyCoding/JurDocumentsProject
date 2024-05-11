@@ -1,11 +1,14 @@
-﻿using NSwag;
+﻿using JurDocs.ClientGenerator.Configurations;
+using NSwag;
 using NSwag.CodeGeneration.CSharp;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JurClientGenerator
 {
     internal class Program
     {
+
+        private static readonly ClientGeneratorSettings _appSettings = new AppSettings().Settings;
+
         [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         static void Main(string[] args)
         {
@@ -21,32 +24,33 @@ namespace JurClientGenerator
 
         public static async Task<string> Run()
         {
-            var document = await OpenApiYamlDocument.FromFileAsync(AppConst.JurDocsYamlDoc);
+
+            var document = await OpenApiYamlDocument.FromFileAsync(_appSettings.JurDocsYamlDoc);
 
             var settings = new CSharpClientGeneratorSettings
             {
                 ClassName = "JurDocsClient",
                 CSharpGeneratorSettings = {
                     Namespace = "JurDocs.Client",
-                    GenerateJsonMethods = true, 
-                    //DateType="DateTime",
-                    //DateTimeType="DateTime"
+                    GenerateJsonMethods = true,
+                    DateType="DateTime",
+                    DateTimeType="DateTime"
                 },
                 CodeGeneratorSettings = {
-                    TemplateDirectory = "template",
+                    //TemplateDirectory = "template",
                 },
                 GenerateResponseClasses = true,
                 ResponseClass = "SwaggerResponse",
                 WrapResponses = true,
-                ParameterDateFormat = "yyyyMMdd",
-                ParameterDateTimeFormat = "yyyyMMddHHmmss",
+                //ParameterDateFormat = "yyyyMMdd",
+                //ParameterDateTimeFormat = "yyyyMMddHHmmss",
                 GenerateDtoTypes = true,
             };
 
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
-            File.WriteAllText(AppConst.JurDocsClientCodefile, code);
+            File.WriteAllText(_appSettings.JurDocsClientCodefile!, code);
 
             return code;
         }
