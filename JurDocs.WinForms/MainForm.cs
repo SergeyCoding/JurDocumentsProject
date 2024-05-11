@@ -7,13 +7,11 @@ using JurDocs.Core.Commands.Projects;
 using JurDocs.Core.DI;
 using JurDocs.Core.Model;
 using JurDocs.Core.Views;
-using JurDocs.WinForms;
 using JurDocs.WinForms.DI;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Supports;
 using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms.Model;
-using PDFtoImage;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
@@ -463,17 +461,15 @@ namespace JurDocsWinForms
 
             var projectEditorResult = (projectEditor as Form)?.ShowDialog(this);
 
-            if (projectEditorResult == DialogResult.Cancel)
-            {
-                await CoreContainer.Get<IDeleteProject>().ExecuteAsync(projDto.ProjectId);
-            }
-            else if (projectEditorResult == DialogResult.OK)
-            {
-                var editedProjectData = projectEditor.GetData();
-                await CoreContainer.Get<ISaveProject>().ExecuteAsync(editedProjectData);
-            }
+            var editedProjectData = projectEditor.GetData();
 
-            await UpdateProjectList();
+            if (projectEditorResult == DialogResult.Cancel)
+                editedProjectData.CloseType = EditedProjectData.CloseEditorType.Cancel;
+
+            else if (projectEditorResult == DialogResult.OK)
+                editedProjectData.CloseType = EditedProjectData.CloseEditorType.Save;
+
+            await CoreContainer.Get<ICloseProject>().ExecuteAsync(this, editedProjectData);
         }
 
         private async void ñîçäàòüÏðîåêòToolStripMenuItem_Click(object sender, EventArgs e)

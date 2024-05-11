@@ -11,8 +11,6 @@ namespace JurDocs.Core.Commands.Impl
     {
         public async Task ExecuteAsync(IMainView mainView)
         {
-            await state.Client.DateAsync();
-
             if (state.CurrentPage == Constants.AppPage.Письмо)
             {
                 var answer = await state.Client.LetterDocumentGET2Async(state.CurrentProject.Id);

@@ -4,6 +4,7 @@ using JurDocs.Core.Commands.Documents;
 using JurDocs.Core.Commands.Impl;
 using JurDocs.Core.Commands.Project;
 using JurDocs.Core.Commands.Projects;
+using JurDocs.Core.Commands.Projects.Impl;
 using JurDocs.Core.States;
 
 namespace JurDocs.Core.DI
@@ -43,6 +44,7 @@ namespace JurDocs.Core.DI
                 builder.RegisterType<CreateProject>().As<ICreateProject>();
                 builder.RegisterType<SaveProject>().As<ISaveProject>();
                 builder.RegisterType<OpenProject>().As<IOpenProject>();
+                builder.RegisterType<CloseProject>().As<ICloseProject>();
                 builder.RegisterType<DeleteProject>().As<IDeleteProject>();
 
                 builder.RegisterType<CreateDocument>().As<ICreateDocument>();
