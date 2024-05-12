@@ -1,10 +1,9 @@
 ﻿using JurDocs.Common.EnumTypes;
-using JurDocs.Core.Commands.Documents;
 using JurDocs.Core.Model;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
 
-namespace JurDocs.Core.Commands.Impl
+namespace JurDocs.Core.Commands.Documents.Impl
 {
     /// <summary>
     /// 
@@ -27,6 +26,9 @@ namespace JurDocs.Core.Commands.Impl
                         throw new Exception(answer.Result.MessageToUser);
 
                     var result = answer.Result.Data.First();
+
+                    var answerProject = await state.Client.ProjectGETAsync(result.ProjectId).ConfigureAwait(false);
+                    var jurDocProject = answerProject.Result.Data.First();
 
                     //var letterDocument = new LetterDocument
                     //{
@@ -58,6 +60,9 @@ namespace JurDocs.Core.Commands.Impl
                         ProjectId = result.ProjectId,
                         Sender = [.. result.Sender],
                         Recipient = [.. result.Recipient],
+                        ProjectName = jurDocProject.Name,
+                        OpenType = OpenEditorType.Create,
+                         CloseType  =   CloseEditorType.None, 
                     };
 
                     for (var i = editedDocData.Sender.Count; i < 10; i++)
