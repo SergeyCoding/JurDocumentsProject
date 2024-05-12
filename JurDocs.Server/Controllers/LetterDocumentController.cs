@@ -239,7 +239,7 @@ namespace JurDocs.Server.Controllers1
                 Name = dbLetter.Name,
                 DateIncoming = dbLetter.DateIncoming,
                 DateOutgoing = dbLetter.DateOutgoing,
-                DocType = Common.EnumTypes.JurDocType.Справка,
+                DocType = Common.EnumTypes.JurDocType.Письмо,
                 ExecutivePerson = dbLetter.ExecutivePerson,
                 IsDeleted = dbLetter.IsDeleted,
                 NumberIncoming = dbLetter.NumberIncoming,
