@@ -69,6 +69,10 @@ namespace JurDocsWinForms
             cbRecipient7.Text = data.Recipient[7];
             cbRecipient8.Text = data.Recipient[8];
             cbRecipient9.Text = data.Recipient[9];
+
+
+
+
         }
 
         public EditedDocData GetData()

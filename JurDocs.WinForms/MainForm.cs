@@ -14,6 +14,7 @@ using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms.Model;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JurDocsWinForms
 {
@@ -477,14 +478,7 @@ namespace JurDocsWinForms
             await CoreContainer.Get<ICreateProject>().ExecuteAsync(this);
         }
 
-        public void OpenDocEditor(LetterDocument data)
-        {
-            var docEditor = Views.Container().Resolve<IDocEditor>();
-            docEditor.SetData(data);
 
-            (docEditor as Form)?.ShowDialog(this);
-
-        }
 
         private void copyToolStripButton_Click(object sender, EventArgs e)
         {
@@ -509,5 +503,12 @@ namespace JurDocsWinForms
             }
         }
 
+        public void OpenDocEditor(EditedDocData docData)
+        {
+            var docEditor = Views.Container().Resolve<IDocEditor>();
+            docEditor.SetData(docData);
+
+            (docEditor as Form)?.ShowDialog(this);
+        }
     }
 }

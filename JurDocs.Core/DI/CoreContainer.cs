@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using JurDocs.Core.Commands;
 using JurDocs.Core.Commands.Documents;
+using JurDocs.Core.Commands.Documents.Impl;
 using JurDocs.Core.Commands.Impl;
 using JurDocs.Core.Commands.Projects;
 using JurDocs.Core.Commands.Projects.Impl;

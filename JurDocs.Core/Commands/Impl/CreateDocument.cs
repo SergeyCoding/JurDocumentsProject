@@ -1,5 +1,6 @@
-﻿using JurDocs.Client;
+﻿using JurDocs.Common.EnumTypes;
 using JurDocs.Core.Commands.Documents;
+using JurDocs.Core.Model;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
 
@@ -16,33 +17,58 @@ namespace JurDocs.Core.Commands.Impl
 
         public async Task ExecuteAsync(IMainView mainView)
         {
-
             try
             {
-                var answer = await state.Client.LetterDocumentPOSTAsync(state.CurrentProject.Id);
-
-                if (answer.Result.Status != "OK")
-                    throw new Exception(answer.Result.MessageToUser);
-
-                var result = answer.Result.Data.First();
-
-                var letterDocument = new LetterDocument
+                if (state.CurrentPage == Constants.AppPage.Письмо)
                 {
-                    Id = result.Id,
-                    DateIncoming = result.DateIncoming,
-                    DateOutgoing = result.DateOutgoing,
-                    DocType = result.DocType,
-                    ExecutivePerson = result.ExecutivePerson,
-                    IsDeleted = result.IsDeleted,
-                    Name = result.Name,
-                    NumberIncoming = result.NumberIncoming,
-                    NumberOutgoing = result.NumberOutgoing,
-                    ProjectId = result.ProjectId,
-                    Sender = [.. result.Sender],
-                    Recipient = [.. result.Recipient],
-                };
+                    var answer = await state.Client.LetterDocumentPOSTAsync(state.CurrentProject.Id);
 
-                mainView.OpenDocEditor(letterDocument);
+                    if (answer.Result.Status != "OK")
+                        throw new Exception(answer.Result.MessageToUser);
+
+                    var result = answer.Result.Data.First();
+
+                    //var letterDocument = new LetterDocument
+                    //{
+                    //    Id = result.Id,
+                    //    DateIncoming = result.DateIncoming,
+                    //    DateOutgoing = result.DateOutgoing,
+                    //    DocType = result.DocType,
+                    //    ExecutivePerson = result.ExecutivePerson,
+                    //    IsDeleted = result.IsDeleted,
+                    //    Name = result.Name,
+                    //    NumberIncoming = result.NumberIncoming,
+                    //    NumberOutgoing = result.NumberOutgoing,
+                    //    ProjectId = result.ProjectId,
+                    //    Sender = [.. result.Sender],
+                    //    Recipient = [.. result.Recipient],
+                    //};
+
+                    var editedDocData = new EditedDocData
+                    {
+                        Id = result.Id,
+                        DateIncoming = result.DateIncoming,
+                        DateOutgoing = result.DateOutgoing,
+                        DocType = (JurDocType)(int)result.DocType,
+                        ExecutivePerson = result.ExecutivePerson,
+                        IsDeleted = result.IsDeleted,
+                        DocName = result.Name,
+                        NumberIncoming = result.NumberIncoming,
+                        NumberOutgoing = result.NumberOutgoing,
+                        ProjectId = result.ProjectId,
+                        Sender = [.. result.Sender],
+                        Recipient = [.. result.Recipient],
+                    };
+
+                    for (var i = editedDocData.Sender.Count; i < 10; i++)
+                        editedDocData.Sender.Add(string.Empty);
+
+                    for (var i = editedDocData.Recipient.Count; i < 10; i++)
+                        editedDocData.Recipient.Add(string.Empty);
+
+
+                    mainView.OpenDocEditor(editedDocData);
+                }
             }
             catch (Exception)
             {
