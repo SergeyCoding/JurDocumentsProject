@@ -23,7 +23,8 @@ namespace JurDocs.Core.Commands.Impl
                 }
                 else
                 {
-                    throw new Exception(answer.Result.MessageToUser);
+                    // throw new Exception(answer.Result.MessageToUser);
+                    return [];
                 }
             }
             catch (Exception)

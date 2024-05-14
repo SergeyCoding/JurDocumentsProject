@@ -21,13 +21,17 @@ public partial class LoginForm : Form
             var token = await client.LoginPOSTAsync(new LoginPostRequest
             {
                 Login = tbLogin.Text,
-                Password = tbLogin.Text
+                Password = tbPwd.Text
             });
 
             if (token.Result != Guid.Empty)
             {
                 _workSession.User.Login = tbLogin.Text;
                 _workSession.User.Token = token.Result;
+
+                Close();
+
+                return;
             }
         }
         catch (Exception)
@@ -35,6 +39,7 @@ public partial class LoginForm : Form
 
         }
 
-        Close();
+        MessageBox.Show(this, "Неверное имя пользователя или пароль");
+
     }
 }

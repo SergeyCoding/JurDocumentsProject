@@ -1,4 +1,4 @@
-﻿using JurDocs.Client;
+﻿using JurDocs.Core.Model;
 
 namespace JurDocs.Core.Views
 {
@@ -7,7 +7,7 @@ namespace JurDocs.Core.Views
     /// </summary>
     public interface IDocEditor
     {
-        void SetData(LetterDocument data);
-        LetterDocument GetData();
+        void SetData(EditedDocData data);
+        EditedDocData GetData();
     }
 }

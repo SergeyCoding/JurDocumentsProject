@@ -1,30 +1,26 @@
 ﻿using JurDocs.Common.EnumTypes;
-using Swashbuckle.AspNetCore.Annotations;
 
-namespace JurDocs.Server.Model
+namespace JurDocs.Core.Model
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class LetterDocument
+    public class EditedDocData
     {
-        public int Id { get; set; }
-        public int ProjectId { get; set; }
-        public JurDocType DocType { get; set; }
-        public string? Name { get; set; }
+        public OpenEditorType OpenType { get; set; } = OpenEditorType.None;
+        public CloseEditorType CloseType { get; set; } = CloseEditorType.None;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [SwaggerSchema(Format = "date", Nullable = true)]
+        public int ProjectId { get; set; }
+        public string ProjectName { get; set; } = string.Empty;
+
+        public int Id { get; set; }
+        public JurDocType DocType { get; set; }
+        public string? DocName { get; set; }
+
         public DateTime? DateOutgoing { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [SwaggerSchema(Format = "date", Nullable = true)]
         public DateTime? DateIncoming { get; set; }
+
         public string? NumberOutgoing { get; set; }
+
+
         public string? NumberIncoming { get; set; }
         public int ExecutivePerson { get; set; }
 
@@ -39,5 +35,15 @@ namespace JurDocs.Server.Model
         /// Получатель
         /// </summary>
         public List<string> Recipient { get; set; } = [];
+
+        /// <summary>
+        /// Отправители списком
+        /// </summary>
+        public List<string> SenderList { get; set; } = [];
+
+        /// <summary>
+        /// Получатели списком
+        /// </summary>
+        public List<string> RecipientList { get; set; } = [];
     }
 }

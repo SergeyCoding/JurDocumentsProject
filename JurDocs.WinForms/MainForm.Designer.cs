@@ -441,7 +441,6 @@ namespace JurDocsWinForms
             panelDocs.Name = "panelDocs";
             panelDocs.Size = new Size(237, 112);
             panelDocs.TabIndex = 0;
-            panelDocs.Paint += panel2_Paint;
             // 
             // label1
             // 

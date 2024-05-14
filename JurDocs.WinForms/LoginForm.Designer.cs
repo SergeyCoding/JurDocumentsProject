@@ -32,7 +32,7 @@
             label1 = new Label();
             tbLogin = new TextBox();
             label2 = new Label();
-            maskedTextBox1 = new MaskedTextBox();
+            tbPwd = new MaskedTextBox();
             SuspendLayout();
             // 
             // btnExit
@@ -71,20 +71,20 @@
             label2.TabIndex = 3;
             label2.Text = "Пароль";
             // 
-            // maskedTextBox1
+            // tbPwd
             // 
-            maskedTextBox1.Location = new Point(12, 83);
-            maskedTextBox1.Name = "maskedTextBox1";
-            maskedTextBox1.PasswordChar = '*';
-            maskedTextBox1.Size = new Size(268, 23);
-            maskedTextBox1.TabIndex = 5;
+            tbPwd.Location = new Point(12, 83);
+            tbPwd.Name = "tbPwd";
+            tbPwd.PasswordChar = '*';
+            tbPwd.Size = new Size(268, 23);
+            tbPwd.TabIndex = 5;
             // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(294, 171);
-            Controls.Add(maskedTextBox1);
+            Controls.Add(tbPwd);
             Controls.Add(label2);
             Controls.Add(tbLogin);
             Controls.Add(label1);
@@ -104,6 +104,6 @@
         private Label label1;
         private TextBox tbLogin;
         private Label label2;
-        private MaskedTextBox maskedTextBox1;
+        private MaskedTextBox tbPwd;
     }
 }

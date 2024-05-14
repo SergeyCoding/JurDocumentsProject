@@ -477,14 +477,7 @@ namespace JurDocsWinForms
             await CoreContainer.Get<ICreateProject>().ExecuteAsync(this);
         }
 
-        public void OpenDocEditor(LetterDocument data)
-        {
-            var docEditor = Views.Container().Resolve<IDocEditor>();
-            docEditor.SetData(data);
 
-            (docEditor as Form)?.ShowDialog(this);
-
-        }
 
         private void copyToolStripButton_Click(object sender, EventArgs e)
         {
@@ -509,5 +502,12 @@ namespace JurDocsWinForms
             }
         }
 
+        public void OpenDocEditor(EditedDocData docData)
+        {
+            var docEditor = Views.Container().Resolve<IDocEditor>();
+            docEditor.SetData(docData);
+
+            (docEditor as Form)?.ShowDialog(this);
+        }
     }
 }

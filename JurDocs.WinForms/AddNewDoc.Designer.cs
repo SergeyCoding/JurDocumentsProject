@@ -31,52 +31,53 @@
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(AddNewDoc));
             openFileDialog1 = new OpenFileDialog();
             splitContainer1 = new SplitContainer();
+            button3 = new Button();
             cbDocType = new ComboBox();
             label31 = new Label();
             cbProjectName = new ComboBox();
             label29 = new Label();
             label27 = new Label();
             label28 = new Label();
-            comboBox20 = new ComboBox();
-            comboBox21 = new ComboBox();
+            cbRecipient9 = new ComboBox();
+            comboBox9 = new ComboBox();
             label21 = new Label();
             label22 = new Label();
-            comboBox14 = new ComboBox();
-            comboBox15 = new ComboBox();
+            cbRecipient8 = new ComboBox();
+            cbSender8 = new ComboBox();
             label23 = new Label();
             label24 = new Label();
-            comboBox16 = new ComboBox();
-            comboBox17 = new ComboBox();
+            cbRecipient7 = new ComboBox();
+            cbSender7 = new ComboBox();
             label25 = new Label();
             label26 = new Label();
-            comboBox18 = new ComboBox();
-            comboBox19 = new ComboBox();
+            cbRecipient6 = new ComboBox();
+            cbSender6 = new ComboBox();
             label15 = new Label();
             label16 = new Label();
-            comboBox8 = new ComboBox();
-            comboBox9 = new ComboBox();
+            cbRecipient5 = new ComboBox();
+            cbSender5 = new ComboBox();
             label17 = new Label();
             label18 = new Label();
-            comboBox10 = new ComboBox();
-            comboBox11 = new ComboBox();
+            cbRecipient4 = new ComboBox();
+            cbSender4 = new ComboBox();
             label19 = new Label();
             label20 = new Label();
-            comboBox12 = new ComboBox();
-            comboBox13 = new ComboBox();
+            cbRecipient3 = new ComboBox();
+            cbSender3 = new ComboBox();
             label11 = new Label();
             label12 = new Label();
-            comboBox4 = new ComboBox();
-            comboBox5 = new ComboBox();
+            cbRecipient2 = new ComboBox();
+            cbSender2 = new ComboBox();
             label13 = new Label();
             label14 = new Label();
-            comboBox6 = new ComboBox();
-            comboBox7 = new ComboBox();
+            cbRecipient1 = new ComboBox();
+            cbSender1 = new ComboBox();
             label10 = new Label();
             label9 = new Label();
-            comboBox3 = new ComboBox();
-            comboBox2 = new ComboBox();
+            cbRecipient0 = new ComboBox();
+            cbSender0 = new ComboBox();
             label8 = new Label();
-            textBox4 = new TextBox();
+            tbNumberIn = new TextBox();
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
@@ -84,12 +85,12 @@
             button2 = new Button();
             label4 = new Label();
             label3 = new Label();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
+            tbNumberOut = new TextBox();
+            tbDateIn = new TextBox();
             label2 = new Label();
-            textBoxFileName = new TextBox();
+            tbDateOut = new TextBox();
             label1 = new Label();
-            comboBox1 = new ComboBox();
+            cbExecutors = new ComboBox();
             button1 = new Button();
             pbViewer = new PictureBox();
             textBox1 = new TextBox();
@@ -114,6 +115,7 @@
             // 
             // splitContainer1
             // 
+            splitContainer1.AllowDrop = true;
             splitContainer1.BorderStyle = BorderStyle.FixedSingle;
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(0, 0);
@@ -121,52 +123,53 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(button3);
             splitContainer1.Panel1.Controls.Add(cbDocType);
             splitContainer1.Panel1.Controls.Add(label31);
             splitContainer1.Panel1.Controls.Add(cbProjectName);
             splitContainer1.Panel1.Controls.Add(label29);
             splitContainer1.Panel1.Controls.Add(label27);
             splitContainer1.Panel1.Controls.Add(label28);
-            splitContainer1.Panel1.Controls.Add(comboBox20);
-            splitContainer1.Panel1.Controls.Add(comboBox21);
+            splitContainer1.Panel1.Controls.Add(cbRecipient9);
+            splitContainer1.Panel1.Controls.Add(comboBox9);
             splitContainer1.Panel1.Controls.Add(label21);
             splitContainer1.Panel1.Controls.Add(label22);
-            splitContainer1.Panel1.Controls.Add(comboBox14);
-            splitContainer1.Panel1.Controls.Add(comboBox15);
+            splitContainer1.Panel1.Controls.Add(cbRecipient8);
+            splitContainer1.Panel1.Controls.Add(cbSender8);
             splitContainer1.Panel1.Controls.Add(label23);
             splitContainer1.Panel1.Controls.Add(label24);
-            splitContainer1.Panel1.Controls.Add(comboBox16);
-            splitContainer1.Panel1.Controls.Add(comboBox17);
+            splitContainer1.Panel1.Controls.Add(cbRecipient7);
+            splitContainer1.Panel1.Controls.Add(cbSender7);
             splitContainer1.Panel1.Controls.Add(label25);
             splitContainer1.Panel1.Controls.Add(label26);
-            splitContainer1.Panel1.Controls.Add(comboBox18);
-            splitContainer1.Panel1.Controls.Add(comboBox19);
+            splitContainer1.Panel1.Controls.Add(cbRecipient6);
+            splitContainer1.Panel1.Controls.Add(cbSender6);
             splitContainer1.Panel1.Controls.Add(label15);
             splitContainer1.Panel1.Controls.Add(label16);
-            splitContainer1.Panel1.Controls.Add(comboBox8);
-            splitContainer1.Panel1.Controls.Add(comboBox9);
+            splitContainer1.Panel1.Controls.Add(cbRecipient5);
+            splitContainer1.Panel1.Controls.Add(cbSender5);
             splitContainer1.Panel1.Controls.Add(label17);
             splitContainer1.Panel1.Controls.Add(label18);
-            splitContainer1.Panel1.Controls.Add(comboBox10);
-            splitContainer1.Panel1.Controls.Add(comboBox11);
+            splitContainer1.Panel1.Controls.Add(cbRecipient4);
+            splitContainer1.Panel1.Controls.Add(cbSender4);
             splitContainer1.Panel1.Controls.Add(label19);
             splitContainer1.Panel1.Controls.Add(label20);
-            splitContainer1.Panel1.Controls.Add(comboBox12);
-            splitContainer1.Panel1.Controls.Add(comboBox13);
+            splitContainer1.Panel1.Controls.Add(cbRecipient3);
+            splitContainer1.Panel1.Controls.Add(cbSender3);
             splitContainer1.Panel1.Controls.Add(label11);
             splitContainer1.Panel1.Controls.Add(label12);
-            splitContainer1.Panel1.Controls.Add(comboBox4);
-            splitContainer1.Panel1.Controls.Add(comboBox5);
+            splitContainer1.Panel1.Controls.Add(cbRecipient2);
+            splitContainer1.Panel1.Controls.Add(cbSender2);
             splitContainer1.Panel1.Controls.Add(label13);
             splitContainer1.Panel1.Controls.Add(label14);
-            splitContainer1.Panel1.Controls.Add(comboBox6);
-            splitContainer1.Panel1.Controls.Add(comboBox7);
+            splitContainer1.Panel1.Controls.Add(cbRecipient1);
+            splitContainer1.Panel1.Controls.Add(cbSender1);
             splitContainer1.Panel1.Controls.Add(label10);
             splitContainer1.Panel1.Controls.Add(label9);
-            splitContainer1.Panel1.Controls.Add(comboBox3);
-            splitContainer1.Panel1.Controls.Add(comboBox2);
+            splitContainer1.Panel1.Controls.Add(cbRecipient0);
+            splitContainer1.Panel1.Controls.Add(cbSender0);
             splitContainer1.Panel1.Controls.Add(label8);
-            splitContainer1.Panel1.Controls.Add(textBox4);
+            splitContainer1.Panel1.Controls.Add(tbNumberIn);
             splitContainer1.Panel1.Controls.Add(label7);
             splitContainer1.Panel1.Controls.Add(label6);
             splitContainer1.Panel1.Controls.Add(label5);
@@ -174,22 +177,36 @@
             splitContainer1.Panel1.Controls.Add(button2);
             splitContainer1.Panel1.Controls.Add(label4);
             splitContainer1.Panel1.Controls.Add(label3);
-            splitContainer1.Panel1.Controls.Add(textBox3);
-            splitContainer1.Panel1.Controls.Add(textBox2);
+            splitContainer1.Panel1.Controls.Add(tbNumberOut);
+            splitContainer1.Panel1.Controls.Add(tbDateIn);
             splitContainer1.Panel1.Controls.Add(label2);
-            splitContainer1.Panel1.Controls.Add(textBoxFileName);
+            splitContainer1.Panel1.Controls.Add(tbDateOut);
             splitContainer1.Panel1.Controls.Add(label1);
-            splitContainer1.Panel1.Controls.Add(comboBox1);
+            splitContainer1.Panel1.Controls.Add(cbExecutors);
             splitContainer1.Panel1.Controls.Add(button1);
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.AllowDrop = true;
             splitContainer1.Panel2.Controls.Add(pbViewer);
             splitContainer1.Panel2.Controls.Add(textBox1);
             splitContainer1.Panel2.Controls.Add(panel1);
+            splitContainer1.Panel2.DragDrop += SplitContainer1_Panel2_DragDrop;
+            splitContainer1.Panel2.DragOver += SplitContainer1_Panel2_DragOver;
             splitContainer1.Size = new Size(1192, 747);
             splitContainer1.SplitterDistance = 788;
             splitContainer1.TabIndex = 13;
+            // 
+            // button3
+            // 
+            button3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button3.Location = new Point(670, 699);
+            button3.Name = "button3";
+            button3.Size = new Size(100, 25);
+            button3.TabIndex = 73;
+            button3.Text = "Отмена";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += BtnCancelClick;
             // 
             // cbDocType
             // 
@@ -245,21 +262,21 @@
             label28.TabIndex = 64;
             label28.Text = "10.";
             // 
-            // comboBox20
+            // cbRecipient9
             // 
-            comboBox20.FormattingEnabled = true;
-            comboBox20.Location = new Point(435, 552);
-            comboBox20.Name = "comboBox20";
-            comboBox20.Size = new Size(299, 23);
-            comboBox20.TabIndex = 63;
+            cbRecipient9.FormattingEnabled = true;
+            cbRecipient9.Location = new Point(435, 552);
+            cbRecipient9.Name = "cbRecipient9";
+            cbRecipient9.Size = new Size(299, 23);
+            cbRecipient9.TabIndex = 63;
             // 
-            // comboBox21
+            // comboBox9
             // 
-            comboBox21.FormattingEnabled = true;
-            comboBox21.Location = new Point(58, 552);
-            comboBox21.Name = "comboBox21";
-            comboBox21.Size = new Size(297, 23);
-            comboBox21.TabIndex = 62;
+            comboBox9.FormattingEnabled = true;
+            comboBox9.Location = new Point(58, 552);
+            comboBox9.Name = "comboBox9";
+            comboBox9.Size = new Size(297, 23);
+            comboBox9.TabIndex = 62;
             // 
             // label21
             // 
@@ -281,21 +298,21 @@
             label22.TabIndex = 56;
             label22.Text = "9.";
             // 
-            // comboBox14
+            // cbRecipient8
             // 
-            comboBox14.FormattingEnabled = true;
-            comboBox14.Location = new Point(435, 523);
-            comboBox14.Name = "comboBox14";
-            comboBox14.Size = new Size(299, 23);
-            comboBox14.TabIndex = 55;
+            cbRecipient8.FormattingEnabled = true;
+            cbRecipient8.Location = new Point(435, 523);
+            cbRecipient8.Name = "cbRecipient8";
+            cbRecipient8.Size = new Size(299, 23);
+            cbRecipient8.TabIndex = 55;
             // 
-            // comboBox15
+            // cbSender8
             // 
-            comboBox15.FormattingEnabled = true;
-            comboBox15.Location = new Point(58, 523);
-            comboBox15.Name = "comboBox15";
-            comboBox15.Size = new Size(297, 23);
-            comboBox15.TabIndex = 54;
+            cbSender8.FormattingEnabled = true;
+            cbSender8.Location = new Point(58, 523);
+            cbSender8.Name = "cbSender8";
+            cbSender8.Size = new Size(297, 23);
+            cbSender8.TabIndex = 54;
             // 
             // label23
             // 
@@ -317,21 +334,21 @@
             label24.TabIndex = 60;
             label24.Text = "8.";
             // 
-            // comboBox16
+            // cbRecipient7
             // 
-            comboBox16.FormattingEnabled = true;
-            comboBox16.Location = new Point(435, 494);
-            comboBox16.Name = "comboBox16";
-            comboBox16.Size = new Size(299, 23);
-            comboBox16.TabIndex = 59;
+            cbRecipient7.FormattingEnabled = true;
+            cbRecipient7.Location = new Point(435, 494);
+            cbRecipient7.Name = "cbRecipient7";
+            cbRecipient7.Size = new Size(299, 23);
+            cbRecipient7.TabIndex = 59;
             // 
-            // comboBox17
+            // cbSender7
             // 
-            comboBox17.FormattingEnabled = true;
-            comboBox17.Location = new Point(58, 494);
-            comboBox17.Name = "comboBox17";
-            comboBox17.Size = new Size(297, 23);
-            comboBox17.TabIndex = 58;
+            cbSender7.FormattingEnabled = true;
+            cbSender7.Location = new Point(58, 494);
+            cbSender7.Name = "cbSender7";
+            cbSender7.Size = new Size(297, 23);
+            cbSender7.TabIndex = 58;
             // 
             // label25
             // 
@@ -353,21 +370,21 @@
             label26.TabIndex = 52;
             label26.Text = "7.";
             // 
-            // comboBox18
+            // cbRecipient6
             // 
-            comboBox18.FormattingEnabled = true;
-            comboBox18.Location = new Point(435, 465);
-            comboBox18.Name = "comboBox18";
-            comboBox18.Size = new Size(299, 23);
-            comboBox18.TabIndex = 51;
+            cbRecipient6.FormattingEnabled = true;
+            cbRecipient6.Location = new Point(435, 465);
+            cbRecipient6.Name = "cbRecipient6";
+            cbRecipient6.Size = new Size(299, 23);
+            cbRecipient6.TabIndex = 51;
             // 
-            // comboBox19
+            // cbSender6
             // 
-            comboBox19.FormattingEnabled = true;
-            comboBox19.Location = new Point(58, 465);
-            comboBox19.Name = "comboBox19";
-            comboBox19.Size = new Size(297, 23);
-            comboBox19.TabIndex = 50;
+            cbSender6.FormattingEnabled = true;
+            cbSender6.Location = new Point(58, 465);
+            cbSender6.Name = "cbSender6";
+            cbSender6.Size = new Size(297, 23);
+            cbSender6.TabIndex = 50;
             // 
             // label15
             // 
@@ -389,21 +406,21 @@
             label16.TabIndex = 44;
             label16.Text = "6.";
             // 
-            // comboBox8
+            // cbRecipient5
             // 
-            comboBox8.FormattingEnabled = true;
-            comboBox8.Location = new Point(435, 437);
-            comboBox8.Name = "comboBox8";
-            comboBox8.Size = new Size(299, 23);
-            comboBox8.TabIndex = 43;
+            cbRecipient5.FormattingEnabled = true;
+            cbRecipient5.Location = new Point(435, 437);
+            cbRecipient5.Name = "cbRecipient5";
+            cbRecipient5.Size = new Size(299, 23);
+            cbRecipient5.TabIndex = 43;
             // 
-            // comboBox9
+            // cbSender5
             // 
-            comboBox9.FormattingEnabled = true;
-            comboBox9.Location = new Point(58, 437);
-            comboBox9.Name = "comboBox9";
-            comboBox9.Size = new Size(297, 23);
-            comboBox9.TabIndex = 42;
+            cbSender5.FormattingEnabled = true;
+            cbSender5.Location = new Point(58, 437);
+            cbSender5.Name = "cbSender5";
+            cbSender5.Size = new Size(297, 23);
+            cbSender5.TabIndex = 42;
             // 
             // label17
             // 
@@ -425,21 +442,21 @@
             label18.TabIndex = 48;
             label18.Text = "5.";
             // 
-            // comboBox10
+            // cbRecipient4
             // 
-            comboBox10.FormattingEnabled = true;
-            comboBox10.Location = new Point(435, 408);
-            comboBox10.Name = "comboBox10";
-            comboBox10.Size = new Size(299, 23);
-            comboBox10.TabIndex = 47;
+            cbRecipient4.FormattingEnabled = true;
+            cbRecipient4.Location = new Point(435, 408);
+            cbRecipient4.Name = "cbRecipient4";
+            cbRecipient4.Size = new Size(299, 23);
+            cbRecipient4.TabIndex = 47;
             // 
-            // comboBox11
+            // cbSender4
             // 
-            comboBox11.FormattingEnabled = true;
-            comboBox11.Location = new Point(58, 408);
-            comboBox11.Name = "comboBox11";
-            comboBox11.Size = new Size(297, 23);
-            comboBox11.TabIndex = 46;
+            cbSender4.FormattingEnabled = true;
+            cbSender4.Location = new Point(58, 408);
+            cbSender4.Name = "cbSender4";
+            cbSender4.Size = new Size(297, 23);
+            cbSender4.TabIndex = 46;
             // 
             // label19
             // 
@@ -461,21 +478,21 @@
             label20.TabIndex = 40;
             label20.Text = "4.";
             // 
-            // comboBox12
+            // cbRecipient3
             // 
-            comboBox12.FormattingEnabled = true;
-            comboBox12.Location = new Point(435, 379);
-            comboBox12.Name = "comboBox12";
-            comboBox12.Size = new Size(299, 23);
-            comboBox12.TabIndex = 39;
+            cbRecipient3.FormattingEnabled = true;
+            cbRecipient3.Location = new Point(435, 379);
+            cbRecipient3.Name = "cbRecipient3";
+            cbRecipient3.Size = new Size(299, 23);
+            cbRecipient3.TabIndex = 39;
             // 
-            // comboBox13
+            // cbSender3
             // 
-            comboBox13.FormattingEnabled = true;
-            comboBox13.Location = new Point(58, 379);
-            comboBox13.Name = "comboBox13";
-            comboBox13.Size = new Size(297, 23);
-            comboBox13.TabIndex = 38;
+            cbSender3.FormattingEnabled = true;
+            cbSender3.Location = new Point(58, 379);
+            cbSender3.Name = "cbSender3";
+            cbSender3.Size = new Size(297, 23);
+            cbSender3.TabIndex = 38;
             // 
             // label11
             // 
@@ -497,21 +514,21 @@
             label12.TabIndex = 32;
             label12.Text = "3.";
             // 
-            // comboBox4
+            // cbRecipient2
             // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(435, 349);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(299, 23);
-            comboBox4.TabIndex = 31;
+            cbRecipient2.FormattingEnabled = true;
+            cbRecipient2.Location = new Point(435, 349);
+            cbRecipient2.Name = "cbRecipient2";
+            cbRecipient2.Size = new Size(299, 23);
+            cbRecipient2.TabIndex = 31;
             // 
-            // comboBox5
+            // cbSender2
             // 
-            comboBox5.FormattingEnabled = true;
-            comboBox5.Location = new Point(58, 349);
-            comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(297, 23);
-            comboBox5.TabIndex = 30;
+            cbSender2.FormattingEnabled = true;
+            cbSender2.Location = new Point(58, 349);
+            cbSender2.Name = "cbSender2";
+            cbSender2.Size = new Size(297, 23);
+            cbSender2.TabIndex = 30;
             // 
             // label13
             // 
@@ -533,21 +550,21 @@
             label14.TabIndex = 36;
             label14.Text = "2.";
             // 
-            // comboBox6
+            // cbRecipient1
             // 
-            comboBox6.FormattingEnabled = true;
-            comboBox6.Location = new Point(435, 320);
-            comboBox6.Name = "comboBox6";
-            comboBox6.Size = new Size(299, 23);
-            comboBox6.TabIndex = 35;
+            cbRecipient1.FormattingEnabled = true;
+            cbRecipient1.Location = new Point(435, 320);
+            cbRecipient1.Name = "cbRecipient1";
+            cbRecipient1.Size = new Size(299, 23);
+            cbRecipient1.TabIndex = 35;
             // 
-            // comboBox7
+            // cbSender1
             // 
-            comboBox7.FormattingEnabled = true;
-            comboBox7.Location = new Point(58, 320);
-            comboBox7.Name = "comboBox7";
-            comboBox7.Size = new Size(297, 23);
-            comboBox7.TabIndex = 34;
+            cbSender1.FormattingEnabled = true;
+            cbSender1.Location = new Point(58, 320);
+            cbSender1.Name = "cbSender1";
+            cbSender1.Size = new Size(297, 23);
+            cbSender1.TabIndex = 34;
             // 
             // label10
             // 
@@ -569,21 +586,21 @@
             label9.TabIndex = 28;
             label9.Text = "1.";
             // 
-            // comboBox3
+            // cbRecipient0
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(435, 291);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(299, 23);
-            comboBox3.TabIndex = 27;
+            cbRecipient0.FormattingEnabled = true;
+            cbRecipient0.Location = new Point(435, 291);
+            cbRecipient0.Name = "cbRecipient0";
+            cbRecipient0.Size = new Size(299, 23);
+            cbRecipient0.TabIndex = 27;
             // 
-            // comboBox2
+            // cbSender0
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(58, 291);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(297, 23);
-            comboBox2.TabIndex = 26;
+            cbSender0.FormattingEnabled = true;
+            cbSender0.Location = new Point(58, 291);
+            cbSender0.Name = "cbSender0";
+            cbSender0.Size = new Size(297, 23);
+            cbSender0.TabIndex = 26;
             // 
             // label8
             // 
@@ -594,13 +611,12 @@
             label8.TabIndex = 25;
             label8.Text = "Получатель";
             // 
-            // textBox4
+            // tbNumberIn
             // 
-            textBox4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox4.Location = new Point(312, 223);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(113, 23);
-            textBox4.TabIndex = 24;
+            tbNumberIn.Location = new Point(312, 223);
+            tbNumberIn.Name = "tbNumberIn";
+            tbNumberIn.Size = new Size(113, 23);
+            tbNumberIn.TabIndex = 24;
             // 
             // label7
             // 
@@ -641,12 +657,13 @@
             // button2
             // 
             button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button2.Location = new Point(610, 581);
+            button2.Location = new Point(555, 699);
             button2.Name = "button2";
-            button2.Size = new Size(125, 21);
+            button2.Size = new Size(100, 25);
             button2.TabIndex = 3;
-            button2.Text = "Сохранить";
+            button2.Text = "ОК";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += BtnOkClick;
             // 
             // label4
             // 
@@ -666,21 +683,19 @@
             label3.TabIndex = 18;
             label3.Text = "Исполнители";
             // 
-            // textBox3
+            // tbNumberOut
             // 
-            textBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox3.Location = new Point(312, 194);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(113, 23);
-            textBox3.TabIndex = 17;
+            tbNumberOut.Location = new Point(312, 194);
+            tbNumberOut.Name = "tbNumberOut";
+            tbNumberOut.Size = new Size(113, 23);
+            tbNumberOut.TabIndex = 17;
             // 
-            // textBox2
+            // tbDateIn
             // 
-            textBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox2.Location = new Point(89, 223);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(146, 23);
-            textBox2.TabIndex = 16;
+            tbDateIn.Location = new Point(89, 223);
+            tbDateIn.Name = "tbDateIn";
+            tbDateIn.Size = new Size(146, 23);
+            tbDateIn.TabIndex = 16;
             // 
             // label2
             // 
@@ -691,13 +706,12 @@
             label2.TabIndex = 15;
             label2.Text = "Дата исх.";
             // 
-            // textBoxFileName
+            // tbDateOut
             // 
-            textBoxFileName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxFileName.Location = new Point(89, 194);
-            textBoxFileName.Name = "textBoxFileName";
-            textBoxFileName.Size = new Size(146, 23);
-            textBoxFileName.TabIndex = 14;
+            tbDateOut.Location = new Point(89, 194);
+            tbDateOut.Name = "tbDateOut";
+            tbDateOut.Size = new Size(146, 23);
+            tbDateOut.TabIndex = 14;
             // 
             // label1
             // 
@@ -708,15 +722,14 @@
             label1.TabIndex = 13;
             label1.Text = "Название документа";
             // 
-            // comboBox1
+            // cbExecutors
             // 
-            comboBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Выписки", "Справки", "Договора" });
-            comboBox1.Location = new Point(26, 148);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(709, 23);
-            comboBox1.TabIndex = 12;
+            cbExecutors.FormattingEnabled = true;
+            cbExecutors.Items.AddRange(new object[] { "Выписки", "Справки", "Договора" });
+            cbExecutors.Location = new Point(26, 148);
+            cbExecutors.Name = "cbExecutors";
+            cbExecutors.Size = new Size(709, 23);
+            cbExecutors.TabIndex = 12;
             // 
             // button1
             // 
@@ -735,8 +748,11 @@
             pbViewer.Location = new Point(3, 71);
             pbViewer.Name = "pbViewer";
             pbViewer.Size = new Size(384, 579);
+            pbViewer.SizeMode = PictureBoxSizeMode.CenterImage;
             pbViewer.TabIndex = 1;
             pbViewer.TabStop = false;
+            pbViewer.DragDrop += PbViewer_DragDrop;
+            pbViewer.DragEnter += PbViewer_DragEnter;
             // 
             // textBox1
             // 
@@ -802,6 +818,7 @@
             // 
             // AddNewDoc
             // 
+            AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1192, 769);
@@ -834,58 +851,58 @@
         private Label label2;
         private Label label1;
         private Button button1;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private TextBox textBoxFileName;
-        private ComboBox comboBox1;
+        private TextBox tbNumberOut;
+        private TextBox tbDateIn;
+        private TextBox tbDateOut;
+        private ComboBox cbExecutors;
         private TextBox tbCaption;
         private Label label5;
         private PictureBox pbViewer;
         private TextBox textBox1;
-        private TextBox textBox4;
+        private TextBox tbNumberIn;
         private Label label7;
         private Label label6;
         private Label label15;
         private Label label16;
-        private ComboBox comboBox8;
-        private ComboBox comboBox9;
+        private ComboBox cbRecipient5;
+        private ComboBox cbSender5;
         private Label label17;
         private Label label18;
-        private ComboBox comboBox10;
-        private ComboBox comboBox11;
+        private ComboBox cbRecipient4;
+        private ComboBox cbSender4;
         private Label label19;
         private Label label20;
-        private ComboBox comboBox12;
-        private ComboBox comboBox13;
+        private ComboBox cbRecipient3;
+        private ComboBox cbSender3;
         private Label label11;
         private Label label12;
-        private ComboBox comboBox4;
-        private ComboBox comboBox5;
+        private ComboBox cbRecipient2;
+        private ComboBox cbSender2;
         private Label label13;
         private Label label14;
-        private ComboBox comboBox6;
-        private ComboBox comboBox7;
+        private ComboBox cbRecipient1;
+        private ComboBox cbSender1;
         private Label label10;
         private Label label9;
-        private ComboBox comboBox3;
-        private ComboBox comboBox2;
+        private ComboBox cbRecipient0;
+        private ComboBox cbSender0;
         private Label label8;
         private Label label27;
         private Label label28;
-        private ComboBox comboBox20;
-        private ComboBox comboBox21;
+        private ComboBox cbRecipient9;
+        private ComboBox comboBox9;
         private Label label21;
         private Label label22;
-        private ComboBox comboBox14;
-        private ComboBox comboBox15;
+        private ComboBox cbRecipient8;
+        private ComboBox cbSender8;
         private Label label23;
         private Label label24;
-        private ComboBox comboBox16;
-        private ComboBox comboBox17;
+        private ComboBox cbRecipient7;
+        private ComboBox cbSender7;
         private Label label25;
         private Label label26;
-        private ComboBox comboBox18;
-        private ComboBox comboBox19;
+        private ComboBox cbRecipient6;
+        private ComboBox cbSender6;
         private Label label29;
         private ComboBox cbDocType;
         private Label label31;
@@ -896,5 +913,6 @@
         private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripStatusLabel toolStripStatusLabel2;
         private Panel panel1;
+        private Button button3;
     }
 }
