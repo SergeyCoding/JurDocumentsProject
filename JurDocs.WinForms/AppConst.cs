@@ -5,6 +5,6 @@
     /// </summary>
     internal class AppConst
     {
-        public static bool IsLogin => false;
+        public static bool IsLogin => true;
     }
 }

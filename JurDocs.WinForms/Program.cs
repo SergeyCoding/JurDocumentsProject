@@ -90,6 +90,7 @@ namespace JurDocs.WinForms
 
             if (AppConst.IsLogin)
             {
+
                 var loginForm = container.Resolve<LoginForm>();
                 ProgramHelpers.MoveWindowToCenterScreen(loginForm);
                 loginForm.ShowDialog();
@@ -121,13 +122,20 @@ namespace JurDocs.WinForms
                 }
             }
 
-            var client2 = container.Resolve<JurDocsClient>();
-            var user = client2.LoginGETAsync(workSession.User.Login).GetAwaiter().GetResult();
+            try
+            {
+                var client2 = container.Resolve<JurDocsClient>();
+                var user = client2.LoginGETAsync(workSession.User.Login).GetAwaiter().GetResult();
 
-            workSession.User.UserName = user.Result.Name;
-            workSession.User.TempDir = user.Result.Path;
+                workSession.User.UserName = user.Result.Name;
+                workSession.User.TempDir = user.Result.Path;
 
-            return workSession.User.Token != Guid.Empty;
+                return workSession.User.Token != Guid.Empty;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
