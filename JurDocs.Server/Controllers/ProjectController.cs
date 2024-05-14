@@ -37,7 +37,7 @@ namespace JurDocs.Server.Controllers
                 var projectRights = await _dbContext.Set<ProjectRights>()
                     .AsNoTracking()
                     .Where(x => x.UserId == user!.Id)
-                    .Select(x => x.Id)
+                    .Select(x => x.ProjectId)
                     .Distinct()
                     .ToArrayAsync();
 
