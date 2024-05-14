@@ -1,7 +1,7 @@
-﻿using JurDocs.Client;
-using JurDocs.Core.Model;
+﻿using JurDocs.Core.Model;
 using JurDocs.Core.Views;
 using PDFtoImage;
+using System.IO;
 
 namespace JurDocsWinForms
 {
@@ -10,6 +10,8 @@ namespace JurDocsWinForms
     /// </summary>
     public partial class AddNewDoc : Form, IDocEditor
     {
+        private string FileName { get; set; } = @"D:\Users\Downloads\3LKTB_3WGMS.pdf";
+
         public int CurrentPage { get; set; }
 
         public AddNewDoc()
@@ -88,7 +90,7 @@ namespace JurDocsWinForms
 
         private void BtnPageBack_Click(object sender, EventArgs e)
         {
-            var bytes = File.ReadAllBytes(@"D:\Users\Downloads\3LKTB_3WGMS.pdf");
+            var bytes = File.ReadAllBytes(FileName);
 
             var pages = Conversion.GetPageCount(bytes);
             var sizeF = Conversion.GetPageSize(bytes, CurrentPage);
@@ -129,7 +131,7 @@ namespace JurDocsWinForms
 
         private void BtnPageNext_Click(object sender, EventArgs e)
         {
-            var bytes = File.ReadAllBytes(@"D:\Users\Downloads\3LKTB_3WGMS.pdf");
+            var bytes = File.ReadAllBytes(FileName);
 
             var pages = Conversion.GetPageCount(bytes);
             var sizeF = Conversion.GetPageSize(bytes, CurrentPage);
@@ -155,6 +157,93 @@ namespace JurDocsWinForms
         private void BtnOkClick(object sender, EventArgs e)
         {
 
+        }
+
+        private void PbViewer_DragDrop(object sender, DragEventArgs e)
+        {
+            FileName = "e.Data.GetData";
+            CurrentPage = 0;
+            BtnPageBack_Click(sender, e);
+        }
+
+        private void PbViewer_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+            toolStripStatusLabel1.Text = "0";
+
+            //string filename;
+            //validData = GetFilename(out filename, e);
+            //if (validData)
+            //{
+            //    path = filename;
+            //    getImageThread = new Thread(new ThreadStart(LoadImage));
+            //    getImageThread.Start();
+            //}
+            //else
+            //    e.Effect = DragDropEffects.None;
+
+        }
+
+        //private void PbViewer_DragOver(object sender, DragEventArgs e)
+        //{
+        //    e.Effect = DragDropEffects.Move;
+        //    toolStripStatusLabel1.Text = "1";
+        //}
+
+        //private void TextBox1_DragOver(object sender, DragEventArgs e)
+        //{
+        //    e.Effect = DragDropEffects.Copy;
+        //    toolStripStatusLabel1.Text = "2";
+        //}
+
+        //private void TextBox1_DragDrop(object sender, DragEventArgs e)
+        //{
+        //    toolStripStatusLabel1.Text = "3";
+        //}
+
+        private void SplitContainer1_Panel2_DragOver(object sender, DragEventArgs e)
+        {
+            toolStripStatusLabel1.Text = "4";
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private static bool GetFilename(out string filename, DragEventArgs e)
+        {
+            filename = string.Empty;
+
+            if (e.Data == null)
+                return false;
+
+            bool result = false;
+
+            if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy)
+            {
+                if (e.Data.GetData("FileDrop") is Array data)
+                {
+                    if ((data.Length == 1) && (data.GetValue(0) is string))
+                    {
+                        filename = ((string[])data)[0];
+                        string ext = Path.GetExtension(filename).ToLower();
+
+                        string[] extList = [".jpg", ".png", ".bmp", ".pdf"];
+
+                        if (extList.Any(x => x == ext))
+                            result = true;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private void SplitContainer1_Panel2_DragDrop(object sender, DragEventArgs e)
+        {
+            if (GetFilename(out var f, e))
+            {
+                toolStripStatusLabel1.Text = f;
+                FileName = f;
+                CurrentPage = 0;
+                BtnPageBack_Click(sender, e);
+            }
         }
     }
 }

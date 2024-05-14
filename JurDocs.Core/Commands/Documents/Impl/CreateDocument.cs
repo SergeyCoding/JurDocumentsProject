@@ -27,7 +27,7 @@ namespace JurDocs.Core.Commands.Documents.Impl
 
                     var result = answer.Result.Data.First();
 
-                    var answerProject = await state.Client.ProjectGETAsync(result.ProjectId).ConfigureAwait(false);
+                    var answerProject = await state.Client.ProjectGETAsync(result.ProjectId);
                     var jurDocProject = answerProject.Result.Data.First();
 
                     //var letterDocument = new LetterDocument

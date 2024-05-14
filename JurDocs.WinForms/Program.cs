@@ -104,7 +104,7 @@ namespace JurDocs.WinForms
                     try
                     {
                         const string curLogin = "user2";
-                        const string curPwd = "";
+                        const string curPwd = "222";
 
                         var client = JurClientService.JurDocsClientFactory();
                         var token = client.LoginPOSTAsync(new LoginPostRequest { Login = curLogin, Password = curPwd })

@@ -2,7 +2,6 @@
 using JurDocs.Core.Model;
 using JurDocs.Core.States;
 using JurDocs.Core.Views;
-using System.Linq;
 
 namespace JurDocs.Core.Commands.Projects.Impl
 {
@@ -16,6 +15,10 @@ namespace JurDocs.Core.Commands.Projects.Impl
             var persons = (await state.Client.PersonAsync()).Result;
 
             var answer = await state.Client.ProjectGETAsync(state.CurrentProject.Id);
+
+            if (answer.Result.Data.Count == 0)
+                return;
+
             var project = answer.Result.Data.First();
 
             var projDto = new EditedProjectData

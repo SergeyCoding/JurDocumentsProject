@@ -115,6 +115,7 @@
             // 
             // splitContainer1
             // 
+            splitContainer1.AllowDrop = true;
             splitContainer1.BorderStyle = BorderStyle.FixedSingle;
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(0, 0);
@@ -186,9 +187,12 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.AllowDrop = true;
             splitContainer1.Panel2.Controls.Add(pbViewer);
             splitContainer1.Panel2.Controls.Add(textBox1);
             splitContainer1.Panel2.Controls.Add(panel1);
+            splitContainer1.Panel2.DragDrop += SplitContainer1_Panel2_DragDrop;
+            splitContainer1.Panel2.DragOver += SplitContainer1_Panel2_DragOver;
             splitContainer1.Size = new Size(1192, 747);
             splitContainer1.SplitterDistance = 788;
             splitContainer1.TabIndex = 13;
@@ -258,19 +262,19 @@
             label28.TabIndex = 64;
             label28.Text = "10.";
             // 
-            // comboBox20
+            // cbRecipient9
             // 
             cbRecipient9.FormattingEnabled = true;
             cbRecipient9.Location = new Point(435, 552);
-            cbRecipient9.Name = "comboBox20";
+            cbRecipient9.Name = "cbRecipient9";
             cbRecipient9.Size = new Size(299, 23);
             cbRecipient9.TabIndex = 63;
             // 
-            // comboBox21
+            // comboBox9
             // 
             comboBox9.FormattingEnabled = true;
             comboBox9.Location = new Point(58, 552);
-            comboBox9.Name = "comboBox21";
+            comboBox9.Name = "comboBox9";
             comboBox9.Size = new Size(297, 23);
             comboBox9.TabIndex = 62;
             // 
@@ -294,19 +298,19 @@
             label22.TabIndex = 56;
             label22.Text = "9.";
             // 
-            // comboBox14
+            // cbRecipient8
             // 
             cbRecipient8.FormattingEnabled = true;
             cbRecipient8.Location = new Point(435, 523);
-            cbRecipient8.Name = "comboBox14";
+            cbRecipient8.Name = "cbRecipient8";
             cbRecipient8.Size = new Size(299, 23);
             cbRecipient8.TabIndex = 55;
             // 
-            // comboBox15
+            // cbSender8
             // 
             cbSender8.FormattingEnabled = true;
             cbSender8.Location = new Point(58, 523);
-            cbSender8.Name = "comboBox15";
+            cbSender8.Name = "cbSender8";
             cbSender8.Size = new Size(297, 23);
             cbSender8.TabIndex = 54;
             // 
@@ -330,19 +334,19 @@
             label24.TabIndex = 60;
             label24.Text = "8.";
             // 
-            // comboBox16
+            // cbRecipient7
             // 
             cbRecipient7.FormattingEnabled = true;
             cbRecipient7.Location = new Point(435, 494);
-            cbRecipient7.Name = "comboBox16";
+            cbRecipient7.Name = "cbRecipient7";
             cbRecipient7.Size = new Size(299, 23);
             cbRecipient7.TabIndex = 59;
             // 
-            // comboBox17
+            // cbSender7
             // 
             cbSender7.FormattingEnabled = true;
             cbSender7.Location = new Point(58, 494);
-            cbSender7.Name = "comboBox17";
+            cbSender7.Name = "cbSender7";
             cbSender7.Size = new Size(297, 23);
             cbSender7.TabIndex = 58;
             // 
@@ -366,19 +370,19 @@
             label26.TabIndex = 52;
             label26.Text = "7.";
             // 
-            // comboBox18
+            // cbRecipient6
             // 
             cbRecipient6.FormattingEnabled = true;
             cbRecipient6.Location = new Point(435, 465);
-            cbRecipient6.Name = "comboBox18";
+            cbRecipient6.Name = "cbRecipient6";
             cbRecipient6.Size = new Size(299, 23);
             cbRecipient6.TabIndex = 51;
             // 
-            // comboBox19
+            // cbSender6
             // 
             cbSender6.FormattingEnabled = true;
             cbSender6.Location = new Point(58, 465);
-            cbSender6.Name = "comboBox19";
+            cbSender6.Name = "cbSender6";
             cbSender6.Size = new Size(297, 23);
             cbSender6.TabIndex = 50;
             // 
@@ -402,19 +406,19 @@
             label16.TabIndex = 44;
             label16.Text = "6.";
             // 
-            // comboBox8
+            // cbRecipient5
             // 
             cbRecipient5.FormattingEnabled = true;
             cbRecipient5.Location = new Point(435, 437);
-            cbRecipient5.Name = "comboBox8";
+            cbRecipient5.Name = "cbRecipient5";
             cbRecipient5.Size = new Size(299, 23);
             cbRecipient5.TabIndex = 43;
             // 
-            // comboBox9
+            // cbSender5
             // 
             cbSender5.FormattingEnabled = true;
             cbSender5.Location = new Point(58, 437);
-            cbSender5.Name = "comboBox9";
+            cbSender5.Name = "cbSender5";
             cbSender5.Size = new Size(297, 23);
             cbSender5.TabIndex = 42;
             // 
@@ -438,19 +442,19 @@
             label18.TabIndex = 48;
             label18.Text = "5.";
             // 
-            // comboBox10
+            // cbRecipient4
             // 
             cbRecipient4.FormattingEnabled = true;
             cbRecipient4.Location = new Point(435, 408);
-            cbRecipient4.Name = "comboBox10";
+            cbRecipient4.Name = "cbRecipient4";
             cbRecipient4.Size = new Size(299, 23);
             cbRecipient4.TabIndex = 47;
             // 
-            // comboBox11
+            // cbSender4
             // 
             cbSender4.FormattingEnabled = true;
             cbSender4.Location = new Point(58, 408);
-            cbSender4.Name = "comboBox11";
+            cbSender4.Name = "cbSender4";
             cbSender4.Size = new Size(297, 23);
             cbSender4.TabIndex = 46;
             // 
@@ -474,19 +478,19 @@
             label20.TabIndex = 40;
             label20.Text = "4.";
             // 
-            // comboBox12
+            // cbRecipient3
             // 
             cbRecipient3.FormattingEnabled = true;
             cbRecipient3.Location = new Point(435, 379);
-            cbRecipient3.Name = "comboBox12";
+            cbRecipient3.Name = "cbRecipient3";
             cbRecipient3.Size = new Size(299, 23);
             cbRecipient3.TabIndex = 39;
             // 
-            // comboBox13
+            // cbSender3
             // 
             cbSender3.FormattingEnabled = true;
             cbSender3.Location = new Point(58, 379);
-            cbSender3.Name = "comboBox13";
+            cbSender3.Name = "cbSender3";
             cbSender3.Size = new Size(297, 23);
             cbSender3.TabIndex = 38;
             // 
@@ -510,19 +514,19 @@
             label12.TabIndex = 32;
             label12.Text = "3.";
             // 
-            // comboBox4
+            // cbRecipient2
             // 
             cbRecipient2.FormattingEnabled = true;
             cbRecipient2.Location = new Point(435, 349);
-            cbRecipient2.Name = "comboBox4";
+            cbRecipient2.Name = "cbRecipient2";
             cbRecipient2.Size = new Size(299, 23);
             cbRecipient2.TabIndex = 31;
             // 
-            // comboBox5
+            // cbSender2
             // 
             cbSender2.FormattingEnabled = true;
             cbSender2.Location = new Point(58, 349);
-            cbSender2.Name = "comboBox5";
+            cbSender2.Name = "cbSender2";
             cbSender2.Size = new Size(297, 23);
             cbSender2.TabIndex = 30;
             // 
@@ -546,19 +550,19 @@
             label14.TabIndex = 36;
             label14.Text = "2.";
             // 
-            // comboBox6
+            // cbRecipient1
             // 
             cbRecipient1.FormattingEnabled = true;
             cbRecipient1.Location = new Point(435, 320);
-            cbRecipient1.Name = "comboBox6";
+            cbRecipient1.Name = "cbRecipient1";
             cbRecipient1.Size = new Size(299, 23);
             cbRecipient1.TabIndex = 35;
             // 
-            // comboBox7
+            // cbSender1
             // 
             cbSender1.FormattingEnabled = true;
             cbSender1.Location = new Point(58, 320);
-            cbSender1.Name = "comboBox7";
+            cbSender1.Name = "cbSender1";
             cbSender1.Size = new Size(297, 23);
             cbSender1.TabIndex = 34;
             // 
@@ -582,19 +586,19 @@
             label9.TabIndex = 28;
             label9.Text = "1.";
             // 
-            // comboBox3
+            // cbRecipient0
             // 
             cbRecipient0.FormattingEnabled = true;
             cbRecipient0.Location = new Point(435, 291);
-            cbRecipient0.Name = "comboBox3";
+            cbRecipient0.Name = "cbRecipient0";
             cbRecipient0.Size = new Size(299, 23);
             cbRecipient0.TabIndex = 27;
             // 
-            // comboBox2
+            // cbSender0
             // 
             cbSender0.FormattingEnabled = true;
             cbSender0.Location = new Point(58, 291);
-            cbSender0.Name = "comboBox2";
+            cbSender0.Name = "cbSender0";
             cbSender0.Size = new Size(297, 23);
             cbSender0.TabIndex = 26;
             // 
@@ -609,7 +613,6 @@
             // 
             // tbNumberIn
             // 
-            tbNumberIn.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             tbNumberIn.Location = new Point(312, 223);
             tbNumberIn.Name = "tbNumberIn";
             tbNumberIn.Size = new Size(113, 23);
@@ -682,7 +685,6 @@
             // 
             // tbNumberOut
             // 
-            tbNumberOut.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             tbNumberOut.Location = new Point(312, 194);
             tbNumberOut.Name = "tbNumberOut";
             tbNumberOut.Size = new Size(113, 23);
@@ -690,7 +692,6 @@
             // 
             // tbDateIn
             // 
-            tbDateIn.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             tbDateIn.Location = new Point(89, 223);
             tbDateIn.Name = "tbDateIn";
             tbDateIn.Size = new Size(146, 23);
@@ -707,7 +708,6 @@
             // 
             // tbDateOut
             // 
-            tbDateOut.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             tbDateOut.Location = new Point(89, 194);
             tbDateOut.Name = "tbDateOut";
             tbDateOut.Size = new Size(146, 23);
@@ -724,7 +724,6 @@
             // 
             // cbExecutors
             // 
-            cbExecutors.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             cbExecutors.FormattingEnabled = true;
             cbExecutors.Items.AddRange(new object[] { "Выписки", "Справки", "Договора" });
             cbExecutors.Location = new Point(26, 148);
@@ -749,8 +748,11 @@
             pbViewer.Location = new Point(3, 71);
             pbViewer.Name = "pbViewer";
             pbViewer.Size = new Size(384, 579);
+            pbViewer.SizeMode = PictureBoxSizeMode.CenterImage;
             pbViewer.TabIndex = 1;
             pbViewer.TabStop = false;
+            pbViewer.DragDrop += PbViewer_DragDrop;
+            pbViewer.DragEnter += PbViewer_DragEnter;
             // 
             // textBox1
             // 
@@ -816,6 +818,7 @@
             // 
             // AddNewDoc
             // 
+            AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1192, 769);

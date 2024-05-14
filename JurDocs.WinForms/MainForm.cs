@@ -14,7 +14,6 @@ using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms.Model;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JurDocsWinForms
 {

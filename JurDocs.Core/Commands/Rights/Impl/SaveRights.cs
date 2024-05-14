@@ -20,7 +20,7 @@ namespace JurDocs.Core.Commands.Rights.Impl
                 if (answer.Result.Status != "OK")
                     throw new Exception(answer.Result.MessageToUser);
 
-                var resp = await _client.RightsAllAsync(projectId).ConfigureAwait(false);
+                var resp = await _client.RightsAllAsync(projectId);
                 var currentRights = resp.Result;
 
                 foreach (var item in rights)
@@ -32,7 +32,7 @@ namespace JurDocs.Core.Commands.Rights.Impl
                             UserId = item.UserId,
                             DocType = item.DocType.ToString(),
                             ProjectId = projectId,
-                        }).ConfigureAwait(false);
+                        });
                     }
                     else
                     {
