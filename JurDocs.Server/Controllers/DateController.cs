@@ -1,5 +1,6 @@
 ﻿using JurDocs.Common.Loggers;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace JurDocs.Server.Controllers
 {
@@ -14,14 +15,16 @@ namespace JurDocs.Server.Controllers
             _logFile = logFile;
         }
 
+
         [HttpGet]
-        public ActionResult<DateTime> Get()
+        [ProducesResponseType(typeof(DateResp), 200)]
+        public IActionResult Get()
         {
-            var utcNow = DateTime.UtcNow;
+            var date = DateTime.UtcNow;
 
-            _logFile?.LogInformation("{msg}", $"Date: {utcNow}");
+            _logFile?.LogInformation("{msg}", $"Date: {date}");
 
-            return base.Ok(utcNow);
+            return base.Ok(new DateResp(date));
         }
 
         /// <summary>
@@ -31,13 +34,18 @@ namespace JurDocs.Server.Controllers
         /// <returns></returns>
         [Route("Delay")]
         [HttpGet]
-        public async Task<ActionResult<DateTime>> GetDelay(int delay = 1000)
+        [ProducesResponseType(typeof(DelayResp), 200)]
+        public async Task<IActionResult> GetDelay(int delay = 1000)
         {
             _logFile?.LogInformation("{msg}", delay);
 
             await Task.Delay(delay);
 
-            return Ok(delay);
+            return Ok(new DelayResp(delay));
         }
     }
+
+    internal record DateResp([property: SwaggerSchema(Format = "date-time")] DateTime Date);
+
+    internal record DelayResp(int Delay);
 }
