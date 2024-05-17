@@ -9,6 +9,7 @@ using JurDocs.Core.Model;
 using JurDocs.Core.Views;
 using JurDocs.WinForms.DI;
 using JurDocs.WinForms.Model;
+using JurDocs.WinForms.Service;
 using JurDocs.WinForms.Supports;
 using JurDocs.WinForms.ViewModel;
 using JurDocsWinForms.Model;
@@ -508,6 +509,27 @@ namespace JurDocsWinForms
             docEditor.SetData(docData);
 
             (docEditor as Form)?.ShowDialog(this);
+        }
+
+        private void panelDocs_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
+        private void PanelDocs_DragOver(object sender, DragEventArgs e)
+        {
+            //e.Effect = DragDropEffects.Move;
+        }
+
+        private async void PanelDocs_DragDrop(object sender, DragEventArgs e)
+        {
+            var dragDropFileName = new DragDropFileName(e.Data);
+            dragDropFileName.Execute();
+
+            //toolStripStatusLabel1.Text = dragDropFileName.FileName;
+
+            await CoreContainer.Get<ICreateProjectOrDocument>().ExecuteAsync(this);
         }
     }
 }

@@ -406,6 +406,7 @@ namespace JurDocsWinForms
             // 
             // panelDragDrop
             // 
+            panelDragDrop.AllowDrop = true;
             panelDragDrop.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             panelDragDrop.Controls.Add(panelSourceDocs);
             panelDragDrop.Controls.Add(panelDocs);
@@ -435,12 +436,16 @@ namespace JurDocsWinForms
             // 
             // panelDocs
             // 
+            panelDocs.AllowDrop = true;
             panelDocs.BorderStyle = BorderStyle.FixedSingle;
             panelDocs.Controls.Add(label1);
             panelDocs.Location = new Point(20, 37);
             panelDocs.Name = "panelDocs";
             panelDocs.Size = new Size(237, 112);
             panelDocs.TabIndex = 0;
+            panelDocs.DragDrop += PanelDocs_DragDrop;
+            panelDocs.DragOver += PanelDocs_DragOver;
+            panelDocs.Paint += panelDocs_Paint;
             // 
             // label1
             // 
@@ -522,8 +527,8 @@ namespace JurDocsWinForms
             dgvProjectList.ReadOnly = true;
             dgvProjectList.Size = new Size(983, 405);
             dgvProjectList.TabIndex = 6;
-            dgvProjectList.RowEnter += dgvProjectList_RowEnter;
             dgvProjectList.CellMouseDoubleClick += DgvProjectList_CellMouseDoubleClick;
+            dgvProjectList.RowEnter += dgvProjectList_RowEnter;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -790,7 +795,6 @@ namespace JurDocsWinForms
             ResumeLayout(false);
             PerformLayout();
         }
-
 
 
         #endregion

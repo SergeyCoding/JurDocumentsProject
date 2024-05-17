@@ -1,5 +1,6 @@
 ﻿using JurDocs.Core.Model;
 using JurDocs.Core.Views;
+using JurDocs.WinForms.Service;
 using PDFtoImage;
 using System.IO;
 
@@ -207,40 +208,15 @@ namespace JurDocsWinForms
             e.Effect = DragDropEffects.Move;
         }
 
-        private static bool GetFilename(out string filename, DragEventArgs e)
-        {
-            filename = string.Empty;
-
-            if (e.Data == null)
-                return false;
-
-            bool result = false;
-
-            if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy)
-            {
-                if (e.Data.GetData("FileDrop") is Array data)
-                {
-                    if ((data.Length == 1) && (data.GetValue(0) is string))
-                    {
-                        filename = ((string[])data)[0];
-                        string ext = Path.GetExtension(filename).ToLower();
-
-                        string[] extList = [".jpg", ".png", ".bmp", ".pdf"];
-
-                        if (extList.Any(x => x == ext))
-                            result = true;
-                    }
-                }
-            }
-            return result;
-        }
-
         private void SplitContainer1_Panel2_DragDrop(object sender, DragEventArgs e)
         {
-            if (GetFilename(out var f, e))
+            var dragDropFileName = new DragDropFileName(e.Data);
+            dragDropFileName.Execute();
+
+            if (dragDropFileName.IsOk)
             {
-                toolStripStatusLabel1.Text = f;
-                FileName = f;
+                toolStripStatusLabel1.Text = dragDropFileName.FileName;
+                FileName = dragDropFileName.FileName;
                 CurrentPage = 0;
                 BtnPageBack_Click(sender, e);
             }
