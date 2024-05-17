@@ -56,6 +56,13 @@ namespace JurDocs.Core.Commands.Projects.Impl
                     UserName = person.PersonName,
                     Right = GetRight(answerRightsResult, JurDocType.Выписка, person)
                 });
+
+                projDto.ProjectRights_Письма.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = GetRight(answerRightsResult, JurDocType.Письмо, person)
+                });
             }
 
             mainView.OpenProjectEditor(projDto);

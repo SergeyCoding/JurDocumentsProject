@@ -55,6 +55,13 @@ namespace JurDocs.Core.Commands.Projects.Impl
                     UserName = person.PersonName,
                     Right = UserRightType.NotAllow
                 });
+
+                projDto.ProjectRights_Письма.Add(new UserRight
+                {
+                    UserId = person.PersonId,
+                    UserName = person.PersonName,
+                    Right = UserRightType.NotAllow
+                });
             }
 
             mainView.OpenProjectEditor(projDto);

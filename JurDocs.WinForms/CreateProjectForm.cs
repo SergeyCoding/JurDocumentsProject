@@ -76,6 +76,7 @@ namespace JurDocsWinForms
             FillCheckListBox(clbProjectRights, projectData.ProjectRights);
             FillCheckListBox(clbProjectRights_Справки, projectData.ProjectRights_Справки);
             FillCheckListBox(clbProjectRights_Выписки, projectData.ProjectRights_Выписки);
+            FillCheckListBox(clbProjectRights_Письма, projectData.ProjectRights_Письма);
         }
 
         public EditedProjectData GetData()
@@ -88,6 +89,7 @@ namespace JurDocsWinForms
             LoadCheckListBox(clbProjectRights, result.ProjectRights, JurDocType.All);
             LoadCheckListBox(clbProjectRights_Справки, result.ProjectRights_Справки, JurDocType.Справка);
             LoadCheckListBox(clbProjectRights_Выписки, result.ProjectRights_Выписки, JurDocType.Выписка);
+            LoadCheckListBox(clbProjectRights_Письма, result.ProjectRights_Письма, JurDocType.Письмо);
 
             return result;
         }
