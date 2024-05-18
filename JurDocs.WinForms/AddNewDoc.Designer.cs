@@ -831,6 +831,7 @@
             Load += AddNewDoc_Load;
             ResizeEnd += AddNewDoc_ResizeEnd;
             Resize += AddNewDoc_Resize;
+            FormClosing += AddNewDoc_FormClosing;
             splitDocForm.Panel1.ResumeLayout(false);
             splitDocForm.Panel1.PerformLayout();
             splitDocForm.Panel2.ResumeLayout(false);
@@ -844,6 +845,8 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
+        
 
         #endregion
         private OpenFileDialog openFileDialog1;

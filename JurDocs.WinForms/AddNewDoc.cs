@@ -122,12 +122,22 @@ namespace JurDocsWinForms
 
         private void BtnCancelClick(object sender, EventArgs e)
         {
+            var dialogResult = MessageBox.Show("Закрыть без сохранения документа?", "Отмена", MessageBoxButtons.YesNoCancel);
 
+            if (dialogResult == DialogResult.Yes)
+            {
+                Close();
+            }
         }
 
         private void BtnDeleteClick(object sender, EventArgs e)
         {
+            var dialogResult = MessageBox.Show("Удалить документ?", "Удаление", MessageBoxButtons.YesNoCancel);
 
+            if (dialogResult == DialogResult.Yes)
+            {
+                Close();
+            }
         }
 
         private void SplitDocForm_Panel2_DragOver(object sender, DragEventArgs e)
@@ -159,9 +169,24 @@ namespace JurDocsWinForms
             }
         }
 
+        private void AddNewDoc_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Закрыть без сохранения документа?", "Отмена", MessageBoxButtons.YesNoCancel);
+
+            if (dialogResult != DialogResult.Yes)
+            {
+                e.Cancel = true;
+            }
+        }
+
         private void BtnOk_Click(object sender, EventArgs e)
         {
+            var dialogResult = MessageBox.Show("Сохранить документ?", "Сохранение", MessageBoxButtons.YesNoCancel);
 
+            if (dialogResult == DialogResult.Yes)
+            {
+                Close();
+            }
         }
 
         private void AddNewDoc_ResizeEnd(object sender, EventArgs e)
