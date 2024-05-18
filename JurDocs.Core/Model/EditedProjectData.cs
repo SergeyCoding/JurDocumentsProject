@@ -14,5 +14,6 @@ namespace JurDocs.Core.Model
         public List<UserRight> ProjectRights { get; } = [];
         public List<UserRight> ProjectRights_Справки { get; } = [];
         public List<UserRight> ProjectRights_Выписки { get; } = [];
+        public List<UserRight> ProjectRights_Письма { get; } = [];
     }
 }

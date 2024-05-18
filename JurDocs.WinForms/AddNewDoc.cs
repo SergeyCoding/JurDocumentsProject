@@ -1,7 +1,7 @@
 ﻿using JurDocs.Core.Model;
 using JurDocs.Core.Views;
-using PDFtoImage;
-using System.IO;
+using JurDocs.WinForms.Model;
+using JurDocs.WinForms.Service;
 
 namespace JurDocsWinForms
 {
@@ -10,9 +10,12 @@ namespace JurDocsWinForms
     /// </summary>
     public partial class AddNewDoc : Form, IDocEditor
     {
-        private string FileName { get; set; } = @"D:\Users\Downloads\3LKTB_3WGMS.pdf";
+        private readonly PdfPreview _pdfPreview = new();
 
-        public int CurrentPage { get; set; }
+        private FormWindowState _lastWindowState;
+
+        private Image? _defaultImage;
+
 
         public AddNewDoc()
         {
@@ -22,6 +25,7 @@ namespace JurDocsWinForms
         private void AddNewDoc_Load(object sender, EventArgs e)
         {
             MinimumSize = new Size(Width, Height);
+            _lastWindowState = WindowState;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -34,6 +38,8 @@ namespace JurDocsWinForms
 
         public void SetData(EditedDocData data)
         {
+            _defaultImage = pbViewer.Image;
+
             cbProjectName.Items.Clear();
             cbProjectName.Text = data.ProjectName;
 
@@ -59,7 +65,7 @@ namespace JurDocsWinForms
             cbSender6.Text = data.Sender[6];
             cbSender7.Text = data.Sender[7];
             cbSender8.Text = data.Sender[8];
-            comboBox9.Text = data.Sender[9];
+            cbSender9.Text = data.Sender[9];
 
             cbRecipient0.Text = data.Recipient[0];
             cbRecipient1.Text = data.Recipient[1];
@@ -72,9 +78,9 @@ namespace JurDocsWinForms
             cbRecipient8.Text = data.Recipient[8];
             cbRecipient9.Text = data.Recipient[9];
 
-
-
-
+            _pdfPreview.Init(data.FileName);
+            UpdateFormInfo();
+            UpdatePreview();
         }
 
         public EditedDocData GetData()
@@ -82,168 +88,110 @@ namespace JurDocsWinForms
             return new EditedDocData();
         }
 
-        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
 
         private void BtnPageBack_Click(object sender, EventArgs e)
         {
-            var bytes = File.ReadAllBytes(FileName);
-
-            var pages = Conversion.GetPageCount(bytes);
-            var sizeF = Conversion.GetPageSize(bytes, CurrentPage);
-
-            CurrentPage--;
-            if (CurrentPage < 0)
-                CurrentPage = 0;
-
-            btnPageBack.Enabled = CurrentPage > 0;
-            btnPageNext.Enabled = CurrentPage < pages - 1;
-
-
-            UpdatePreview(bytes, sizeF);
+            _pdfPreview.GoPageBack();
+            UpdateFormInfo();
+            UpdatePreview();
         }
 
-        private void UpdatePreview(byte[] bytes, SizeF sizeF)
+        private void UpdatePreview()
         {
-            double kW = pbViewer.Width / sizeF.Width;
-            double kH = pbViewer.Height / sizeF.Height;
-
-            var k = Math.Min(kH, kW) * .95;
-
-
-            var options = new RenderOptions
-            {
-                Width = (int)(sizeF.Width * k),
-                Height = (int)(sizeF.Height * k),
-            };
-
-            using (var memoryStream = new MemoryStream())
-            {
-                Conversion.SaveJpeg(memoryStream, bytes, null, CurrentPage, options);
-                var image = Image.FromStream(memoryStream);
-
-                pbViewer.Image = image;
-            }
+            if (_pdfPreview.IsExistsPreview)
+                pbViewer.Image = _pdfPreview.GetImageForRect(pbViewer.Width, pbViewer.Height);
+            else
+                pbViewer.Image = _defaultImage;
         }
+
+        private void UpdateFormInfo()
+        {
+            btnPageBack.Enabled = _pdfPreview.CanBack;
+            btnPageNext.Enabled = _pdfPreview.CanNext;
+            statusPageCountText.Text = $"Страница: {_pdfPreview.CurrentPage + 1}/{_pdfPreview.TotalPage}";
+        }
+
+
 
         private void BtnPageNext_Click(object sender, EventArgs e)
         {
-            var bytes = File.ReadAllBytes(FileName);
-
-            var pages = Conversion.GetPageCount(bytes);
-            var sizeF = Conversion.GetPageSize(bytes, CurrentPage);
-
-            CurrentPage++;
-            if (CurrentPage >= pages - 1)
-            {
-                CurrentPage = pages - 1;
-                btnPageNext.Enabled = false;
-            }
-
-            btnPageBack.Enabled = CurrentPage > 0;
-            btnPageNext.Enabled = CurrentPage < pages - 1;
-
-            UpdatePreview(bytes, sizeF);
+            _pdfPreview.GoPageNext();
+            UpdateFormInfo();
+            UpdatePreview();
         }
 
         private void BtnCancelClick(object sender, EventArgs e)
         {
+            var dialogResult = MessageBox.Show("Закрыть без сохранения документа?", "Отмена", MessageBoxButtons.YesNoCancel);
 
+            if (dialogResult == DialogResult.Yes)
+            {
+                Close();
+            }
         }
 
-        private void BtnOkClick(object sender, EventArgs e)
+        private void BtnDeleteClick(object sender, EventArgs e)
         {
+            var dialogResult = MessageBox.Show("Удалить документ?", "Удаление", MessageBoxButtons.YesNoCancel);
 
+            if (dialogResult == DialogResult.Yes)
+            {
+                Close();
+            }
         }
 
-        private void PbViewer_DragDrop(object sender, DragEventArgs e)
+        private void SplitDocForm_Panel2_DragOver(object sender, DragEventArgs e)
         {
-            FileName = "e.Data.GetData";
-            CurrentPage = 0;
-            BtnPageBack_Click(sender, e);
-        }
-
-        private void PbViewer_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Copy;
-            toolStripStatusLabel1.Text = "0";
-
-            //string filename;
-            //validData = GetFilename(out filename, e);
-            //if (validData)
-            //{
-            //    path = filename;
-            //    getImageThread = new Thread(new ThreadStart(LoadImage));
-            //    getImageThread.Start();
-            //}
-            //else
-            //    e.Effect = DragDropEffects.None;
-
-        }
-
-        //private void PbViewer_DragOver(object sender, DragEventArgs e)
-        //{
-        //    e.Effect = DragDropEffects.Move;
-        //    toolStripStatusLabel1.Text = "1";
-        //}
-
-        //private void TextBox1_DragOver(object sender, DragEventArgs e)
-        //{
-        //    e.Effect = DragDropEffects.Copy;
-        //    toolStripStatusLabel1.Text = "2";
-        //}
-
-        //private void TextBox1_DragDrop(object sender, DragEventArgs e)
-        //{
-        //    toolStripStatusLabel1.Text = "3";
-        //}
-
-        private void SplitContainer1_Panel2_DragOver(object sender, DragEventArgs e)
-        {
-            toolStripStatusLabel1.Text = "4";
             e.Effect = DragDropEffects.Move;
         }
 
-        private static bool GetFilename(out string filename, DragEventArgs e)
+        private void SplitDocForm_Panel2_DragDrop(object sender, DragEventArgs e)
         {
-            filename = string.Empty;
+            var dragDropFileName = new DragDropFileName(e.Data);
+            dragDropFileName.Execute();
 
-            if (e.Data == null)
-                return false;
-
-            bool result = false;
-
-            if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy)
+            if (dragDropFileName.IsOk)
             {
-                if (e.Data.GetData("FileDrop") is Array data)
-                {
-                    if ((data.Length == 1) && (data.GetValue(0) is string))
-                    {
-                        filename = ((string[])data)[0];
-                        string ext = Path.GetExtension(filename).ToLower();
-
-                        string[] extList = [".jpg", ".png", ".bmp", ".pdf"];
-
-                        if (extList.Any(x => x == ext))
-                            result = true;
-                    }
-                }
+                _pdfPreview.Init(dragDropFileName.FileName);
+                UpdateFormInfo();
+                UpdatePreview();
             }
-            return result;
         }
 
-        private void SplitContainer1_Panel2_DragDrop(object sender, DragEventArgs e)
+        private void AddNewDoc_Resize(object sender, EventArgs e)
         {
-            if (GetFilename(out var f, e))
+            splitDocForm.SplitterDistance = splitDocForm.Panel1MinSize;
+
+            if (WindowState != _lastWindowState)
             {
-                toolStripStatusLabel1.Text = f;
-                FileName = f;
-                CurrentPage = 0;
-                BtnPageBack_Click(sender, e);
+                _lastWindowState = WindowState;
+                UpdatePreview();
             }
+        }
+
+        private void AddNewDoc_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Закрыть без сохранения документа?", "Отмена", MessageBoxButtons.YesNoCancel);
+
+            if (dialogResult != DialogResult.Yes)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void BtnOk_Click(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Сохранить документ?", "Сохранение", MessageBoxButtons.YesNoCancel);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                Close();
+            }
+        }
+
+        private void AddNewDoc_ResizeEnd(object sender, EventArgs e)
+        {
+            UpdatePreview();
         }
     }
 }

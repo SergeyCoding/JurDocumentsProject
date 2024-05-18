@@ -35,10 +35,12 @@
             label3 = new Label();
             cbProjectOwner = new ComboBox();
             label4 = new Label();
-            tabControl1 = new TabControl();
-            tabPage2 = new TabPage();
+            tabControl_Rights = new TabControl();
+            tabPage_Письма = new TabPage();
+            clbProjectRights_Письма = new CheckedListBox();
+            tabPage_Справки = new TabPage();
             clbProjectRights_Справки = new CheckedListBox();
-            tabPage1 = new TabPage();
+            tabPage_Выписки = new TabPage();
             clbProjectRights_Выписки = new CheckedListBox();
             btnOk = new Button();
             btnCancel = new Button();
@@ -47,19 +49,20 @@
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             clbProjectRights = new CheckedListBox();
             label6 = new Label();
-            tabControl1.SuspendLayout();
-            tabPage2.SuspendLayout();
-            tabPage1.SuspendLayout();
+            tabControl_Rights.SuspendLayout();
+            tabPage_Письма.SuspendLayout();
+            tabPage_Справки.SuspendLayout();
+            tabPage_Выписки.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // tbProjectName
             // 
             tbProjectName.Location = new Point(159, 12);
+            tbProjectName.MaxLength = 10;
             tbProjectName.Name = "tbProjectName";
             tbProjectName.Size = new Size(186, 23);
             tbProjectName.TabIndex = 0;
-            tbProjectName.MaxLength = 10;
             // 
             // label1
             // 
@@ -114,27 +117,48 @@
             label4.TabIndex = 6;
             label4.Text = "Владелец";
             // 
-            // tabControl1
+            // tabControl_Rights
             // 
-            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Location = new Point(371, 116);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(389, 365);
-            tabControl1.TabIndex = 7;
+            tabControl_Rights.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControl_Rights.Controls.Add(tabPage_Письма);
+            tabControl_Rights.Controls.Add(tabPage_Справки);
+            tabControl_Rights.Controls.Add(tabPage_Выписки);
+            tabControl_Rights.Location = new Point(371, 116);
+            tabControl_Rights.Name = "tabControl_Rights";
+            tabControl_Rights.SelectedIndex = 0;
+            tabControl_Rights.Size = new Size(389, 365);
+            tabControl_Rights.TabIndex = 7;
             // 
-            // tabPage2
+            // tabPage_Письма
             // 
-            tabPage2.Controls.Add(clbProjectRights_Справки);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(381, 337);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "Справки";
-            tabPage2.UseVisualStyleBackColor = true;
+            tabPage_Письма.Controls.Add(clbProjectRights_Письма);
+            tabPage_Письма.Location = new Point(4, 24);
+            tabPage_Письма.Name = "tabPage_Письма";
+            tabPage_Письма.Padding = new Padding(3);
+            tabPage_Письма.Size = new Size(381, 337);
+            tabPage_Письма.TabIndex = 2;
+            tabPage_Письма.Text = "Письма";
+            tabPage_Письма.UseVisualStyleBackColor = true;
+            // 
+            // clbProjectRights_Письма
+            // 
+            clbProjectRights_Письма.Dock = DockStyle.Fill;
+            clbProjectRights_Письма.Items.AddRange(new object[] { "1", "2", "3" });
+            clbProjectRights_Письма.Location = new Point(3, 3);
+            clbProjectRights_Письма.Name = "clbProjectRights_Письма";
+            clbProjectRights_Письма.Size = new Size(375, 331);
+            clbProjectRights_Письма.TabIndex = 0;
+            // 
+            // tabPage_Справки
+            // 
+            tabPage_Справки.Controls.Add(clbProjectRights_Справки);
+            tabPage_Справки.Location = new Point(4, 24);
+            tabPage_Справки.Name = "tabPage_Справки";
+            tabPage_Справки.Padding = new Padding(3);
+            tabPage_Справки.Size = new Size(381, 337);
+            tabPage_Справки.TabIndex = 1;
+            tabPage_Справки.Text = "Справки";
+            tabPage_Справки.UseVisualStyleBackColor = true;
             // 
             // clbProjectRights_Справки
             // 
@@ -146,16 +170,16 @@
             clbProjectRights_Справки.Size = new Size(375, 331);
             clbProjectRights_Справки.TabIndex = 0;
             // 
-            // tabPage1
+            // tabPage_Выписки
             // 
-            tabPage1.Controls.Add(clbProjectRights_Выписки);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(381, 337);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "Выписки";
-            tabPage1.UseVisualStyleBackColor = true;
+            tabPage_Выписки.Controls.Add(clbProjectRights_Выписки);
+            tabPage_Выписки.Location = new Point(4, 24);
+            tabPage_Выписки.Name = "tabPage_Выписки";
+            tabPage_Выписки.Padding = new Padding(3);
+            tabPage_Выписки.Size = new Size(381, 337);
+            tabPage_Выписки.TabIndex = 0;
+            tabPage_Выписки.Text = "Выписки";
+            tabPage_Выписки.UseVisualStyleBackColor = true;
             // 
             // clbProjectRights_Выписки
             // 
@@ -243,7 +267,7 @@
             Controls.Add(label5);
             Controls.Add(btnCancel);
             Controls.Add(btnOk);
-            Controls.Add(tabControl1);
+            Controls.Add(tabControl_Rights);
             Controls.Add(label4);
             Controls.Add(cbProjectOwner);
             Controls.Add(label3);
@@ -256,10 +280,10 @@
             Name = "CreateProjectForm";
             Text = "Создать проект";
             TopMost = true;
-            //Load += CreateProjectForm_Load;
-            tabControl1.ResumeLayout(false);
-            tabPage2.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
+            tabControl_Rights.ResumeLayout(false);
+            tabPage_Письма.ResumeLayout(false);
+            tabPage_Справки.ResumeLayout(false);
+            tabPage_Выписки.ResumeLayout(false);
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             ResumeLayout(false);
@@ -275,9 +299,9 @@
         private Label label3;
         private ComboBox cbProjectOwner;
         private Label label4;
-        private TabControl tabControl1;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
+        private TabControl tabControl_Rights;
+        private TabPage tabPage_Выписки;
+        private TabPage tabPage_Справки;
         private Button btnOk;
         private Button btnCancel;
         private Label label5;
@@ -285,7 +309,9 @@
         private ToolStripStatusLabel toolStripStatusLabel1;
         private CheckedListBox clbProjectRights_Выписки;
         private CheckedListBox clbProjectRights_Справки;
+        private CheckedListBox clbProjectRights_Письма;
         private CheckedListBox clbProjectRights;
         private Label label6;
+        private TabPage tabPage_Письма;
     }
 }

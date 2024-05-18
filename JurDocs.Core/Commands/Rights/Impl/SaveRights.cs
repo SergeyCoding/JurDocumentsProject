@@ -58,6 +58,7 @@ namespace JurDocs.Core.Commands.Rights.Impl
             rights.AddRange(project.ProjectRights);
             rights.AddRange(project.ProjectRights_Справки);
             rights.AddRange(project.ProjectRights_Выписки);
+            rights.AddRange(project.ProjectRights_Письма);
 
             await ExecuteAsync(project.ProjectId, rights);
         }
