@@ -16,6 +16,16 @@ namespace JurDocs.Core.Commands.Documents.Impl
 
         public async Task ExecuteAsync(IMainView mainView)
         {
+            await Create_Письмо(mainView, null);
+        }
+
+        public async Task ExecuteWithDragDropAsync(IMainView mainView, string fileName)
+        {
+            await Create_Письмо(mainView, fileName);
+        }
+
+        private async Task Create_Письмо(IMainView mainView, string? fileName)
+        {
             try
             {
                 if (state.CurrentPage == Constants.AppPage.Письмо)
@@ -29,22 +39,6 @@ namespace JurDocs.Core.Commands.Documents.Impl
 
                     var answerProject = await state.Client.ProjectGETAsync(result.ProjectId);
                     var jurDocProject = answerProject.Result.Data.First();
-
-                    //var letterDocument = new LetterDocument
-                    //{
-                    //    Id = result.Id,
-                    //    DateIncoming = result.DateIncoming,
-                    //    DateOutgoing = result.DateOutgoing,
-                    //    DocType = result.DocType,
-                    //    ExecutivePerson = result.ExecutivePerson,
-                    //    IsDeleted = result.IsDeleted,
-                    //    Name = result.Name,
-                    //    NumberIncoming = result.NumberIncoming,
-                    //    NumberOutgoing = result.NumberOutgoing,
-                    //    ProjectId = result.ProjectId,
-                    //    Sender = [.. result.Sender],
-                    //    Recipient = [.. result.Recipient],
-                    //};
 
                     var editedDocData = new EditedDocData
                     {
@@ -62,7 +56,8 @@ namespace JurDocs.Core.Commands.Documents.Impl
                         Recipient = [.. result.Recipient],
                         ProjectName = jurDocProject.Name,
                         OpenType = OpenEditorType.Create,
-                         CloseType  =   CloseEditorType.None, 
+                        CloseType = CloseEditorType.None,
+                        FileName = fileName
                     };
 
                     for (var i = editedDocData.Sender.Count; i < 10; i++)

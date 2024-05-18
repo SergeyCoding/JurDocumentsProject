@@ -8,5 +8,6 @@ namespace JurDocs.Core.Commands
     public interface ICreateProjectOrDocument
     {
         Task ExecuteAsync(IMainView mainView);
+        Task ExecuteWithDragDropAsync(IMainView mainView, string fileName);
     }
 }

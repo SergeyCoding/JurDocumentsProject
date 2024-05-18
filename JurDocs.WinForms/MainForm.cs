@@ -511,16 +511,6 @@ namespace JurDocsWinForms
             (docEditor as Form)?.ShowDialog(this);
         }
 
-        private void panelDocs_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-        private void PanelDocs_DragOver(object sender, DragEventArgs e)
-        {
-            //e.Effect = DragDropEffects.Move;
-        }
 
         private async void PanelDocs_DragDrop(object sender, DragEventArgs e)
         {
@@ -529,7 +519,7 @@ namespace JurDocsWinForms
 
             //toolStripStatusLabel1.Text = dragDropFileName.FileName;
 
-            await CoreContainer.Get<ICreateProjectOrDocument>().ExecuteAsync(this);
+            await CoreContainer.Get<ICreateProjectOrDocument>().ExecuteWithDragDropAsync(this, dragDropFileName.FileName);
         }
     }
 }

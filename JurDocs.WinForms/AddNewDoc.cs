@@ -2,7 +2,6 @@
 using JurDocs.Core.Views;
 using JurDocs.WinForms.Service;
 using PDFtoImage;
-using System.IO;
 
 namespace JurDocsWinForms
 {
@@ -11,7 +10,7 @@ namespace JurDocsWinForms
     /// </summary>
     public partial class AddNewDoc : Form, IDocEditor
     {
-        private string FileName { get; set; } = @"D:\Users\Downloads\3LKTB_3WGMS.pdf";
+        private string FileName { get; set; } = string.Empty;
 
         public int CurrentPage { get; set; }
 
@@ -73,19 +72,17 @@ namespace JurDocsWinForms
             cbRecipient8.Text = data.Recipient[8];
             cbRecipient9.Text = data.Recipient[9];
 
-
-
-
+            FileName = data.FileName ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(FileName))
+            {
+                CurrentPage = 0;
+                BtnPageBack_Click(this, EventArgs.Empty);
+            }
         }
 
         public EditedDocData GetData()
         {
             return new EditedDocData();
-        }
-
-        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
         }
 
 
@@ -100,11 +97,16 @@ namespace JurDocsWinForms
             if (CurrentPage < 0)
                 CurrentPage = 0;
 
-            btnPageBack.Enabled = CurrentPage > 0;
-            btnPageNext.Enabled = CurrentPage < pages - 1;
-
+            UpdateFormInfo(CurrentPage + 1, pages);
 
             UpdatePreview(bytes, sizeF);
+        }
+
+        private void UpdateFormInfo(int currentPage, int pages)
+        {
+            btnPageBack.Enabled = currentPage > 1;
+            btnPageNext.Enabled = currentPage < pages;
+            statusPageCountText.Text = $"Страница: {currentPage}/{pages}";
         }
 
         private void UpdatePreview(byte[] bytes, SizeF sizeF)
@@ -144,8 +146,7 @@ namespace JurDocsWinForms
                 btnPageNext.Enabled = false;
             }
 
-            btnPageBack.Enabled = CurrentPage > 0;
-            btnPageNext.Enabled = CurrentPage < pages - 1;
+            UpdateFormInfo(CurrentPage + 1, pages);
 
             UpdatePreview(bytes, sizeF);
         }

@@ -34,5 +34,21 @@ namespace JurDocs.Core.Commands.Impl
                 return;
             }
         }
+
+        public async Task ExecuteWithDragDropAsync(IMainView mainView, string fileName)
+        {
+            if (mainView == null)
+                throw new Exception();
+
+            if (state.CurrentPage == AppPage.Проект)
+                return;
+
+            if (state.CurrentPage == AppPage.Письмо)
+            {
+                await createDocument.ExecuteWithDragDropAsync(mainView, fileName);
+                return;
+            }
+
+        }
     }
 }

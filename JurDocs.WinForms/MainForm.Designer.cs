@@ -444,8 +444,6 @@ namespace JurDocsWinForms
             panelDocs.Size = new Size(237, 112);
             panelDocs.TabIndex = 0;
             panelDocs.DragDrop += PanelDocs_DragDrop;
-            panelDocs.DragOver += PanelDocs_DragOver;
-            panelDocs.Paint += panelDocs_Paint;
             // 
             // label1
             // 

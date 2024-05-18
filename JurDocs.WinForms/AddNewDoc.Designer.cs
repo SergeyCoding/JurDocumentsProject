@@ -99,7 +99,7 @@
             btnPageBack = new Button();
             ssDocEdit = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
-            toolStripStatusLabel2 = new ToolStripStatusLabel();
+            statusPageCountText = new ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -797,7 +797,7 @@
             // 
             // ssDocEdit
             // 
-            ssDocEdit.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel2 });
+            ssDocEdit.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, statusPageCountText });
             ssDocEdit.Location = new Point(0, 747);
             ssDocEdit.Name = "ssDocEdit";
             ssDocEdit.Size = new Size(1192, 22);
@@ -810,11 +810,11 @@
             toolStripStatusLabel1.Size = new Size(23, 17);
             toolStripStatusLabel1.Text = "OK";
             // 
-            // toolStripStatusLabel2
+            // statusPageCountText
             // 
-            toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            toolStripStatusLabel2.Size = new Size(99, 17);
-            toolStripStatusLabel2.Text = "Страница: X/XXX";
+            statusPageCountText.Name = "statusPageCountText";
+            statusPageCountText.Size = new Size(99, 17);
+            statusPageCountText.Text = "Страница: X/XXX";
             // 
             // AddNewDoc
             // 
@@ -911,7 +911,7 @@
         private Button btnPageBack;
         private StatusStrip ssDocEdit;
         private ToolStripStatusLabel toolStripStatusLabel1;
-        private ToolStripStatusLabel toolStripStatusLabel2;
+        private ToolStripStatusLabel statusPageCountText;
         private Panel panel1;
         private Button button3;
     }

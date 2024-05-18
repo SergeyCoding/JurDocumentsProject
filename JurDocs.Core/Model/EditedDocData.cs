@@ -45,5 +45,10 @@ namespace JurDocs.Core.Model
         /// Получатели списком
         /// </summary>
         public List<string> RecipientList { get; set; } = [];
+
+        /// <summary>
+        /// Имя файла
+        /// </summary>
+        public string? FileName { get; internal set; }
     }
 }
