@@ -108,7 +108,11 @@ namespace JurDocsWinForms
         {
             btnPageBack.Enabled = _pdfPreview.CanBack;
             btnPageNext.Enabled = _pdfPreview.CanNext;
-            statusPageCountText.Text = $"Страница: {_pdfPreview.CurrentPage + 1}/{_pdfPreview.TotalPage}";
+
+            if (_pdfPreview.IsExistsPreview)
+                statusPageCountText.Text = $"Страница: {_pdfPreview.CurrentPage + 1}/{_pdfPreview.TotalPage}";
+            else
+                statusPageCountText.Text = "Не выбран скан документа";
         }
 
 
@@ -126,6 +130,7 @@ namespace JurDocsWinForms
 
             if (dialogResult == DialogResult.Yes)
             {
+                FormClosing -= AddNewDoc_FormClosing!;
                 Close();
             }
         }
@@ -136,6 +141,7 @@ namespace JurDocsWinForms
 
             if (dialogResult == DialogResult.Yes)
             {
+                FormClosing -= AddNewDoc_FormClosing!;
                 Close();
             }
         }
@@ -185,6 +191,7 @@ namespace JurDocsWinForms
 
             if (dialogResult == DialogResult.Yes)
             {
+                FormClosing -= AddNewDoc_FormClosing!;
                 Close();
             }
         }
