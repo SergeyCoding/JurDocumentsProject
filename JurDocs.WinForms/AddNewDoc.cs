@@ -14,6 +14,9 @@ namespace JurDocsWinForms
 
         public int CurrentPage { get; set; }
 
+        private FormWindowState _lastWindowState;
+
+
         public AddNewDoc()
         {
             InitializeComponent();
@@ -22,6 +25,10 @@ namespace JurDocsWinForms
         private void AddNewDoc_Load(object sender, EventArgs e)
         {
             MinimumSize = new Size(Width, Height);
+            _lastWindowState = WindowState;
+            btnPageBack.Enabled = false;
+            btnPageNext.Enabled = false;
+            statusPageCountText.Text = "Не выбран скан документа";
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -59,7 +66,7 @@ namespace JurDocsWinForms
             cbSender6.Text = data.Sender[6];
             cbSender7.Text = data.Sender[7];
             cbSender8.Text = data.Sender[8];
-            comboBox9.Text = data.Sender[9];
+            cbSender9.Text = data.Sender[9];
 
             cbRecipient0.Text = data.Recipient[0];
             cbRecipient1.Text = data.Recipient[1];
@@ -156,69 +163,55 @@ namespace JurDocsWinForms
 
         }
 
-        private void BtnOkClick(object sender, EventArgs e)
+        private void BtnDeleteClick(object sender, EventArgs e)
         {
 
         }
 
-        private void PbViewer_DragDrop(object sender, DragEventArgs e)
+        private void SplitDocForm_Panel2_DragOver(object sender, DragEventArgs e)
         {
-            FileName = "e.Data.GetData";
-            CurrentPage = 0;
-            BtnPageBack_Click(sender, e);
-        }
-
-        private void PbViewer_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Copy;
-            toolStripStatusLabel1.Text = "0";
-
-            //string filename;
-            //validData = GetFilename(out filename, e);
-            //if (validData)
-            //{
-            //    path = filename;
-            //    getImageThread = new Thread(new ThreadStart(LoadImage));
-            //    getImageThread.Start();
-            //}
-            //else
-            //    e.Effect = DragDropEffects.None;
-
-        }
-
-        //private void PbViewer_DragOver(object sender, DragEventArgs e)
-        //{
-        //    e.Effect = DragDropEffects.Move;
-        //    toolStripStatusLabel1.Text = "1";
-        //}
-
-        //private void TextBox1_DragOver(object sender, DragEventArgs e)
-        //{
-        //    e.Effect = DragDropEffects.Copy;
-        //    toolStripStatusLabel1.Text = "2";
-        //}
-
-        //private void TextBox1_DragDrop(object sender, DragEventArgs e)
-        //{
-        //    toolStripStatusLabel1.Text = "3";
-        //}
-
-        private void SplitContainer1_Panel2_DragOver(object sender, DragEventArgs e)
-        {
-            toolStripStatusLabel1.Text = "4";
             e.Effect = DragDropEffects.Move;
         }
 
-        private void SplitContainer1_Panel2_DragDrop(object sender, DragEventArgs e)
+        private void SplitDocForm_Panel2_DragDrop(object sender, DragEventArgs e)
         {
             var dragDropFileName = new DragDropFileName(e.Data);
             dragDropFileName.Execute();
 
             if (dragDropFileName.IsOk)
             {
-                toolStripStatusLabel1.Text = dragDropFileName.FileName;
                 FileName = dragDropFileName.FileName;
                 CurrentPage = 0;
+                BtnPageBack_Click(sender, e);
+            }
+        }
+
+        private void AddNewDoc_Resize(object sender, EventArgs e)
+        {
+            splitDocForm.SplitterDistance = splitDocForm.Panel1MinSize;
+
+            if (WindowState != _lastWindowState)
+            {
+                _lastWindowState = WindowState;
+
+                if (!string.IsNullOrEmpty(FileName))
+                {
+                    CurrentPage++;
+                    BtnPageBack_Click(sender, e);
+                }
+            }
+        }
+
+        private void BtnOk_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddNewDoc_ResizeEnd(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(FileName))
+            {
+                CurrentPage++;
                 BtnPageBack_Click(sender, e);
             }
         }
