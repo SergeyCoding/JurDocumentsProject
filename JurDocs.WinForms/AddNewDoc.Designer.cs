@@ -167,6 +167,7 @@
             splitDocForm.Panel1.Controls.Add(cbRecipient3);
             splitDocForm.Panel1.Controls.Add(cbRecipient4);
             splitDocForm.Panel1.Controls.Add(label11);
+            splitDocForm.Panel1.Controls.Add(cbExecutors);
             splitDocForm.Panel1.Controls.Add(btnOk);
             splitDocForm.Panel1.Controls.Add(btnDelete);
             splitDocForm.Panel1.Controls.Add(btnCancel);
@@ -183,7 +184,6 @@
             splitDocForm.Panel1.Controls.Add(label3);
             splitDocForm.Panel1.Controls.Add(label2);
             splitDocForm.Panel1.Controls.Add(label1);
-            splitDocForm.Panel1.Controls.Add(cbExecutors);
             splitDocForm.Panel1MinSize = 750;
             // 
             // splitDocForm.Panel2
@@ -197,6 +197,7 @@
             splitDocForm.Size = new Size(1192, 747);
             splitDocForm.SplitterDistance = 750;
             splitDocForm.TabIndex = 13;
+            splitDocForm.IsSplitterFixed = true;
             // 
             // cbProjectName
             // 

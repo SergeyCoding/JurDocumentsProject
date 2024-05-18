@@ -1,7 +1,7 @@
 ﻿using JurDocs.Core.Model;
 using JurDocs.Core.Views;
+using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Service;
-using PDFtoImage;
 
 namespace JurDocsWinForms
 {
@@ -10,11 +10,11 @@ namespace JurDocsWinForms
     /// </summary>
     public partial class AddNewDoc : Form, IDocEditor
     {
-        private string FileName { get; set; } = string.Empty;
-
-        public int CurrentPage { get; set; }
+        private readonly PdfPreview _pdfPreview = new();
 
         private FormWindowState _lastWindowState;
+
+        private Image? _defaultImage;
 
 
         public AddNewDoc()
@@ -26,9 +26,6 @@ namespace JurDocsWinForms
         {
             MinimumSize = new Size(Width, Height);
             _lastWindowState = WindowState;
-            btnPageBack.Enabled = false;
-            btnPageNext.Enabled = false;
-            statusPageCountText.Text = "Не выбран скан документа";
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -41,6 +38,8 @@ namespace JurDocsWinForms
 
         public void SetData(EditedDocData data)
         {
+            _defaultImage = pbViewer.Image;
+
             cbProjectName.Items.Clear();
             cbProjectName.Text = data.ProjectName;
 
@@ -79,12 +78,9 @@ namespace JurDocsWinForms
             cbRecipient8.Text = data.Recipient[8];
             cbRecipient9.Text = data.Recipient[9];
 
-            FileName = data.FileName ?? string.Empty;
-            if (!string.IsNullOrWhiteSpace(FileName))
-            {
-                CurrentPage = 0;
-                BtnPageBack_Click(this, EventArgs.Empty);
-            }
+            _pdfPreview.Init(data.FileName);
+            UpdateFormInfo();
+            UpdatePreview();
         }
 
         public EditedDocData GetData()
@@ -95,67 +91,33 @@ namespace JurDocsWinForms
 
         private void BtnPageBack_Click(object sender, EventArgs e)
         {
-            var bytes = File.ReadAllBytes(FileName);
-
-            var pages = Conversion.GetPageCount(bytes);
-            var sizeF = Conversion.GetPageSize(bytes, CurrentPage);
-
-            CurrentPage--;
-            if (CurrentPage < 0)
-                CurrentPage = 0;
-
-            UpdateFormInfo(CurrentPage + 1, pages);
-
-            UpdatePreview(bytes, sizeF);
+            _pdfPreview.GoPageBack();
+            UpdateFormInfo();
+            UpdatePreview();
         }
 
-        private void UpdateFormInfo(int currentPage, int pages)
+        private void UpdatePreview()
         {
-            btnPageBack.Enabled = currentPage > 1;
-            btnPageNext.Enabled = currentPage < pages;
-            statusPageCountText.Text = $"Страница: {currentPage}/{pages}";
+            if (_pdfPreview.IsExistsPreview)
+                pbViewer.Image = _pdfPreview.GetImageForRect(pbViewer.Width, pbViewer.Height);
+            else
+                pbViewer.Image = _defaultImage;
         }
 
-        private void UpdatePreview(byte[] bytes, SizeF sizeF)
+        private void UpdateFormInfo()
         {
-            double kW = pbViewer.Width / sizeF.Width;
-            double kH = pbViewer.Height / sizeF.Height;
-
-            var k = Math.Min(kH, kW) * .95;
-
-
-            var options = new RenderOptions
-            {
-                Width = (int)(sizeF.Width * k),
-                Height = (int)(sizeF.Height * k),
-            };
-
-            using (var memoryStream = new MemoryStream())
-            {
-                Conversion.SaveJpeg(memoryStream, bytes, null, CurrentPage, options);
-                var image = Image.FromStream(memoryStream);
-
-                pbViewer.Image = image;
-            }
+            btnPageBack.Enabled = _pdfPreview.CanBack;
+            btnPageNext.Enabled = _pdfPreview.CanNext;
+            statusPageCountText.Text = $"Страница: {_pdfPreview.CurrentPage + 1}/{_pdfPreview.TotalPage}";
         }
+
+
 
         private void BtnPageNext_Click(object sender, EventArgs e)
         {
-            var bytes = File.ReadAllBytes(FileName);
-
-            var pages = Conversion.GetPageCount(bytes);
-            var sizeF = Conversion.GetPageSize(bytes, CurrentPage);
-
-            CurrentPage++;
-            if (CurrentPage >= pages - 1)
-            {
-                CurrentPage = pages - 1;
-                btnPageNext.Enabled = false;
-            }
-
-            UpdateFormInfo(CurrentPage + 1, pages);
-
-            UpdatePreview(bytes, sizeF);
+            _pdfPreview.GoPageNext();
+            UpdateFormInfo();
+            UpdatePreview();
         }
 
         private void BtnCancelClick(object sender, EventArgs e)
@@ -180,9 +142,9 @@ namespace JurDocsWinForms
 
             if (dragDropFileName.IsOk)
             {
-                FileName = dragDropFileName.FileName;
-                CurrentPage = 0;
-                BtnPageBack_Click(sender, e);
+                _pdfPreview.Init(dragDropFileName.FileName);
+                UpdateFormInfo();
+                UpdatePreview();
             }
         }
 
@@ -193,12 +155,7 @@ namespace JurDocsWinForms
             if (WindowState != _lastWindowState)
             {
                 _lastWindowState = WindowState;
-
-                if (!string.IsNullOrEmpty(FileName))
-                {
-                    CurrentPage++;
-                    BtnPageBack_Click(sender, e);
-                }
+                UpdatePreview();
             }
         }
 
@@ -209,11 +166,7 @@ namespace JurDocsWinForms
 
         private void AddNewDoc_ResizeEnd(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(FileName))
-            {
-                CurrentPage++;
-                BtnPageBack_Click(sender, e);
-            }
+            UpdatePreview();
         }
     }
 }
