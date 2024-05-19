@@ -491,6 +491,11 @@ namespace JurDocsWinForms
             //}
         }
 
+        private async void DgvLetterDocsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            await CoreContainer.Get<IOpenProjectOrDocument>().ExecuteAsync(this);
+        }
+
         private async void dgvLetterDocsList_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvLetterDocsList.DataSource is SortableBindingList<LetterDocsListTable> letterTable)

@@ -142,6 +142,7 @@ namespace JurDocsWinForms
             dgvLetterDocsList.TabIndex = 5;
             dgvLetterDocsList.CellContentClick += dataGridView1_CellContentClick;
             dgvLetterDocsList.RowEnter += dgvLetterDocsList_RowEnter;
+            dgvLetterDocsList.CellMouseDoubleClick += DgvLetterDocsList_CellMouseDoubleClick;
             // 
             // id
             // 
@@ -793,6 +794,8 @@ namespace JurDocsWinForms
             ResumeLayout(false);
             PerformLayout();
         }
+
+
 
 
         #endregion
