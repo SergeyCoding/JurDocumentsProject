@@ -1,7 +1,5 @@
-﻿using JurDocs.Common.EnumTypes;
-using JurDocs.Core.Model;
+﻿using JurDocs.Core.Model;
 using JurDocs.Core.States;
-using JurDocs.Core.Views;
 
 namespace JurDocs.Core.Commands.Documents.Impl
 {
@@ -11,15 +9,15 @@ namespace JurDocs.Core.Commands.Documents.Impl
     internal class SaveDocument(AppState state) : ISaveDocument
     {
 
-        public async Task ExecuteAsync(IMainView mainView, EditedDocData data)
+        public async Task ExecuteAsync( EditedDocData data)
         {
             if (state.CurrentPage == Constants.AppPage.Письмо)
             {
-                await Save_Письмо(mainView, data);
+                await Save_Письмо(data);
             }
         }
 
-        private async Task Save_Письмо(IMainView mainView, EditedDocData data)
+        private async Task Save_Письмо(EditedDocData data)
         {
             try
             {

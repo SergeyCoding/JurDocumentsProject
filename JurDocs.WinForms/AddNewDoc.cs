@@ -29,17 +29,8 @@ namespace JurDocsWinForms
         private void AddNewDoc_Load(object sender, EventArgs e)
         {
             MinimumSize = new Size(Width, Height);
-            _lastWindowState = WindowState;
+            _lastWindowState = WindowState;            
         }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            var dialogResult = openFileDialog1.ShowDialog(this);
-
-            if (dialogResult == DialogResult.OK)
-                tbDateOut.Text = openFileDialog1.FileName;
-        }
-
 
         public void SetData(EditedDocData data)
         {

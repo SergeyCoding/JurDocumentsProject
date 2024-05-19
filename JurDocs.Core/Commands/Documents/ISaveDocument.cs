@@ -8,7 +8,7 @@ namespace JurDocs.Core.Commands.Documents
     /// </summary>
     public interface ISaveDocument
     {
-        Task ExecuteAsync(IMainView mainView, EditedDocData data);
+        Task ExecuteAsync(EditedDocData data);
     }
 
 

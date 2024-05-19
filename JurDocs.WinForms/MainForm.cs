@@ -514,18 +514,9 @@ namespace JurDocsWinForms
             var docEditor = Views.Container().Resolve<IDocEditor>();
             docEditor.SetData(docData);
 
-            var docEditorResult = (docEditor as Form)?.ShowDialog(this);
+            (docEditor as Form)?.ShowDialog(this);
 
-            var editedDocData = docEditor.GetData();
-
-            if (docEditorResult == DialogResult.Cancel)
-                docEditor.CloseType = CloseEditorType.Cancel;
-
-            if (docEditorResult == DialogResult.OK)
-                docEditor.CloseType = CloseEditorType.Save;
-
-            await CoreContainer.Get<ICloseDocument>().ExecuteAsync(docEditor, editedDocData);
-
+            await CoreContainer.Get<ICloseDocument>().ExecuteAsync(docEditor.GetData());
         }
 
 
