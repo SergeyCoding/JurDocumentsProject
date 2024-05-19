@@ -11,6 +11,7 @@ namespace JurDocs.Core.Views
         CloseEditorType CloseType { get; set; }
 
         void SetData(EditedDocData data);
+
         EditedDocData GetData();
     }
 }
