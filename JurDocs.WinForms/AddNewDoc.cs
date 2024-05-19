@@ -1,4 +1,5 @@
-﻿using JurDocs.Core.Model;
+﻿using JurDocs.Common.EnumTypes;
+using JurDocs.Core.Model;
 using JurDocs.Core.Views;
 using JurDocs.WinForms.Model;
 using JurDocs.WinForms.Service;
@@ -16,6 +17,9 @@ namespace JurDocsWinForms
 
         private Image? _defaultImage;
 
+        private EditedDocData _editedDocData;
+
+        public CloseEditorType CloseType { get; set; }
 
         public AddNewDoc()
         {
@@ -36,8 +40,11 @@ namespace JurDocsWinForms
                 tbDateOut.Text = openFileDialog1.FileName;
         }
 
+
         public void SetData(EditedDocData data)
         {
+            _editedDocData = data;
+
             _defaultImage = pbViewer.Image;
 
             cbProjectName.Items.Clear();
@@ -85,7 +92,28 @@ namespace JurDocsWinForms
 
         public EditedDocData GetData()
         {
-            return new EditedDocData();
+            if (DateTime.TryParse(tbDateIn.Text, out var dateTimeIn))
+            {
+
+            }
+
+            _ = DateTime.TryParse(tbDateOut.Text, out var dateTimeOut);
+
+            return new EditedDocData
+            {
+                Id = _editedDocData.Id,
+                CloseType = CloseType,
+                DateIncoming = dateTimeIn,
+                DateOutgoing = dateTimeOut,
+                DocName = tbCaption.Text,
+                DocType = _editedDocData.DocType,
+                ExecutivePerson = _editedDocData.ExecutivePerson,
+                FileName = _pdfPreview.FileName,
+                IsDeleted = _editedDocData.IsDeleted,
+                NumberIncoming = tbNumberIn.Text,
+                NumberOutgoing = tbNumberOut.Text,
+                ProjectId = _editedDocData.ProjectId,
+            };
         }
 
 
@@ -122,28 +150,6 @@ namespace JurDocsWinForms
             _pdfPreview.GoPageNext();
             UpdateFormInfo();
             UpdatePreview();
-        }
-
-        private void BtnCancelClick(object sender, EventArgs e)
-        {
-            var dialogResult = MessageBox.Show("Закрыть без сохранения документа?", "Отмена", MessageBoxButtons.YesNoCancel);
-
-            if (dialogResult == DialogResult.Yes)
-            {
-                FormClosing -= AddNewDoc_FormClosing!;
-                Close();
-            }
-        }
-
-        private void BtnDeleteClick(object sender, EventArgs e)
-        {
-            var dialogResult = MessageBox.Show("Удалить документ?", "Удаление", MessageBoxButtons.YesNoCancel);
-
-            if (dialogResult == DialogResult.Yes)
-            {
-                FormClosing -= AddNewDoc_FormClosing!;
-                Close();
-            }
         }
 
         private void SplitDocForm_Panel2_DragOver(object sender, DragEventArgs e)
@@ -191,6 +197,31 @@ namespace JurDocsWinForms
 
             if (dialogResult == DialogResult.Yes)
             {
+                CloseType = CloseEditorType.Save;
+                FormClosing -= AddNewDoc_FormClosing!;
+                Close();
+            }
+        }
+
+        private void BtnCancelClick(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Закрыть без сохранения документа?", "Отмена", MessageBoxButtons.YesNoCancel);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                CloseType = CloseEditorType.Cancel;
+                FormClosing -= AddNewDoc_FormClosing!;
+                Close();
+            }
+        }
+
+        private void BtnDeleteClick(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Удалить документ?", "Удаление", MessageBoxButtons.YesNoCancel);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                CloseType = CloseEditorType.Delete;
                 FormClosing -= AddNewDoc_FormClosing!;
                 Close();
             }

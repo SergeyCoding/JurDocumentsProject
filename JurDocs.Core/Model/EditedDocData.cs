@@ -49,6 +49,6 @@ namespace JurDocs.Core.Model
         /// <summary>
         /// Имя файла
         /// </summary>
-        public string? FileName { get; internal set; }
+        public string? FileName { get;  set; }
     }
 }

@@ -3,6 +3,7 @@ using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
+using JurDocs.Core.Commands.Documents;
 using JurDocs.Core.Commands.Projects;
 using JurDocs.Core.DI;
 using JurDocs.Core.Model;
@@ -508,12 +509,23 @@ namespace JurDocsWinForms
             }
         }
 
-        public void OpenDocEditor(EditedDocData docData)
+        public async void OpenDocEditor(EditedDocData docData)
         {
             var docEditor = Views.Container().Resolve<IDocEditor>();
             docEditor.SetData(docData);
 
-            (docEditor as Form)?.ShowDialog(this);
+            var docEditorResult = (docEditor as Form)?.ShowDialog(this);
+
+            var editedDocData = docEditor.GetData();
+
+            if (docEditorResult == DialogResult.Cancel)
+                docEditor.CloseType = CloseEditorType.Cancel;
+
+            if (docEditorResult == DialogResult.OK)
+                docEditor.CloseType = CloseEditorType.Save;
+
+            await CoreContainer.Get<ICloseDocument>().ExecuteAsync(docEditor, editedDocData);
+
         }
 
 

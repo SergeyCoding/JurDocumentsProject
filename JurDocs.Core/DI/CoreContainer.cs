@@ -54,6 +54,8 @@ namespace JurDocs.Core.DI
                 builder.RegisterType<CreateDocument>().As<ICreateDocument>();
                 builder.RegisterType<GetDocumentList>().As<IGetDocumentList>();
                 builder.RegisterType<OpenDocument>().As<IOpenDocument>();
+                builder.RegisterType<SaveDocument>().As<ISaveDocument>();
+                builder.RegisterType<CloseDocument>().As<ICloseDocument>();
 
                 builder.RegisterType<ChangeCurrentDocument>().As<IChangeCurrentDocument>();
 

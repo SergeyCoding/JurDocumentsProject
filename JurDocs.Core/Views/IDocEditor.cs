@@ -1,4 +1,5 @@
-﻿using JurDocs.Core.Model;
+﻿using JurDocs.Common.EnumTypes;
+using JurDocs.Core.Model;
 
 namespace JurDocs.Core.Views
 {
@@ -7,6 +8,8 @@ namespace JurDocs.Core.Views
     /// </summary>
     public interface IDocEditor
     {
+        CloseEditorType CloseType { get; set; }
+
         void SetData(EditedDocData data);
         EditedDocData GetData();
     }
