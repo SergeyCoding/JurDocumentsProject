@@ -29,7 +29,7 @@ namespace JurDocsWinForms
         private void AddNewDoc_Load(object sender, EventArgs e)
         {
             MinimumSize = new Size(Width, Height);
-            _lastWindowState = WindowState;            
+            _lastWindowState = WindowState;
         }
 
         public void SetData(EditedDocData data)
@@ -156,6 +156,8 @@ namespace JurDocsWinForms
             if (dragDropFileName.IsOk)
             {
                 _pdfPreview.Init(dragDropFileName.FileName);
+                tbSourceFileName.Text = dragDropFileName.FileName;
+                tbFileName.Text = dragDropFileName.FileName;
                 UpdateFormInfo();
                 UpdatePreview();
             }
@@ -222,5 +224,7 @@ namespace JurDocsWinForms
         {
             UpdatePreview();
         }
+
+
     }
 }

@@ -27,7 +27,7 @@ namespace JurDocs.Core.Commands.Documents.Impl
                     Id = data.Id,
                     DateIncoming = data.DateIncoming,
                     DateOutgoing = data.DateOutgoing,
-                    DocType = (Client.JurDocType)(int)data.DocType,
+                    DocType = data.DocType,
                     ExecutivePerson = data.ExecutivePerson,
                     IsDeleted = data.IsDeleted,
                     Name = data.DocName,

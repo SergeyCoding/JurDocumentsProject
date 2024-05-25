@@ -33,11 +33,12 @@ namespace JurClientGenerator
                 CSharpGeneratorSettings = {
                     Namespace = "JurDocs.Client",
                     GenerateJsonMethods = true,
-                    DateType="DateTime",
-                    DateTimeType="DateTime"
+                    DateType = "DateTime",
+                    DateTimeType = "DateTime"
                 },
-                CodeGeneratorSettings = {
+                CodeGeneratorSettings = { 
                     //TemplateDirectory = "template",
+                    ExcludedTypeNames=["JurDocType"],
                 },
                 GenerateResponseClasses = true,
                 ResponseClass = "SwaggerResponse",
@@ -45,6 +46,7 @@ namespace JurClientGenerator
                 //ParameterDateFormat = "yyyyMMdd",
                 //ParameterDateTimeFormat = "yyyyMMddHHmmss",
                 GenerateDtoTypes = true,
+                AdditionalNamespaceUsages = ["JurDocs.Common.EnumTypes"]
             };
 
             var generator = new CSharpClientGenerator(document, settings);

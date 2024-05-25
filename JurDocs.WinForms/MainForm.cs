@@ -99,15 +99,26 @@ namespace JurDocsWinForms
 
         public async Task UpdateLetterDocsList(LetterDocument[] letterDocuments)
         {
+            await Task.CompletedTask;
+
             if (ViewModel == null)
                 return;
 
-            var enumerable = letterDocuments.Select(x => new LetterDocsListTable { Id = x.Id });
+            var enumerable = letterDocuments.Select(x => new LetterDocsListTable
+            {
+                Id = x.Id,
+                ProjectName = x.ProjectId.ToString(),
+                DocName = x.Name,
+                DocDate = null,
+                DocType = x.DocType.ToString(),
+                FileName = string.Empty,
+                Note = string.Empty,
+            });
 
-            var projectList = new List<LetterDocsListTable>();
-            projectList.AddRange(enumerable);
+            var letterDocList = new List<LetterDocsListTable>();
+            letterDocList.AddRange(enumerable);
 
-            dgvLetterDocsList.DataSource = new SortableBindingList<LetterDocsListTable>(projectList);
+            dgvLetterDocsList.DataSource = new SortableBindingList<LetterDocsListTable>(letterDocList);
             dgvLetterDocsList.ShowCellToolTips = false;
             dgvLetterDocsList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvLetterDocsList.MultiSelect = false;
@@ -517,6 +528,16 @@ namespace JurDocsWinForms
             (docEditor as Form)?.ShowDialog(this);
 
             await CoreContainer.Get<ICloseDocument>().ExecuteAsync(docEditor.GetData());
+
+            var state = CoreContainer.Get().Resolve<IGetState>();
+
+            if (state.GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
+            {
+                var getDocumentList = CoreContainer.Get<IGetDocumentList>();
+                var letterDocuments = await getDocumentList.ExecuteAsync();
+
+                await UpdateLetterDocsList(letterDocuments);
+            }
         }
 
 
