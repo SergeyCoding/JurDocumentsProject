@@ -1,6 +1,8 @@
 ﻿using JurDocs.Common.Loggers;
 using JurDocs.DbModel;
 using JurDocs.Server.Controllers.Base;
+using JurDocs.Server.Model.JurDocs.Core.Model;
+using JurDocs.Server.Model.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +59,40 @@ namespace JurDocs.Server.Controllers
             return Ok(true);
         }
 
+        [HttpGet("local-filename")]
+        [SwaggerOperation("Получение имени локального файла", "Получение имени локального файла")]
+        [ProducesResponseType(typeof(DataResponse<string>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 401)]
+        [ProducesResponseType(typeof(string), 403)]
+        public async Task<IActionResult> GetLocalFileName(
+            [SwaggerParameter("Проект", Required = true)][FromQuery] string projectName,
+            [SwaggerParameter("Документ", Required = true)][FromQuery] string docType,
+            [SwaggerParameter("ID документа", Required = true)][FromQuery] int docId)
+        {
+            var userLogin = GetUserLogin();
+
+            if (!await AllowDocumentAsync(projectName, docType, userLogin))
+            {
+                _logger.LogInformation("{msg}", "Нет доступа к документу");
+                return Forbid("Нет доступа к документу");
+            }
+
+            var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
+
+            if (jurDocUser == null)
+                return BadRequest();
+
+            var localFileName = Path.Combine(
+                jurDocUser.Path!,
+                projectName,
+                docType,
+                $"{projectName}_{docType}_{docId}.pdf");
+
+            return Ok(new DataResponse<string>(localFileName));
+        }
+
+
         /// <summary>
         /// Проверка доступа пользователя к документу по проекту и типу документа
         /// </summary>
@@ -81,7 +117,7 @@ namespace JurDocs.Server.Controllers
         }
 
         [HttpPost()]
-        [SwaggerOperation("Получение файла", "Получение файла")]
+        [SwaggerOperation("Сохранение файла", "Сохранение файла")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 401)]
@@ -97,15 +133,16 @@ namespace JurDocs.Server.Controllers
                 return Forbid("Нет доступа к документу");
             }
 
+            var v = Path.GetFileName(fileName);
 
-            var fileSource = Path.Combine(Settings!.Catalog!, projectName, docType, fileName);
+            var fileSource = Path.Combine(Settings!.Catalog!, projectName, docType, v);
 
             var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
 
             if (jurDocUser == null)
                 return BadRequest();
 
-            var fileDest = Path.Combine(Settings.Catalog!, jurDocUser.Path!, fileName);
+            var fileDest = Path.Combine(Settings.Catalog!, fileName);
 
             if (!System.IO.File.Exists(fileSource))
                 return BadRequest();
@@ -150,4 +187,6 @@ namespace JurDocs.Server.Controllers
             }
         }
     }
+
+
 }
