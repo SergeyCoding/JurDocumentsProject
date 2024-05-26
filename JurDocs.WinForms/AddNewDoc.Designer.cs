@@ -35,8 +35,6 @@
             cbProjectName = new ComboBox();
             cbDocType = new ComboBox();
             tbCaption = new TextBox();
-            tbDateOut = new TextBox();
-            tbDateIn = new TextBox();
             tbNumberOut = new TextBox();
             tbNumberIn = new TextBox();
             label31 = new Label();
@@ -96,9 +94,9 @@
             dtpDateOut = new DateTimePicker();
             label32 = new Label();
             label30 = new Label();
-            tbSourceFileName = new TextBox();
-            pbViewer = new PictureBox();
             tbFileName = new TextBox();
+            pbViewer = new PictureBox();
+            tbSorceFileName = new TextBox();
             panel1 = new Panel();
             btnPageNext = new Button();
             btnPageBack = new Button();
@@ -133,8 +131,6 @@
             splitDocForm.Panel1.Controls.Add(cbProjectName);
             splitDocForm.Panel1.Controls.Add(cbDocType);
             splitDocForm.Panel1.Controls.Add(tbCaption);
-            splitDocForm.Panel1.Controls.Add(tbDateOut);
-            splitDocForm.Panel1.Controls.Add(tbDateIn);
             splitDocForm.Panel1.Controls.Add(tbNumberOut);
             splitDocForm.Panel1.Controls.Add(tbNumberIn);
             splitDocForm.Panel1.Controls.Add(label31);
@@ -199,9 +195,9 @@
             splitDocForm.Panel2.AllowDrop = true;
             splitDocForm.Panel2.Controls.Add(label32);
             splitDocForm.Panel2.Controls.Add(label30);
-            splitDocForm.Panel2.Controls.Add(tbSourceFileName);
-            splitDocForm.Panel2.Controls.Add(pbViewer);
             splitDocForm.Panel2.Controls.Add(tbFileName);
+            splitDocForm.Panel2.Controls.Add(pbViewer);
+            splitDocForm.Panel2.Controls.Add(tbSorceFileName);
             splitDocForm.Panel2.Controls.Add(panel1);
             splitDocForm.Panel2.DragDrop += SplitDocForm_Panel2_DragDrop;
             splitDocForm.Panel2.DragOver += SplitDocForm_Panel2_DragOver;
@@ -213,7 +209,8 @@
             // 
             dtpDateIn.Location = new Point(89, 158);
             dtpDateIn.Name = "dtpDateIn";
-            dtpDateIn.Size = new Size(159, 23);
+            dtpDateIn.ShowCheckBox = true;
+            dtpDateIn.Size = new Size(166, 23);
             dtpDateIn.TabIndex = 73;
             // 
             // cbProjectName
@@ -239,22 +236,6 @@
             tbCaption.Name = "tbCaption";
             tbCaption.Size = new Size(582, 55);
             tbCaption.TabIndex = 2;
-            // 
-            // tbDateOut
-            // 
-            tbDateOut.Location = new Point(519, 132);
-            tbDateOut.Name = "tbDateOut";
-            tbDateOut.Size = new Size(124, 23);
-            tbDateOut.TabIndex = 3;
-            tbDateOut.Visible = false;
-            // 
-            // tbDateIn
-            // 
-            tbDateIn.Location = new Point(519, 161);
-            tbDateIn.Name = "tbDateIn";
-            tbDateIn.Size = new Size(146, 23);
-            tbDateIn.TabIndex = 4;
-            tbDateIn.Visible = false;
             // 
             // tbNumberOut
             // 
@@ -767,7 +748,8 @@
             dtpDateOut.CustomFormat = " \"\"";
             dtpDateOut.Location = new Point(89, 129);
             dtpDateOut.Name = "dtpDateOut";
-            dtpDateOut.Size = new Size(159, 23);
+            dtpDateOut.ShowCheckBox = true;
+            dtpDateOut.Size = new Size(166, 23);
             dtpDateOut.TabIndex = 72;
             // 
             // label32
@@ -788,12 +770,12 @@
             label30.TabIndex = 76;
             label30.Text = "Скан документа";
             // 
-            // tbSourceFileName
+            // tbFileName
             // 
-            tbSourceFileName.Location = new Point(104, 11);
-            tbSourceFileName.Name = "tbSourceFileName";
-            tbSourceFileName.Size = new Size(321, 23);
-            tbSourceFileName.TabIndex = 72;
+            tbFileName.Location = new Point(104, 11);
+            tbFileName.Name = "tbFileName";
+            tbFileName.Size = new Size(321, 23);
+            tbFileName.TabIndex = 72;
             // 
             // pbViewer
             // 
@@ -806,14 +788,14 @@
             pbViewer.TabIndex = 1;
             pbViewer.TabStop = false;
             // 
-            // tbFileName
+            // tbSorceFileName
             // 
-            tbFileName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            tbFileName.Location = new Point(104, 39);
-            tbFileName.Multiline = true;
-            tbFileName.Name = "tbFileName";
-            tbFileName.Size = new Size(321, 23);
-            tbFileName.TabIndex = 0;
+            tbSorceFileName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            tbSorceFileName.Location = new Point(104, 39);
+            tbSorceFileName.Multiline = true;
+            tbSorceFileName.Name = "tbSorceFileName";
+            tbSorceFileName.Size = new Size(321, 23);
+            tbSorceFileName.TabIndex = 0;
             // 
             // panel1
             // 
@@ -909,13 +891,11 @@
         private Label label2;
         private Label label1;
         private TextBox tbNumberOut;
-        private TextBox tbDateIn;
-        private TextBox tbDateOut;
         private ComboBox cbExecutors;
         private TextBox tbCaption;
         private Label label5;
         private PictureBox pbViewer;
-        private TextBox tbFileName;
+        private TextBox tbSorceFileName;
         private TextBox tbNumberIn;
         private Label label7;
         private Label label6;
@@ -972,7 +952,7 @@
         private Panel panel1;
         private Button btnCancel;
         private Button btnOk;
-        private TextBox tbSourceFileName;
+        private TextBox tbFileName;
         private Label label32;
         private Label label30;
         private DateTimePicker dtpDateOut;
