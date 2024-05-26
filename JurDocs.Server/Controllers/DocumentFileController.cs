@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
+using SysFile = System.IO.File;
 
 namespace JurDocs.Server.Controllers
 {
@@ -50,11 +51,11 @@ namespace JurDocs.Server.Controllers
 
             var fileDest = Path.Combine(Settings.Catalog!, jurDocUser.Path!, fileName);
 
-            if (!System.IO.File.Exists(fileSource))
+            if (!SysFile.Exists(fileSource))
                 return BadRequest();
 
 
-            System.IO.File.Copy(fileSource, fileDest);
+            SysFile.Copy(fileSource, fileDest);
             return Ok(true);
         }
 
@@ -134,28 +135,23 @@ namespace JurDocs.Server.Controllers
                     return Forbid("Нет доступа к документу");
                 }
 
-                if (System.IO.File.Exists(fileName))
+                if (!SysFile.Exists(fileName))
                 {
                     return BadRequest("Файл не найден");
                 }
 
                 var fn = Path.GetFileName(fileName);
 
-                var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
-
-                if (jurDocUser == null)
-                    return BadRequest();
-
                 var fileDest = Path.Combine(Settings!.Catalog!, projectName, docType, fn);
 
                 if (!Directory.Exists(Path.GetDirectoryName(fileDest)))
                     Directory.CreateDirectory(Path.GetDirectoryName(fileDest)!);
 
-                System.IO.File.Copy(fileName, fileDest);
+                SysFile.Copy(fileName, fileDest);
 
                 return Ok(true);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -185,8 +181,8 @@ namespace JurDocs.Server.Controllers
 
                 var curFile = Path.Combine(Settings!.Catalog!, jurDocUser.Path!, fileName);
 
-                if (System.IO.File.Exists(curFile))
-                    System.IO.File.Delete(curFile);
+                if (SysFile.Exists(curFile))
+                    SysFile.Delete(curFile);
 
                 return Ok(true);
             }
