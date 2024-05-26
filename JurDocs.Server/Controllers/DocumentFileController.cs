@@ -42,14 +42,16 @@ namespace JurDocs.Server.Controllers
                 return Forbid("Нет доступа к документу");
             }
 
-            var fileSource = Path.Combine(Settings!.Catalog!, projectName, docType, fileName);
+            var fn = Path.GetFileName(fileName);
+
+            var fileSource = Path.Combine(Settings!.Catalog!, projectName, docType, fn);
 
             var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
 
             if (jurDocUser == null)
                 return BadRequest();
 
-            var fileDest = Path.Combine(Settings.Catalog!, jurDocUser.Path!, fileName);
+            var fileDest = Path.Combine(jurDocUser.Path!, projectName, docType, fn);
 
             if (!SysFile.Exists(fileSource))
                 return BadRequest();
@@ -147,7 +149,7 @@ namespace JurDocs.Server.Controllers
                 if (!Directory.Exists(Path.GetDirectoryName(fileDest)))
                     Directory.CreateDirectory(Path.GetDirectoryName(fileDest)!);
 
-                SysFile.Copy(fileName, fileDest);
+                SysFile.Copy(fileName, fileDest, true);
 
                 return Ok(true);
             }
