@@ -1,7 +1,6 @@
 ﻿using JurDocs.Common.Loggers;
 using JurDocs.DbModel;
 using JurDocs.Server.Controllers.Base;
-using JurDocs.Server.Model.JurDocs.Core.Model;
 using JurDocs.Server.Model.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -126,30 +125,40 @@ namespace JurDocs.Server.Controllers
                                         [SwaggerParameter("Документ", Required = true)][FromQuery] string docType,
                                         [SwaggerParameter("Имя файла", Required = true)][FromQuery] string fileName)
         {
-            var userLogin = GetUserLogin();
-
-            if (!await AllowDocumentAsync(projectName, docType, userLogin))
+            try
             {
-                return Forbid("Нет доступа к документу");
+                var userLogin = GetUserLogin();
+
+                if (!await AllowDocumentAsync(projectName, docType, userLogin))
+                {
+                    return Forbid("Нет доступа к документу");
+                }
+
+                if (System.IO.File.Exists(fileName))
+                {
+                    return BadRequest("Файл не найден");
+                }
+
+                var fn = Path.GetFileName(fileName);
+
+                var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
+
+                if (jurDocUser == null)
+                    return BadRequest();
+
+                var fileDest = Path.Combine(Settings!.Catalog!, projectName, docType, fn);
+
+                if (!Directory.Exists(Path.GetDirectoryName(fileDest)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(fileDest)!);
+
+                System.IO.File.Copy(fileName, fileDest);
+
+                return Ok(true);
             }
-
-            var v = Path.GetFileName(fileName);
-
-            var fileSource = Path.Combine(Settings!.Catalog!, projectName, docType, v);
-
-            var jurDocUser = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == userLogin);
-
-            if (jurDocUser == null)
+            catch (Exception ex)
+            {
                 return BadRequest();
-
-            var fileDest = Path.Combine(Settings.Catalog!, fileName);
-
-            if (!System.IO.File.Exists(fileSource))
-                return BadRequest();
-
-
-            System.IO.File.Copy(fileDest, fileSource);
-            return Ok(true);
+            }
         }
 
         [HttpDelete()]
