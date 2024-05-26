@@ -1,5 +1,4 @@
 ﻿using JurDocs.Core.Model;
-using JurDocs.Core.Views;
 
 namespace JurDocs.Core.Commands.Documents
 {
@@ -10,6 +9,4 @@ namespace JurDocs.Core.Commands.Documents
     {
         Task ExecuteAsync(EditedDocData data);
     }
-
-
 }

@@ -69,7 +69,7 @@ namespace JurDocs.Client
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<DateTime>> DateAsync()
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<DateResp>> DateAsync()
         {
             return DateAsync(System.Threading.CancellationToken.None);
         }
@@ -77,7 +77,7 @@ namespace JurDocs.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<DateTime>> DateAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<DateResp>> DateAsync(System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -118,12 +118,12 @@ namespace JurDocs.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<DateTime>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<DateResp>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<DateTime>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<DateResp>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         {
@@ -147,7 +147,7 @@ namespace JurDocs.Client
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<DateTime>> DelayAsync(int? delay)
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<DelayResp>> DelayAsync(int? delay)
         {
             return DelayAsync(delay, System.Threading.CancellationToken.None);
         }
@@ -155,7 +155,7 @@ namespace JurDocs.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<DateTime>> DelayAsync(int? delay, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<DelayResp>> DelayAsync(int? delay, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -202,12 +202,12 @@ namespace JurDocs.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<DateTime>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<DelayResp>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<DateTime>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<DelayResp>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         {
@@ -1285,9 +1285,9 @@ namespace JurDocs.Client
         /// </remarks>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<LoginGetResponse>> LoginGETAsync(string login)
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<LoginGetResponse>> LoginGETAsync()
         {
-            return LoginGETAsync(login, System.Threading.CancellationToken.None);
+            return LoginGETAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1299,7 +1299,7 @@ namespace JurDocs.Client
         /// </remarks>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<LoginGetResponse>> LoginGETAsync(string login, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<LoginGetResponse>> LoginGETAsync(System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1314,12 +1314,6 @@ namespace JurDocs.Client
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
                     // Operation Path: "api/Login"
                     urlBuilder_.Append("api/Login");
-                    urlBuilder_.Append('?');
-                    if (login != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("Login")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(login, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2859,6 +2853,48 @@ namespace JurDocs.Client
         {
 
             return Newtonsoft.Json.JsonConvert.DeserializeObject<ClearTempResponse>(data, new Newtonsoft.Json.JsonSerializerSettings());
+
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class DateResp
+    {
+        [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTime Date { get; set; }
+
+        public string ToJson()
+        {
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, new Newtonsoft.Json.JsonSerializerSettings());
+
+        }
+        public static DateResp FromJson(string data)
+        {
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<DateResp>(data, new Newtonsoft.Json.JsonSerializerSettings());
+
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class DelayResp
+    {
+        [Newtonsoft.Json.JsonProperty("delay", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Delay { get; set; }
+
+        public string ToJson()
+        {
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, new Newtonsoft.Json.JsonSerializerSettings());
+
+        }
+        public static DelayResp FromJson(string data)
+        {
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<DelayResp>(data, new Newtonsoft.Json.JsonSerializerSettings());
 
         }
 
