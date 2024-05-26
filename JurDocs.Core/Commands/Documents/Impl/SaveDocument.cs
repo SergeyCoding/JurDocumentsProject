@@ -42,18 +42,23 @@ namespace JurDocs.Core.Commands.Documents.Impl
 
                 if (!string.IsNullOrEmpty(data.FileName) && File.Exists(data.FileName))
                 {
-                    var fn = new JurDocsFileName(state.CurrentProject.Name, JurDocType.Письмо, state.CurrentDocumentId);
 
-                    var answerLogin = await state.Client.LoginGETAsync();
-                    var pathLogin = answerLogin.Result.Path;
+                    var fn = (await state.Client.LocalFilenameAsync(
+                        state.CurrentProject.Name,
+                        JurDocType.Письмо.GetDescription(),
+                        state.CurrentDocumentId)).Result.Data.First();
 
-                    var fileName = Path.Combine(pathLogin, fn.CreateFileName());
+                    var dir = Path.GetDirectoryName(fn);
 
-                    File.Copy(data.FileName, fileName, true);
+                    if (!Directory.Exists(dir))
+                        Directory.CreateDirectory(dir!);
+
+                    if (data.FileName != fn)
+                        File.Copy(data.FileName, fn, true);
 
                     await state.Client.DocumentFilePOSTAsync(state.CurrentProject.Name,
                                                             JurDocType.Письмо.GetDescription(),
-                                                            fileName);
+                                                            fn);
                 }
 
             }
