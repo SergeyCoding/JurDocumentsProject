@@ -7,5 +7,6 @@ namespace JurDocs.Core
     {
         AppPage GetCurrentPage { get; }
         JurDocProject GetCurrentProject { get; }
+        int GetCurrentDocId { get; }
     }
 }

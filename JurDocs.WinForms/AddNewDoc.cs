@@ -48,7 +48,7 @@ namespace JurDocsWinForms
 
             cbExecutors.Text = string.Empty;
 
-            if (data.DateIncoming.HasValue)
+            if (data.DateIncoming.HasValue && data.DateIncoming.Value > dtpDateIn.MinDate)
             {
                 dtpDateIn.Value = data.DateIncoming.Value;
                 dtpDateIn.Checked = true;
@@ -58,7 +58,7 @@ namespace JurDocsWinForms
                 dtpDateIn.Checked = false;
             }
 
-            if (data.DateOutgoing.HasValue)
+            if (data.DateOutgoing.HasValue && data.DateOutgoing.Value > dtpDateOut.MinDate)
             {
                 dtpDateOut.Value = data.DateOutgoing.Value;
                 dtpDateOut.Checked = true;

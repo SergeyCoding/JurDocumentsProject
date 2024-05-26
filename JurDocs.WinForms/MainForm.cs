@@ -118,26 +118,28 @@ namespace JurDocsWinForms
             var letterDocList = new List<LetterDocsListTable>();
             letterDocList.AddRange(enumerable);
 
+            var state = CoreContainer.Get().Resolve<IGetState>();
+            var curDocId = state.GetCurrentDocId;
+
             dgvLetterDocsList.DataSource = new SortableBindingList<LetterDocsListTable>(letterDocList);
             dgvLetterDocsList.ShowCellToolTips = false;
             dgvLetterDocsList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvLetterDocsList.MultiSelect = false;
 
-            //var state = CoreContainer.Get().Resolve<IGetState>();
+            if (curDocId > 0)
+            {
+                var changeCurrentDocument = CoreContainer.Get<IChangeCurrentDocument>();
+                await changeCurrentDocument.ExecuteAsync(curDocId);
 
-            //var curProject = state.GetCurrentProject;
-
-            //if (curProject == null)
-            //    return;
-
-            //for (int i = 0; i < projectList.Length; i++)
-            //{
-            //    if (projectList[i].Id == curProject.Id)
-            //    {
-            //        dgvLetterDocsList.CurrentCell = dgvLetterDocsList.Rows[i].Cells[0];
-            //        break;
-            //    }
-            //}
+                for (int i = 0; i < letterDocList.Count; i++)
+                {
+                    if (letterDocList[i].Id == curDocId)
+                    {
+                        dgvLetterDocsList.CurrentCell = dgvLetterDocsList.Rows[i].Cells[0];
+                        break;
+                    }
+                }
+            }
         }
 
 
@@ -515,7 +517,6 @@ namespace JurDocsWinForms
                 var letterListTable = letterTable[e.RowIndex];
 
                 var changeCurrentProject = CoreContainer.Get().Resolve<IChangeCurrentDocument>();
-
                 await changeCurrentProject.ExecuteAsync(letterListTable.Id);
             }
         }
