@@ -149,7 +149,7 @@ namespace JurDocs.Server.Controllers
                 if (!Directory.Exists(Path.GetDirectoryName(fileDest)))
                     Directory.CreateDirectory(Path.GetDirectoryName(fileDest)!);
 
-                SysFile.Copy(fileName, fileDest);
+                SysFile.Copy(fileName, fileDest, true);
 
                 return Ok(true);
             }
