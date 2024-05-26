@@ -4,6 +4,7 @@
     {
         None = 0,
         Cancel,
-        Save
+        Save,
+        Delete
     }
 }

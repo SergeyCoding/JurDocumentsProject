@@ -36,8 +36,8 @@
             tbCaption = new TextBox();
             tbDateOut = new TextBox();
             tbDateIn = new TextBox();
-            btnOk = new Button();
-            btnCancel = new Button();
+            tbNumberOut = new TextBox();
+            tbNumberIn = new TextBox();
             label31 = new Label();
             label29 = new Label();
             label27 = new Label();
@@ -75,25 +75,28 @@
             cbRecipient3 = new ComboBox();
             cbRecipient4 = new ComboBox();
             label11 = new Label();
+            cbExecutors = new ComboBox();
+            btnOk = new Button();
+            btnDelete = new Button();
+            btnCancel = new Button();
             label12 = new Label();
             label13 = new Label();
             label14 = new Label();
             label10 = new Label();
             label9 = new Label();
             label8 = new Label();
-            tbNumberIn = new TextBox();
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
-            btnDelete = new Button();
             label4 = new Label();
             label3 = new Label();
-            tbNumberOut = new TextBox();
             label2 = new Label();
             label1 = new Label();
-            cbExecutors = new ComboBox();
+            label32 = new Label();
+            label30 = new Label();
+            tbSourceFileName = new TextBox();
             pbViewer = new PictureBox();
-            textBox1 = new TextBox();
+            tbFileName = new TextBox();
             panel1 = new Panel();
             btnPageNext = new Button();
             btnPageBack = new Button();
@@ -118,6 +121,7 @@
             splitDocForm.AllowDrop = true;
             splitDocForm.BorderStyle = BorderStyle.FixedSingle;
             splitDocForm.Dock = DockStyle.Fill;
+            splitDocForm.IsSplitterFixed = true;
             splitDocForm.Location = new Point(0, 0);
             splitDocForm.Name = "splitDocForm";
             // 
@@ -189,15 +193,17 @@
             // splitDocForm.Panel2
             // 
             splitDocForm.Panel2.AllowDrop = true;
+            splitDocForm.Panel2.Controls.Add(label32);
+            splitDocForm.Panel2.Controls.Add(label30);
+            splitDocForm.Panel2.Controls.Add(tbSourceFileName);
             splitDocForm.Panel2.Controls.Add(pbViewer);
-            splitDocForm.Panel2.Controls.Add(textBox1);
+            splitDocForm.Panel2.Controls.Add(tbFileName);
             splitDocForm.Panel2.Controls.Add(panel1);
             splitDocForm.Panel2.DragDrop += SplitDocForm_Panel2_DragDrop;
             splitDocForm.Panel2.DragOver += SplitDocForm_Panel2_DragOver;
             splitDocForm.Size = new Size(1192, 747);
             splitDocForm.SplitterDistance = 750;
             splitDocForm.TabIndex = 13;
-            splitDocForm.IsSplitterFixed = true;
             // 
             // cbProjectName
             // 
@@ -237,27 +243,19 @@
             tbDateIn.Size = new Size(146, 23);
             tbDateIn.TabIndex = 4;
             // 
-            // btnOk
+            // tbNumberOut
             // 
-            btnOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnOk.Location = new Point(422, 705);
-            btnOk.Name = "btnOk";
-            btnOk.Size = new Size(100, 25);
-            btnOk.TabIndex = 28;
-            btnOk.Text = "ОК";
-            btnOk.UseVisualStyleBackColor = true;
-            btnOk.Click += BtnOk_Click;
+            tbNumberOut.Location = new Point(312, 132);
+            tbNumberOut.Name = "tbNumberOut";
+            tbNumberOut.Size = new Size(113, 23);
+            tbNumberOut.TabIndex = 5;
             // 
-            // btnCancel
+            // tbNumberIn
             // 
-            btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCancel.Location = new Point(634, 705);
-            btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(100, 25);
-            btnCancel.TabIndex = 30;
-            btnCancel.Text = "Отмена";
-            btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += BtnCancelClick;
+            tbNumberIn.Location = new Point(312, 161);
+            tbNumberIn.Name = "tbNumberIn";
+            tbNumberIn.Size = new Size(113, 23);
+            tbNumberIn.TabIndex = 6;
             // 
             // label31
             // 
@@ -587,6 +585,48 @@
             label11.TabIndex = 33;
             label11.Text = "3.";
             // 
+            // cbExecutors
+            // 
+            cbExecutors.FormattingEnabled = true;
+            cbExecutors.Items.AddRange(new object[] { "Выписки", "Справки", "Договора" });
+            cbExecutors.Location = new Point(134, 538);
+            cbExecutors.Name = "cbExecutors";
+            cbExecutors.Size = new Size(321, 23);
+            cbExecutors.TabIndex = 27;
+            // 
+            // btnOk
+            // 
+            btnOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnOk.Location = new Point(422, 705);
+            btnOk.Name = "btnOk";
+            btnOk.Size = new Size(100, 25);
+            btnOk.TabIndex = 28;
+            btnOk.Text = "ОК";
+            btnOk.UseVisualStyleBackColor = true;
+            btnOk.Click += BtnOk_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnDelete.Location = new Point(528, 705);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(100, 25);
+            btnDelete.TabIndex = 29;
+            btnDelete.Text = "Удалить";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += BtnDeleteClick;
+            // 
+            // btnCancel
+            // 
+            btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCancel.Location = new Point(634, 705);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(100, 25);
+            btnCancel.TabIndex = 30;
+            btnCancel.Text = "Отмена";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += BtnCancelClick;
+            // 
             // label12
             // 
             label12.AutoSize = true;
@@ -646,13 +686,6 @@
             label8.TabIndex = 25;
             label8.Text = "Получатель";
             // 
-            // tbNumberIn
-            // 
-            tbNumberIn.Location = new Point(312, 161);
-            tbNumberIn.Name = "tbNumberIn";
-            tbNumberIn.Size = new Size(113, 23);
-            tbNumberIn.TabIndex = 6;
-            // 
             // label7
             // 
             label7.AutoSize = true;
@@ -680,17 +713,6 @@
             label5.TabIndex = 21;
             label5.Text = "Дата вх.";
             // 
-            // btnDelete
-            // 
-            btnDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnDelete.Location = new Point(528, 705);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(100, 25);
-            btnDelete.TabIndex = 29;
-            btnDelete.Text = "Удалить";
-            btnDelete.UseVisualStyleBackColor = true;
-            btnDelete.Click += BtnDeleteClick;
-            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -708,13 +730,6 @@
             label3.Size = new Size(102, 15);
             label3.TabIndex = 18;
             label3.Text = "Документ внесен";
-            // 
-            // tbNumberOut
-            // 
-            tbNumberOut.Location = new Point(312, 132);
-            tbNumberOut.Name = "tbNumberOut";
-            tbNumberOut.Size = new Size(113, 23);
-            tbNumberOut.TabIndex = 5;
             // 
             // label2
             // 
@@ -734,14 +749,30 @@
             label1.TabIndex = 13;
             label1.Text = "Название документа";
             // 
-            // cbExecutors
+            // label32
             // 
-            cbExecutors.FormattingEnabled = true;
-            cbExecutors.Items.AddRange(new object[] { "Выписки", "Справки", "Договора" });
-            cbExecutors.Location = new Point(134, 538);
-            cbExecutors.Name = "cbExecutors";
-            cbExecutors.Size = new Size(321, 23);
-            cbExecutors.TabIndex = 27;
+            label32.AutoSize = true;
+            label32.Location = new Point(3, 42);
+            label32.Name = "label32";
+            label32.Size = new Size(61, 15);
+            label32.TabIndex = 77;
+            label32.Text = "Исходник";
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(3, 16);
+            label30.Name = "label30";
+            label30.Size = new Size(95, 15);
+            label30.TabIndex = 76;
+            label30.Text = "Скан документа";
+            // 
+            // tbSourceFileName
+            // 
+            tbSourceFileName.Location = new Point(104, 11);
+            tbSourceFileName.Name = "tbSourceFileName";
+            tbSourceFileName.Size = new Size(321, 23);
+            tbSourceFileName.TabIndex = 72;
             // 
             // pbViewer
             // 
@@ -754,14 +785,14 @@
             pbViewer.TabIndex = 1;
             pbViewer.TabStop = false;
             // 
-            // textBox1
+            // tbFileName
             // 
-            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox1.Location = new Point(3, 11);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(422, 54);
-            textBox1.TabIndex = 0;
+            tbFileName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            tbFileName.Location = new Point(104, 39);
+            tbFileName.Multiline = true;
+            tbFileName.Name = "tbFileName";
+            tbFileName.Size = new Size(321, 23);
+            tbFileName.TabIndex = 0;
             // 
             // panel1
             // 
@@ -828,10 +859,10 @@
             MinimumSize = new Size(1200, 800);
             Name = "AddNewDoc";
             Text = "Внесение документа в архив";
+            FormClosing += AddNewDoc_FormClosing;
             Load += AddNewDoc_Load;
             ResizeEnd += AddNewDoc_ResizeEnd;
             Resize += AddNewDoc_Resize;
-            FormClosing += AddNewDoc_FormClosing;
             splitDocForm.Panel1.ResumeLayout(false);
             splitDocForm.Panel1.PerformLayout();
             splitDocForm.Panel2.ResumeLayout(false);
@@ -846,7 +877,7 @@
             PerformLayout();
         }
 
-        
+
 
         #endregion
         private OpenFileDialog openFileDialog1;
@@ -863,7 +894,7 @@
         private TextBox tbCaption;
         private Label label5;
         private PictureBox pbViewer;
-        private TextBox textBox1;
+        private TextBox tbFileName;
         private TextBox tbNumberIn;
         private Label label7;
         private Label label6;
@@ -920,5 +951,8 @@
         private Panel panel1;
         private Button btnCancel;
         private Button btnOk;
+        private TextBox tbSourceFileName;
+        private Label label32;
+        private Label label30;
     }
 }

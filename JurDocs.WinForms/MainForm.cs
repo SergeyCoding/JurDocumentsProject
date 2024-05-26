@@ -3,6 +3,7 @@ using JurDocs.Client;
 using JurDocs.Common.EnumTypes;
 using JurDocs.Core;
 using JurDocs.Core.Commands;
+using JurDocs.Core.Commands.Documents;
 using JurDocs.Core.Commands.Projects;
 using JurDocs.Core.DI;
 using JurDocs.Core.Model;
@@ -98,15 +99,26 @@ namespace JurDocsWinForms
 
         public async Task UpdateLetterDocsList(LetterDocument[] letterDocuments)
         {
+            await Task.CompletedTask;
+
             if (ViewModel == null)
                 return;
 
-            var enumerable = letterDocuments.Select(x => new LetterDocsListTable { Id = x.Id });
+            var enumerable = letterDocuments.Select(x => new LetterDocsListTable
+            {
+                Id = x.Id,
+                ProjectName = x.ProjectId.ToString(),
+                DocName = x.Name,
+                DocDate = null,
+                DocType = x.DocType.ToString(),
+                FileName = string.Empty,
+                Note = string.Empty,
+            });
 
-            var projectList = new List<LetterDocsListTable>();
-            projectList.AddRange(enumerable);
+            var letterDocList = new List<LetterDocsListTable>();
+            letterDocList.AddRange(enumerable);
 
-            dgvLetterDocsList.DataSource = new SortableBindingList<LetterDocsListTable>(projectList);
+            dgvLetterDocsList.DataSource = new SortableBindingList<LetterDocsListTable>(letterDocList);
             dgvLetterDocsList.ShowCellToolTips = false;
             dgvLetterDocsList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvLetterDocsList.MultiSelect = false;
@@ -491,6 +503,11 @@ namespace JurDocsWinForms
             //}
         }
 
+        private async void DgvLetterDocsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            await CoreContainer.Get<IOpenProjectOrDocument>().ExecuteAsync(this);
+        }
+
         private async void dgvLetterDocsList_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvLetterDocsList.DataSource is SortableBindingList<LetterDocsListTable> letterTable)
@@ -503,12 +520,24 @@ namespace JurDocsWinForms
             }
         }
 
-        public void OpenDocEditor(EditedDocData docData)
+        public async void OpenDocEditor(EditedDocData docData)
         {
             var docEditor = Views.Container().Resolve<IDocEditor>();
             docEditor.SetData(docData);
 
             (docEditor as Form)?.ShowDialog(this);
+
+            await CoreContainer.Get<ICloseDocument>().ExecuteAsync(docEditor.GetData());
+
+            var state = CoreContainer.Get().Resolve<IGetState>();
+
+            if (state.GetCurrentPage == JurDocs.Core.Constants.AppPage.Письмо)
+            {
+                var getDocumentList = CoreContainer.Get<IGetDocumentList>();
+                var letterDocuments = await getDocumentList.ExecuteAsync();
+
+                await UpdateLetterDocsList(letterDocuments);
+            }
         }
 
 
