@@ -7,8 +7,9 @@
     {
         public int Id { get; set; }
         public string? ProjectName { get; set; }
+        public string? DocName { get; set; }
         public string? DocType { get; set; } = "Письмо";
-        public DateTime DocDate { get; set; }
+        public DateTime? DocDate { get; set; }
         public string? FileName { get; set; }
         public string? Note { get; internal set; }
 

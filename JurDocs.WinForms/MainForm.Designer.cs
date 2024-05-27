@@ -34,13 +34,6 @@ namespace JurDocsWinForms
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             button4 = new Button();
             dgvLetterDocsList = new DataGridView();
-            id = new DataGridViewTextBoxColumn();
-            PrjectId = new DataGridViewTextBoxColumn();
-            DocType = new DataGridViewTextBoxColumn();
-            DocDate = new DataGridViewTextBoxColumn();
-            FileName = new DataGridViewTextBoxColumn();
-            Remark = new DataGridViewTextBoxColumn();
-            Column1 = new DataGridViewButtonColumn();
             bindingSource1 = new BindingSource(components);
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
@@ -102,6 +95,14 @@ namespace JurDocsWinForms
             a1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             panelGrid = new Panel();
+            id = new DataGridViewTextBoxColumn();
+            PrjectId = new DataGridViewTextBoxColumn();
+            DocName = new DataGridViewTextBoxColumn();
+            DocType = new DataGridViewTextBoxColumn();
+            DocDate = new DataGridViewTextBoxColumn();
+            FileName = new DataGridViewTextBoxColumn();
+            Remark = new DataGridViewTextBoxColumn();
+            Column1 = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)dgvLetterDocsList).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             statusStrip1.SuspendLayout();
@@ -133,7 +134,7 @@ namespace JurDocsWinForms
             dgvLetterDocsList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvLetterDocsList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvLetterDocsList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvLetterDocsList.Columns.AddRange(new DataGridViewColumn[] { id, PrjectId, DocType, DocDate, FileName, Remark, Column1 });
+            dgvLetterDocsList.Columns.AddRange(new DataGridViewColumn[] { id, PrjectId, DocName, DocType, DocDate, FileName, Remark, Column1 });
             dgvLetterDocsList.Location = new Point(3, 71);
             dgvLetterDocsList.Name = "dgvLetterDocsList";
             dgvLetterDocsList.ReadOnly = true;
@@ -141,69 +142,8 @@ namespace JurDocsWinForms
             dgvLetterDocsList.Size = new Size(983, 374);
             dgvLetterDocsList.TabIndex = 5;
             dgvLetterDocsList.CellContentClick += dataGridView1_CellContentClick;
+            dgvLetterDocsList.CellMouseDoubleClick += DgvLetterDocsList_CellMouseDoubleClick;
             dgvLetterDocsList.RowEnter += dgvLetterDocsList_RowEnter;
-            // 
-            // id
-            // 
-            id.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            id.DataPropertyName = "Id";
-            id.HeaderText = "#";
-            id.Name = "id";
-            id.ReadOnly = true;
-            id.Resizable = DataGridViewTriState.False;
-            id.Width = 39;
-            // 
-            // PrjectId
-            // 
-            PrjectId.DataPropertyName = "ProjectName";
-            PrjectId.HeaderText = "Проект";
-            PrjectId.Name = "PrjectId";
-            PrjectId.ReadOnly = true;
-            // 
-            // DocType
-            // 
-            DocType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            DocType.DataPropertyName = "DocType";
-            DocType.HeaderText = "Вид документа";
-            DocType.Name = "DocType";
-            DocType.ReadOnly = true;
-            DocType.Width = 104;
-            // 
-            // DocDate
-            // 
-            DocDate.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            DocDate.DataPropertyName = "DocDate";
-            DocDate.HeaderText = "Дата документа";
-            DocDate.Name = "DocDate";
-            DocDate.ReadOnly = true;
-            DocDate.Width = 108;
-            // 
-            // FileName
-            // 
-            FileName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            FileName.DataPropertyName = "FileName";
-            FileName.HeaderText = "Имя файла";
-            FileName.Name = "FileName";
-            FileName.ReadOnly = true;
-            FileName.Width = 87;
-            // 
-            // Remark
-            // 
-            Remark.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Remark.DataPropertyName = "Note";
-            Remark.HeaderText = "Описание";
-            Remark.Name = "Remark";
-            Remark.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            Column1.DataPropertyName = "btnText";
-            Column1.HeaderText = "Файл";
-            Column1.Name = "Column1";
-            Column1.ReadOnly = true;
-            Column1.Text = "";
-            Column1.Width = 42;
             // 
             // bindingSource1
             // 
@@ -754,6 +694,75 @@ namespace JurDocsWinForms
             panelGrid.Size = new Size(997, 476);
             panelGrid.TabIndex = 19;
             // 
+            // id
+            // 
+            id.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            id.DataPropertyName = "Id";
+            id.HeaderText = "#";
+            id.Name = "id";
+            id.ReadOnly = true;
+            id.Resizable = DataGridViewTriState.False;
+            id.Width = 39;
+            // 
+            // PrjectId
+            // 
+            PrjectId.DataPropertyName = "ProjectName";
+            PrjectId.HeaderText = "Проект";
+            PrjectId.Name = "PrjectId";
+            PrjectId.ReadOnly = true;
+            // 
+            // DocName
+            // 
+            DocName.DataPropertyName = "DocName";
+            DocName.HeaderText = "Документ";
+            DocName.Name = "DocName";
+            DocName.ReadOnly = true;
+            // 
+            // DocType
+            // 
+            DocType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DocType.DataPropertyName = "DocType";
+            DocType.HeaderText = "Вид документа";
+            DocType.Name = "DocType";
+            DocType.ReadOnly = true;
+            DocType.Width = 113;
+            // 
+            // DocDate
+            // 
+            DocDate.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DocDate.DataPropertyName = "DocDate";
+            DocDate.HeaderText = "Дата документа";
+            DocDate.Name = "DocDate";
+            DocDate.ReadOnly = true;
+            DocDate.Width = 108;
+            // 
+            // FileName
+            // 
+            FileName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            FileName.DataPropertyName = "FileName";
+            FileName.HeaderText = "Имя файла";
+            FileName.Name = "FileName";
+            FileName.ReadOnly = true;
+            FileName.Width = 87;
+            // 
+            // Remark
+            // 
+            Remark.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Remark.DataPropertyName = "Note";
+            Remark.HeaderText = "Описание";
+            Remark.Name = "Remark";
+            Remark.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            Column1.DataPropertyName = "btnText";
+            Column1.HeaderText = "Файл";
+            Column1.Name = "Column1";
+            Column1.ReadOnly = true;
+            Column1.Text = "";
+            Column1.Width = 42;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -793,6 +802,8 @@ namespace JurDocsWinForms
             ResumeLayout(false);
             PerformLayout();
         }
+
+
 
 
         #endregion
@@ -884,6 +895,7 @@ namespace JurDocsWinForms
         private ToolStripMenuItem создатьПроектToolStripMenuItem;
         private DataGridViewTextBoxColumn id;
         private DataGridViewTextBoxColumn PrjectId;
+        private DataGridViewTextBoxColumn DocName;
         private DataGridViewTextBoxColumn DocType;
         private DataGridViewTextBoxColumn DocDate;
         private DataGridViewTextBoxColumn FileName;

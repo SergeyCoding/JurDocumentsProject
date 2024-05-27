@@ -18,6 +18,15 @@ namespace JurDocs.Core.Commands.Documents.Impl
 
                 var letter = answer.Result.Data.First().First(x => x.Id == state.CurrentDocumentId);
 
+                while (letter.Sender.Count < 10)
+                    letter.Sender.Add(string.Empty);
+
+                while (letter.Recipient.Count < 10)
+                    letter.Recipient.Add(string.Empty);
+
+                var answerProject = await state.Client.ProjectGETAsync(letter.ProjectId);
+                var projectName = answerProject.Result.Data.First().Name;
+
                 var docType = (JurDocType)letter.DocType;
 
                 var editedDocData = new EditedDocData
@@ -32,9 +41,11 @@ namespace JurDocs.Core.Commands.Documents.Impl
                     NumberIncoming = letter.NumberIncoming,
                     NumberOutgoing = letter.NumberOutgoing,
                     ProjectId = letter.ProjectId,
+                    ProjectName = projectName,
                     Sender = [.. letter.Sender],
                     Recipient = [.. letter.Recipient],
                 };
+
 
                 mainView.OpenDocEditor(editedDocData);
 
