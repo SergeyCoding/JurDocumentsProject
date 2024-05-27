@@ -30,14 +30,14 @@ namespace JurDocs.Server.Controllers
         [Consumes("application/json")]
         [ProducesResponseType(typeof(LoginGetResponse), 200)]
         [ProducesResponseType(typeof(string), 400)]
-        public async Task<IActionResult> Get(string Login)
+        public async Task<IActionResult> Get()
         {
             try
             {
                 var login = GetUserLogin();
 
-                if (login != Login)
-                    return BadRequest("Неверно указан логин");
+                //if (login != Login)
+                //    return BadRequest("Неверно указан логин");
 
                 var user = await _dbContext.Set<JurDocUser>().FirstOrDefaultAsync(x => x.Login == login);
 

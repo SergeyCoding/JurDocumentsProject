@@ -12,24 +12,9 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              }
+              "text/plain": { "schema": { "$ref": "#/components/schemas/DateResp" } },
+              "application/json": { "schema": { "$ref": "#/components/schemas/DateResp" } },
+              "text/json": { "schema": { "$ref": "#/components/schemas/DateResp" } }
             }
           }
         }
@@ -53,24 +38,9 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              }
+              "text/plain": { "schema": { "$ref": "#/components/schemas/DelayResp" } },
+              "application/json": { "schema": { "$ref": "#/components/schemas/DelayResp" } },
+              "text/json": { "schema": { "$ref": "#/components/schemas/DelayResp" } }
             }
           }
         }
@@ -127,8 +97,8 @@
       },
       "post": {
         "tags": [ "DocumentFile" ],
-        "summary": "Получение файла",
-        "description": "Получение файла",
+        "summary": "Сохранение файла",
+        "description": "Сохранение файла",
         "parameters": [
           {
             "name": "projectName",
@@ -193,6 +163,59 @@
               "text/plain": { "schema": { "type": "boolean" } },
               "application/json": { "schema": { "type": "boolean" } },
               "text/json": { "schema": { "type": "boolean" } }
+            }
+          },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": { "schema": { "type": "string" } },
+              "application/json": { "schema": { "type": "string" } },
+              "text/json": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/DocumentFile/local-filename": {
+      "get": {
+        "tags": [ "DocumentFile" ],
+        "summary": "Получение имени локального файла",
+        "description": "Получение имени локального файла",
+        "parameters": [
+          {
+            "name": "projectName",
+            "in": "query",
+            "description": "Проект",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "docType",
+            "in": "query",
+            "description": "Документ",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "docId",
+            "in": "query",
+            "description": "ID документа",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": { "schema": { "$ref": "#/components/schemas/StringDataResponse" } },
+              "application/json": { "schema": { "$ref": "#/components/schemas/StringDataResponse" } },
+              "text/json": { "schema": { "$ref": "#/components/schemas/StringDataResponse" } }
             }
           },
           "400": { "description": "Bad Request" },
@@ -430,13 +453,6 @@
         "tags": [ "Login" ],
         "summary": "Сведения о пользователе",
         "description": "Сведения о пользователе",
-        "parameters": [
-          {
-            "name": "Login",
-            "in": "query",
-            "schema": { "type": "string" }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -845,6 +861,26 @@
       "ClearTempResponse": {
         "type": "object",
         "properties": { "result": { "type": "boolean" } },
+        "additionalProperties": false
+      },
+      "DateResp": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DelayResp": {
+        "type": "object",
+        "properties": {
+          "delay": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
         "additionalProperties": false
       },
       "DocumentListRequest": {

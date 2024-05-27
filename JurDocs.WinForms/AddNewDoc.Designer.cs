@@ -31,6 +31,7 @@
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(AddNewDoc));
             openFileDialog1 = new OpenFileDialog();
             splitDocForm = new SplitContainer();
+            dtpDateIn = new DateTimePicker();
             cbProjectName = new ComboBox();
             cbDocType = new ComboBox();
             tbCaption = new TextBox();
@@ -92,6 +93,7 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
+            dtpDateOut = new DateTimePicker();
             label32 = new Label();
             label30 = new Label();
             tbSourceFileName = new TextBox();
@@ -127,6 +129,7 @@
             // 
             // splitDocForm.Panel1
             // 
+            splitDocForm.Panel1.Controls.Add(dtpDateIn);
             splitDocForm.Panel1.Controls.Add(cbProjectName);
             splitDocForm.Panel1.Controls.Add(cbDocType);
             splitDocForm.Panel1.Controls.Add(tbCaption);
@@ -188,6 +191,7 @@
             splitDocForm.Panel1.Controls.Add(label3);
             splitDocForm.Panel1.Controls.Add(label2);
             splitDocForm.Panel1.Controls.Add(label1);
+            splitDocForm.Panel1.Controls.Add(dtpDateOut);
             splitDocForm.Panel1MinSize = 750;
             // 
             // splitDocForm.Panel2
@@ -204,6 +208,13 @@
             splitDocForm.Size = new Size(1192, 747);
             splitDocForm.SplitterDistance = 750;
             splitDocForm.TabIndex = 13;
+            // 
+            // dtpDateIn
+            // 
+            dtpDateIn.Location = new Point(89, 158);
+            dtpDateIn.Name = "dtpDateIn";
+            dtpDateIn.Size = new Size(159, 23);
+            dtpDateIn.TabIndex = 73;
             // 
             // cbProjectName
             // 
@@ -231,17 +242,19 @@
             // 
             // tbDateOut
             // 
-            tbDateOut.Location = new Point(89, 132);
+            tbDateOut.Location = new Point(519, 132);
             tbDateOut.Name = "tbDateOut";
-            tbDateOut.Size = new Size(146, 23);
+            tbDateOut.Size = new Size(124, 23);
             tbDateOut.TabIndex = 3;
+            tbDateOut.Visible = false;
             // 
             // tbDateIn
             // 
-            tbDateIn.Location = new Point(89, 161);
+            tbDateIn.Location = new Point(519, 161);
             tbDateIn.Name = "tbDateIn";
             tbDateIn.Size = new Size(146, 23);
             tbDateIn.TabIndex = 4;
+            tbDateIn.Visible = false;
             // 
             // tbNumberOut
             // 
@@ -749,6 +762,14 @@
             label1.TabIndex = 13;
             label1.Text = "Название документа";
             // 
+            // dtpDateOut
+            // 
+            dtpDateOut.CustomFormat = " \"\"";
+            dtpDateOut.Location = new Point(89, 129);
+            dtpDateOut.Name = "dtpDateOut";
+            dtpDateOut.Size = new Size(159, 23);
+            dtpDateOut.TabIndex = 72;
+            // 
             // label32
             // 
             label32.AutoSize = true;
@@ -954,5 +975,7 @@
         private TextBox tbSourceFileName;
         private Label label32;
         private Label label30;
+        private DateTimePicker dtpDateOut;
+        private DateTimePicker dtpDateIn;
     }
 }

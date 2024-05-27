@@ -125,7 +125,7 @@ namespace JurDocs.WinForms
             try
             {
                 var client2 = container.Resolve<JurDocsClient>();
-                var user = client2.LoginGETAsync(workSession.User.Login).GetAwaiter().GetResult();
+                var user = client2.LoginGETAsync().GetAwaiter().GetResult();
 
                 workSession.User.UserName = user.Result.Name;
                 workSession.User.TempDir = user.Result.Path;
