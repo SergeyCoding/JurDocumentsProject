@@ -48,8 +48,25 @@ namespace JurDocsWinForms
 
             cbExecutors.Text = string.Empty;
 
-            tbDateOut.Text = data.DateOutgoing.ToString();
-            tbDateIn.Text = data.DateIncoming.ToString();
+            if (data.DateIncoming.HasValue && data.DateIncoming.Value > dtpDateIn.MinDate)
+            {
+                dtpDateIn.Value = data.DateIncoming.Value;
+                dtpDateIn.Checked = true;
+            }
+            else
+            {
+                dtpDateIn.Checked = false;
+            }
+
+            if (data.DateOutgoing.HasValue && data.DateOutgoing.Value > dtpDateOut.MinDate)
+            {
+                dtpDateOut.Value = data.DateOutgoing.Value;
+                dtpDateOut.Checked = true;
+            }
+            else
+            {
+                dtpDateOut.Checked = false;
+            }
 
             tbNumberOut.Text = data.NumberOutgoing;
             tbNumberIn.Text = data.NumberIncoming;
@@ -76,6 +93,9 @@ namespace JurDocsWinForms
             cbRecipient8.Text = data.Recipient[8];
             cbRecipient9.Text = data.Recipient[9];
 
+            tbFileName.Text = data.FileName;
+            tbSorceFileName.Text = data.SourceFileName;
+
             _pdfPreview.Init(data.FileName);
             UpdateFormInfo();
             UpdatePreview();
@@ -83,12 +103,8 @@ namespace JurDocsWinForms
 
         public EditedDocData GetData()
         {
-            if (DateTime.TryParse(tbDateIn.Text, out var dateTimeIn))
-            {
-
-            }
-
-            _ = DateTime.TryParse(tbDateOut.Text, out var dateTimeOut);
+            var dateTimeIn = dtpDateIn.Checked ? dtpDateIn.Value : (DateTime?)null;
+            var dateTimeOut = dtpDateOut.Checked ? dtpDateOut.Value : (DateTime?)null;
 
             return new EditedDocData
             {
@@ -99,11 +115,12 @@ namespace JurDocsWinForms
                 DocName = tbCaption.Text,
                 DocType = _editedDocData.DocType,
                 ExecutivePerson = _editedDocData.ExecutivePerson,
-                FileName = _pdfPreview.FileName,
                 IsDeleted = _editedDocData.IsDeleted,
                 NumberIncoming = tbNumberIn.Text,
                 NumberOutgoing = tbNumberOut.Text,
                 ProjectId = _editedDocData.ProjectId,
+                FileName = _pdfPreview.FileName,
+                SourceFileName = tbSorceFileName.Text
             };
         }
 
@@ -156,8 +173,8 @@ namespace JurDocsWinForms
             if (dragDropFileName.IsOk)
             {
                 _pdfPreview.Init(dragDropFileName.FileName);
-                tbSourceFileName.Text = dragDropFileName.FileName;
                 tbFileName.Text = dragDropFileName.FileName;
+                tbSorceFileName.Text = dragDropFileName.FileName;
                 UpdateFormInfo();
                 UpdatePreview();
             }

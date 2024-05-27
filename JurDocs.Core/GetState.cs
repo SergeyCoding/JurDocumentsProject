@@ -11,5 +11,6 @@ namespace JurDocs.Core
     {
         public AppPage GetCurrentPage => state.CurrentPage;
         public JurDocProject GetCurrentProject => state.CurrentProject;
+        public int GetCurrentDocId => state.CurrentDocumentId;
     }
 }

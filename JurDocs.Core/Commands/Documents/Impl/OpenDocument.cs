@@ -27,14 +27,13 @@ namespace JurDocs.Core.Commands.Documents.Impl
                 var answerProject = await state.Client.ProjectGETAsync(letter.ProjectId);
                 var projectName = answerProject.Result.Data.First().Name;
 
-                var docType = (JurDocType)letter.DocType;
 
                 var editedDocData = new EditedDocData
                 {
                     Id = letter.Id,
                     DateIncoming = letter.DateIncoming,
                     DateOutgoing = letter.DateOutgoing,
-                    DocType = docType,
+                    DocType = letter.DocType,
                     ExecutivePerson = letter.ExecutivePerson,
                     IsDeleted = letter.IsDeleted,
                     DocName = letter.Name,
@@ -46,6 +45,24 @@ namespace JurDocs.Core.Commands.Documents.Impl
                     Recipient = [.. letter.Recipient],
                 };
 
+                try
+                {
+                    var fn = (await state.Client.LocalFilenameAsync(
+                        projectName,
+                        JurDocType.Письмо.GetDescription(),
+                        letter.Id)).Result.Data.First();
+
+                    if (File.Exists(fn))
+                        File.Delete(fn);
+
+                    var res = (await state.Client.DocumentFileGETAsync(projectName, letter.DocType.GetDescription(), fn)).Result;
+
+                    editedDocData.FileName = res ? fn : string.Empty;
+                }
+                catch (Exception)
+                {
+                    editedDocData.FileName = string.Empty;
+                }
 
                 mainView.OpenDocEditor(editedDocData);
 

@@ -9,6 +9,4 @@ namespace JurDocs.Core.Commands.Documents
     {
         Task ExecuteAsync(IMainView mainView);
     }
-
-
 }
